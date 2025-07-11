@@ -628,5 +628,236 @@
         "detalles": "Activo creado"
       }
     ]
+  },
+  {
+    "id": "a11ecd65-7c3d-4683-9b20-dfe8b7a0bdf3",
+    "fecha_creacion": "2025-07-11T23:02:28.151510",
+    "fecha_modificacion": "2025-07-11T23:02:28.151518",
+    "tipo": "Hardware",
+    "estado": "Activo",
+    "nombre": "Servidor Principal TEST",
+    "responsable": "Admin Test",
+    "departamento": "IT",
+    "clasificacion": "Confidencial",
+    "criticidad": "Crítica",
+    "descripcion": "",
+    "auditoria": [
+      {
+        "accion": "creacion",
+        "fecha": "2025-07-11T23:02:28.151526",
+        "usuario": "sistema",
+        "detalles": "Activo creado"
+      }
+    ]
+  },
+  {
+    "id": "c8714812-254f-4259-ae19-83701c2a2ef7",
+    "fecha_creacion": "2025-07-11T23:02:31.166604",
+    "fecha_modificacion": "2025-07-11T23:02:31.166614",
+    "tipo": "Software",
+    "estado": "Activo",
+    "nombre": "Sistema ERP TEST",
+    "responsable": "Admin Test",
+    "departamento": "Finanzas",
+    "clasificacion": "Interno",
+    "criticidad": "Importante",
+    "descripcion": "",
+    "auditoria": [
+      {
+        "accion": "creacion",
+        "fecha": "2025-07-11T23:02:31.166616",
+        "usuario": "sistema",
+        "detalles": "Activo creado"
+      }
+    ]
+  },
+  {
+    "id": "ce3353a1-4187-45d3-a4d5-3628700ca389",
+    "fecha_creacion": "2025-07-11T23:02:34.199032",
+    "fecha_modificacion": "2025-07-11T23:02:34.199044",
+    "tipo": "Personal",
+    "estado": "Activo",
+    "nombre": "Usuario Test E2E",
+    "responsable": "RRHH Test",
+    "departamento": "Desarrollo",
+    "clasificacion": "Interno",
+    "criticidad": "Normal",
+    "descripcion": "",
+    "auditoria": [
+      {
+        "accion": "creacion",
+        "fecha": "2025-07-11T23:02:34.199047",
+        "usuario": "sistema",
+        "detalles": "Activo creado"
+      }
+    ]
+  },
+  {
+    "id": "e3250c6f-cb77-4b2d-9f58-65ac6580e26a",
+    "fecha_creacion": "2025-07-11T23:03:47.136402",
+    "fecha_modificacion": "2025-07-11T23:03:47.136415",
+    "tipo": "Hardware",
+    "estado": "Activo",
+    "nombre": "Servidor Principal DC01",
+    "responsable": "Carlos Mendez",
+    "departamento": "TI",
+    "clasificacion": "Confidencial",
+    "criticidad": "Crítica",
+    "descripcion": "Servidor principal del datacenter",
+    "auditoria": [
+      {
+        "accion": "creacion",
+        "fecha": "2025-07-11T23:03:47.136423",
+        "usuario": "sistema",
+        "detalles": "Activo creado"
+      }
+    ]
+  },
+  {
+    "id": "9dd34a9a-9f14-4a85-b59c-287018da60a7",
+    "fecha_creacion": "2025-07-11T23:03:58.514410",
+    "fecha_modificacion": "2025-07-11T23:03:58.514418",
+    "tipo": "Hardware",
+    "estado": "Activo",
+    "nombre": "Servidor Principal DC01",
+    "responsable": "Carlos Mendez",
+    "departamento": "TI",
+    "clasificacion": "Confidencial",
+    "criticidad": "Crítica",
+    "descripcion": "Servidor principal del datacenter",
+    "auditoria": [
+      {
+        "accion": "creacion",
+        "fecha": "2025-07-11T23:03:58.514420",
+        "usuario": "sistema",
+        "detalles": "Activo creado"
+      }
+    ]
+  },
+  {
+    "id": "012bad92-e1d8-456e-b451-dad6e28072d5",
+    "fecha_creacion": "2025-07-11T23:04:01.759247",
+    "fecha_modificacion": "2025-07-11T23:04:01.759255",
+    "tipo": "Software",
+    "estado": "Activo",
+    "nombre": "Microsoft Office 365",
+    "responsable": "Ana Garcia",
+    "departamento": "Administración",
+    "clasificacion": "Interno",
+    "criticidad": "Normal",
+    "descripcion": "Suite ofimática corporativa",
+    "auditoria": [
+      {
+        "accion": "creacion",
+        "fecha": "2025-07-11T23:04:01.759258",
+        "usuario": "sistema",
+        "detalles": "Activo creado"
+      }
+    ]
+  },
+  {
+    "id": "8dd40e70-65ed-4d26-a62e-0b4c53eb8015",
+    "fecha_creacion": "2025-07-11T23:04:04.907822",
+    "fecha_modificacion": "2025-07-11T23:04:04.907829",
+    "tipo": "Hardware",
+    "estado": "Activo",
+    "nombre": "Laptop Dell Latitude 5520",
+    "responsable": "Pedro Lopez",
+    "departamento": "Ventas",
+    "clasificacion": "Interno",
+    "criticidad": "Normal",
+    "descripcion": "Equipo portátil asignado",
+    "auditoria": [
+      {
+        "accion": "creacion",
+        "fecha": "2025-07-11T23:04:04.907831",
+        "usuario": "sistema",
+        "detalles": "Activo creado"
+      }
+    ]
+  },
+  {
+    "id": "d0aeb140-ff08-4b4f-bcc4-a6ee8f216ff2",
+    "fecha_creacion": "2025-07-11T23:04:30.668666",
+    "fecha_modificacion": "2025-07-11T23:04:30.668676",
+    "tipo": "Hardware",
+    "estado": "Activo",
+    "nombre": "Servidor Principal DC01",
+    "responsable": "Carlos Mendez",
+    "departamento": "TI",
+    "clasificacion": "Confidencial",
+    "criticidad": "Crítica",
+    "descripcion": "Servidor principal del datacenter",
+    "auditoria": [
+      {
+        "accion": "creacion",
+        "fecha": "2025-07-11T23:04:30.668682",
+        "usuario": "sistema",
+        "detalles": "Activo creado"
+      }
+    ]
+  },
+  {
+    "id": "dd5ea7b2-c9bb-4a4c-82a3-750c7bef5fa2",
+    "fecha_creacion": "2025-07-11T23:05:16.825808",
+    "fecha_modificacion": "2025-07-11T23:05:16.825814",
+    "tipo": "Hardware",
+    "estado": "Activo",
+    "nombre": "Servidor Principal TEST",
+    "responsable": "Admin Test",
+    "departamento": "IT",
+    "clasificacion": "Confidencial",
+    "criticidad": "Crítica",
+    "descripcion": "",
+    "auditoria": [
+      {
+        "accion": "creacion",
+        "fecha": "2025-07-11T23:05:16.825826",
+        "usuario": "sistema",
+        "detalles": "Activo creado"
+      }
+    ]
+  },
+  {
+    "id": "db1ac953-6b41-4707-8d3a-834623e18c91",
+    "fecha_creacion": "2025-07-11T23:05:19.828945",
+    "fecha_modificacion": "2025-07-11T23:05:19.828951",
+    "tipo": "Software",
+    "estado": "Activo",
+    "nombre": "Sistema ERP TEST",
+    "responsable": "Admin Test",
+    "departamento": "Finanzas",
+    "clasificacion": "Interno",
+    "criticidad": "Importante",
+    "descripcion": "",
+    "auditoria": [
+      {
+        "accion": "creacion",
+        "fecha": "2025-07-11T23:05:19.828953",
+        "usuario": "sistema",
+        "detalles": "Activo creado"
+      }
+    ]
+  },
+  {
+    "id": "1543e1d4-42dc-45f2-b186-241a2f4bf975",
+    "fecha_creacion": "2025-07-11T23:05:22.880188",
+    "fecha_modificacion": "2025-07-11T23:05:22.880196",
+    "tipo": "Personal",
+    "estado": "Activo",
+    "nombre": "Usuario Test E2E",
+    "responsable": "RRHH Test",
+    "departamento": "Desarrollo",
+    "clasificacion": "Interno",
+    "criticidad": "Normal",
+    "descripcion": "",
+    "auditoria": [
+      {
+        "accion": "creacion",
+        "fecha": "2025-07-11T23:05:22.880198",
+        "usuario": "sistema",
+        "detalles": "Activo creado"
+      }
+    ]
   }
 ]

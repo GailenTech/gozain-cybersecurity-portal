@@ -14,8 +14,9 @@ describe('Gestión de Tareas', () => {
         nombre_completo: 'Test Employee',
         departamento: 'IT',
         cargo: 'Developer',
-        necesita_equipo: true,
-        necesita_acceso_sistemas: true
+        fecha_inicio: '2024-12-31',
+        modalidad: 'Presencial',
+        equipo_movil: true
       });
       
       // Procesar el impacto para generar tareas
@@ -148,10 +149,10 @@ describe('Gestión de Tareas', () => {
     it('Las tareas deben reflejar los cambios en los impactos', () => {
       // Crear y procesar un impacto
       cy.createImpact('baja_empleado', {
-        nombre_empleado: 'Test Employee',
+        nombre_completo: 'Test Employee',
         fecha_baja: '2024-12-31',
-        devolver_equipo: true,
-        revocar_accesos: true
+        motivo: 'Renuncia',
+        devolucion_equipos: true
       });
       
       // Ir a lista de impactos
@@ -165,7 +166,7 @@ describe('Gestión de Tareas', () => {
       cy.get('[data-menu-item="tareas"]').click();
       
       // Verificar que hay nuevas tareas
-      cy.get('#tablaTareas tbody tr').should('contain', 'Recoger equipo');
+      cy.get('#tablaTareas tbody tr').should('contain', 'Recoger equipos');
       cy.get('#tablaTareas tbody tr').should('contain', 'Revocar accesos');
     });
   });

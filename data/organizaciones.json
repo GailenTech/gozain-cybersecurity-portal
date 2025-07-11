@@ -100,5 +100,11 @@
     "nombre": "Test Org 1752266431328",
     "fecha_creacion": "2025-07-11T22:40:35.962078",
     "activa": true
+  },
+  {
+    "id": "test_org_1752267983048",
+    "nombre": "Test Org 1752267983048",
+    "fecha_creacion": "2025-07-11T23:06:27.706817",
+    "activa": true
   }
 ]

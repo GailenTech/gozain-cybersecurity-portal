@@ -175,6 +175,13 @@ describe('Módulo de Inventario', () => {
       cy.get('.toast-body').should('contain', 'actualizado correctamente')
       cy.get('.modal-backdrop').should('not.exist')
       cy.get('#modalActivo').should('not.be.visible')
+      
+      // Esperar a que se actualice la tabla
+      cy.wait(1000)
+      
+      // Verificar que los cambios aparecen en la tabla
+      cy.get('#tablaActivos').should('contain', 'Responsable Editado E2E')
+      cy.get('#tablaActivos .badge-danger').should('contain', 'Crítica')
     })
 
     it('Debe eliminar un activo con confirmación', () => {
@@ -220,14 +227,17 @@ describe('Módulo de Inventario', () => {
       cy.get('[data-menu-item="nuevo"]').click()
       cy.get('#modalActivo').should('be.visible')
       cy.get('#modalActivo .btn-close').click()
+      cy.wait(500) // Esperar animación de cierre
       cy.get('.modal-backdrop').should('not.exist')
-      cy.wait(500) // Pequeña espera para animación
+      cy.get('#modalActivo').should('not.be.visible')
       
       // Importar
       cy.get('[data-menu-item="importar"]').click()
       cy.get('#modalImportar').should('be.visible')
       cy.get('#modalImportar .btn-close').click()
+      cy.wait(500) // Esperar animación de cierre
       cy.get('.modal-backdrop').should('not.exist')
+      cy.get('#modalImportar').should('not.be.visible')
     })
   })
 })
