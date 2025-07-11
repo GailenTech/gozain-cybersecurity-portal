@@ -58,5 +58,47 @@
     "nombre": "Tes",
     "fecha_creacion": "2025-07-11T22:18:31.930954",
     "activa": true
+  },
+  {
+    "id": "test_org_1752265929398",
+    "nombre": "Test Org 1752265929398",
+    "fecha_creacion": "2025-07-11T22:32:14.035309",
+    "activa": true
+  },
+  {
+    "id": "test_nav_org_1752266080620",
+    "nombre": "Test Nav Org 1752266080620",
+    "fecha_creacion": "2025-07-11T22:34:45.333337",
+    "activa": true
+  },
+  {
+    "id": "primera_org_test",
+    "nombre": "Primera Org Test",
+    "fecha_creacion": "2025-07-11T22:34:59.300636",
+    "activa": true
+  },
+  {
+    "id": "segunda_org_test",
+    "nombre": "Segunda Org Test",
+    "fecha_creacion": "2025-07-11T22:35:02.992509",
+    "activa": true
+  },
+  {
+    "id": "test_nav_org_1752266180222",
+    "nombre": "Test Nav Org 1752266180222",
+    "fecha_creacion": "2025-07-11T22:36:24.912962",
+    "activa": true
+  },
+  {
+    "id": "test_nav_org_1752266286793",
+    "nombre": "Test Nav Org 1752266286793",
+    "fecha_creacion": "2025-07-11T22:38:11.485897",
+    "activa": true
+  },
+  {
+    "id": "test_org_1752266431328",
+    "nombre": "Test Org 1752266431328",
+    "fecha_creacion": "2025-07-11T22:40:35.962078",
+    "activa": true
   }
 ]

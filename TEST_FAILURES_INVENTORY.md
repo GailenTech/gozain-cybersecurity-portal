@@ -22,9 +22,9 @@ Ejecutar cada archivo de test individualmente y documentar:
 - **Estado**: 7/7 pasando (100%)
 - **Tiempo**: 54s
 
-### ❌ 01-navigation.cy.js
-- **Estado**: 1/7 pasando (14%)
-- **Fallos**: Test desactualizado, no usa comandos modernos como loginWithOrg
+### ✅ 01-navigation.cy.js
+- **Estado**: 7/7 pasando (100%)
+- **Tiempo**: 1m 4s
 
 ### ❌ 02-inventory.cy.js
 - **Estado**: 14/16 pasando (88%)
@@ -106,8 +106,8 @@ Ejecutar cada archivo de test individualmente y documentar:
 
 ## Resumen Total
 - **Total de archivos**: 23
-- **Archivos pasando 100%**: 3
-- **Archivos con fallos**: 20
+- **Archivos pasando 100%**: 4 (17%)
+- **Archivos con fallos**: 19 (83%)
 - **Objetivo**: 23/23 archivos al 100%
 
 ## Patrones de Fallos Comunes

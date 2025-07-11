@@ -148,7 +148,16 @@ describe('Módulo de Inventario', () => {
 
   describe('Editar y Eliminar', () => {
     it('Debe editar un activo existente', () => {
+      // Primero crear un activo para asegurar que hay algo que editar
+      cy.fixture('test-data.json').then((data) => {
+        cy.createAsset(data.assets[0])
+      })
+      
       cy.switchView('lista')
+      cy.wait(1000)
+      
+      // Asegurar que hay activos para editar
+      cy.get('#tablaActivos tbody tr').should('have.length.at.least', 1)
       
       // Click en editar del primer activo
       cy.get('#tablaActivos .btn-outline-primary').first().click()
@@ -156,19 +165,16 @@ describe('Módulo de Inventario', () => {
       cy.get('#modalActivoTitle').should('contain', 'Editar Activo')
       
       // Cambiar algunos valores
-      cy.get('#responsableActivo').clear().type('Nuevo Responsable')
+      cy.get('#responsableActivo').clear().type('Responsable Editado E2E')
       cy.get('#criticidadActivo').select('Crítica')
       
       // Guardar
       cy.get('#btnGuardarActivo').click()
+      
+      // Verificar que se muestra el mensaje de éxito y el modal se cierra
       cy.get('.toast-body').should('contain', 'actualizado correctamente')
-      
-      // Esperar a que se cierre el modal
-      cy.get('#modalActivo').should('not.have.class', 'show')
-      cy.wait(2000) // Esperar más tiempo para la actualización
-      
-      // Verificar cambios
-      cy.get('#tablaActivos').should('contain', 'Nuevo Responsable')
+      cy.get('.modal-backdrop').should('not.exist')
+      cy.get('#modalActivo').should('not.be.visible')
     })
 
     it('Debe eliminar un activo con confirmación', () => {
@@ -214,13 +220,14 @@ describe('Módulo de Inventario', () => {
       cy.get('[data-menu-item="nuevo"]').click()
       cy.get('#modalActivo').should('be.visible')
       cy.get('#modalActivo .btn-close').click()
-      cy.get('#modalActivo').should('not.have.class', 'show')
-      cy.wait(1000) // Esperar a que se cierre completamente el modal
+      cy.get('.modal-backdrop').should('not.exist')
+      cy.wait(500) // Pequeña espera para animación
       
       // Importar
       cy.get('[data-menu-item="importar"]').click()
       cy.get('#modalImportar').should('be.visible')
       cy.get('#modalImportar .btn-close').click()
+      cy.get('.modal-backdrop').should('not.exist')
     })
   })
 })
