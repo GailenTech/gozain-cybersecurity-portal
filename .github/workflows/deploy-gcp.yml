@@ -144,22 +144,27 @@ jobs:
           });
     
     - name: Notify Slack (if configured)
-      if: success() && vars.SLACK_WEBHOOK_URL != ''
+      if: success()
+      continue-on-error: true
       run: |
-        curl -X POST ${{ vars.SLACK_WEBHOOK_URL }} \
-          -H 'Content-type: application/json' \
-          -d '{
-            "text": "✅ *Gozain v${{ env.NEW_VERSION }} deployed successfully*",
-            "attachments": [{
-              "color": "good",
-              "fields": [
-                {"title": "Version", "value": "${{ env.NEW_VERSION }}", "short": true},
-                {"title": "Environment", "value": "${{ inputs.environment || '\''production'\'' }}", "short": true},
-                {"title": "URL", "value": "${{ env.SERVICE_URL }}", "short": false},
-                {"title": "Deployed by", "value": "${{ github.actor }}", "short": true}
-              ]
-            }]
-          }'
+        if [ -n "${{ vars.SLACK_WEBHOOK_URL }}" ]; then
+          curl -X POST "${{ vars.SLACK_WEBHOOK_URL }}" \
+            -H 'Content-type: application/json' \
+            -d "{
+              \"text\": \"✅ *Gozain v${{ env.NEW_VERSION }} deployed successfully*\",
+              \"attachments\": [{
+                \"color\": \"good\",
+                \"fields\": [
+                  {\"title\": \"Version\", \"value\": \"${{ env.NEW_VERSION }}\", \"short\": true},
+                  {\"title\": \"Environment\", \"value\": \"production\", \"short\": true},
+                  {\"title\": \"URL\", \"value\": \"${{ env.SERVICE_URL }}\", \"short\": false},
+                  {\"title\": \"Deployed by\", \"value\": \"${{ github.actor }}\", \"short\": true}
+                ]
+              }]
+            }"
+        else
+          echo "Slack webhook not configured, skipping notification"
+        fi
 
   run-e2e-tests:
     name: Run E2E Tests After Deploy
