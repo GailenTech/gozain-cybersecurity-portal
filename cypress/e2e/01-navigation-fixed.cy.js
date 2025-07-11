@@ -70,9 +70,10 @@ describe('Navegación General - Fixed', () => {
     cy.contains('Seleccione una herramienta').should('be.visible')
     
     // Verificar herramientas disponibles
-    cy.get('.tool-card').should('have.length', 2)
+    cy.get('.tool-card').should('have.length', 3)
     cy.contains('.tool-name', 'Inventario de Activos').should('be.visible')
     cy.contains('.tool-name', 'Impactos de Negocio').should('be.visible')
+    cy.contains('.tool-name', 'Madurez en Ciberseguridad').should('be.visible')
   })
 
   it('Debe navegar a inventario correctamente', () => {
@@ -127,7 +128,7 @@ describe('Navegación General - Fixed', () => {
     cy.wait(2000)
     
     // Probar navegación
-    cy.get('[data-menu-item="lista"]').click()
+    cy.get('[data-menu-item="inventario"]').click()
     cy.get('#listaView').should('be.visible')
     cy.get('#dashboardView').should('not.be.visible')
     
@@ -150,16 +151,9 @@ describe('Navegación General - Fixed', () => {
   })
 
   it('Debe mantener la organización al cambiar de herramienta', () => {
-    // Setup con organización específica
-    cy.get('#organizationButton').click()
-    cy.wait(1000)
-    
-    // Crear nueva org para asegurar nombre único
-    cy.get('#btnNewOrganization').click()
+    // Usar comando loginWithOrg para mayor confiabilidad
     const orgName = 'Test Org ' + Date.now()
-    cy.get('#newOrgName').type(orgName)
-    cy.get('#btnCreateOrganization').click()
-    cy.wait(2000)
+    cy.loginWithOrg(orgName)
     
     // Verificar nombre
     cy.get('#organizationName').should('contain', orgName)

@@ -1,11 +1,11 @@
-import { ensureOrganizationSelected, navigateToToolReliably } from '../support/test-helpers'
-
 describe('Módulo de Impactos', () => {
   beforeEach(() => {
-    cy.visit('/')
-    cy.wait(1000)
-    ensureOrganizationSelected()
-    navigateToToolReliably('Impactos de Negocio')
+    // Usar comando loginWithOrg para asegurar organización
+    cy.loginWithOrg('E2E Test Organization')
+    
+    // Navegar a Impactos
+    cy.get('.tool-card').contains('Impactos de Negocio').click()
+    cy.get('#appMenu', { timeout: 10000 }).should('be.visible')
   })
 
   describe('Vista Dashboard', () => {

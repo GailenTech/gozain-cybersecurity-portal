@@ -163,6 +163,10 @@ describe('Módulo de Inventario', () => {
       cy.get('#btnGuardarActivo').click()
       cy.get('.toast-body').should('contain', 'actualizado correctamente')
       
+      // Esperar a que se cierre el modal
+      cy.get('#modalActivo').should('not.have.class', 'show')
+      cy.wait(2000) // Esperar más tiempo para la actualización
+      
       // Verificar cambios
       cy.get('#tablaActivos').should('contain', 'Nuevo Responsable')
     })
@@ -210,6 +214,8 @@ describe('Módulo de Inventario', () => {
       cy.get('[data-menu-item="nuevo"]').click()
       cy.get('#modalActivo').should('be.visible')
       cy.get('#modalActivo .btn-close').click()
+      cy.get('#modalActivo').should('not.have.class', 'show')
+      cy.wait(1000) // Esperar a que se cierre completamente el modal
       
       // Importar
       cy.get('[data-menu-item="importar"]').click()

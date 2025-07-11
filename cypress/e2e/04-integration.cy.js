@@ -1,16 +1,13 @@
-import { ensureOrganizationSelected, navigateToToolReliably } from '../support/test-helpers'
-
 describe('Pruebas de Integración', () => {
   beforeEach(() => {
-    cy.visit('/')
-    cy.wait(1000)
-    ensureOrganizationSelected()
+    // Usar comando loginWithOrg para asegurar organización
+    cy.loginWithOrg('E2E Test Organization')
   })
 
   describe('Flujo completo de trabajo', () => {
     it('Debe completar un flujo de alta de empleado', () => {
       // 1. Crear algunos activos base
-      navigateToToolReliably('Inventario de Activos')
+      cy.get('.tool-card').contains('Inventario de Activos').click()
       cy.switchView('lista')
       
       cy.fixture('test-data.json').then((data) => {
@@ -26,7 +23,7 @@ describe('Pruebas de Integración', () => {
         })
         
         // 2. Ir a impactos y crear alta de empleado
-        navigateToToolReliably('Impactos de Negocio')
+        cy.get('.tool-card').contains('Impactos de Negocio').click()
         cy.createImpact('alta_empleado', data.impacts.alta_empleado)
         
         // 3. Procesar el impacto
@@ -45,7 +42,7 @@ describe('Pruebas de Integración', () => {
         
         // 6. Volver a inventario y verificar nuevos activos
         cy.get('#btnHomeTop').click()
-        navigateToToolReliably('Inventario de Activos')
+        cy.get('.tool-card').contains('Inventario de Activos').click()
         cy.switchView('lista')
         
         // Buscar activos del nuevo empleado
@@ -56,7 +53,7 @@ describe('Pruebas de Integración', () => {
 
     it('Debe mantener consistencia de datos entre módulos', () => {
       // Obtener estadísticas iniciales de inventario
-      navigateToToolReliably('Inventario de Activos')
+      cy.get('.tool-card').contains('Inventario de Activos').click()
       cy.get('#statTotal').invoke('text').then((totalInicial) => {
         const totalActivosInicial = parseInt(totalInicial)
         
@@ -72,9 +69,9 @@ describe('Pruebas de Integración', () => {
           
           // Navegar a impactos y volver
           cy.get('#btnHomeTop').click()
-          navigateToToolReliably('Impactos de Negocio')
+          cy.get('.tool-card').contains('Impactos de Negocio').click()
           cy.get('#btnHomeTop').click()
-          navigateToToolReliably('Inventario de Activos')
+          cy.get('.tool-card').contains('Inventario de Activos').click()
           
           // El total debe mantenerse
           cy.get('#statTotal').invoke('text').should((total) => {
@@ -87,7 +84,7 @@ describe('Pruebas de Integración', () => {
 
   describe('Importación y Exportación', () => {
     it('Debe mostrar el modal de importación', () => {
-      navigateToToolReliably('Inventario de Activos')
+      cy.get('.tool-card').contains('Inventario de Activos').click()
       cy.get('[data-menu-item="importar"]').click()
       cy.get('#modalImportar').should('be.visible')
       
@@ -101,7 +98,7 @@ describe('Pruebas de Integración', () => {
     })
 
     it('Debe exportar activos', () => {
-      navigateToToolReliably('Inventario de Activos')
+      cy.get('.tool-card').contains('Inventario de Activos').click()
       cy.switchView('dashboard')
       
       // Click en exportar desde el dashboard
@@ -127,7 +124,7 @@ describe('Pruebas de Integración', () => {
       cy.get('.tools-grid').should('have.css', 'grid-template-columns')
       
       // Navegar a inventario
-      navigateToToolReliably('Inventario de Activos')
+      cy.get('.tool-card').contains('Inventario de Activos').click()
       
       // En móvil, el sidebar podría comportarse diferente
       cy.get('#sidebarMenu').then($sidebar => {
@@ -140,7 +137,7 @@ describe('Pruebas de Integración', () => {
       cy.viewport('ipad-2')
       
       cy.loginWithOrg()
-      navigateToToolReliably('Inventario de Activos')
+      cy.get('.tool-card').contains('Inventario de Activos').click()
       
       // Verificar que los elementos se muestran correctamente
       cy.get('#dashboardView').should('be.visible')
@@ -165,7 +162,7 @@ describe('Pruebas de Integración', () => {
 
     it('Debe limpiar el estado al cambiar de organización', () => {
       cy.loginWithOrg('Organización Demo')
-      navigateToToolReliably('Inventario de Activos')
+      cy.get('.tool-card').contains('Inventario de Activos').click()
       
       // Cambiar a otra organización
       cy.get('#organizationButton').click()
@@ -196,7 +193,7 @@ describe('Pruebas de Integración', () => {
       cy.loginWithOrg()
       
       const startTime = Date.now()
-      navigateToToolReliably('Inventario de Activos')
+      cy.get('.tool-card').contains('Inventario de Activos').click()
       cy.get('#dashboardView').should('be.visible')
       const loadTime = Date.now() - startTime
       

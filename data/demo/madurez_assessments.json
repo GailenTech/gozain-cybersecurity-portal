@@ -1,0 +1,28 @@
+[
+  {
+    "id": "377f5368-df02-4ea9-86c7-f7b94ccbebbc",
+    "organizacion_id": "demo",
+    "cuestionario_id": "cuestionario_ciberplan_v1",
+    "fecha_inicio": "2025-07-11T22:21:57.550012",
+    "fecha_completado": null,
+    "fecha_firmado": null,
+    "estado": "abierto",
+    "firmado_por": null,
+    "nombre": "Test E2E ",
+    "descripcion": "Prueba automatizada básica",
+    "resultados": null,
+    "objetivos": {
+      "6_meses": 2.5,
+      "1_año": 3,
+      "2_años": 4
+    },
+    "auditoria": [
+      {
+        "accion": "creacion",
+        "fecha": "2025-07-11T22:21:57.550034",
+        "usuario": "sistema",
+        "detalles": "Assessment creado"
+      }
+    ]
+  }
+]
