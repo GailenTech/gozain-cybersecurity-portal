@@ -31,9 +31,14 @@ Webhook URL for Slack notifications.
 - Commits version update back to repository
 
 ### 2. Cypress E2E Tests (`cypress-tests.yml`)
-- Triggers on push and pull requests
+- Manual trigger only (workflow_dispatch)
 - Runs tests in Chrome and Firefox
 - Uploads screenshots and videos as artifacts
+
+### 3. E2E Tests After Deploy
+- Automatically runs after successful deployment
+- Tests on clean test organization
+- Validates all critical paths
 
 ## Version Management
 
