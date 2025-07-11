@@ -92,14 +92,25 @@ Cypress.Commands.add('navigateToTool', (toolName) => {
 })
 
 // Comando para login con organización
-Cypress.Commands.add('loginWithOrg', (orgName = Cypress.env('TEST_ORG_NAME')) => {
+Cypress.Commands.add('loginWithOrg', (orgName = 'E2E Test Organization') => {
   cy.visit('/')
   cy.wait(2000) // Wait for page initialization
   
   // Check if already in tool selector (organization remembered)
   cy.get('body').then($body => {
     if ($body.find('.tool-selector-container').length > 0) {
-      cy.log('Organization already selected, in tool selector')
+      // Verificar que es la organización correcta
+      cy.get('#organizationName').then($name => {
+        if ($name.text().includes(orgName)) {
+          cy.log('Organization already selected, in tool selector')
+          return
+        } else {
+          // Cambiar a la organización correcta
+          cy.get('#organizationButton').click({ force: true })
+          cy.wait(1000)
+          cy.selectOrganization(orgName)
+        }
+      })
       return
     }
     
@@ -107,7 +118,7 @@ Cypress.Commands.add('loginWithOrg', (orgName = Cypress.env('TEST_ORG_NAME')) =>
     cy.get('#organizationName').then($name => {
       const currentOrg = $name.text().trim()
       
-      if (currentOrg === 'Seleccionar Organización') {
+      if (currentOrg === 'Seleccionar Organización' || !currentOrg.includes(orgName)) {
         // Need to select an organization
         cy.get('#organizationButton').click({ force: true })
         cy.wait(1500)
@@ -124,13 +135,32 @@ Cypress.Commands.add('loginWithOrg', (orgName = Cypress.env('TEST_ORG_NAME')) =>
             cy.wait(500)
             
             // Fill new organization form
-            cy.get('#newOrgName').type('Organización Demo E2E')
+            cy.get('#newOrgName').type(orgName)
             cy.get('#btnCreateOrganization').click()
             cy.wait(2000)
           } else {
-            cy.log('Seleccionando primera organización disponible')
-            cy.get('#organizationList .list-group-item').first().click({ force: true })
-            cy.wait(2000)
+            // Buscar la organización específica
+            let found = false
+            cy.get('#organizationList .list-group-item').each($item => {
+              if ($item.text().includes(orgName)) {
+                cy.wrap($item).click({ force: true })
+                found = true
+                return false
+              }
+            }).then(() => {
+              if (!found) {
+                // Si no existe, crearla
+                cy.get('body').then($modal => {
+                  if ($modal.find('#btnNewOrganization').length > 0) {
+                    cy.get('#btnNewOrganization').click({ force: true })
+                    cy.wait(500)
+                    cy.get('#newOrgName').type(orgName)
+                    cy.get('#btnCreateOrganization').click()
+                    cy.wait(2000)
+                  }
+                })
+              }
+            })
           }
         })
       }
