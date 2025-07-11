@@ -44,6 +44,11 @@ gcloud projects add-iam-policy-binding ${PROJECT_ID} \
     --member="serviceAccount:${SA_EMAIL}" \
     --role="roles/cloudbuild.builds.editor"
 
+# Necesario para que Cloud Build pueda usar las APIs
+gcloud projects add-iam-policy-binding ${PROJECT_ID} \
+    --member="serviceAccount:${SA_EMAIL}" \
+    --role="roles/serviceusage.serviceUsageConsumer"
+
 # Si necesitas que la cuenta pueda habilitar APIs (opcional)
 # gcloud projects add-iam-policy-binding ${PROJECT_ID} \
 #     --member="serviceAccount:${SA_EMAIL}" \
