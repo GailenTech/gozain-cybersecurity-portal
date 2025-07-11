@@ -1,5 +1,7 @@
 # Gozain - Portal de Ciberseguridad
 
+[![Deploy to GCP](https://github.com/GailenTech/gozain-cybersecurity-portal/actions/workflows/deploy-gcp.yml/badge.svg)](https://github.com/GailenTech/gozain-cybersecurity-portal/actions/workflows/deploy-gcp.yml)
+
 Sistema modular integrado para la gestión de ciberseguridad conforme a ISO 27001.
 
 ## Características
