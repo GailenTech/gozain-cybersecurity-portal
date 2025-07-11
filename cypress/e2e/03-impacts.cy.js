@@ -44,21 +44,19 @@ describe('Módulo de Impactos', () => {
         cy.wait(500) // Esperar carga de plantilla
         
         // Verificar que se cargan los campos dinámicos
-        cy.get('#nombre_empleado').should('be.visible')
+        cy.get('#nombre_completo').should('be.visible')
         cy.get('#fecha_inicio').should('be.visible')
         cy.get('#departamento').should('be.visible')
         cy.get('#cargo').should('be.visible')
         
         // Llenar formulario
-        cy.get('#nombre_empleado').type(impactData.nombre_empleado)
+        cy.get('#nombre_completo').type(impactData.nombre_completo)
         cy.get('#fecha_inicio').type(impactData.fecha_inicio)
         cy.get('#departamento').type(impactData.departamento)
         cy.get('#cargo').type(impactData.cargo)
-        if (impactData.necesita_laptop) {
-          cy.get('#necesita_laptop').check()
-        }
-        if (impactData.necesita_accesos) {
-          cy.get('#necesita_accesos').check()
+        cy.get('#modalidad').select(impactData.modalidad)
+        if (impactData.equipo_movil) {
+          cy.get('#equipo_movil').check()
         }
         
         // Vista previa debe mostrar información
@@ -72,7 +70,7 @@ describe('Módulo de Impactos', () => {
         
         // Verificar que se abre el modal de detalle
         cy.get('#modalDetalleImpacto').should('be.visible')
-        cy.get('#modalDetalleImpacto').should('contain', impactData.nombre_empleado)
+        cy.get('#modalDetalleImpacto').should('contain', impactData.nombre_completo)
       })
     })
 

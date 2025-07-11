@@ -53,19 +53,18 @@
   ],
   "impacts": {
     "alta_empleado": {
-      "nombre_empleado": "Juan Pérez",
+      "nombre_completo": "Juan Pérez",
       "fecha_inicio": "2025-07-15",
       "departamento": "TI",
       "cargo": "Desarrollador Senior",
-      "necesita_laptop": true,
-      "necesita_accesos": true
+      "modalidad": "Presencial",
+      "equipo_movil": true
     },
     "baja_empleado": {
-      "nombre_empleado": "Ana García",
+      "nombre_completo": "Ana García",
       "fecha_baja": "2025-07-20",
-      "motivo": "Cambio de empresa",
-      "devolver_equipos": true,
-      "revocar_accesos": true
+      "motivo": "Renuncia",
+      "devolucion_equipos": true
     }
   },
   "filters": {

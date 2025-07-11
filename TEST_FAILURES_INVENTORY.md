@@ -26,11 +26,10 @@ Ejecutar cada archivo de test individualmente y documentar:
 - **Estado**: 7/7 pasando (100%)
 - **Tiempo**: 1m 4s
 
-### ❌ 02-inventory.cy.js
-- **Estado**: 14/16 pasando (88%)
-- **Fallos**: 
-  1. "Debe editar un activo existente" - No se actualiza la tabla después de editar
-  2. "Debe navegar entre opciones del menú" - Modal no se cierra correctamente
+### ✅ 02-inventory.cy.js
+- **Estado**: 16/16 pasando (100%)
+- **Tiempo**: ~1m
+- **Arreglado**: Añadidos waits para animaciones de modal y verificación de cambios en tabla
 
 ### ❌ 03-impacts.cy.js
 - **Estado**: 6/16 pasando (38%)
@@ -41,8 +40,8 @@ Ejecutar cada archivo de test individualmente y documentar:
 - **Fallos**: Importación incorrecta corregida, pendiente re-ejecutar
 
 ### ❌ 05-tasks.cy.js
-- **Estado**: 0/10 pasando (0%)
-- **Fallos**: No encuentra campo necesita_equipo en formulario de impacto
+- **Estado**: Por ejecutar
+- **Fallos**: Campos actualizados (equipo_movil, nombre_completo, etc.)
 
 ### ❌ 06-full-journey.cy.js
 - **Estado**: Por ejecutar
@@ -106,8 +105,8 @@ Ejecutar cada archivo de test individualmente y documentar:
 
 ## Resumen Total
 - **Total de archivos**: 23
-- **Archivos pasando 100%**: 4 (17%)
-- **Archivos con fallos**: 19 (83%)
+- **Archivos pasando 100%**: 5 (22%)
+- **Archivos con fallos**: 18 (78%)
 - **Objetivo**: 23/23 archivos al 100%
 
 ## Patrones de Fallos Comunes
