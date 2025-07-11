@@ -5,8 +5,10 @@ describe('Navegación General - Fixed', () => {
   })
 
   it('Debe mostrar la página de bienvenida correctamente', () => {
-    // Verificar que estamos en la página correcta
-    cy.url().should('include', 'gozain')
+    // Verificar que estamos en la página correcta (localhost o gozain)
+    cy.url().should('satisfy', (url) => {
+      return url.includes('localhost') || url.includes('gozain')
+    })
     
     // El welcomeScreen debe estar visible o ya tener una org seleccionada
     cy.get('body').then($body => {

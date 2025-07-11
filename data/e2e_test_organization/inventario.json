@@ -1,0 +1,128 @@
+[
+  {
+    "id": "78e05d35-ced9-4b99-8aa9-d1815a662537",
+    "fecha_creacion": "2025-07-11T21:42:20.394542",
+    "fecha_modificacion": "2025-07-11T21:42:20.394555",
+    "tipo": "Software",
+    "estado": "Activo",
+    "nombre": "Sistema ERP TEST",
+    "responsable": "Admin Test",
+    "departamento": "Finanzas",
+    "clasificacion": "Interno",
+    "criticidad": "Importante",
+    "descripcion": "",
+    "auditoria": [
+      {
+        "accion": "creacion",
+        "fecha": "2025-07-11T21:42:20.394557",
+        "usuario": "sistema",
+        "detalles": "Activo creado"
+      }
+    ]
+  },
+  {
+    "id": "404de3d2-f778-4f60-8d7c-7b5fda30aeb7",
+    "fecha_creacion": "2025-07-11T21:42:23.404901",
+    "fecha_modificacion": "2025-07-11T21:42:23.404909",
+    "tipo": "Personal",
+    "estado": "Activo",
+    "nombre": "Usuario Test E2E",
+    "responsable": "RRHH Test",
+    "departamento": "Desarrollo",
+    "clasificacion": "Interno",
+    "criticidad": "Normal",
+    "descripcion": "",
+    "auditoria": [
+      {
+        "accion": "creacion",
+        "fecha": "2025-07-11T21:42:23.404911",
+        "usuario": "sistema",
+        "detalles": "Activo creado"
+      }
+    ]
+  },
+  {
+    "id": "e55f7377-19ea-4c01-98aa-8206c5e885d0",
+    "fecha_creacion": "2025-07-11T21:45:26.170689",
+    "fecha_modificacion": "2025-07-11T21:45:26.170697",
+    "tipo": "Hardware",
+    "estado": "Activo",
+    "nombre": "Servidor Principal DC01",
+    "responsable": "Carlos Mendez",
+    "departamento": "TI",
+    "clasificacion": "Confidencial",
+    "criticidad": "Crítica",
+    "descripcion": "Servidor principal del datacenter",
+    "auditoria": [
+      {
+        "accion": "creacion",
+        "fecha": "2025-07-11T21:45:26.170704",
+        "usuario": "sistema",
+        "detalles": "Activo creado"
+      }
+    ]
+  },
+  {
+    "id": "ecbeb593-b488-4704-b692-cc6391245082",
+    "fecha_creacion": "2025-07-11T21:45:37.398748",
+    "fecha_modificacion": "2025-07-11T21:45:37.398754",
+    "tipo": "Hardware",
+    "estado": "Activo",
+    "nombre": "Servidor Principal DC01",
+    "responsable": "Carlos Mendez",
+    "departamento": "TI",
+    "clasificacion": "Confidencial",
+    "criticidad": "Crítica",
+    "descripcion": "Servidor principal del datacenter",
+    "auditoria": [
+      {
+        "accion": "creacion",
+        "fecha": "2025-07-11T21:45:37.398756",
+        "usuario": "sistema",
+        "detalles": "Activo creado"
+      }
+    ]
+  },
+  {
+    "id": "6b73eae0-b7c8-4e8e-b86a-131e783dd0f5",
+    "fecha_creacion": "2025-07-11T21:45:40.488607",
+    "fecha_modificacion": "2025-07-11T21:45:40.488614",
+    "tipo": "Software",
+    "estado": "Activo",
+    "nombre": "Microsoft Office 365",
+    "responsable": "Ana Garcia",
+    "departamento": "Administración",
+    "clasificacion": "Interno",
+    "criticidad": "Normal",
+    "descripcion": "Suite ofimática corporativa",
+    "auditoria": [
+      {
+        "accion": "creacion",
+        "fecha": "2025-07-11T21:45:40.488616",
+        "usuario": "sistema",
+        "detalles": "Activo creado"
+      }
+    ]
+  },
+  {
+    "id": "2c2b7f30-d1d4-4c3c-88f3-436c7e7e99e0",
+    "fecha_creacion": "2025-07-11T21:45:43.544242",
+    "fecha_modificacion": "2025-07-11T21:45:43.544250",
+    "tipo": "Hardware",
+    "estado": "Activo",
+    "nombre": "Laptop Dell Latitude 5520",
+    "responsable": "Pedro Lopez",
+    "departamento": "Ventas",
+    "clasificacion": "Interno",
+    "criticidad": "Normal",
+    "descripcion": "Equipo portátil asignado",
+    "auditoria": [
+      {
+        "accion": "creacion",
+        "fecha": "2025-07-11T21:45:43.544252",
+        "usuario": "sistema",
+        "detalles": "Activo creado"
+      }
+    ]
+  }
+]

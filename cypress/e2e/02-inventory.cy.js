@@ -1,11 +1,11 @@
-import { ensureOrganizationSelected, navigateToToolReliably } from '../support/test-helpers'
-
 describe('Módulo de Inventario', () => {
   beforeEach(() => {
-    cy.visit('/')
-    cy.wait(1000)
-    ensureOrganizationSelected()
-    navigateToToolReliably('Inventario de Activos')
+    // Usar comando loginWithOrg para asegurar organización
+    cy.loginWithOrg('E2E Test Organization')
+    
+    // Navegar a Inventario
+    cy.get('.tool-card').contains('Inventario de Activos').click()
+    cy.get('#appMenu', { timeout: 10000 }).should('be.visible')
   })
 
   describe('Vista Dashboard', () => {

@@ -1,0 +1,24 @@
+[
+  {
+    "id": "bca746ea-514f-469b-a603-b657faecb215",
+    "tipo": "alta_empleado",
+    "estado": "pendiente",
+    "fecha_creacion": "2025-07-11T21:42:30.649128",
+    "usuario_creador": "sistema",
+    "datos": {
+      "nombre_completo": "Empleado Test E2E",
+      "departamento": "IT",
+      "cargo": "Desarrollador",
+      "fecha_inicio": "2025-08-01",
+      "modalidad": "Híbrido",
+      "equipo_movil": true
+    },
+    "acciones_ejecutadas": [],
+    "tareas_generadas": [],
+    "vista_previa": {
+      "activos_crear": 2,
+      "activos_modificar": 0,
+      "tareas_generar": 2
+    }
+  }
+]

@@ -1,5 +1,10 @@
 // Import commands.js
 import './commands'
+// Import test helpers
+import * as helpers from './test-helpers'
+
+// Hacer helpers disponibles globalmente
+window.testHelpers = helpers
 
 // Configuración global para los tests
 beforeEach(() => {

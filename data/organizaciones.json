@@ -10,5 +10,17 @@
     "nombre": "Test Corp",
     "fecha_creacion": "2025-07-09T12:59:40.817576",
     "activa": true
+  },
+  {
+    "id": "test_org_175226270",
+    "nombre": "Test Org 175226270",
+    "fecha_creacion": "2025-07-11T21:38:31.907273",
+    "activa": true
+  },
+  {
+    "id": "e2e_test_organization",
+    "nombre": "E2E Test Organization",
+    "fecha_creacion": "2025-07-11T21:41:02.473941",
+    "activa": true
   }
 ]

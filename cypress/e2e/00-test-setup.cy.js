@@ -6,40 +6,47 @@ describe('Setup de Organización de Prueba', () => {
     cy.visit('/')
     cy.wait(2000)
     
-    // Manejar caso donde ya existe una organización
     cy.get('body').then($body => {
-      // Si estamos en el selector de herramientas, volver a organizaciones
+      // Si ya estamos en el selector de herramientas (organización ya seleccionada)
       if ($body.find('.tool-selector-container').length > 0) {
+        cy.get('#organizationButton').click()
+        cy.wait(1000)
+      } else if ($body.find('#organizationButton').length > 0) {
+        // Si estamos en la página de bienvenida, hacer clic en el botón de organización
         cy.get('#organizationButton').click()
         cy.wait(1000)
       }
       
-      // Verificar si ya existe la organización de prueba
+      // Ahora deberíamos ver el modal de organizaciones
+      cy.get('#organizationModal', { timeout: 5000 }).should('be.visible')
+      
+      // Verificar si hay organizaciones existentes
       cy.get('body').then($modal => {
-        if ($modal.find('#organizationList').length > 0) {
+        const hasOrgs = $modal.find('#organizationList .list-group-item').length > 0
+        
+        if (hasOrgs) {
           // Buscar si ya existe nuestra organización de test
-          cy.get('#organizationList .list-group-item').then($items => {
-            let found = false
-            $items.each((index, item) => {
-              if (item.textContent.includes(TEST_ORG_NAME)) {
-                found = true
-                // Si existe, seleccionarla
-                cy.wrap(item).click()
-                return false
-              }
-            })
-            
+          let found = false
+          cy.get('#organizationList .list-group-item').each($item => {
+            if ($item.text().includes(TEST_ORG_NAME)) {
+              cy.wrap($item).click()
+              found = true
+              return false
+            }
+          }).then(() => {
             if (!found) {
               // Si no existe, crearla
               cy.get('#btnNewOrganization').click()
+              cy.wait(500)
               cy.get('#newOrgName').clear().type(TEST_ORG_NAME)
               cy.get('#btnCreateOrganization').click()
               cy.wait(2000)
             }
           })
         } else {
-          // Primera vez, crear organización
+          // No hay organizaciones, crear la primera
           cy.get('#btnNewOrganization').click()
+          cy.wait(500)
           cy.get('#newOrgName').clear().type(TEST_ORG_NAME)
           cy.get('#btnCreateOrganization').click()
           cy.wait(2000)
@@ -53,6 +60,9 @@ describe('Setup de Organización de Prueba', () => {
   })
   
   it('Debe crear activos base en inventario', () => {
+    // Usar comando loginWithOrg para asegurar que estamos en la organización correcta
+    cy.loginWithOrg(TEST_ORG_NAME)
+    
     // Ir a Inventario
     cy.get('.tool-card').contains('Inventario de Activos').click()
     cy.get('#appMenu', { timeout: 10000 }).should('be.visible')
@@ -110,8 +120,10 @@ describe('Setup de Organización de Prueba', () => {
   })
   
   it('Debe configurar datos iniciales para módulo de impactos', () => {
+    // Usar comando loginWithOrg
+    cy.loginWithOrg(TEST_ORG_NAME)
+    
     // Navegar a Impactos
-    cy.get('#toolSelectorButton').click()
     cy.contains('.tool-card', 'Impactos de Negocio').click()
     cy.get('#appMenu', { timeout: 10000 }).should('be.visible')
     
@@ -135,8 +147,10 @@ describe('Setup de Organización de Prueba', () => {
   })
   
   it('Debe crear una evaluación inicial en madurez', () => {
+    // Usar comando loginWithOrg
+    cy.loginWithOrg(TEST_ORG_NAME)
+    
     // Navegar a Madurez
-    cy.get('#toolSelectorButton').click()
     cy.contains('.tool-card', 'Madurez en Ciberseguridad').click()
     cy.get('.madurez-app', { timeout: 10000 }).should('be.visible')
     

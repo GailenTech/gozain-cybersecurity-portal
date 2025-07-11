@@ -50,3 +50,11 @@ cypress/downloads/
 .terminal-*
 *.tmp
 *.temp
+
+# Act secrets
+.secrets
+.env.secrets
+
+# Test artifacts
+test-results.log
+E2E_TEST_FIX_PLAN.md

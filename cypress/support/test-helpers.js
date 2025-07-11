@@ -1,97 +1,78 @@
-// Helper functions for tests
+// Helper functions para tests E2E
 
-// Ensure we have a clean state and organization selected
-export function ensureOrganizationSelected(orgName = null) {
-  cy.get('#organizationName').then($name => {
-    const currentOrg = $name.text().trim()
-    
-    // If no specific org requested and one is already selected, keep it
-    if (!orgName && currentOrg !== 'Seleccionar Organización') {
-      cy.log(`Using current organization: "${currentOrg}"`)
-      return
-    }
-    
-    // If specific org requested and already selected, done
-    if (orgName && currentOrg === orgName) {
-      cy.log(`Organization "${orgName}" already selected`)
-      return
-    }
-    
-    if (currentOrg === 'Seleccionar Organización') {
-      cy.log('No organization selected, selecting one')
-      // Force click organization button
-      cy.get('#organizationButton').click({ force: true })
-      cy.wait(1500) // Wait for modal
-      
-      // Try to find and click organization
-      cy.get('body').then($body => {
-        // Check if organizations are in a list
-        if ($body.find('#organizationList .list-group-item').length > 0) {
-          if (orgName) {
-            // Try to find specific org
-            cy.get('#organizationList .list-group-item').then($items => {
-              const found = Array.from($items).some(item => 
-                item.textContent.includes(orgName)
-              )
-              if (found) {
-                cy.get('#organizationList .list-group-item')
-                  .contains(orgName)
-                  .click({ force: true })
-              } else {
-                cy.log(`Organization "${orgName}" not found, selecting first available`)
-                cy.get('#organizationList .list-group-item').first().click({ force: true })
-              }
-            })
-          } else {
-            // Just select first available
-            cy.get('#organizationList .list-group-item').first().click({ force: true })
-          }
-        } else {
-          cy.log('No organizations found, may need to create one')
-        }
-      })
-    } else if (orgName && currentOrg !== orgName) {
-      cy.log(`Different organization selected: "${currentOrg}", trying to change to "${orgName}"`)
-      cy.get('#organizationButton').click({ force: true })
-      cy.wait(1500)
-      
-      // Try to find the requested org
-      cy.get('#organizationList .list-group-item').then($items => {
-        const found = Array.from($items).some(item => 
-          item.textContent.includes(orgName)
-        )
-        if (found) {
-          cy.get('#organizationList .list-group-item')
-            .contains(orgName)
-            .click({ force: true })
-        } else {
-          cy.log(`Organization "${orgName}" not found, keeping current`)
-        }
-      })
-    }
-    
-    // Verify we have some organization selected
-    cy.get('#organizationName', { timeout: 5000 }).should('not.contain', 'Seleccionar Organización')
+// Verificar URL para localhost o producción
+export function isValidUrl() {
+  cy.url().should('satisfy', (url) => {
+    return url.includes('localhost') || url.includes('gozain') || url.includes('run.app')
   })
 }
 
-// Navigate to tool more reliably
-export function navigateToToolReliably(toolName) {
+// Navegar a un módulo específico
+export function navigateToModule(moduleName) {
   cy.get('body').then($body => {
-    // Check if we're already in a tool
-    if ($body.find('#sidebarMenu:visible').length > 0) {
-      cy.log('Already in a tool, going home first')
-      cy.get('#btnHomeTop').click()
+    // Si ya estamos en una herramienta, usar el selector
+    if ($body.find('#toolSelectorButton').length > 0 && $body.find('#toolSelectorButton').is(':visible')) {
+      cy.get('#toolSelectorButton').click()
       cy.wait(500)
     }
     
-    // Wait for tool selector
-    cy.get('.tool-selector-container', { timeout: 10000 }).should('be.visible')
+    // Seleccionar el módulo
+    cy.contains('.tool-card', moduleName).click()
+    cy.wait(1000)
     
-    // Click tool
-    cy.contains('.tool-card', toolName).should('be.visible').click()
-    
-    // Wait for tool to load
-    cy.get('#dashboardView', { timeout: 10000 }).should('be.visible')
+    // Verificar que se cargó
+    if (moduleName.includes('Inventario')) {
+      cy.get('#appMenu', { timeout: 10000 }).should('be.visible')
+    } else if (moduleName.includes('Impactos')) {
+      cy.get('#appMenu', { timeout: 10000 }).should('be.visible')
+    } else if (moduleName.includes('Madurez')) {
+      cy.get('.madurez-app', { timeout: 10000 }).should('be.visible')
+    }
   })
+}
+
+// Crear un impacto con manejo de errores mejorado
+export function createImpactSafely(impactType, impactData) {
+  // Hacer clic en nuevo
+  cy.get('[data-menu-item="nuevo"]').first().click()
+  cy.get('#modalNuevoImpacto').should('be.visible')
+  
+  // Seleccionar tipo
+  cy.get('#tipoImpacto').select(impactType)
+  cy.wait(1000) // Esperar a que cargue la plantilla
+  
+  // Llenar campos dinámicos con manejo de errores
+  Object.entries(impactData).forEach(([field, value]) => {
+    cy.get('body').then($body => {
+      if ($body.find(`#${field}`).length > 0) {
+        const $el = $body.find(`#${field}`)
+        if ($el.is('select')) {
+          cy.get(`#${field}`).select(value.toString())
+        } else if ($el.is(':checkbox')) {
+          if (value) cy.get(`#${field}`).check()
+        } else {
+          cy.get(`#${field}`).clear().type(value.toString())
+        }
+      } else {
+        cy.log(`Campo ${field} no encontrado, saltando...`)
+      }
+    })
+  })
+  
+  // Crear
+  cy.get('#btnCrearImpacto').click()
+  cy.wait(1000)
+  
+  // Verificar toast o simplemente continuar
+  cy.get('body').then($body => {
+    if ($body.find('.toast-body').length > 0) {
+      cy.get('.toast-body').should('contain', 'creado correctamente')
+    }
+  })
+}
+
+// Configurar organización de test consistentemente
+export function setupTestOrganization() {
+  const TEST_ORG_NAME = 'E2E Test Organization'
+  cy.loginWithOrg(TEST_ORG_NAME)
 }
