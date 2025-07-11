@@ -74,11 +74,18 @@ jobs:
       run: |
         gcloud auth configure-docker
     
-    - name: Enable required APIs
+    - name: Verify required APIs
       run: |
-        gcloud services enable cloudbuild.googleapis.com
-        gcloud services enable run.googleapis.com
-        gcloud services enable artifactregistry.googleapis.com
+        echo "Verificando APIs necesarias..."
+        apis=("cloudbuild.googleapis.com" "run.googleapis.com" "artifactregistry.googleapis.com")
+        for api in "${apis[@]}"; do
+          if gcloud services list --enabled --filter="name:${api}" --format="value(name)" | grep -q "${api}"; then
+            echo "✅ ${api} está habilitada"
+          else
+            echo "❌ ${api} NO está habilitada - debe habilitarse manualmente"
+            echo "Ejecuta: gcloud services enable ${api}"
+          fi
+        done
     
     - name: Build and Deploy to Cloud Run
       run: |
