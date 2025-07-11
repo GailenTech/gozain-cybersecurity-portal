@@ -1,0 +1,130 @@
+{
+  "categorias": {
+    "1. Protección de acceso": [
+      "¿Todos los empleados utilizan contraseñas únicas y seguras?",
+      "¿La autenticación multifactor está activada en cuentas críticas?",
+      "¿Existen políticas de cambio regular de contraseñas?"
+    ],
+    "2. Seguridad en dispositivos y redes": [
+      "¿El sistema operativo y software están actualizados?",
+      "¿Todos los dispositivos tienen antivirus y firewall activos?",
+      "¿La red Wi-Fi está protegida con cifrado fuerte?"
+    ],
+    "3. Protección de datos": [
+      "¿Se realizan copias de seguridad periódicas de los datos críticos?",
+      "¿Los datos confidenciales están cifrados en tránsito y en reposo?",
+      "¿El acceso a información sensible está restringido según roles?"
+    ],
+    "4. Prevención de amenazas": [
+      "¿Se capacita regularmente a los empleados sobre phishing y otras amenazas?",
+      "¿Existen protocolos para verificar correos electrónicos y enlaces?",
+      "¿Se utilizan herramientas de detección de amenazas en la empresa?"
+    ],
+    "5. Gestión de accesos y permisos": [
+      "¿Se gestionan eficientemente los accesos y permisos de los empleados?",
+      "¿Los privilegios de administrador están limitados a personal autorizado?",
+      "¿Se implementan soluciones de gestión de identidad y acceso (IAM)?"
+    ],
+    "6. Respuesta ante incidentes": [
+      "¿La empresa cuenta con un plan de respuesta ante ciberataques?",
+      "¿Existe un equipo o responsable de gestión de incidentes?",
+      "¿Los incidentes de seguridad se reportan y documentan adecuadamente?"
+    ],
+    "7. Identificación de procesos críticos y activos": [
+      "¿Se tiene un inventario actualizado de activos tecnológicos clave?",
+      "¿Los procesos críticos de negocio han sido identificados y documentados?",
+      "¿Se evalúan regularmente los riesgos asociados a los activos y procesos esenciales?",
+      "¿Se aplican medidas de monitoreo y protección para los activos más sensibles?"
+    ]
+  },
+  "preguntas_detalle": [
+    {
+      "categoria": "1. Protección de acceso",
+      "pregunta": "¿Todos los empleados utilizan contraseñas únicas y seguras?"
+    },
+    {
+      "categoria": "1. Protección de acceso",
+      "pregunta": "¿La autenticación multifactor está activada en cuentas críticas?"
+    },
+    {
+      "categoria": "1. Protección de acceso",
+      "pregunta": "¿Existen políticas de cambio regular de contraseñas?"
+    },
+    {
+      "categoria": "2. Seguridad en dispositivos y redes",
+      "pregunta": "¿El sistema operativo y software están actualizados?"
+    },
+    {
+      "categoria": "2. Seguridad en dispositivos y redes",
+      "pregunta": "¿Todos los dispositivos tienen antivirus y firewall activos?"
+    },
+    {
+      "categoria": "2. Seguridad en dispositivos y redes",
+      "pregunta": "¿La red Wi-Fi está protegida con cifrado fuerte?"
+    },
+    {
+      "categoria": "3. Protección de datos",
+      "pregunta": "¿Se realizan copias de seguridad periódicas de los datos críticos?"
+    },
+    {
+      "categoria": "3. Protección de datos",
+      "pregunta": "¿Los datos confidenciales están cifrados en tránsito y en reposo?"
+    },
+    {
+      "categoria": "3. Protección de datos",
+      "pregunta": "¿El acceso a información sensible está restringido según roles?"
+    },
+    {
+      "categoria": "4. Prevención de amenazas",
+      "pregunta": "¿Se capacita regularmente a los empleados sobre phishing y otras amenazas?"
+    },
+    {
+      "categoria": "4. Prevención de amenazas",
+      "pregunta": "¿Existen protocolos para verificar correos electrónicos y enlaces?"
+    },
+    {
+      "categoria": "4. Prevención de amenazas",
+      "pregunta": "¿Se utilizan herramientas de detección de amenazas en la empresa?"
+    },
+    {
+      "categoria": "5. Gestión de accesos y permisos",
+      "pregunta": "¿Se gestionan eficientemente los accesos y permisos de los empleados?"
+    },
+    {
+      "categoria": "5. Gestión de accesos y permisos",
+      "pregunta": "¿Los privilegios de administrador están limitados a personal autorizado?"
+    },
+    {
+      "categoria": "5. Gestión de accesos y permisos",
+      "pregunta": "¿Se implementan soluciones de gestión de identidad y acceso (IAM)?"
+    },
+    {
+      "categoria": "6. Respuesta ante incidentes",
+      "pregunta": "¿La empresa cuenta con un plan de respuesta ante ciberataques?"
+    },
+    {
+      "categoria": "6. Respuesta ante incidentes",
+      "pregunta": "¿Existe un equipo o responsable de gestión de incidentes?"
+    },
+    {
+      "categoria": "6. Respuesta ante incidentes",
+      "pregunta": "¿Los incidentes de seguridad se reportan y documentan adecuadamente?"
+    },
+    {
+      "categoria": "7. Identificación de procesos críticos y activos",
+      "pregunta": "¿Se tiene un inventario actualizado de activos tecnológicos clave?"
+    },
+    {
+      "categoria": "7. Identificación de procesos críticos y activos",
+      "pregunta": "¿Los procesos críticos de negocio han sido identificados y documentados?"
+    },
+    {
+      "categoria": "7. Identificación de procesos críticos y activos",
+      "pregunta": "¿Se evalúan regularmente los riesgos asociados a los activos y procesos esenciales?"
+    },
+    {
+      "categoria": "7. Identificación de procesos críticos y activos",
+      "pregunta": "¿Se aplican medidas de monitoreo y protección para los activos más sensibles?"
+    }
+  ]
+}

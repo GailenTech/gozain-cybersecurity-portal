@@ -1,0 +1,30 @@
+{
+  "activos": [
+    {
+      "tipo_activo": "Hardware",
+      "nombre": "Macbook de Jorge",
+      "responsable": "Jorge Uriarte",
+      "departamento": "Dirección",
+      "sede": "Oficina Principal",
+      "descripcion": "Macbook Pro asignado a Jorge",
+      "marca": "Apple",
+      "modelo": "MacBook Pro M3",
+      "numero_serie": "C02ABCD1234",
+      "estado": "Activo",
+      "clasificacion_seguridad": "Confidencial",
+      "criticidad": "Crítico",
+      "id": "6e4fc53f-b743-41a8-b9f1-fa29adb3a523",
+      "fecha_registro": "2025-07-08T11:58:13.953767",
+      "fecha_modificacion": "2025-07-08T11:58:13.953775",
+      "historial_cambios": [
+        {
+          "fecha": "2025-07-08T11:58:13.953777",
+          "usuario": "Sistema",
+          "accion": "Creación del activo"
+        }
+      ]
+    }
+  ],
+  "categorias": [],
+  "usuarios": []
+}

@@ -1,0 +1,30 @@
+{
+  "activos": [
+    {
+      "tipo_activo": "Hardware",
+      "nombre": "Macbook de Ricardo",
+      "responsable": "Ricardo González-Madariaga",
+      "departamento": "Dirección",
+      "sede": "Oficina Principal",
+      "descripcion": "Macbook Pro asignado a Ricardo",
+      "marca": "Apple",
+      "modelo": "MacBook Pro M3",
+      "numero_serie": "C02EFGH5678",
+      "estado": "Activo",
+      "clasificacion_seguridad": "Confidencial",
+      "criticidad": "Crítico",
+      "id": "1266d3df-90af-452f-9db8-f591ce1cf2aa",
+      "fecha_registro": "2025-07-08T11:58:14.790780",
+      "fecha_modificacion": "2025-07-08T11:58:14.790789",
+      "historial_cambios": [
+        {
+          "fecha": "2025-07-08T11:58:14.790791",
+          "usuario": "Sistema",
+          "accion": "Creación del activo"
+        }
+      ]
+    }
+  ],
+  "categorias": [],
+  "usuarios": []
+}

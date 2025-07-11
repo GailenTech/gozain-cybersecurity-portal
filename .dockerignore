@@ -1,0 +1,10 @@
+venv/
+__pycache__/
+*.pyc
+.git/
+.gitignore
+*.xlsx
+*.xls
+*.csv
+claude_tools/slack_comunicacion.py
+claude_tools/__pycache__/

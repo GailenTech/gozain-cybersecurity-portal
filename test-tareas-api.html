@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Test Tareas API</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .test { margin: 20px 0; padding: 10px; border: 1px solid #ddd; }
+        .success { background-color: #d4edda; }
+        .error { background-color: #f8d7da; }
+        pre { background: #f4f4f4; padding: 10px; overflow-x: auto; }
+    </style>
+</head>
+<body>
+    <h1>Test de API de Tareas</h1>
+    
+    <div id="tests"></div>
+    
+    <script>
+        const baseUrl = 'https://gozain-h556ekexqa-uc.a.run.app';
+        const orgId = 'test';
+        
+        async function runTest(name, testFn) {
+            const testDiv = document.createElement('div');
+            testDiv.className = 'test';
+            testDiv.innerHTML = `<h3>${name}</h3><div class="result">Ejecutando...</div>`;
+            document.getElementById('tests').appendChild(testDiv);
+            
+            try {
+                const result = await testFn();
+                testDiv.classList.add('success');
+                testDiv.querySelector('.result').innerHTML = `
+                    <strong>✓ Éxito</strong>
+                    <pre>${JSON.stringify(result, null, 2)}</pre>
+                `;
+            } catch (error) {
+                testDiv.classList.add('error');
+                testDiv.querySelector('.result').innerHTML = `
+                    <strong>✗ Error</strong>
+                    <pre>${error.message}\n${error.stack}</pre>
+                `;
+            }
+        }
+        
+        // Tests
+        async function test1() {
+            const response = await fetch(`${baseUrl}/api/impactos/tareas`, {
+                headers: {
+                    'X-Organization-Id': orgId,
+                    'Content-Type': 'application/json'
+                }
+            });
+            
+            if (!response.ok) {
+                throw new Error(`HTTP ${response.status}: ${await response.text()}`);
+            }
+            
+            return await response.json();
+        }
+        
+        async function test2() {
+            // Primero crear algunos impactos de prueba
+            const impactoResponse = await fetch(`${baseUrl}/api/impactos`, {
+                method: 'POST',
+                headers: {
+                    'X-Organization-Id': orgId,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    tipo: 'alta_empleado',
+                    datos: {
+                        nombre: 'Test Employee',
+                        departamento: 'IT',
+                        cargo: 'Developer',
+                        fecha_incorporacion: new Date().toISOString().split('T')[0],
+                        necesita_equipo: true,
+                        necesita_movil: true,
+                        email: 'test@example.com'
+                    }
+                })
+            });
+            
+            const impacto = await impactoResponse.json();
+            
+            // Procesar el impacto
+            const procesarResponse = await fetch(`${baseUrl}/api/impactos/${impacto.id}/procesar`, {
+                method: 'POST',
+                headers: {
+                    'X-Organization-Id': orgId,
+                    'Content-Type': 'application/json'
+                }
+            });
+            
+            return await procesarResponse.json();
+        }
+        
+        async function test3() {
+            // Obtener tareas después de procesar impacto
+            const response = await fetch(`${baseUrl}/api/impactos/tareas`, {
+                headers: {
+                    'X-Organization-Id': orgId,
+                    'Content-Type': 'application/json'
+                }
+            });
+            
+            return await response.json();
+        }
+        
+        async function test4() {
+            // Obtener tareas primero
+            const tareasResponse = await fetch(`${baseUrl}/api/impactos/tareas`, {
+                headers: {
+                    'X-Organization-Id': orgId,
+                    'Content-Type': 'application/json'
+                }
+            });
+            
+            const tareasData = await tareasResponse.json();
+            
+            if (!tareasData.tareas || tareasData.tareas.length === 0) {
+                throw new Error('No hay tareas para completar');
+            }
+            
+            const tarea = tareasData.tareas[0];
+            
+            // Completar la primera tarea
+            const completarResponse = await fetch(`${baseUrl}/api/impactos/tareas/${tarea.id}/completar`, {
+                method: 'POST',
+                headers: {
+                    'X-Organization-Id': orgId,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    comentarios: 'Test completado'
+                })
+            });
+            
+            return await completarResponse.json();
+        }
+        
+        // Ejecutar tests
+        (async () => {
+            await runTest('1. Obtener tareas (inicial)', test1);
+            await runTest('2. Crear y procesar impacto de prueba', test2);
+            await runTest('3. Obtener tareas después de procesar', test3);
+            await runTest('4. Completar una tarea', test4);
+        })();
+    </script>
+</body>
+</html>

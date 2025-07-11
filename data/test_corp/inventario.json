@@ -1,0 +1,63 @@
+[
+  {
+    "id": "5af10061-3e69-4ffc-95f6-7bff5161fe6d",
+    "fecha_creacion": "2025-07-09T12:59:59.849228",
+    "fecha_modificacion": "2025-07-09T12:59:59.849239",
+    "tipo": "Hardware",
+    "nombre": "Laptop Dell XPS 15",
+    "responsable": "Ana García",
+    "departamento": "Desarrollo",
+    "estado": "Activo",
+    "clasificacion": "Interno",
+    "criticidad": "Importante",
+    "descripcion": "Laptop de desarrollo principal",
+    "auditoria": [
+      {
+        "accion": "creacion",
+        "fecha": "2025-07-09T12:59:59.849242",
+        "usuario": "sistema",
+        "detalles": "Activo creado"
+      }
+    ]
+  },
+  {
+    "id": "b16e6526-826e-4fe3-9319-001d20b04007",
+    "fecha_creacion": "2025-07-09T13:02:25.725122",
+    "fecha_modificacion": "2025-07-09T13:02:25.725130",
+    "tipo": "Hardware",
+    "nombre": "Laptop para Carlos Rodríguez",
+    "estado": "Activo",
+    "clasificacion": "Interno",
+    "criticidad": "Importante",
+    "responsable": "Carlos Rodríguez",
+    "departamento": "Ventas",
+    "auditoria": [
+      {
+        "accion": "creacion",
+        "fecha": "2025-07-09T13:02:25.725132",
+        "usuario": "sistema",
+        "detalles": "Activo creado"
+      }
+    ]
+  },
+  {
+    "id": "63237f99-ae6c-45e8-a618-6c0891bbbf7c",
+    "fecha_creacion": "2025-07-09T13:02:25.725330",
+    "fecha_modificacion": "2025-07-09T13:02:25.725332",
+    "tipo": "Software",
+    "nombre": "Office 365 - Carlos Rodríguez",
+    "tipo_software": "Productividad",
+    "estado": "Activo",
+    "clasificacion": "Interno",
+    "responsable": "Carlos Rodríguez",
+    "departamento": "Ventas",
+    "auditoria": [
+      {
+        "accion": "creacion",
+        "fecha": "2025-07-09T13:02:25.725334",
+        "usuario": "sistema",
+        "detalles": "Activo creado"
+      }
+    ]
+  }
+]

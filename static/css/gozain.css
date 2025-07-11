@@ -1,0 +1,346 @@
+/* Estilos principales de Gozain */
+
+:root {
+    --gozain-primary: #0d6efd;
+    --gozain-secondary: #6c757d;
+    --gozain-success: #198754;
+    --gozain-danger: #dc3545;
+    --gozain-warning: #ffc107;
+    --gozain-info: #0dcaf0;
+    --gozain-light: #f8f9fa;
+    --gozain-dark: #212529;
+}
+
+/* Temas por aplicación */
+[data-app-theme="inventario"] {
+    --app-primary: #0d6efd;
+    --app-primary-dark: #0a58ca;
+    --app-primary-light: #3d8bfd;
+}
+
+[data-app-theme="impactos"] {
+    --app-primary: #495057;
+    --app-primary-dark: #343a40;
+    --app-primary-light: #6c757d;
+}
+
+[data-app-theme="madurez"] {
+    --app-primary: #6f42c1;
+    --app-primary-dark: #59359a;
+    --app-primary-light: #7952b3;
+}
+
+/* Aplicar tema a la navbar cuando hay una app activa */
+[data-app-theme] .navbar {
+    background-color: var(--app-primary) !important;
+}
+
+[data-app-theme] .navbar .btn-outline-light:hover {
+    background-color: var(--app-primary-dark);
+    border-color: var(--app-primary-dark);
+}
+
+/* Aplicar tema al sidebar */
+[data-app-theme] .sidebar .nav-link.active {
+    color: #fff;
+    background-color: var(--app-primary);
+}
+
+[data-app-theme] .sidebar .nav-link:hover {
+    color: var(--app-primary);
+    background-color: var(--app-primary-light);
+    opacity: 0.15;
+}
+
+body {
+    font-size: .875rem;
+}
+
+.sidebar {
+    position: fixed;
+    top: 60px;
+    bottom: 0;
+    left: 0;
+    z-index: 100;
+    padding: 0;
+    box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
+    height: calc(100vh - 60px);
+}
+
+.sidebar-sticky {
+    position: relative;
+    top: 0;
+    height: calc(100vh - 60px);
+    padding-top: .5rem;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+.sidebar .nav-link {
+    font-weight: 500;
+    color: #333;
+    padding: .5rem 1rem;
+    margin: 0 .5rem;
+    border-radius: .25rem;
+    transition: all .2s;
+}
+
+.sidebar .nav-link:hover {
+    color: var(--gozain-primary);
+    background-color: rgba(13, 110, 253, .1);
+}
+
+.sidebar .nav-link.active {
+    color: #fff;
+    background-color: var(--gozain-primary);
+}
+
+.sidebar .nav-link i {
+    margin-right: .5rem;
+    font-size: 1.1rem;
+}
+
+.navbar-brand {
+    padding-top: .75rem;
+    padding-bottom: .75rem;
+    font-size: 1.25rem;
+    font-weight: 600;
+}
+
+main {
+    padding-top: 1rem;
+}
+
+/* Estilos para las tarjetas de aplicaciones */
+.app-card {
+    cursor: pointer;
+    transition: all .3s;
+    height: 100%;
+}
+
+.app-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 .5rem 1rem rgba(0,0,0,.15);
+}
+
+.app-card .card-body {
+    text-align: center;
+    padding: 2rem;
+}
+
+.app-card i {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+}
+
+/* Loader */
+.loader {
+    border: 3px solid var(--gozain-light);
+    border-radius: 50%;
+    border-top: 3px solid var(--gozain-primary);
+    width: 40px;
+    height: 40px;
+    animation: spin 1s linear infinite;
+    margin: 2rem auto;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Responsive */
+@media (max-width: 767.98px) {
+    .sidebar {
+        top: 60px;
+        height: auto;
+        position: relative;
+    }
+    
+    main {
+        margin-left: 0 !important;
+    }
+}
+
+/* Utilidades */
+.cursor-pointer {
+    cursor: pointer;
+}
+
+.transition-all {
+    transition: all .3s;
+}
+
+/* Badges personalizados */
+.badge-count {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    min-width: 20px;
+    padding: 2px 6px;
+    font-size: .7rem;
+    font-weight: 700;
+    line-height: 1;
+    color: #fff;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    border-radius: 10px;
+}
+
+/* Animaciones de entrada */
+.fade-in {
+    animation: fadeIn .3s ease-in;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Modal de organizaciones */
+#organizationModal .list-group-item {
+    border: 1px solid rgba(0,0,0,.125);
+    margin-bottom: .5rem;
+    border-radius: .375rem;
+    transition: all .2s;
+}
+
+#organizationModal .list-group-item:hover {
+    background-color: var(--gozain-light);
+    transform: translateX(5px);
+}
+
+#organizationModal .list-group-item.active {
+    background-color: var(--gozain-primary);
+    border-color: var(--gozain-primary);
+    color: #fff;
+}
+
+#organizationModal .list-group-item.active .text-muted {
+    color: rgba(255,255,255,.7) !important;
+}
+
+#organizationButton {
+    min-width: 200px;
+}
+
+#organizationButton i {
+    margin-right: .5rem;
+}
+
+/* Tool Selector */
+.tool-selector-container {
+    padding: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.tools-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    margin-top: 3rem;
+}
+
+.tool-card {
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.tool-card:hover {
+    transform: translateY(-5px);
+}
+
+.tool-card-inner {
+    border-radius: 1rem;
+    padding: 3rem 2rem;
+    text-align: center;
+    color: white;
+    height: 100%;
+    min-height: 250px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.tool-card:hover .tool-card-inner {
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.tool-icon {
+    font-size: 4rem;
+    margin-bottom: 1.5rem;
+}
+
+.tool-name {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}
+
+.tool-description {
+    font-size: 1rem;
+    opacity: 0.9;
+    margin: 0;
+}
+
+/* Ocultar sidebar cuando se muestra el selector de herramientas */
+.showing-tool-selector .sidebar {
+    display: none;
+}
+
+.showing-tool-selector main {
+    margin-left: 0 !important;
+}
+
+/* Timeline para dashboard de impactos */
+.timeline {
+    position: relative;
+    padding-left: 30px;
+}
+
+.timeline::before {
+    content: '';
+    position: absolute;
+    left: 9px;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background-color: #dee2e6;
+}
+
+.timeline-item {
+    position: relative;
+    padding-bottom: 20px;
+}
+
+.timeline-marker {
+    position: absolute;
+    left: -25px;
+    top: 5px;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    border: 3px solid #fff;
+    box-shadow: 0 0 0 2px #dee2e6;
+}
+
+.timeline-content {
+    background-color: #f8f9fa;
+    padding: 10px 15px;
+    border-radius: 5px;
+}
+
+/* Cursor pointer utility */
+.cursor-pointer {
+    cursor: pointer;
+}

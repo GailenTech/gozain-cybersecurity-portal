@@ -1,0 +1,21 @@
+{
+  "name": "gozain-e2e-tests",
+  "version": "0.0.1",
+  "description": "Suite de pruebas E2E para Gozain",
+  "scripts": {
+    "cypress:open": "cypress open",
+    "cypress:run": "cypress run",
+    "cypress:run:local": "cypress run --config baseUrl=http://localhost:8080",
+    "cypress:run:prod": "cypress run --config baseUrl=https://gozain-h556ekexqa-uc.a.run.app",
+    "test:e2e": "npm run cypress:run",
+    "test:e2e:headed": "cypress run --headed",
+    "test:e2e:chrome": "cypress run --browser chrome",
+    "test:setup": "node cypress/support/setup-test-data.js"
+  },
+  "devDependencies": {
+    "cypress": "^13.6.0"
+  },
+  "dependencies": {
+    "axios": "^1.6.0"
+  }
+}

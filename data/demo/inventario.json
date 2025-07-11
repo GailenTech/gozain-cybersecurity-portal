@@ -1,0 +1,103 @@
+[
+  {
+    "tipo": "Hardware",
+    "nombre": "Servidor Principal",
+    "responsable": "Juan Pérez",
+    "departamento": "TI",
+    "estado": "Activo",
+    "criticidad": "Crítica",
+    "clasificacion": "Confidencial",
+    "descripcion": "Servidor de producción",
+    "id": "28e4290a-1108-4313-b357-66ba47c99d30",
+    "fecha_creacion": "2025-07-10T12:26:12.352516",
+    "fecha_modificacion": "2025-07-10T12:26:12.352520",
+    "auditoria": [
+      {
+        "accion": "importacion",
+        "fecha": "2025-07-10T12:26:12.352521",
+        "usuario": "sistema",
+        "detalles": "Importado desde test_activos.csv"
+      }
+    ]
+  },
+  {
+    "tipo": "Software",
+    "nombre": "Office 365",
+    "responsable": "María García",
+    "departamento": "Administración",
+    "estado": "Activo",
+    "criticidad": "Normal",
+    "clasificacion": "Interno",
+    "descripcion": "Suite ofimática",
+    "id": "f2dfb956-a6a9-4458-abcd-c4a23b009887",
+    "fecha_creacion": "2025-07-10T12:26:12.352532",
+    "fecha_modificacion": "2025-07-10T12:26:12.352533",
+    "auditoria": [
+      {
+        "accion": "importacion",
+        "fecha": "2025-07-10T12:26:12.352534",
+        "usuario": "sistema",
+        "detalles": "Importado desde test_activos.csv"
+      }
+    ]
+  },
+  {
+    "tipo": "Hardware",
+    "nombre": "Laptop Dell",
+    "responsable": "Carlos López",
+    "departamento": "Ventas",
+    "estado": "Activo",
+    "criticidad": "Normal",
+    "clasificacion": "Interno",
+    "descripcion": "Laptop del equipo de ventas",
+    "id": "6ad9986a-bfc7-49bc-9110-e8aba37a650d",
+    "fecha_creacion": "2025-07-10T12:26:12.352541",
+    "fecha_modificacion": "2025-07-10T12:26:12.352542",
+    "auditoria": [
+      {
+        "accion": "importacion",
+        "fecha": "2025-07-10T12:26:12.352543",
+        "usuario": "sistema",
+        "detalles": "Importado desde test_activos.csv"
+      }
+    ]
+  },
+  {
+    "id": "0a7b7cba-1358-4146-bd14-a0fbaba7b140",
+    "fecha_creacion": "2025-07-10T12:26:12.357731",
+    "fecha_modificacion": "2025-07-10T12:26:12.357733",
+    "tipo": "Hardware",
+    "nombre": "Laptop para {nombre_completo}",
+    "estado": "Activo",
+    "clasificacion": "Interno",
+    "criticidad": "Importante",
+    "departamento": "TI",
+    "auditoria": [
+      {
+        "accion": "creacion",
+        "fecha": "2025-07-10T12:26:12.357735",
+        "usuario": "sistema",
+        "detalles": "Activo creado"
+      }
+    ]
+  },
+  {
+    "id": "c79dd2ef-7436-4cb8-9c0b-199e6781f87e",
+    "fecha_creacion": "2025-07-10T12:26:12.357875",
+    "fecha_modificacion": "2025-07-10T12:26:12.357877",
+    "tipo": "Software",
+    "nombre": "Office 365 - {nombre_completo}",
+    "tipo_software": "Productividad",
+    "estado": "Activo",
+    "clasificacion": "Interno",
+    "departamento": "TI",
+    "auditoria": [
+      {
+        "accion": "creacion",
+        "fecha": "2025-07-10T12:26:12.357878",
+        "usuario": "sistema",
+        "detalles": "Activo creado"
+      }
+    ]
+  }
+]

@@ -1,0 +1,244 @@
+/* Dashboard Styles */
+.dashboard-container {
+    padding: 20px;
+}
+
+/* Stats Cards */
+.stats-card {
+    background: #fff;
+    border-radius: 12px;
+    padding: 24px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.stats-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.stats-card .icon {
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 3rem;
+    opacity: 0.1;
+}
+
+.stats-card h2 {
+    margin: 0;
+    font-size: 2.5rem;
+    font-weight: 600;
+}
+
+.stats-card .label {
+    font-size: 0.9rem;
+    color: #6c757d;
+    margin-bottom: 8px;
+}
+
+.stats-card.primary { border-left: 4px solid #0d6efd; }
+.stats-card.info { border-left: 4px solid #0dcaf0; }
+.stats-card.success { border-left: 4px solid #198754; }
+.stats-card.danger { border-left: 4px solid #dc3545; }
+.stats-card.warning { border-left: 4px solid #ffc107; }
+
+/* Chart Containers */
+.chart-container {
+    background: #fff;
+    border-radius: 12px;
+    padding: 24px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    margin-bottom: 24px;
+}
+
+.chart-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.chart-header h5 {
+    margin: 0;
+    font-weight: 600;
+}
+
+.chart-actions {
+    display: flex;
+    gap: 8px;
+}
+
+.chart-actions button {
+    padding: 4px 12px;
+    font-size: 0.875rem;
+}
+
+/* Progress Bars */
+.progress-item {
+    margin-bottom: 16px;
+}
+
+.progress-item .label {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 8px;
+    font-size: 0.875rem;
+}
+
+.progress-item .progress {
+    height: 8px;
+}
+
+/* Activity Timeline */
+.activity-timeline {
+    position: relative;
+    padding-left: 30px;
+}
+
+.activity-timeline::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: #e9ecef;
+}
+
+.activity-item {
+    position: relative;
+    padding-bottom: 20px;
+}
+
+.activity-item::before {
+    content: '';
+    position: absolute;
+    left: -34px;
+    top: 5px;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #fff;
+    border: 2px solid #0d6efd;
+}
+
+.activity-item.success::before { border-color: #198754; }
+.activity-item.warning::before { border-color: #ffc107; }
+.activity-item.danger::before { border-color: #dc3545; }
+
+.activity-time {
+    font-size: 0.75rem;
+    color: #6c757d;
+}
+
+.activity-text {
+    font-size: 0.875rem;
+    margin-top: 4px;
+}
+
+/* KPI Cards */
+.kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+.kpi-card {
+    background: #f8f9fa;
+    border-radius: 8px;
+    padding: 16px;
+    text-align: center;
+}
+
+.kpi-value {
+    font-size: 1.75rem;
+    font-weight: 600;
+    margin: 8px 0;
+}
+
+.kpi-label {
+    font-size: 0.875rem;
+    color: #6c757d;
+}
+
+.kpi-trend {
+    font-size: 0.875rem;
+    margin-top: 8px;
+}
+
+.kpi-trend.up { color: #198754; }
+.kpi-trend.down { color: #dc3545; }
+
+/* Responsive */
+@media (max-width: 768px) {
+    .stats-card h2 {
+        font-size: 2rem;
+    }
+    
+    .chart-container {
+        padding: 16px;
+    }
+    
+    .kpi-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+    .stats-card,
+    .chart-container,
+    .kpi-card {
+        background: #212529;
+        color: #fff;
+    }
+    
+    .activity-timeline::before {
+        background: #495057;
+    }
+    
+    .kpi-card {
+        background: #343a40;
+    }
+}
+
+/* Loading states */
+.chart-loading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 300px;
+    color: #6c757d;
+}
+
+.spinner-border {
+    width: 2rem;
+    height: 2rem;
+}
+
+/* Filters section */
+.dashboard-filters {
+    background: #f8f9fa;
+    border-radius: 8px;
+    padding: 16px;
+    margin-bottom: 24px;
+}
+
+.filter-group {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+@media (max-width: 576px) {
+    .filter-group {
+        flex-direction: column;
+        align-items: stretch;
+    }
+}

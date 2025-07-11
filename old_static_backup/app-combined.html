@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Activos ISO 27001</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css" rel="stylesheet">
+    <style>
+        .sidebar {
+            min-height: 100vh;
+            background-color: #f8f9fa;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 250px;
+            overflow-y: auto;
+        }
+        .main-content {
+            margin-left: 250px;
+            min-height: 100vh;
+        }
+        .stats-card {
+            transition: transform 0.2s;
+            cursor: pointer;
+        }
+        .stats-card:hover {
+            transform: translateY(-5px);
+        }
+        .table-responsive {
+            max-height: 600px;
+            overflow-y: auto;
+        }
+        /* Estilos para impactos */
+        .impact-card {
+            transition: transform 0.2s;
+            cursor: pointer;
+        }
+        .impact-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        .estado-badge {
+            font-size: 0.875rem;
+        }
+        .estado-pendiente { background-color: #ffc107; color: #000; }
+        .estado-procesando { background-color: #17a2b8; color: #fff; }
+        .estado-completado { background-color: #28a745; color: #fff; }
+        .estado-error { background-color: #dc3545; color: #fff; }
+        .estado-cancelado { background-color: #6c757d; color: #fff; }
+        .preview-section {
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            padding: 1rem;
+            margin-top: 1rem;
+        }
+        .task-item {
+            border-left: 3px solid #007bff;
+            padding-left: 1rem;
+            margin-bottom: 0.5rem;
+        }
+        .task-overdue {
+            border-left-color: #dc3545;
+            background-color: #fff5f5;
+        }
+        /* Navegación activa */
+        .nav-link.active {
+            background-color: #e9ecef;
+            border-radius: 0.25rem;
+        }
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 100%;
+                height: auto;
+                position: relative;
+            }
+            .main-content {
+                margin-left: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="d-flex">
+        <!-- Sidebar -->
+        <nav class="sidebar">
+            <div class="p-3">
+                <div class="pb-3 mb-3 border-bottom">
+                    <h6 class="text-muted mb-1">Organización</h6>
+                    <div class="d-flex align-items-center justify-content-between">
+                        <strong id="nombreOrganizacion" class="text-truncate">-</strong>
+                        <button class="btn btn-sm btn-link p-0" onclick="cambiarOrganizacion()">
+                            <i class="bi bi-arrow-repeat"></i>
+                        </button>
+                    </div>
+                </div>
+                <h5 class="mb-4">
+                    <i class="bi bi-shield-check"></i> ISO 27001
+                </h5>
+                
+                <!-- Navegación principal -->
+                <h6 class="text-muted text-uppercase small">Inventario</h6>
+                <ul class="nav flex-column mb-4">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/" data-route="dashboard">
+                            <i class="bi bi-speedometer2"></i> Dashboard
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/inventario" data-route="activos">
+                            <i class="bi bi-box-seam"></i> Inventario
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/inventario/nuevo" data-route="nuevo">
+                            <i class="bi bi-plus-circle"></i> Nuevo Activo
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/inventario/importar" data-route="importar">
+                            <i class="bi bi-upload"></i> Importar
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/reportes" data-route="reportes">
+                            <i class="bi bi-file-earmark-text"></i> Reportes
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/auditoria" data-route="auditoria">
+                            <i class="bi bi-clock-history"></i> Auditoría
+                        </a>
+                    </li>
+                </ul>
+                
+                <!-- Navegación de impactos -->
+                <h6 class="text-muted text-uppercase small">
+                    Impactos de Negocio
+                    <span class="badge bg-success ms-2">Nuevo</span>
+                </h6>
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/impactos" data-route="impactos-dashboard">
+                            <i class="bi bi-lightning-charge"></i> Dashboard
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/impactos/nuevo" data-route="impactos-nuevo">
+                            <i class="bi bi-plus-circle"></i> Nuevo Impacto
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/impactos/lista" data-route="impactos-lista">
+                            <i class="bi bi-list-ul"></i> Lista de Impactos
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/impactos/tareas" data-route="impactos-tareas">
+                            <i class="bi bi-check2-square"></i> Tareas Pendientes
+                        </a>
+                    </li>
+                </ul>
+                
+                <!-- Mini estadísticas de impactos -->
+                <div class="card mt-4">
+                    <div class="card-body">
+                        <h6 class="card-title">Resumen Impactos</h6>
+                        <div class="small">
+                            <div class="d-flex justify-content-between">
+                                <span>Pendientes:</span>
+                                <span class="badge bg-warning" id="stat-pendientes">0</span>
+                            </div>
+                            <div class="d-flex justify-content-between mt-1">
+                                <span>Completados:</span>
+                                <span class="badge bg-success" id="stat-completados">0</span>
+                            </div>
+                            <div class="d-flex justify-content-between mt-1">
+                                <span>Tareas:</span>
+                                <span class="badge bg-info" id="stat-tareas">0</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Contenido principal -->
+        <main class="main-content">
+            <div id="app-container">
+                <!-- El contenido se cargará dinámicamente aquí -->
+            </div>
+        </main>
+    </div>
+
+    <!-- Modales -->
+    <div id="modals-container"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="/static/navigation.js"></script>
+    <script src="/static/app.js"></script>
+    <script src="/static/impactos.js"></script>
+    <script>
+        // Función para cambiar de organización
+        function cambiarOrganizacion() {
+            if (confirm('¿Desea cambiar de organización? Esto cerrará su sesión actual.')) {
+                localStorage.removeItem('organizacion_id');
+                localStorage.removeItem('organizacion_nombre');
+                window.location.href = '/login';
+            }
+        }
+        
+        // Configurar navegación de impactos
+        window.impactosNav = {
+            mostrarVista: function(vista) {
+                // Ocultar todas las vistas de inventario
+                document.querySelectorAll('.vista-contenido').forEach(v => {
+                    v.style.display = 'none';
+                });
+                
+                // Delegar a la función de impactos si existe
+                if (window.mostrarVistaImpactos) {
+                    window.mostrarVistaImpactos(vista);
+                }
+            },
+            verDetalleImpacto: function(id) {
+                if (window.verDetalleImpacto) {
+                    window.verDetalleImpacto(id);
+                }
+            }
+        };
+    </script>
+</body>
+</html>

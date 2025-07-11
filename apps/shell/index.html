@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gozain - Portal de Ciberseguridad</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="/static/css/gozain.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Barra Superior -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">
+                <i class="bi bi-shield-check"></i>
+                Gozain <small class="text-muted" id="versionInfo"></small>
+            </a>
+            
+            <!-- Selectores -->
+            <div class="ms-auto d-flex align-items-center">
+                <button id="toolSelectorButton" class="btn btn-outline-light btn-sm me-2" style="display: none;">
+                    <i class="bi bi-grid-3x3-gap-fill me-1"></i>
+                    <span id="currentToolName">Herramientas</span>
+                    <i class="bi bi-chevron-right ms-1"></i>
+                </button>
+                
+                <div class="vr mx-2" id="toolDivider" style="display: none;"></div>
+                
+                <button id="organizationButton" class="btn btn-outline-light btn-sm">
+                    <i class="bi bi-building me-1"></i>
+                    <span id="organizationName">Seleccionar Organización</span>
+                    <i class="bi bi-chevron-right ms-1"></i>
+                </button>
+                
+                <button class="btn btn-sm btn-outline-light ms-3" id="btnSettings">
+                    <i class="bi bi-gear"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Contenedor Principal -->
+    <div class="container-fluid" style="margin-top: 60px;">
+        <div class="row h-100">
+            <!-- Menú Lateral -->
+            <nav id="sidebarMenu" class="col-md-3 col-lg-2 bg-light sidebar" style="display: none !important;">
+                <div class="position-sticky pt-3">
+                    <ul class="nav flex-column" id="appMenu">
+                        <!-- Se llenará dinámicamente por cada módulo -->
+                    </ul>
+                </div>
+            </nav>
+
+            <!-- Área de Contenido -->
+            <main class="col-12 px-md-4" id="mainContent">
+                <div id="welcomeScreen" class="py-5 text-center">
+                    <h1 class="display-4">Bienvenido a Gozain</h1>
+                    <p class="lead">Suite integrada de gestión de ciberseguridad ISO 27001</p>
+                    <hr class="my-4">
+                    <p>Selecciona una organización para comenzar</p>
+                </div>
+
+                <div id="appContainer" style="display: none;">
+                    <!-- Las aplicaciones se cargarán aquí -->
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Modal de Selección de Organización -->
+    <div class="modal fade" id="organizationModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header bg-primary text-white">
+                    <h5 class="modal-title">
+                        <i class="bi bi-building"></i>
+                        Seleccionar Organización
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="list-group" id="organizationList">
+                        <!-- Se llenará dinámicamente -->
+                    </div>
+                    
+                    <hr class="my-4">
+                    
+                    <div class="d-grid">
+                        <button class="btn btn-outline-primary" id="btnNewOrganization">
+                            <i class="bi bi-plus-circle"></i>
+                            Nueva Organización
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Modal de Nueva Organización -->
+    <div class="modal fade" id="newOrganizationModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Nueva Organización</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="form-label">Nombre de la Organización</label>
+                        <input type="text" class="form-control" id="newOrgName" placeholder="Ej: Mi Empresa" required>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-primary" id="btnCreateOrganization">Crear</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Modal de Configuración -->
+    <div class="modal fade" id="settingsModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Configuración</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Configuración del sistema</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script type="module" src="/apps/shell/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,1088 @@
+#!/usr/bin/env python3
+from flask import Flask, jsonify, request, send_from_directory, redirect, send_file
+from flask_cors import CORS
+import json
+import os
+import re
+from datetime import datetime
+# import pandas as pd  # Temporalmente comentado por problemas de despliegue
+from werkzeug.utils import secure_filename
+import uuid
+from google.cloud import storage
+import tempfile
+import logging
+import traceback
+
+# Configurar logging
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+    handlers=[
+        logging.FileHandler('flask.log'),
+        logging.StreamHandler()
+    ]
+)
+
+# Importar servicios y sistema de impactos
+from services.data_provider import DataProvider
+from services.asset_service import AssetService
+from impactos.manager import ImpactManager
+from impactos.data_sources import DataSourceManager
+
+# Configuración de Google Cloud Storage
+BUCKET_NAME = os.environ.get('GCS_BUCKET_NAME', 'inventario-iso27001-data')
+storage_client = storage.Client()
+bucket = storage_client.bucket(BUCKET_NAME)
+
+# Importar comunicador de Slack (opcional)
+import sys
+try:
+    sys.path.append('./claude_tools')
+    from slack_comunicacion import slack
+    SLACK_ENABLED = True
+except:
+    SLACK_ENABLED = False
+    class SlackDummy:
+        def send_update(self, msg):
+            print(f"[SLACK] {msg}")
+    slack = SlackDummy()
+
+app = Flask(__name__)
+CORS(app)
+
+# Configurar logger de la aplicación
+app.logger.setLevel(logging.INFO)
+
+# Configuración
+UPLOAD_FOLDER = 'uploads'
+ALLOWED_EXTENSIONS = {'xls', 'xlsx', 'csv'}
+ORGS_FILE = 'organizaciones.json'
+
+# Crear directorios necesarios
+os.makedirs(UPLOAD_FOLDER, exist_ok=True)
+os.makedirs('static', exist_ok=True)
+
+# Funciones auxiliares para Google Cloud Storage
+def leer_archivo_gcs(filename):
+    """Lee un archivo JSON desde GCS"""
+    blob = bucket.blob(filename)
+    if blob.exists():
+        content = blob.download_as_text()
+        return json.loads(content)
+    return None
+
+def escribir_archivo_gcs(filename, data):
+    """Escribe un archivo JSON a GCS"""
+    blob = bucket.blob(filename)
+    blob.upload_from_string(
+        json.dumps(data, ensure_ascii=False, indent=2),
+        content_type='application/json'
+    )
+
+# Funciones auxiliares para organizaciones
+def sanitizar_nombre_org(nombre):
+    """Sanitiza el nombre de la organización para usar como nombre de archivo"""
+    # Reemplazar caracteres no válidos
+    nombre_sanitizado = re.sub(r'[^\w\s-]', '', nombre.lower())
+    nombre_sanitizado = re.sub(r'[-\s]+', '-', nombre_sanitizado)
+    return nombre_sanitizado[:50]  # Limitar longitud
+
+def obtener_archivo_org(org_id):
+    """Obtiene el nombre del archivo de datos de una organización"""
+    return f'inventario_{org_id}.json'
+
+def cargar_organizaciones():
+    """Carga la lista de organizaciones desde GCS"""
+    data = leer_archivo_gcs(ORGS_FILE)
+    if data:
+        return data.get('organizaciones', [])
+    return []
+
+def guardar_organizaciones(organizaciones):
+    """Guarda la lista de organizaciones en GCS"""
+    escribir_archivo_gcs(ORGS_FILE, {'organizaciones': organizaciones})
+
+def cargar_datos_org(org_id):
+    """Carga los datos de una organización específica desde GCS"""
+    archivo = obtener_archivo_org(org_id)
+    data = leer_archivo_gcs(archivo)
+    
+    if data:
+        return data
+    
+    # Si no existe, crear estructura vacía
+    datos_iniciales = {'activos': [], 'categorias': [], 'usuarios': []}
+    escribir_archivo_gcs(archivo, datos_iniciales)
+    return datos_iniciales
+
+def guardar_datos_org(org_id, datos):
+    """Guarda los datos de una organización específica en GCS"""
+    archivo = obtener_archivo_org(org_id)
+    escribir_archivo_gcs(archivo, datos)
+
+def allowed_file(filename):
+    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
+# Rutas principales - todas sirven el mismo HTML para SPA
+@app.route('/')
+@app.route('/inventario')
+@app.route('/inventario/<path:subpath>')
+@app.route('/reportes')
+@app.route('/auditoria')
+def index(subpath=None):
+    return send_from_directory('static', 'index.html')
+
+@app.route('/login')
+def login():
+    return send_from_directory('static', 'login.html')
+
+# API de organizaciones
+@app.route('/api/organizaciones', methods=['GET'])
+def obtener_organizaciones():
+    """Obtener lista de organizaciones"""
+    organizaciones = cargar_organizaciones()
+    return jsonify({
+        'success': True,
+        'organizaciones': organizaciones
+    })
+
+@app.route('/api/organizaciones', methods=['POST'])
+def crear_organizacion():
+    """Crear nueva organización"""
+    data = request.get_json()
+    nombre = data.get('nombre', '').strip()
+    
+    if not nombre:
+        return jsonify({'success': False, 'message': 'Nombre requerido'}), 400
+    
+    # Generar ID único
+    org_id = sanitizar_nombre_org(nombre) + '_' + str(uuid.uuid4())[:8]
+    
+    # Cargar organizaciones existentes
+    organizaciones = cargar_organizaciones()
+    
+    # Verificar si ya existe
+    if any(org['nombre'].lower() == nombre.lower() for org in organizaciones):
+        return jsonify({'success': False, 'message': 'La organización ya existe'}), 400
+    
+    # Agregar nueva organización
+    nueva_org = {
+        'id': org_id,
+        'nombre': nombre,
+        'fecha_creacion': datetime.now().isoformat(),
+        'ultimo_acceso': datetime.now().isoformat()
+    }
+    
+    organizaciones.append(nueva_org)
+    guardar_organizaciones(organizaciones)
+    
+    # Crear archivo de datos vacío
+    cargar_datos_org(org_id)
+    
+    slack.send_update(f"🏢 Nueva organización creada: {nombre}")
+    
+    return jsonify({
+        'success': True,
+        'organizacion_id': org_id,
+        'message': 'Organización creada exitosamente'
+    })
+
+@app.route('/api/organizaciones/<org_id>/acceder', methods=['POST'])
+def acceder_organizacion(org_id):
+    """Registrar acceso a una organización"""
+    organizaciones = cargar_organizaciones()
+    
+    for org in organizaciones:
+        if org['id'] == org_id:
+            org['ultimo_acceso'] = datetime.now().isoformat()
+            guardar_organizaciones(organizaciones)
+            
+            return jsonify({
+                'success': True,
+                'nombre': org['nombre']
+            })
+    
+    return jsonify({'success': False, 'message': 'Organización no encontrada'}), 404
+
+@app.route('/static/<path:path>')
+def send_static(path):
+    return send_from_directory('static', path)
+
+@app.route('/api/activos', methods=['GET'])
+def obtener_activos():
+    """Obtener todos los activos con filtros opcionales"""
+    org_id = request.headers.get('X-Organization-Id')
+    if not org_id:
+        return jsonify({'success': False, 'message': 'Organización no especificada'}), 400
+    
+    datos = cargar_datos_org(org_id)
+    activos = datos.get('activos', [])
+    
+    # Aplicar filtros
+    tipo = request.args.get('tipo')
+    responsable = request.args.get('responsable')
+    departamento = request.args.get('departamento')
+    
+    if tipo:
+        activos = [a for a in activos if a.get('tipo_activo') == tipo]
+    if responsable:
+        activos = [a for a in activos if responsable.lower() in a.get('responsable', '').lower()]
+    if departamento:
+        activos = [a for a in activos if departamento.lower() in a.get('departamento', '').lower()]
+    
+    return jsonify({
+        'success': True,
+        'activos': activos,
+        'total': len(activos)
+    })
+
+@app.route('/api/activos/<activo_id>', methods=['GET'])
+def obtener_activo(activo_id):
+    """Obtener un activo específico"""
+    org_id = request.headers.get('X-Organization-Id')
+    if not org_id:
+        return jsonify({'success': False, 'message': 'Organización no especificada'}), 400
+    
+    datos = cargar_datos_org(org_id)
+    activo = next((a for a in datos['activos'] if a['id'] == activo_id), None)
+    
+    if activo:
+        return jsonify({'success': True, 'activo': activo})
+    else:
+        return jsonify({'success': False, 'message': 'Activo no encontrado'}), 404
+
+@app.route('/api/activos', methods=['POST'])
+def crear_activo():
+    """Crear un nuevo activo"""
+    org_id = request.headers.get('X-Organization-Id')
+    if not org_id:
+        return jsonify({'success': False, 'message': 'Organización no especificada'}), 400
+    
+    datos = cargar_datos_org(org_id)
+    nuevo_activo = request.json
+    
+    # Generar ID único
+    nuevo_activo['id'] = str(uuid.uuid4())
+    nuevo_activo['fecha_registro'] = datetime.now().isoformat()
+    nuevo_activo['fecha_modificacion'] = datetime.now().isoformat()
+    
+    # Agregar campos de auditoría
+    nuevo_activo['historial_cambios'] = [{
+        'fecha': datetime.now().isoformat(),
+        'usuario': request.json.get('usuario_registro', 'Sistema'),
+        'accion': 'Creación del activo'
+    }]
+    
+    datos['activos'].append(nuevo_activo)
+    guardar_datos_org(org_id, datos)
+    
+    slack.send_update(f"✅ Nuevo activo creado: {nuevo_activo.get('nombre', 'Sin nombre')} (Tipo: {nuevo_activo.get('tipo_activo')})")
+    
+    return jsonify({'success': True, 'activo': nuevo_activo}), 201
+
+@app.route('/api/activos/<activo_id>', methods=['PUT'])
+def actualizar_activo(activo_id):
+    """Actualizar un activo existente"""
+    org_id = request.headers.get('X-Organization-Id')
+    if not org_id:
+        return jsonify({'success': False, 'message': 'Organización no especificada'}), 400
+    
+    datos = cargar_datos_org(org_id)
+    activo_index = next((i for i, a in enumerate(datos['activos']) if a['id'] == activo_id), None)
+    
+    if activo_index is None:
+        return jsonify({'success': False, 'message': 'Activo no encontrado'}), 404
+    
+    # Actualizar datos
+    datos['activos'][activo_index].update(request.json)
+    datos['activos'][activo_index]['fecha_modificacion'] = datetime.now().isoformat()
+    
+    # Agregar al historial
+    if 'historial_cambios' not in datos['activos'][activo_index]:
+        datos['activos'][activo_index]['historial_cambios'] = []
+    
+    datos['activos'][activo_index]['historial_cambios'].append({
+        'fecha': datetime.now().isoformat(),
+        'usuario': request.json.get('usuario_modificacion', 'Sistema'),
+        'accion': 'Actualización del activo',
+        'campos_modificados': list(request.json.keys())
+    })
+    
+    guardar_datos_org(org_id, datos)
+    
+    return jsonify({'success': True, 'activo': datos['activos'][activo_index]})
+
+@app.route('/api/activos/<activo_id>', methods=['DELETE'])
+def eliminar_activo(activo_id):
+    """Eliminar un activo"""
+    org_id = request.headers.get('X-Organization-Id')
+    if not org_id:
+        return jsonify({'success': False, 'message': 'Organización no especificada'}), 400
+    
+    datos = cargar_datos_org(org_id)
+    activo_index = next((i for i, a in enumerate(datos['activos']) if a['id'] == activo_id), None)
+    
+    if activo_index is None:
+        return jsonify({'success': False, 'message': 'Activo no encontrado'}), 404
+    
+    activo_eliminado = datos['activos'].pop(activo_index)
+    guardar_datos_org(org_id, datos)
+    
+    slack.send_update(f"🗑️ Activo eliminado: {activo_eliminado.get('nombre', 'Sin nombre')}")
+    
+    return jsonify({'success': True, 'message': 'Activo eliminado correctamente'})
+
+@app.route('/api/importar', methods=['POST'])
+def importar_activos():
+    """Importar activos - Temporalmente deshabilitado"""
+    # Temporalmente deshabilitado por problemas con pandas
+    return jsonify({
+        'success': False,
+        'message': 'La funcionalidad de importación está temporalmente deshabilitada',
+        'error': 'pandas_dependency'
+    }), 503
+    
+    if 'file' not in request.files:
+        return jsonify({'success': False, 'message': 'No se proporcionó archivo'}), 400
+    
+    file = request.files['file']
+    tipo_activo_default = request.form.get('tipo_activo', '')
+    
+    if file and allowed_file(file.filename):
+        filename = secure_filename(file.filename)
+        filepath = os.path.join(UPLOAD_FOLDER, filename)
+        file.save(filepath)
+        
+        try:
+            # Leer archivo
+            if filename.endswith('.csv'):
+                df = pd.read_csv(filepath)
+            else:
+                df = pd.read_excel(filepath)
+            
+            # Procesar y agregar activos
+            datos = cargar_datos_org(org_id)
+            nuevos_activos = 0
+            activos_por_tipo = {}
+            
+            # Lista de todos los campos posibles del CSV
+            campos_csv = [
+                'tipo_activo', 'nombre', 'responsable', 'departamento', 'sede',
+                'descripcion', 'marca', 'modelo', 'numero_serie', 'numero_identificacion',
+                'fecha_compra', 'garantia', 'condicion', 'estado', 'clasificacion_seguridad',
+                'criticidad', 'salida_exterior', 'dispositivo_cpd', 'dispositivo_byod',
+                'version', 'tipo_software', 'licencia'
+            ]
+            
+            for _, row in df.iterrows():
+                # Determinar tipo de activo (desde el CSV o por defecto)
+                if 'tipo_activo' in row.index and pd.notna(row['tipo_activo']):
+                    tipo_activo = str(row['tipo_activo'])
+                else:
+                    tipo_activo = tipo_activo_default or 'Hardware'
+                
+                # Contar activos por tipo
+                if tipo_activo not in activos_por_tipo:
+                    activos_por_tipo[tipo_activo] = 0
+                activos_por_tipo[tipo_activo] += 1
+                
+                nuevo_activo = {
+                    'id': str(uuid.uuid4()),
+                    'tipo_activo': tipo_activo,
+                    'fecha_registro': datetime.now().isoformat(),
+                    'fecha_modificacion': datetime.now().isoformat(),
+                    'historial_cambios': [{
+                        'fecha': datetime.now().isoformat(),
+                        'usuario': 'Sistema',
+                        'accion': 'Importación de activo'
+                    }]
+                }
+                
+                # Primero intentar mapeo directo de campos CSV
+                for campo in campos_csv:
+                    if campo in row and pd.notna(row[campo]):
+                        valor = row[campo]
+                        # Convertir valores booleanos
+                        if campo in ['salida_exterior', 'dispositivo_cpd', 'dispositivo_byod']:
+                            if str(valor).lower() in ['sí', 'si', 'yes', 'true', '1']:
+                                valor = True
+                            elif str(valor).lower() in ['no', 'false', '0']:
+                                valor = False
+                        nuevo_activo[campo] = valor
+                
+                # Si no hay campos directos, intentar mapeo por tipo (compatibilidad con formato antiguo)
+                if 'nombre' not in nuevo_activo or not nuevo_activo['nombre']:
+                    if tipo_activo in ['Hardware', 'Material de Oficina Personal', 'Papel', 'Servicios']:
+                        campo_mapping = {
+                            'Equipo': 'nombre',
+                            'Responsable del activo': 'responsable',
+                            'Departamento': 'departamento',
+                            'Sede': 'sede',
+                            'Descripción': 'descripcion',
+                            'Marca': 'marca',
+                            'Modelo': 'modelo',
+                            'Serial Nº': 'numero_serie'
+                        }
+                    elif tipo_activo == 'Software e Información':
+                        campo_mapping = {
+                            'Nombre de Activo': 'nombre',
+                            'Responsable del activo': 'responsable',
+                            'Características / versión': 'version',
+                            'Tipo de Software': 'tipo_software',
+                            'Licencia Software': 'licencia',
+                            'Estado': 'estado'
+                        }
+                    else:
+                        campo_mapping = {}
+                    
+                    for col_excel, col_modelo in campo_mapping.items():
+                        if col_excel in row.index and pd.notna(row[col_excel]):
+                            nuevo_activo[col_modelo] = str(row[col_excel])
+                
+                # Agregar valores por defecto si faltan
+                if 'estado' not in nuevo_activo:
+                    nuevo_activo['estado'] = 'Activo'
+                if 'clasificacion_seguridad' not in nuevo_activo:
+                    nuevo_activo['clasificacion_seguridad'] = 'Interno'
+                if 'criticidad' not in nuevo_activo:
+                    nuevo_activo['criticidad'] = 'Normal'
+                
+                datos['activos'].append(nuevo_activo)
+                nuevos_activos += 1
+            
+            guardar_datos_org(org_id, datos)
+            os.remove(filepath)  # Limpiar archivo temporal
+            
+            # Mensaje detallado para Slack
+            mensaje_tipos = ', '.join([f"{tipo}: {count}" for tipo, count in activos_por_tipo.items()])
+            slack.send_update(f"📤 Importación completada: {nuevos_activos} activos importados ({mensaje_tipos})")
+            
+            return jsonify({
+                'success': True, 
+                'message': f'Se importaron {nuevos_activos} activos correctamente',
+                'detalles': activos_por_tipo
+            })
+            
+        except Exception as e:
+            if os.path.exists(filepath):
+                os.remove(filepath)
+            return jsonify({'success': False, 'message': f'Error procesando archivo: {str(e)}'}), 500
+    
+    return jsonify({'success': False, 'message': 'Tipo de archivo no permitido'}), 400
+
+@app.route('/api/estadisticas', methods=['GET'])
+def obtener_estadisticas():
+    """Obtener estadísticas del inventario"""
+    org_id = request.headers.get('X-Organization-Id')
+    if not org_id:
+        return jsonify({'success': False, 'message': 'Organización no especificada'}), 400
+    
+    datos = cargar_datos_org(org_id)
+    activos = datos.get('activos', [])
+    
+    estadisticas = {
+        'total_activos': len(activos),
+        'por_tipo': {},
+        'por_departamento': {},
+        'por_estado': {},
+        'activos_criticos': 0,
+        'proximas_revisiones': []
+    }
+    
+    for activo in activos:
+        # Por tipo
+        tipo = activo.get('tipo_activo', 'Sin tipo')
+        estadisticas['por_tipo'][tipo] = estadisticas['por_tipo'].get(tipo, 0) + 1
+        
+        # Por departamento
+        depto = activo.get('departamento', 'Sin departamento')
+        estadisticas['por_departamento'][depto] = estadisticas['por_departamento'].get(depto, 0) + 1
+        
+        # Por estado
+        estado = activo.get('estado', 'Sin estado')
+        estadisticas['por_estado'][estado] = estadisticas['por_estado'].get(estado, 0) + 1
+        
+        # Críticos
+        if activo.get('criticidad') == 'Crítico':
+            estadisticas['activos_criticos'] += 1
+    
+    return jsonify({'success': True, 'estadisticas': estadisticas})
+
+@app.route('/api/tipos_activos', methods=['GET'])
+def obtener_tipos_activos():
+    """Obtener lista de tipos de activos disponibles"""
+    org_id = request.headers.get('X-Organization-Id')
+    if not org_id:
+        return jsonify({'success': False, 'message': 'Organización no especificada'}), 400
+    
+    tipos = [
+        "Hardware",
+        "Material de Oficina Personal",
+        "Papel",
+        "Servicios", 
+        "Software e Información"
+    ]
+    return jsonify({'success': True, 'tipos': tipos})
+
+@app.route('/api/exportar-excel', methods=['POST'])
+def exportar_excel():
+    """Exportar inventario - Temporalmente deshabilitado"""
+    # Temporalmente deshabilitado por problemas con openpyxl
+    return jsonify({
+        'success': False,
+        'message': 'La funcionalidad de exportación Excel está temporalmente deshabilitada',
+        'error': 'openpyxl_dependency'
+    }), 503
+    
+    from openpyxl import load_workbook
+    from openpyxl.utils import get_column_letter
+    from io import BytesIO
+    import tempfile
+    
+    try:
+        # Cargar datos de la organización
+        datos = cargar_datos_org(org_id)
+        activos = datos.get('activos', [])
+        
+        # Agrupar activos por tipo
+        activos_por_tipo = {
+            'Hardware': [],
+            'Material de Oficina Personal': [],
+            'Papel': [],
+            'Servicios': [],
+            'Software e Información': []
+        }
+        
+        for activo in activos:
+            tipo = activo.get('tipo_activo', 'Hardware')
+            if tipo in activos_por_tipo:
+                activos_por_tipo[tipo].append(activo)
+        
+        # Cargar plantilla Excel (copiar estructura de EjemploHaiko.xls)
+        # Como no podemos usar .xls directamente con openpyxl, crearemos un nuevo archivo
+        from openpyxl import Workbook
+        wb = Workbook()
+        
+        # Eliminar hoja por defecto
+        wb.remove(wb.active)
+        
+        # Mapeo de campos para cada tipo
+        campos_hardware = [
+            ('N', None),
+            ('Equipo', 'nombre'),
+            ('Responsable del activo', 'responsable'),
+            ('Departamento', 'departamento'),
+            ('Sede', 'sede'),
+            ('Salida a Exterior', 'salida_exterior'),
+            ('Dispositivo en CPD', 'dispositivo_cpd'),
+            ('Dispositivo BYOD', 'dispositivo_byod'),
+            ('Categoría', None),
+            ('Descripción', 'descripcion'),
+            ('Marca', 'marca'),
+            ('Modelo', 'modelo'),
+            ('Serial Nº', 'numero_serie'),
+            ('Nº de identificación del equipo', 'numero_identificacion'),
+            ('Fecha de compra', 'fecha_compra'),
+            ('Garantía', 'garantia'),
+            ('Condición', 'condicion'),
+            ('Antigüedad (Años)', None),
+            ('Estado Garantía', None),
+            ('', None)
+        ]
+        
+        campos_software = [
+            ('N', None),
+            ('Nombre de Activo', 'nombre'),
+            ('Responsable del activo', 'responsable'),
+            ('Características / versión', 'version'),
+            ('Tipo de Software', 'tipo_software'),
+            ('Licencia Software', 'licencia'),
+            ('Estado', 'estado'),
+            ('', None),
+            ('', None)
+        ]
+        
+        # Obtener nombre de la organización
+        organizaciones = cargar_organizaciones()
+        org_nombre = next((org['nombre'] for org in organizaciones if org['id'] == org_id), 'Organización')
+        
+        # Crear cada hoja
+        for tipo, activos_tipo in activos_por_tipo.items():
+            ws = wb.create_sheet(title=tipo)
+            
+            # Encabezado
+            ws['A1'] = f'Inventario de Activos - {tipo}'
+            ws.merge_cells('A1:T1')
+            
+            ws['A3'] = 'Empresa'
+            ws['B3'] = org_nombre
+            
+            ws['A4'] = 'Fecha:'
+            ws['B4'] = datetime.now().strftime('%d/%m/%Y')
+            
+            # Determinar campos según el tipo
+            if tipo == 'Software e Información':
+                campos = campos_software
+            else:
+                campos = campos_hardware
+            
+            # Headers
+            fila_header = 7
+            for col_idx, (header, _) in enumerate(campos):
+                if header:
+                    ws.cell(row=fila_header, column=col_idx + 1, value=header)
+            
+            # Datos
+            fila_actual = fila_header + 1
+            for idx, activo in enumerate(activos_tipo):
+                ws.cell(row=fila_actual, column=1, value=idx + 1)  # Número
+                
+                for col_idx, (_, campo) in enumerate(campos):
+                    if campo:
+                        valor = activo.get(campo, '')
+                        # Convertir booleanos
+                        if isinstance(valor, bool):
+                            valor = 'Sí' if valor else 'No'
+                        ws.cell(row=fila_actual, column=col_idx + 1, value=valor)
+                
+                fila_actual += 1
+            
+            # Ajustar anchos de columna
+            for column in ws.columns:
+                max_length = 0
+                column_letter = get_column_letter(column[0].column)
+                for cell in column:
+                    try:
+                        if len(str(cell.value)) > max_length:
+                            max_length = len(str(cell.value))
+                    except:
+                        pass
+                adjusted_width = min(max_length + 2, 50)
+                ws.column_dimensions[column_letter].width = adjusted_width
+        
+        # Guardar en memoria
+        output = BytesIO()
+        wb.save(output)
+        output.seek(0)
+        
+        return send_file(
+            output,
+            mimetype='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+            as_attachment=True,
+            download_name=f'inventario_{org_id}_{datetime.now().strftime("%Y%m%d")}.xlsx'
+        )
+        
+    except Exception as e:
+        return jsonify({'success': False, 'message': str(e)}), 500
+
+@app.route('/api/auditoria', methods=['GET'])
+def obtener_auditoria():
+    """Obtener registros de auditoría"""
+    org_id = request.headers.get('X-Organization-Id')
+    if not org_id:
+        return jsonify({'success': False, 'message': 'Organización no especificada'}), 400
+    
+    datos = cargar_datos_org(org_id)
+    activos = datos.get('activos', [])
+    
+    # Recopilar todos los eventos de auditoría
+    eventos = []
+    for activo in activos:
+        if 'historial_cambios' in activo:
+            for cambio in activo['historial_cambios']:
+                evento = {
+                    **cambio,
+                    'activo_id': activo['id'],
+                    'activo_nombre': activo.get('nombre', 'Sin nombre'),
+                    'activo_tipo': activo.get('tipo_activo', 'Sin tipo')
+                }
+                eventos.append(evento)
+    
+    # Ordenar por fecha descendente
+    eventos.sort(key=lambda x: x.get('fecha', ''), reverse=True)
+    
+    # Limitar a los últimos 500 eventos
+    eventos = eventos[:500]
+    
+    return jsonify({'success': True, 'eventos': eventos})
+
+# ============================================================================
+# SISTEMA DE IMPACTOS - Endpoints
+# ============================================================================
+
+# Inicializar servicios y gestores
+data_provider = DataProvider(cargar_datos_org, guardar_datos_org)
+asset_service = AssetService(data_provider)
+data_source_manager = DataSourceManager(asset_service)
+impact_manager = ImpactManager(asset_service, data_provider)
+
+@app.route('/api/impactos/tipos', methods=['GET'])
+def obtener_tipos_impacto():
+    """Obtener lista de tipos de impacto disponibles"""
+    org_id = request.headers.get('X-Organization-Id')
+    if not org_id:
+        return jsonify({'success': False, 'message': 'Organización no especificada'}), 400
+    
+    templates = impact_manager.template_manager.list_templates()
+    
+    return jsonify({
+        'success': True,
+        'tipos': templates
+    })
+
+@app.route('/api/impactos/plantilla/<tipo>', methods=['GET'])
+def obtener_plantilla_impacto(tipo):
+    """Obtener plantilla de un tipo de impacto"""
+    org_id = request.headers.get('X-Organization-Id')
+    if not org_id:
+        return jsonify({'success': False, 'message': 'Organización no especificada'}), 400
+    
+    template = impact_manager.template_manager.get_template(tipo)
+    if not template:
+        return jsonify({'success': False, 'message': 'Tipo de impacto no encontrado'}), 404
+    
+    return jsonify({
+        'success': True,
+        'plantilla': template
+    })
+
+@app.route('/api/impactos/datos-dinamicos/<fuente>', methods=['GET'])
+def obtener_datos_dinamicos(fuente):
+    """Obtener datos dinámicos para campos select"""
+    org_id = request.headers.get('X-Organization-Id')
+    if not org_id:
+        return jsonify({'success': False, 'message': 'Organización no especificada'}), 400
+    
+    try:
+        # Obtener configuración desde query params
+        config = {}
+        for key in request.args:
+            config[key] = request.args.get(key)
+        
+        # Obtener datos
+        datos = data_source_manager.fetch(fuente, config, org_id)
+        
+        return jsonify({
+            'success': True,
+            'datos': datos
+        })
+    except Exception as e:
+        return jsonify({
+            'success': False,
+            'message': str(e)
+        }), 400
+
+@app.route('/api/impactos', methods=['GET'])
+def listar_impactos():
+    """Listar impactos con filtros opcionales"""
+    org_id = request.headers.get('X-Organization-Id')
+    if not org_id:
+        return jsonify({'success': False, 'message': 'Organización no especificada'}), 400
+    
+    # Filtros opcionales
+    filters = {}
+    if request.args.get('tipo'):
+        filters['tipo'] = request.args.get('tipo')
+    if request.args.get('estado'):
+        filters['estado'] = request.args.get('estado')
+    if request.args.get('usuario'):
+        filters['usuario'] = request.args.get('usuario')
+    if request.args.get('fecha_desde'):
+        filters['fecha_desde'] = request.args.get('fecha_desde')
+    if request.args.get('fecha_hasta'):
+        filters['fecha_hasta'] = request.args.get('fecha_hasta')
+    
+    impactos = impact_manager.list_impacts(org_id, filters)
+    
+    return jsonify({
+        'success': True,
+        'impactos': impactos,
+        'total': len(impactos)
+    })
+
+@app.route('/api/impactos', methods=['POST'])
+def crear_impacto():
+    """Crear nuevo impacto"""
+    try:
+        org_id = request.headers.get('X-Organization-Id')
+        if not org_id:
+            return jsonify({'success': False, 'message': 'Organización no especificada'}), 400
+        
+        data = request.get_json()
+        tipo = data.get('tipo')
+        datos = data.get('datos', {})
+        usuario = data.get('usuario', 'Sistema')
+        
+        if not tipo:
+            return jsonify({'success': False, 'message': 'Tipo de impacto requerido'}), 400
+        
+        # Log para debugging
+        app.logger.info(f"Creando impacto tipo {tipo} con datos: {datos}")
+        
+        # Validar y normalizar fechas si existen
+        for fecha_campo in ['fecha_inicio', 'fecha_baja', 'fecha_ingreso']:
+            if fecha_campo in datos and datos[fecha_campo]:
+                # Asegurar formato consistente de fecha
+                fecha_str = datos[fecha_campo]
+                if 'T' in fecha_str:
+                    # Si viene con hora, tomar solo la fecha
+                    datos[fecha_campo] = fecha_str.split('T')[0]
+        
+        result = impact_manager.create_impact(tipo, datos, usuario, org_id)
+        
+        if result['success']:
+            slack.send_update(f"📋 Nuevo impacto creado: {tipo} (ID: {result['impacto_id']})")
+            return jsonify(result), 201
+        else:
+            return jsonify(result), 400
+            
+    except Exception as e:
+        app.logger.error(f"Error creando impacto: {str(e)}")
+        import traceback
+        app.logger.error(traceback.format_exc())
+        return jsonify({
+            'success': False,
+            'message': f'Error interno del servidor: {str(e)}'
+        }), 500
+
+@app.route('/api/impactos/<impacto_id>', methods=['GET'])
+def obtener_impacto(impacto_id):
+    """Obtener detalle de un impacto"""
+    org_id = request.headers.get('X-Organization-Id')
+    if not org_id:
+        return jsonify({'success': False, 'message': 'Organización no especificada'}), 400
+    
+    impacto = impact_manager.get_impact(impacto_id, org_id)
+    if not impacto:
+        return jsonify({'success': False, 'message': 'Impacto no encontrado'}), 404
+    
+    return jsonify({
+        'success': True,
+        'impacto': impacto
+    })
+
+@app.route('/api/impactos/<impacto_id>/procesar', methods=['POST'])
+def procesar_impacto(impacto_id):
+    """Procesar un impacto pendiente"""
+    try:
+        org_id = request.headers.get('X-Organization-Id')
+        if not org_id:
+            return jsonify({'success': False, 'message': 'Organización no especificada'}), 400
+        
+        data = request.get_json() or {}
+        usuario = data.get('usuario', 'Sistema')
+        force = data.get('force', False)
+        
+        # Log para debugging
+        app.logger.info(f"Procesando impacto {impacto_id} para org {org_id} por usuario {usuario} (force={force})")
+        
+        result = impact_manager.process_impact(impacto_id, usuario, org_id, force)
+        
+        if result['success']:
+            slack.send_update(f"✅ Impacto procesado exitosamente: {impacto_id}")
+            return jsonify(result)
+        else:
+            app.logger.error(f"Error procesando impacto {impacto_id}: {result.get('message', 'Error desconocido')}")
+            return jsonify(result), 400
+            
+    except Exception as e:
+        # Log del error completo
+        app.logger.error(f"Error no manejado procesando impacto {impacto_id}: {str(e)}")
+        import traceback
+        app.logger.error(traceback.format_exc())
+        
+        # Retornar respuesta JSON apropiada
+        return jsonify({
+            'success': False,
+            'message': f'Error interno del servidor: {str(e)}',
+            'error_type': type(e).__name__
+        }), 500
+
+@app.route('/api/impactos/estadisticas', methods=['GET'])
+def obtener_estadisticas_impactos():
+    """Obtener estadísticas de impactos"""
+    org_id = request.headers.get('X-Organization-Id')
+    if not org_id:
+        return jsonify({'success': False, 'message': 'Organización no especificada'}), 400
+    
+    stats = impact_manager.get_statistics(org_id)
+    
+    return jsonify({
+        'success': True,
+        'estadisticas': stats
+    })
+
+@app.route('/api/impactos/tareas', methods=['GET'])
+def obtener_tareas_impactos():
+    """Obtener tareas pendientes generadas por impactos"""
+    org_id = request.headers.get('X-Organization-Id')
+    if not org_id:
+        return jsonify({'success': False, 'message': 'Organización no especificada'}), 400
+    
+    responsable = request.args.get('responsable')
+    tareas = impact_manager.get_pending_tasks(org_id, responsable)
+    
+    return jsonify({
+        'success': True,
+        'tareas': tareas,
+        'total': len(tareas)
+    })
+
+@app.route('/api/impactos/tareas/<tarea_id>/completar', methods=['POST'])
+def completar_tarea_impacto(tarea_id):
+    """Completar una tarea de impacto"""
+    org_id = request.headers.get('X-Organization-Id')
+    if not org_id:
+        return jsonify({'success': False, 'message': 'Organización no especificada'}), 400
+    
+    data = request.get_json() or {}
+    comentarios = data.get('comentarios', '')
+    
+    # Por ahora, completar la tarea actualizando el impacto correspondiente
+    # En producción, esto debería ser un sistema de tareas más completo
+    result = impact_manager.complete_task(tarea_id, org_id, comentarios)
+    
+    if result['success']:
+        return jsonify(result)
+    else:
+        return jsonify(result), 404
+
+@app.route('/api/impactos/exportar', methods=['GET'])
+def exportar_impactos():
+    """Exportar impactos - Temporalmente devuelve JSON"""
+    try:
+        org_id = request.headers.get('X-Organization-Id')
+        if not org_id:
+            return jsonify({'success': False, 'message': 'Organización no especificada'}), 400
+        
+        # Obtener todos los impactos de la organización
+        impactos = impact_manager.list_impacts(org_id)
+        
+        # Crear Excel
+        import io
+        # import pandas as pd  # Temporalmente comentado por problemas de despliegue
+        from datetime import datetime
+        
+        # Preparar datos para el DataFrame
+        data_rows = []
+        for impacto in impactos:
+            data_rows.append({
+                'ID': impacto.get('id'),
+                'Tipo': impacto.get('tipo'),
+                'Estado': impacto.get('estado'),
+                'Usuario Creador': impacto.get('usuario_creador'),
+                'Fecha Creación': impacto.get('fecha_creacion'),
+                'Fecha Procesamiento': impacto.get('fecha_procesamiento', ''),
+                'Datos': str(impacto.get('datos', {})),
+                'Resultado': str(impacto.get('resultado', {}))
+            })
+        
+        # Temporalmente devolver JSON por problemas con pandas
+        import json
+        filename = f"impactos_{org_id}_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json"
+        
+        json_data = {
+            'impactos': data_rows,
+            'metadata': {
+                'organizacion': org_id,
+                'fecha_exportacion': datetime.now().isoformat(),
+                'total_registros': len(data_rows)
+            }
+        }
+        
+        return Response(
+            json.dumps(json_data, indent=2, ensure_ascii=False),
+            mimetype='application/json',
+            headers={
+                'Content-Disposition': f'attachment; filename="{filename}"',
+                'Content-Type': 'application/json'
+            }
+        )
+        
+    except Exception as e:
+        logger.error(f"Error exportando impactos: {str(e)}")
+        import traceback
+        traceback.print_exc()
+        return jsonify({'success': False, 'message': str(e)}), 500
+
+@app.route('/api/impactos/importar', methods=['POST'])
+def importar_impactos():
+    """Importar impactos desde Excel/CSV"""
+    try:
+        org_id = request.form.get('organizacion_id') or request.headers.get('X-Organization-Id')
+        if not org_id:
+            return jsonify({'success': False, 'message': 'Organización no especificada'}), 400
+        
+        if 'archivo' not in request.files:
+            return jsonify({'success': False, 'message': 'No se encontró archivo'}), 400
+        
+        archivo = request.files['archivo']
+        if archivo.filename == '':
+            return jsonify({'success': False, 'message': 'No se seleccionó archivo'}), 400
+        
+        procesar_automaticamente = request.form.get('procesar_automaticamente', 'false').lower() == 'true'
+        
+        # Temporalmente deshabilitado por problemas con pandas
+        return jsonify({
+            'success': False,
+            'message': 'La funcionalidad de importación está temporalmente deshabilitada',
+            'error': 'pandas_dependency'
+        }), 503
+        errores = []
+        
+        for idx, row in df.iterrows():
+            try:
+                # Convertir datos si vienen como string
+                datos = row.get('datos', {})
+                if isinstance(datos, str):
+                    import json
+                    try:
+                        datos = json.loads(datos)
+                    except:
+                        datos = {'datos_raw': datos}
+                
+                # Crear impacto
+                impacto_data = {
+                    'tipo': row.get('tipo', 'Importado'),
+                    'datos': datos,
+                    'usuario_creador': row.get('usuario_creador', 'Importación')
+                }
+                
+                impacto = impact_manager.create_impact(org_id, impacto_data['tipo'], impacto_data['datos'], impacto_data['usuario_creador'])
+                
+                # Procesar si se solicitó
+                if procesar_automaticamente and impacto.get('estado') == 'pendiente':
+                    impact_manager.process_impact(impacto['id'], org_id, 'Importación', force=True)
+                
+                impactos_creados.append(impacto['id'])
+                
+            except Exception as e:
+                errores.append(f"Fila {idx + 2}: {str(e)}")
+        
+        resultado = {
+            'success': True,
+            'cantidad': len(impactos_creados),
+            'impactos': impactos_creados
+        }
+        
+        if errores:
+            resultado['errores'] = errores
+        
+        return jsonify(resultado)
+        
+    except Exception as e:
+        logger.error(f"Error importando impactos: {str(e)}")
+        import traceback
+        traceback.print_exc()
+        return jsonify({'success': False, 'message': str(e)}), 500
+
+# Rutas para el sistema de impactos (SPA)
+@app.route('/impactos')
+@app.route('/impactos/<path:subpath>')
+def impactos_ui(subpath=None):
+    return send_from_directory('static', 'index.html')
+
+if __name__ == '__main__':
+    port = int(os.environ.get('PORT', 8080))
+    slack.send_update(f"🚀 Servidor de gestión de activos iniciado en puerto {port}")
+    app.run(debug=False, host='0.0.0.0', port=port)

@@ -1,0 +1,22 @@
+{
+  "organizaciones": [
+    {
+      "id": "gailen_578ddf12",
+      "nombre": "Gailen",
+      "fecha_creacion": "2025-07-08T11:58:13.461261",
+      "ultimo_acceso": "2025-07-08T19:52:57.023143"
+    },
+    {
+      "id": "haiko_f4e25ee8",
+      "nombre": "Haiko",
+      "fecha_creacion": "2025-07-08T11:58:14.323192",
+      "ultimo_acceso": "2025-07-09T08:43:33.826978"
+    },
+    {
+      "id": "superventas_b832b977",
+      "nombre": "Superventas",
+      "fecha_creacion": "2025-07-08T11:58:15.133339",
+      "ultimo_acceso": "2025-07-09T08:57:43.792959"
+    }
+  ]
+}

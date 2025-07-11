@@ -1,0 +1,52 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+env/
+ENV/
+
+# Flask
+instance/
+.webassets-cache
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Project specific
+data/*.json.backup*
+uploads/
+*.log
+nohup.out
+
+# Environment
+.env
+.env.local
+
+# Google Cloud
+.gcloudignore
+gcloud-auth.json
+gcp-sa-key.json
+
+# Node
+node_modules/
+npm-debug.log*
+
+# Cypress
+cypress/screenshots/
+cypress/videos/
+cypress/downloads/
+
+# Temporary files
+.terminal-*
+*.tmp
+*.temp

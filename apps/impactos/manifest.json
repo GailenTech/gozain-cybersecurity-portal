@@ -1,0 +1,36 @@
+{
+  "id": "impactos",
+  "name": "Impactos de Negocio",
+  "version": "1.0.0",
+  "description": "Gestión de impactos de negocio y automatización de cambios",
+  "icon": "bi-lightning-charge",
+  "color": "#ffc107",
+  "permissions": ["impactos.view", "impactos.create", "impactos.process"],
+  "navigation": {
+    "main": {
+      "path": "/impactos",
+      "label": "Impactos",
+      "icon": "bi-lightning-charge"
+    },
+    "submenu": [
+      { "path": "/impactos/dashboard", "label": "Dashboard" },
+      { "path": "/impactos/nuevo", "label": "Nuevo Impacto" },
+      { "path": "/impactos/plantillas", "label": "Plantillas" },
+      { "path": "/impactos/tareas", "label": "Tareas Pendientes" }
+    ]
+  },
+  "settings": {
+    "tipos_impacto": [
+      "alta_empleado",
+      "baja_empleado", 
+      "nuevo_cliente",
+      "cambio_departamento",
+      "renovacion_equipos"
+    ],
+    "estados": ["pendiente", "procesado", "error", "cancelado"],
+    "notificaciones": {
+      "email": true,
+      "slack": true
+    }
+  }
+}

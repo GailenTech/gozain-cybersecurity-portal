@@ -1,0 +1,28 @@
+{
+  "id": "inventario",
+  "name": "Inventario de Activos",
+  "version": "1.0.0",
+  "description": "Gestión de inventario de activos conforme a ISO 27001",
+  "icon": "bi-box-seam",
+  "color": "#0d6efd",
+  "permissions": ["inventario.view", "inventario.edit", "inventario.delete"],
+  "navigation": {
+    "main": {
+      "path": "/inventario",
+      "label": "Inventario",
+      "icon": "bi-box-seam"
+    },
+    "submenu": [
+      { "path": "/inventario/dashboard", "label": "Dashboard" },
+      { "path": "/inventario/activos", "label": "Activos" },
+      { "path": "/inventario/importar", "label": "Importar" },
+      { "path": "/inventario/reportes", "label": "Reportes" }
+    ]
+  },
+  "settings": {
+    "tipos_activo": ["Hardware", "Software", "Servicio", "Información", "Personal"],
+    "estados": ["Activo", "Inactivo", "En mantenimiento"],
+    "clasificaciones": ["Público", "Interno", "Confidencial", "Secreto"],
+    "criticidades": ["Baja", "Normal", "Importante", "Crítica"]
+  }
+}

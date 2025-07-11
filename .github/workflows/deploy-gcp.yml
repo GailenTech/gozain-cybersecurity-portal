@@ -1,0 +1,130 @@
+name: Deploy to Google Cloud Run
+
+on:
+  push:
+    branches:
+      - main
+      - master
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Environment to deploy to'
+        required: true
+        default: 'production'
+        type: choice
+        options:
+          - production
+          - staging
+
+env:
+  PROJECT_ID: inventario-iso27001-20250708
+  SERVICE_NAME: gozain
+  REGION: us-central1
+
+jobs:
+  deploy:
+    name: Deploy to GCP
+    runs-on: ubuntu-latest
+    
+    permissions:
+      contents: write
+      id-token: write
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.9'
+    
+    - name: Update version with build number
+      run: |
+        # Leer versión actual
+        CURRENT_VERSION=$(jq -r '.version' version.json)
+        # Separar major.minor.patch
+        IFS='.' read -r MAJOR MINOR PATCH <<< "$CURRENT_VERSION"
+        # Actualizar con número de build
+        NEW_VERSION="${MAJOR}.${MINOR}.${{ github.run_number }}"
+        # Actualizar archivo
+        jq --arg version "$NEW_VERSION" --arg date "$(date +%Y-%m-%d)" \
+          '.version = $version | .date = $date' version.json > version.tmp.json
+        mv version.tmp.json version.json
+        echo "NEW_VERSION=$NEW_VERSION" >> $GITHUB_ENV
+        echo "Updated version to $NEW_VERSION"
+    
+    - name: Authenticate to Google Cloud
+      uses: google-github-actions/auth@v2
+      with:
+        credentials_json: ${{ secrets.GCP_SA_KEY }}
+    
+    - name: Set up Google Cloud SDK
+      uses: google-github-actions/setup-gcloud@v2
+      with:
+        project_id: ${{ env.PROJECT_ID }}
+    
+    - name: Configure Docker for Google Artifact Registry
+      run: |
+        gcloud auth configure-docker
+    
+    - name: Enable required APIs
+      run: |
+        gcloud services enable cloudbuild.googleapis.com
+        gcloud services enable run.googleapis.com
+        gcloud services enable artifactregistry.googleapis.com
+    
+    - name: Build and Deploy to Cloud Run
+      run: |
+        gcloud run deploy ${{ env.SERVICE_NAME }} \
+          --source . \
+          --platform managed \
+          --region ${{ env.REGION }} \
+          --allow-unauthenticated \
+          --memory 512Mi \
+          --cpu 1 \
+          --timeout 300 \
+          --max-instances 10 \
+          --port 8080 \
+          --set-env-vars="VERSION=${{ env.NEW_VERSION }}"
+    
+    - name: Get Service URL
+      run: |
+        SERVICE_URL=$(gcloud run services describe ${{ env.SERVICE_NAME }} \
+          --platform managed \
+          --region ${{ env.REGION }} \
+          --format 'value(status.url)')
+        echo "SERVICE_URL=$SERVICE_URL" >> $GITHUB_ENV
+        echo "Service deployed to: $SERVICE_URL"
+    
+    - name: Commit version update
+      if: github.event_name == 'push'
+      run: |
+        git config --local user.email "actions@github.com"
+        git config --local user.name "GitHub Actions"
+        git add version.json
+        git diff --quiet && git diff --staged --quiet || git commit -m "Update version to ${{ env.NEW_VERSION }} [skip ci]"
+        git push
+    
+    - name: Create deployment annotation
+      if: success()
+      run: |
+        echo "::notice title=Deployment Successful::Gozain v${{ env.NEW_VERSION }} deployed to ${{ env.SERVICE_URL }}"
+    
+    - name: Notify Slack (if configured)
+      if: success() && vars.SLACK_WEBHOOK_URL != ''
+      run: |
+        curl -X POST ${{ vars.SLACK_WEBHOOK_URL }} \
+          -H 'Content-type: application/json' \
+          -d '{
+            "text": "✅ *Gozain v${{ env.NEW_VERSION }} deployed successfully*",
+            "attachments": [{
+              "color": "good",
+              "fields": [
+                {"title": "Version", "value": "${{ env.NEW_VERSION }}", "short": true},
+                {"title": "Environment", "value": "${{ inputs.environment || '\''production'\'' }}", "short": true},
+                {"title": "URL", "value": "${{ env.SERVICE_URL }}", "short": false},
+                {"title": "Deployed by", "value": "${{ github.actor }}", "short": true}
+              ]
+            }]
+          }'

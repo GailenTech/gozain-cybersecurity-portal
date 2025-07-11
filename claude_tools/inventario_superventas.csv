@@ -1,0 +1,74 @@
+tipo_activo,nombre,responsable,departamento,sede,descripcion,marca,modelo,numero_serie,numero_identificacion,fecha_compra,garantia,condicion,estado,clasificacion_seguridad,criticidad,salida_exterior,dispositivo_cpd,dispositivo_byod,version,tipo_software,licencia
+Hardware,MacBook Pro 14 M3,Juan Martínez,Legal,Home Office,MacBook Pro 14 M3 - Equipo corporativo - Actualizado,Apple,MBP14-2024,SN401139,INV-5876,2025-01-08T11:19:53.022804,36 meses,Regular,En mantenimiento,Confidencial,Bajo,False,False,False,,,
+Hardware,MacBook Pro 14 M3,María García,Administración,Sucursal Norte,MacBook Pro 14 M3 - Equipo corporativo,Apple,MBP14-2024,SN607181,INV-7990,2024-11-27T11:19:53.022829,36 meses,Requiere atención,En mantenimiento,Confidencial,Importante,False,False,False,,,
+Hardware,Dell Latitude 7440,Carlos López,Legal,Home Office,Dell Latitude 7440 - Equipo corporativo,Dell,LAT7440,SN457986,INV-2626,2024-11-06T11:19:53.022841,12 meses,Regular,En mantenimiento,Público,Importante,False,False,False,,,
+Hardware,ThinkPad X1 Carbon,Carlos López,Legal,Oficina Principal,ThinkPad X1 Carbon - Equipo corporativo - Actualizado - Actualizado,Lenovo,X1C-G11,SN975648,INV-8205,2025-06-07T11:19:53.022852,12 meses,Nuevo,Activo,Confidencial,Normal,False,False,False,,,
+Hardware,MacBook Air M2,Pedro Sánchez,Legal,Oficina Principal,MacBook Air M2 - Equipo corporativo,Apple,MBA-M2,SN361132,INV-7812,2024-09-12T11:19:53.022862,36 meses,Bueno,En mantenimiento,Interno,Crítico,False,False,False,,,
+Hardware,HP EliteBook 850,Admin Sistema,Administración,Sucursal Norte,HP EliteBook 850 - Equipo corporativo,HP,EB850G9,SN425819,INV-6420,2025-05-06T11:19:53.022874,24 meses,Nuevo,En revisión,Confidencial,Normal,False,False,False,,,
+Hardware,Dell OptiPlex 7090,José González,Administración,Home Office,Dell OptiPlex 7090 - Equipo corporativo - Actualizado,Dell,OP7090,SN874674,INV-5704,2024-10-17T11:19:53.022883,24 meses,Regular,Inactivo,Confidencial,Normal,False,False,False,,,
+Hardware,iMac 24,María García,Administración,Home Office,iMac 24 - Equipo corporativo,Apple,IMAC24-2023,SN570998,INV-1658,2024-11-17T11:19:53.022892,24 meses,Bueno,Inactivo,Interno,Normal,False,False,False,,,
+Hardware,Synology DS923+,IT Subcontratado,Legal,Almacén Central,Synology DS923+ - Equipo corporativo,Synology,DS923+,SN563552,INV-5502,2024-11-21T11:19:53.022900,36 meses,Nuevo,En mantenimiento,Confidencial,Importante,False,True,False,,,
+Hardware,Dell PowerEdge T350,Juan Martínez,IT Subcontratado,Oficina Principal,Dell PowerEdge T350 - Equipo corporativo,Dell,PE-T350,SN933396,INV-8117,2024-07-25T11:19:53.022909,36 meses,Nuevo,Activo,Secreto,Crítico,False,True,False,,,
+Hardware,HP LaserJet Pro M428fdw,María García,Administración,Oficina Principal,HP LaserJet Pro M428fdw - Equipo corporativo - Actualizado,HP,LJP-M428,SN415901,INV-6828,2024-08-31T11:19:53.022917,24 meses,Requiere atención,Inactivo,Interno,Importante,False,False,False,,,
+Hardware,Canon imageFORMULA DR-C230,María García,Administración,Almacén Central,Canon imageFORMULA DR-C230 - Equipo corporativo,Canon,DR-C230,SN273864,INV-7603,2024-11-11T11:19:53.022926,24 meses,Regular,Activo,Interno,Bajo,False,False,False,,,
+Hardware,Brother MFC-L8900CDW,Carmen Ruiz,Legal,Home Office,Brother MFC-L8900CDW - Equipo corporativo - Actualizado,Brother,MFC-L8900,SN356480,INV-6346,2024-10-15T11:19:53.022934,24 meses,Nuevo,Activo,Secreto,Normal,False,False,False,,,
+Hardware,iPhone 15 Pro,Juan Martínez,Legal,Sucursal Norte,iPhone 15 Pro - Equipo corporativo,Apple,IP15PRO,SN921864,INV-4389,2024-07-22T11:19:53.022943,36 meses,Bueno,En revisión,Confidencial,Bajo,True,False,True,,,
+Hardware,iPad Pro 12.9,María García,Legal,Sucursal Norte,iPad Pro 12.9 - Equipo corporativo,Apple,IPADPRO12,SN715524,INV-5682,2024-08-20T11:19:53.022952,12 meses,Nuevo,Activo,Interno,Normal,False,False,False,,,
+Hardware,Samsung Galaxy S24,Carlos López,Legal,Sucursal Norte,Samsung Galaxy S24 - Equipo corporativo,Samsung,GS24,SN587204,INV-5684,2024-11-05T11:19:53.022961,24 meses,Nuevo,En mantenimiento,Interno,Importante,True,False,True,,,
+Hardware,UniFi Dream Machine Pro,Carlos López,IT Subcontratado,Home Office,UniFi Dream Machine Pro - Equipo corporativo - Actualizado,Ubiquiti,UDM-PRO,SN395614,INV-4298,2025-01-31T11:19:53.022969,24 meses,Nuevo,Activo,Confidencial,Crítico,False,False,False,,,
+Hardware,Cisco Catalyst 1000,IT Subcontratado,IT Subcontratado,Oficina Principal,Cisco Catalyst 1000 - Equipo corporativo,Cisco,C1000-24T,SN552137,INV-7341,2024-12-31T11:19:53.022978,24 meses,Bueno,Activo,Confidencial,Normal,False,False,False,,,
+Hardware,Logitech Rally Plus,Admin Sistema,Administración,Sucursal Norte,Logitech Rally Plus - Equipo corporativo,Logitech,RALLY-PLUS,SN219073,INV-8519,2024-10-27T11:19:53.022986,24 meses,Nuevo,Activo,Confidencial,Importante,False,False,False,,,
+Hardware,Jabra PanaCast 50,Laura Fernández,Administración,Sucursal Norte,Jabra PanaCast 50 - Equipo corporativo,Jabra,PC50,SN427708,INV-9413,2025-01-25T11:19:53.022995,12 meses,Bueno,En revisión,Interno,Normal,False,False,False,,,
+Hardware,Fortinet FortiGate 60F,IT Subcontratado,Operaciones,Oficina Principal,Fortinet FortiGate 60F - Equipo corporativo,Fortinet,FG-60F,SN346454,INV-2675,2025-01-26T11:19:53.023003,36 meses,Nuevo,En revisión,Confidencial,Crítico,False,False,False,,,
+Hardware,APC Smart-UPS 1500,Laura Fernández,Administración,Sucursal Sur,APC Smart-UPS 1500 - Equipo corporativo - Actualizado,APC,SMT1500,SN456610,INV-5012,2025-03-31T11:19:53.023011,24 meses,Regular,En mantenimiento,Confidencial,Crítico,False,False,False,,,
+Software e Información,Aranzadi Fusion,Admin Sistema,Legal,Almacén Central,Software Legal - Corporativa - Actualizado,,,,INV-3926,,,Regular,Inactivo,Secreto,Crítico,,,,v2020.12,Software Legal,Corporativa
+Software e Información,LexNET,Legal,Legal,Sucursal Sur,Software Legal - Acceso Web,,,,,,,,Activo,Confidencial,Crítico,,,,v2023.12,Software Legal,Acceso Web
+Software e Información,vLex Premium,María García,Recursos Humanos,Almacén Central,Base de Datos Legal - 5 usuarios,,,,,,,,Activo,Secreto,Importante,,,,v2022.12,Base de Datos Legal,5 usuarios
+Software e Información,Tirant Online,Legal,Administración,Almacén Central,Base de Datos Legal - Corporativa,,,,,,,,Activo,Confidencial,Importante,,,,v2022.9,Base de Datos Legal,Corporativa
+Software e Información,Microsoft 365 Business,Laura Fernández,Administración,Sucursal Norte,Suite Ofimática - 15 usuarios - Actualizado,,,,INV-4822,,,,Activo,Confidencial,Crítico,,,,v2022.5,Suite Ofimática,15 usuarios
+Software e Información,Adobe Acrobat Pro DC,Administración,Administración,Sucursal Sur,Editor PDF - 10 usuarios,,,,,,,Bueno,En revisión,Interno,Normal,,,,v2021.2,Editor PDF,10 usuarios
+Software e Información,Microsoft Teams,Laura Fernández,Operaciones,Home Office,Comunicación - Incluido en M365,,,,,,,,Activo,Secreto,Bajo,,,,v2022.3,Comunicación,Incluido en M365
+Software e Información,Sage 50cloud,José González,Legal,Oficina Principal,Software Contable - 3 usuarios,,,,,,,Bueno,En revisión,Confidencial,Crítico,,,,v2024.7,Software Contable,3 usuarios
+Software e Información,A3nom,Carmen Ruiz,Administración,Sucursal Norte,Gestión Nóminas - Monousuario,,,,,,,,Activo,Interno,Bajo,,,,v2020.10,Gestión Nóminas,Monousuario
+Software e Información,Contaplus Elite,José González,Administración,,Contabilidad - Red 5 usuarios,,,,,,,Regular,En mantenimiento,Secreto,Normal,,,,v2022.8,Contabilidad,Red 5 usuarios
+Software e Información,Base Datos Clientes,María García,Administración,Oficina Principal,Base de Datos - Interna,,,,,,,,En mantenimiento,Secreto,Crítico,,,,v2024.8,Base de Datos,Interna
+Software e Información,Expedientes Digitales,María García,IT,Almacén Central,Repositorio Documental - Interna,,,,,,,Regular,En mantenimiento,Público,Importante,,,,v2022.10,Repositorio Documental,Interna
+Software e Información,Contratos y Escrituras,Legal,Administración,Home Office,Archivo Digital - Interna,,,,,,,,Activo,Secreto,Importante,,,,v2021.10,Archivo Digital,Interna
+Software e Información,Bitdefender GravityZone,José González,Recursos Humanos,Sucursal Norte,Antivirus - 25 dispositivos,,,,,,,Requiere atención,Activo,Confidencial,Importante,,,,v2021.6,Antivirus,25 dispositivos
+Software e Información,Veeam Backup,IT Subcontratado,Administración,,Backup - Essentials,,,,,,,Bueno,Activo,Confidencial,Bajo,,,,v2023.10,Backup,Essentials
+Software e Información,LastPass Business,IT Subcontratado,Operaciones,Almacén Central,Gestor Contraseñas - 15 usuarios,,,,,,,Requiere atención,Inactivo,Confidencial,Importante,,,,v2021.5,Gestor Contraseñas,15 usuarios
+Software e Información,Google Workspace,Laura Fernández,Administración,Home Office,Suite Colaborativa - Business Standard - Actualizado - Actualizado,,,,INV-4286,,,Bueno,Inactivo,Confidencial,Importante,,,,v2022.8,Suite Colaborativa,Business Standard
+Software e Información,Dropbox Business,Laura Fernández,Administración,,Almacenamiento Cloud - Standard - Actualizado,,,,INV-7359,,,,Activo,Secreto,Normal,,,,v2021.7,Almacenamiento Cloud,Standard
+Software e Información,Zoom Business,Administración,Administración,,Videoconferencia - Business,,,,,,,Nuevo,En revisión,Confidencial,Normal,,,,v2024.12,Videoconferencia,Business
+Software e Información,TimeBillingX,RRHH,Administración,,Control Horario - Professional - Actualizado,,,,INV-2039,,,,Activo,Confidencial,Importante,,,,v2022.6,Control Horario,Professional
+Software e Información,DocuSign,Legal,Contabilidad,Sucursal Norte,Firma Digital - Business Pro,,,,,,,Requiere atención,Activo,Público,Importante,,,,v2021.8,Firma Digital,Business Pro
+Software e Información,Trello Business,Administración,Legal,Almacén Central,Gestión Proyectos - 15 usuarios,,,,,,,Bueno,En revisión,Secreto,Importante,,,,v2022.7,Gestión Proyectos,15 usuarios
+Servicios,Soporte IT TechPartners,IT Subcontratado,Legal,Oficina Principal,Mantenimiento y soporte técnico,,,,,2024-12-05T11:19:53.023166,Según contrato,Bueno,Activo,Confidencial,Bajo,,,,,,
+Servicios,Hosting Web Arsys,IT Subcontratado,Legal,Oficina Principal,Alojamiento página web corporativa - Actualizado,,,,INV-8268,2024-08-11T11:19:53.023173,Según contrato,,Activo,Interno,Importante,,,,,,
+Servicios,Dominio martinezasociados.es,IT Subcontratado,Legal,Oficina Principal,Dominio principal y correos,,,,,2024-12-25T11:19:53.023180,Según contrato,,Activo,Interno,Crítico,,,,,,
+Servicios,Fibra Empresarial Movistar,Administración,Administración,Oficina Principal,600Mbps simétricos + IP fija,,,,,2024-08-22T11:19:53.023187,Según contrato,,Activo,Público,Crítico,,,,,,
+Servicios,Línea Backup Vodafone,Administración,Administración,Home Office,4G backup 100GB,,,,,2025-04-04T11:19:53.023194,Según contrato,,Activo,Interno,Importante,,,,,,
+Servicios,Centralita Virtual,Carlos López,Administración,Almacén Central,20 extensiones VoIP,,,,,2025-02-26T11:19:53.023201,Según contrato,Requiere atención,En mantenimiento,Interno,Importante,,,,,,
+Servicios,Asesoría Fiscal Externa,Juan Martínez,Legal,Oficina Principal,Gestión fiscal trimestral - Actualizado,,,,INV-2144,2024-11-11T11:19:53.023209,Según contrato,Regular,Inactivo,Interno,Importante,,,,,,
+Servicios,Auditoría KPMG,José González,Legal,Oficina Principal,Auditoría anual,,,,,2024-08-04T11:19:53.023216,Según contrato,Bueno,Inactivo,Interno,Normal,,,,,,
+Servicios,Protección Datos GDPR,Juan Martínez,Legal,Oficina Principal,Consultoría LOPD/GDPR - Actualizado,,,,INV-4502,2025-01-27T11:19:53.023222,Según contrato,Regular,Activo,Confidencial,Crítico,,,,,,
+Servicios,Securitas Direct,Pedro Sánchez,Operaciones,Sucursal Norte,Alarma y videovigilancia - Actualizado,,,,INV-4604,2024-08-05T11:19:53.023229,Según contrato,Bueno,Inactivo,Interno,Bajo,,,,,,
+Servicios,Destrucción Confidencial,Ana Rodríguez,Administración,Almacén Central,Recu - destrucción documentos,,,,,2025-01-08T11:19:53.023236,Según contrato,,Activo,Interno,Importante,,,,,,
+Servicios,Limpieza ISS,Laura Fernández,Legal,Oficina Principal,Servicio diario limpieza,,,,,2025-01-16T11:19:53.023242,Según contrato,Requiere atención,Activo,Público,Normal,,,,,,
+Servicios,Mantenimiento Ascensor,Administración,Administración,Oficina Principal,Otis - mantenimiento mensual,,,,,2024-10-27T11:19:53.023249,Según contrato,,Inactivo,Interno,Normal,,,,,,
+Servicios,Seguro Responsabilidad Civil,José González,Operaciones,Oficina Principal,RC Profesional abogados,,,,,2024-10-26T11:19:53.023255,Según contrato,,Activo,Confidencial,Crítico,,,,,,
+Papel,Escrituras Constitución,Laura Fernández,Administración,Oficina Principal,Escrituras originales de la sociedad,,,,,,,Bueno,Activo,Confidencial,Crítico,,,,,,
+Papel,Poderes Notariales,Carlos López,Contabilidad,Sucursal Norte,Poderes de representación - Actualizado - Actualizado - Actualizado,,,,INV-5092,,,Bueno,Activo,Secreto,Crítico,,,,,,
+Papel,Contratos Laborales,Pedro Sánchez,Legal,Home Office,Contratos originales empleados,,,,,,,Nuevo,Inactivo,Confidencial,Bajo,,,,,,
+Papel,Expedientes Clientes 2023,María García,Legal,Oficina Principal,Documentación física casos 2023,,,,,,,Bueno,Activo,Público,Normal,,,,,,
+Papel,Expedientes Clientes 2024,María García,Legal,Home Office,Documentación física casos 2024,,,,,,,Nuevo,Activo,Secreto,Importante,,,,,,
+Papel,Libros Contables,María García,Administración,Almacén Central,Libros oficiales contabilidad,,,,,,,Bueno,Inactivo,Confidencial,Normal,,,,,,
+Papel,Archivo Facturas,José González,IT,Home Office,Facturas emitidas y recibidas - Actualizado,,,,INV-4056,,,Bueno,En revisión,Público,Crítico,,,,,,
+Papel,Pólizas Seguros,José González,Administración,Oficina Principal,Documentación seguros vigentes - Actualizado,,,,INV-8567,,,Bueno,Activo,Confidencial,Normal,,,,,,
+Papel,Títulos Académicos,Ana Rodríguez,Operaciones,Oficina Principal,Títulos originales colegiados,,,,,,,Bueno,Activo,Confidencial,Importante,,,,,,
+Papel,Manuales Procedimientos,Administración,Administración,Sucursal Sur,Manuales internos impresos,,,,,,,Requiere atención,Activo,Confidencial,Normal,,,,,,
+Material de Oficina Personal,Armario Ignífugo,Pedro Sánchez,Operaciones,Almacén Central,Caja fuerte documentos,,,,,2023-10-17T11:19:53.023506,,Bueno,Activo,Secreto,Crítico,,,,,,
+Material de Oficina Personal,Destructora Fellowes,Administración,Legal,Sucursal Sur,Destructora nivel seguridad P-4,,,,,2023-10-30T11:19:53.023515,,Bueno,Activo,Interno,Importante,,,,,,
+Material de Oficina Personal,Archivadores Metálicos,José González,Legal,Sucursal Sur,4 cajones con cerradura,,,,,2024-05-13T11:19:53.023522,,Bueno,Activo,Secreto,Importante,,,,,,
+Material de Oficina Personal,Cajonera Seguridad,Pedro Sánchez,Administración,Oficina Principal,Cajonera con llave personal,,,,,2024-05-07T11:19:53.023529,,Bueno,Activo,Interno,Normal,,,,,,
+Material de Oficina Personal,Maletín Portadocumentos,Carlos López,Contabilidad,Almacén Central,Maletín seguridad con código - Actualizado,,,,INV-6287,2024-06-17T11:19:53.023536,,Bueno,Activo,Interno,Normal,,,,,,

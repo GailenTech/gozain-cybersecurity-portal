@@ -1,0 +1,76 @@
+{
+  "assets": [
+    {
+      "tipo": "Hardware",
+      "nombre": "Servidor Principal DC01",
+      "responsable": "Carlos Mendez",
+      "departamento": "TI",
+      "estado": "Activo",
+      "criticidad": "Crítica",
+      "clasificacion": "Confidencial",
+      "descripcion": "Servidor principal del datacenter"
+    },
+    {
+      "tipo": "Software",
+      "nombre": "Microsoft Office 365",
+      "responsable": "Ana Garcia",
+      "departamento": "Administración",
+      "estado": "Activo",
+      "criticidad": "Normal",
+      "clasificacion": "Interno",
+      "descripcion": "Suite ofimática corporativa"
+    },
+    {
+      "tipo": "Hardware",
+      "nombre": "Laptop Dell Latitude 5520",
+      "responsable": "Pedro Lopez",
+      "departamento": "Ventas",
+      "estado": "Activo",
+      "criticidad": "Normal",
+      "clasificacion": "Interno",
+      "descripcion": "Equipo portátil asignado"
+    },
+    {
+      "tipo": "Información",
+      "nombre": "Base de Datos Clientes",
+      "responsable": "Maria Rodriguez",
+      "departamento": "TI",
+      "estado": "Activo",
+      "criticidad": "Crítica",
+      "clasificacion": "Secreto",
+      "descripcion": "Base de datos principal de clientes"
+    },
+    {
+      "tipo": "Servicio",
+      "nombre": "Servicio Cloud AWS",
+      "responsable": "Luis Martinez",
+      "departamento": "TI",
+      "estado": "Activo",
+      "criticidad": "Importante",
+      "clasificacion": "Confidencial",
+      "descripcion": "Servicios de infraestructura cloud"
+    }
+  ],
+  "impacts": {
+    "alta_empleado": {
+      "nombre_empleado": "Juan Pérez",
+      "fecha_inicio": "2025-07-15",
+      "departamento": "TI",
+      "cargo": "Desarrollador Senior",
+      "necesita_laptop": true,
+      "necesita_accesos": true
+    },
+    "baja_empleado": {
+      "nombre_empleado": "Ana García",
+      "fecha_baja": "2025-07-20",
+      "motivo": "Cambio de empresa",
+      "devolver_equipos": true,
+      "revocar_accesos": true
+    }
+  },
+  "filters": {
+    "byType": "Hardware",
+    "byDepartment": "TI",
+    "bySearch": "Servidor"
+  }
+}

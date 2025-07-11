@@ -1,0 +1,118 @@
+name: Test Business Processes
+
+on:
+  workflow_dispatch:
+    inputs:
+      category:
+        description: 'Category to test'
+        required: false
+        default: 'all'
+        type: choice
+        options:
+          - all
+          - personal
+          - projects
+          - infrastructure
+          - security
+          - crisis
+
+env:
+  CYPRESS_BASE_URL: https://gozain-687354193398.us-central1.run.app
+
+jobs:
+  test-processes:
+    name: Test Business Processes - ${{ inputs.category }}
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        cache: 'npm'
+    
+    - name: Install dependencies
+      run: npm ci
+    
+    - name: Determine test spec
+      id: spec
+      run: |
+        case "${{ inputs.category }}" in
+          personal)
+            echo "spec=cypress/e2e/14-business-processes-personal.cy.js" >> $GITHUB_OUTPUT
+            ;;
+          projects)
+            echo "spec=cypress/e2e/15-business-processes-projects.cy.js" >> $GITHUB_OUTPUT
+            ;;
+          infrastructure)
+            echo "spec=cypress/e2e/16-business-processes-infrastructure.cy.js" >> $GITHUB_OUTPUT
+            ;;
+          security)
+            echo "spec=cypress/e2e/17-business-processes-security.cy.js" >> $GITHUB_OUTPUT
+            ;;
+          crisis)
+            echo "spec=cypress/e2e/18-business-processes-crisis.cy.js" >> $GITHUB_OUTPUT
+            ;;
+          all)
+            echo "spec=cypress/e2e/14-business-processes-personal.cy.js,cypress/e2e/15-business-processes-projects.cy.js,cypress/e2e/16-business-processes-infrastructure.cy.js,cypress/e2e/17-business-processes-security.cy.js,cypress/e2e/18-business-processes-crisis.cy.js" >> $GITHUB_OUTPUT
+            ;;
+        esac
+    
+    - name: Run Cypress tests
+      uses: cypress-io/github-action@v6
+      with:
+        browser: chrome
+        config: baseUrl=${{ env.CYPRESS_BASE_URL }}
+        spec: ${{ steps.spec.outputs.spec }}
+        record: false
+    
+    - name: Generate test report
+      if: always()
+      run: |
+        echo "## Business Process Tests Report" >> $GITHUB_STEP_SUMMARY
+        echo "Category: **${{ inputs.category }}**" >> $GITHUB_STEP_SUMMARY
+        echo "Status: ${{ job.status }}" >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+        echo "### Tested Processes:" >> $GITHUB_STEP_SUMMARY
+        case "${{ inputs.category }}" in
+          personal)
+            echo "- Cambio de Rol/Departamento" >> $GITHUB_STEP_SUMMARY
+            echo "- Configuración Trabajo Remoto" >> $GITHUB_STEP_SUMMARY
+            ;;
+          projects)
+            echo "- Inicio de Proyecto" >> $GITHUB_STEP_SUMMARY
+            echo "- Alta de Proveedor" >> $GITHUB_STEP_SUMMARY
+            echo "- Renovación de Contrato" >> $GITHUB_STEP_SUMMARY
+            ;;
+          infrastructure)
+            echo "- Cambio de Sistema/Infraestructura" >> $GITHUB_STEP_SUMMARY
+            echo "- Apertura de Nueva Sede" >> $GITHUB_STEP_SUMMARY
+            echo "- Despliegue a Producción" >> $GITHUB_STEP_SUMMARY
+            ;;
+          security)
+            echo "- Incidente de Seguridad" >> $GITHUB_STEP_SUMMARY
+            echo "- Auditoría Externa" >> $GITHUB_STEP_SUMMARY
+            echo "- Solicitud GDPR" >> $GITHUB_STEP_SUMMARY
+            echo "- Campaña de Concienciación" >> $GITHUB_STEP_SUMMARY
+            ;;
+          crisis)
+            echo "- Activación Plan de Continuidad" >> $GITHUB_STEP_SUMMARY
+            echo "- Fusión/Adquisición" >> $GITHUB_STEP_SUMMARY
+            ;;
+          all)
+            echo "All 16 business processes tested" >> $GITHUB_STEP_SUMMARY
+            ;;
+        esac
+    
+    - name: Upload test artifacts
+      if: always()
+      uses: actions/upload-artifact@v4
+      with:
+        name: business-process-tests-${{ inputs.category }}
+        path: |
+          cypress/screenshots
+          cypress/videos
+        retention-days: 7

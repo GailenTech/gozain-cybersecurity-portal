@@ -1,0 +1,14 @@
+[
+  {
+    "id": "demo",
+    "nombre": "Organización Demo",
+    "fecha_creacion": "2025-01-01T00:00:00",
+    "activa": true
+  },
+  {
+    "id": "test_corp",
+    "nombre": "Test Corp",
+    "fecha_creacion": "2025-07-09T12:59:40.817576",
+    "activa": true
+  }
+]

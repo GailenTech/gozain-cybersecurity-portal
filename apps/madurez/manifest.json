@@ -1,0 +1,36 @@
+{
+  "id": "madurez",
+  "name": "Madurez en Ciberseguridad",
+  "version": "1.0.0",
+  "description": "Evaluación de madurez en ciberseguridad mediante cuestionarios y visualizaciones",
+  "icon": "bi-shield-check",
+  "color": "#6f42c1",
+  "permissions": ["madurez.view", "madurez.edit", "madurez.sign"],
+  "navigation": {
+    "main": {
+      "path": "/madurez",
+      "label": "Madurez",
+      "icon": "bi-shield-check"
+    },
+    "submenu": [
+      { "path": "/madurez/dashboard", "label": "Dashboard" },
+      { "path": "/madurez/assessments", "label": "Evaluaciones" },
+      { "path": "/madurez/nuevo", "label": "Nueva Evaluación" },
+      { "path": "/madurez/historico", "label": "Histórico" }
+    ]
+  },
+  "settings": {
+    "dominios": [
+      "Protección de acceso",
+      "Seguridad en dispositivos y redes", 
+      "Protección de datos",
+      "Prevención de amenazas",
+      "Gestión de accesos y permisos",
+      "Respuesta ante incidentes",
+      "Identificación de procesos críticos y activos"
+    ],
+    "estados": ["abierto", "completado", "firmado"],
+    "escala_puntuacion": [1, 2, 3, 4],
+    "niveles": ["No", "Parcialmente", "Sí", "Avanzado"]
+  }
+}

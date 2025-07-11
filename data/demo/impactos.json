@@ -1,0 +1,87 @@
+[
+  {
+    "id": "57befd5b-6575-47db-a8c2-bc49b911eb18",
+    "tipo": "alta_empleado",
+    "estado": "procesado",
+    "fecha_creacion": "2025-07-10T12:26:12.356413",
+    "usuario_creador": "sistema",
+    "datos": {
+      "nombre_empleado": "Test Usuario",
+      "fecha_inicio": "2025-07-15",
+      "departamento": "TI",
+      "cargo": "Desarrollador",
+      "necesita_laptop": true,
+      "necesita_accesos": true
+    },
+    "acciones_ejecutadas": {
+      "activos_creados": [
+        {
+          "id": "0a7b7cba-1358-4146-bd14-a0fbaba7b140",
+          "fecha_creacion": "2025-07-10T12:26:12.357731",
+          "fecha_modificacion": "2025-07-10T12:26:12.357733",
+          "tipo": "Hardware",
+          "nombre": "Laptop para {nombre_completo}",
+          "estado": "Activo",
+          "clasificacion": "Interno",
+          "criticidad": "Importante",
+          "departamento": "TI",
+          "auditoria": [
+            {
+              "accion": "creacion",
+              "fecha": "2025-07-10T12:26:12.357735",
+              "usuario": "sistema",
+              "detalles": "Activo creado"
+            }
+          ]
+        },
+        {
+          "id": "c79dd2ef-7436-4cb8-9c0b-199e6781f87e",
+          "fecha_creacion": "2025-07-10T12:26:12.357875",
+          "fecha_modificacion": "2025-07-10T12:26:12.357877",
+          "tipo": "Software",
+          "nombre": "Office 365 - {nombre_completo}",
+          "tipo_software": "Productividad",
+          "estado": "Activo",
+          "clasificacion": "Interno",
+          "departamento": "TI",
+          "auditoria": [
+            {
+              "accion": "creacion",
+              "fecha": "2025-07-10T12:26:12.357878",
+              "usuario": "sistema",
+              "detalles": "Activo creado"
+            }
+          ]
+        }
+      ],
+      "activos_modificados": [],
+      "tareas_creadas": [
+        {
+          "id": "42fda2e8-4dd0-4514-91aa-07108eb65b16",
+          "impacto_id": "57befd5b-6575-47db-a8c2-bc49b911eb18",
+          "descripcion": "Preparar equipo para {nombre_completo}",
+          "responsable": "IT",
+          "fecha_creacion": "2025-07-10T12:26:12.357982",
+          "fecha_limite": "2025-07-14T00:00:00",
+          "estado": "pendiente"
+        },
+        {
+          "id": "593963b8-1938-44f7-8468-419c2ddbbc23",
+          "impacto_id": "57befd5b-6575-47db-a8c2-bc49b911eb18",
+          "descripcion": "Entregar kit de bienvenida a {nombre_completo}",
+          "responsable": "RRHH",
+          "fecha_creacion": "2025-07-10T12:26:12.357990",
+          "fecha_limite": "2025-07-15T00:00:00",
+          "estado": "pendiente"
+        }
+      ]
+    },
+    "tareas_generadas": [],
+    "vista_previa": {
+      "activos_crear": 2,
+      "activos_modificar": 0,
+      "tareas_generar": 2
+    },
+    "fecha_procesamiento": "2025-07-10T12:26:12.357991"
+  }
+]
