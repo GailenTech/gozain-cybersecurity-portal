@@ -1,0 +1,434 @@
+[
+  {
+    "id": "cuestionario_ciberplan_v1",
+    "version": "1.0",
+    "fecha_creacion": "2025-07-12T13:28:38.679215",
+    "nombre": "Cuestionario de Madurez Ciberplan v1",
+    "descripcion": "Evaluación de madurez en ciberseguridad basada en 7 dominios principales",
+    "dominios": [
+      {
+        "id": "proteccion_acceso",
+        "nombre": "Protección de acceso",
+        "descripcion": "Gestión de contraseñas, autenticación y accesos",
+        "preguntas": [
+          {
+            "id": "pa_1",
+            "texto": "¿Todos los empleados utilizan contraseñas únicas y seguras?",
+            "tipo": "escala",
+            "opciones": [
+              "No",
+              "Parcialmente",
+              "Sí",
+              "Avanzado"
+            ],
+            "valores": [
+              1,
+              2,
+              3,
+              4
+            ]
+          },
+          {
+            "id": "pa_2",
+            "texto": "¿La autenticación multifactor está activada en cuentas críticas?",
+            "tipo": "escala",
+            "opciones": [
+              "No",
+              "Parcialmente",
+              "Sí",
+              "Avanzado"
+            ],
+            "valores": [
+              1,
+              2,
+              3,
+              4
+            ]
+          },
+          {
+            "id": "pa_3",
+            "texto": "¿Existen políticas de cambio regular de contraseñas?",
+            "tipo": "escala",
+            "opciones": [
+              "No",
+              "Parcialmente",
+              "Sí",
+              "Avanzado"
+            ],
+            "valores": [
+              1,
+              2,
+              3,
+              4
+            ]
+          }
+        ]
+      },
+      {
+        "id": "seguridad_dispositivos",
+        "nombre": "Seguridad en dispositivos y redes",
+        "descripcion": "Protección de dispositivos, actualizaciones y redes",
+        "preguntas": [
+          {
+            "id": "sd_1",
+            "texto": "¿El sistema operativo y software están actualizados?",
+            "tipo": "escala",
+            "opciones": [
+              "No",
+              "Parcialmente",
+              "Sí",
+              "Avanzado"
+            ],
+            "valores": [
+              1,
+              2,
+              3,
+              4
+            ]
+          },
+          {
+            "id": "sd_2",
+            "texto": "¿Todos los dispositivos tienen antivirus y firewall activos?",
+            "tipo": "escala",
+            "opciones": [
+              "No",
+              "Parcialmente",
+              "Sí",
+              "Avanzado"
+            ],
+            "valores": [
+              1,
+              2,
+              3,
+              4
+            ]
+          },
+          {
+            "id": "sd_3",
+            "texto": "¿La red Wi-Fi está protegida con cifrado fuerte?",
+            "tipo": "escala",
+            "opciones": [
+              "No",
+              "Parcialmente",
+              "Sí",
+              "Avanzado"
+            ],
+            "valores": [
+              1,
+              2,
+              3,
+              4
+            ]
+          }
+        ]
+      },
+      {
+        "id": "proteccion_datos",
+        "nombre": "Protección de datos",
+        "descripcion": "Backup, cifrado y protección de información sensible",
+        "preguntas": [
+          {
+            "id": "pd_1",
+            "texto": "¿Se realizan copias de seguridad periódicas de los datos críticos?",
+            "tipo": "escala",
+            "opciones": [
+              "No",
+              "Parcialmente",
+              "Sí",
+              "Avanzado"
+            ],
+            "valores": [
+              1,
+              2,
+              3,
+              4
+            ]
+          },
+          {
+            "id": "pd_2",
+            "texto": "¿Los datos confidenciales están cifrados en tránsito y en reposo?",
+            "tipo": "escala",
+            "opciones": [
+              "No",
+              "Parcialmente",
+              "Sí",
+              "Avanzado"
+            ],
+            "valores": [
+              1,
+              2,
+              3,
+              4
+            ]
+          },
+          {
+            "id": "pd_3",
+            "texto": "¿El acceso a información sensible está restringido según roles?",
+            "tipo": "escala",
+            "opciones": [
+              "No",
+              "Parcialmente",
+              "Sí",
+              "Avanzado"
+            ],
+            "valores": [
+              1,
+              2,
+              3,
+              4
+            ]
+          }
+        ]
+      },
+      {
+        "id": "prevencion_amenazas",
+        "nombre": "Prevención de amenazas",
+        "descripcion": "Formación, detección y prevención de ataques",
+        "preguntas": [
+          {
+            "id": "pa_am_1",
+            "texto": "¿Se capacita regularmente a los empleados sobre phishing y otras amenazas?",
+            "tipo": "escala",
+            "opciones": [
+              "No",
+              "Parcialmente",
+              "Sí",
+              "Avanzado"
+            ],
+            "valores": [
+              1,
+              2,
+              3,
+              4
+            ]
+          },
+          {
+            "id": "pa_am_2",
+            "texto": "¿Existen protocolos para verificar correos electrónicos y enlaces?",
+            "tipo": "escala",
+            "opciones": [
+              "No",
+              "Parcialmente",
+              "Sí",
+              "Avanzado"
+            ],
+            "valores": [
+              1,
+              2,
+              3,
+              4
+            ]
+          },
+          {
+            "id": "pa_am_3",
+            "texto": "¿Se utilizan herramientas de detección de amenazas en la empresa?",
+            "tipo": "escala",
+            "opciones": [
+              "No",
+              "Parcialmente",
+              "Sí",
+              "Avanzado"
+            ],
+            "valores": [
+              1,
+              2,
+              3,
+              4
+            ]
+          }
+        ]
+      },
+      {
+        "id": "gestion_accesos",
+        "nombre": "Gestión de accesos y permisos",
+        "descripcion": "Control de accesos, privilegios y gestión de identidades",
+        "preguntas": [
+          {
+            "id": "ga_1",
+            "texto": "¿Se gestionan eficientemente los accesos y permisos de los empleados?",
+            "tipo": "escala",
+            "opciones": [
+              "No",
+              "Parcialmente",
+              "Sí",
+              "Avanzado"
+            ],
+            "valores": [
+              1,
+              2,
+              3,
+              4
+            ]
+          },
+          {
+            "id": "ga_2",
+            "texto": "¿Los privilegios de administrador están limitados a personal autorizado?",
+            "tipo": "escala",
+            "opciones": [
+              "No",
+              "Parcialmente",
+              "Sí",
+              "Avanzado"
+            ],
+            "valores": [
+              1,
+              2,
+              3,
+              4
+            ]
+          },
+          {
+            "id": "ga_3",
+            "texto": "¿Se implementan soluciones de gestión de identidad y acceso (IAM)?",
+            "tipo": "escala",
+            "opciones": [
+              "No",
+              "Parcialmente",
+              "Sí",
+              "Avanzado"
+            ],
+            "valores": [
+              1,
+              2,
+              3,
+              4
+            ]
+          }
+        ]
+      },
+      {
+        "id": "respuesta_incidentes",
+        "nombre": "Respuesta ante incidentes",
+        "descripcion": "Planes de respuesta y gestión de incidentes de seguridad",
+        "preguntas": [
+          {
+            "id": "ri_1",
+            "texto": "¿La empresa cuenta con un plan de respuesta ante ciberataques?",
+            "tipo": "escala",
+            "opciones": [
+              "No",
+              "Parcialmente",
+              "Sí",
+              "Avanzado"
+            ],
+            "valores": [
+              1,
+              2,
+              3,
+              4
+            ]
+          },
+          {
+            "id": "ri_2",
+            "texto": "¿Existe un equipo o responsable de gestión de incidentes?",
+            "tipo": "escala",
+            "opciones": [
+              "No",
+              "Parcialmente",
+              "Sí",
+              "Avanzado"
+            ],
+            "valores": [
+              1,
+              2,
+              3,
+              4
+            ]
+          },
+          {
+            "id": "ri_3",
+            "texto": "¿Los incidentes de seguridad se reportan y documentan adecuadamente?",
+            "tipo": "escala",
+            "opciones": [
+              "No",
+              "Parcialmente",
+              "Sí",
+              "Avanzado"
+            ],
+            "valores": [
+              1,
+              2,
+              3,
+              4
+            ]
+          }
+        ]
+      },
+      {
+        "id": "procesos_criticos",
+        "nombre": "Identificación de procesos críticos y activos",
+        "descripcion": "Inventario y protección de activos y procesos críticos",
+        "preguntas": [
+          {
+            "id": "pc_1",
+            "texto": "¿Se tiene un inventario actualizado de activos tecnológicos clave?",
+            "tipo": "escala",
+            "opciones": [
+              "No",
+              "Parcialmente",
+              "Sí",
+              "Avanzado"
+            ],
+            "valores": [
+              1,
+              2,
+              3,
+              4
+            ]
+          },
+          {
+            "id": "pc_2",
+            "texto": "¿Los procesos críticos de negocio han sido identificados y documentados?",
+            "tipo": "escala",
+            "opciones": [
+              "No",
+              "Parcialmente",
+              "Sí",
+              "Avanzado"
+            ],
+            "valores": [
+              1,
+              2,
+              3,
+              4
+            ]
+          },
+          {
+            "id": "pc_3",
+            "texto": "¿Se evalúan regularmente los riesgos asociados a los activos y procesos esenciales?",
+            "tipo": "escala",
+            "opciones": [
+              "No",
+              "Parcialmente",
+              "Sí",
+              "Avanzado"
+            ],
+            "valores": [
+              1,
+              2,
+              3,
+              4
+            ]
+          },
+          {
+            "id": "pc_4",
+            "texto": "¿Se aplican medidas de monitoreo y protección para los activos más sensibles?",
+            "tipo": "escala",
+            "opciones": [
+              "No",
+              "Parcialmente",
+              "Sí",
+              "Avanzado"
+            ],
+            "valores": [
+              1,
+              2,
+              3,
+              4
+            ]
+          }
+        ]
+      }
+    ]
+  }
+]

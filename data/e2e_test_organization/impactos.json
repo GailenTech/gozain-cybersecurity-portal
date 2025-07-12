@@ -479,5 +479,136 @@
       "activos_modificar": 0,
       "tareas_generar": 2
     }
+  },
+  {
+    "id": "6f957c18-fc01-4930-9a6c-f55aede2e0ac",
+    "tipo": "alta_empleado",
+    "estado": "pendiente",
+    "fecha_creacion": "2025-07-12T13:21:27.753611",
+    "usuario_creador": "sistema",
+    "datos": {
+      "nombre_completo": "Empleado Test E2E",
+      "departamento": "IT",
+      "cargo": "Desarrollador",
+      "fecha_inicio": "2025-08-01",
+      "modalidad": "Híbrido",
+      "equipo_movil": true
+    },
+    "acciones_ejecutadas": [],
+    "tareas_generadas": [],
+    "vista_previa": {
+      "activos_crear": 2,
+      "activos_modificar": 0,
+      "tareas_generar": 2
+    }
+  },
+  {
+    "id": "089e3079-d8b3-4f03-a1e9-c2d7a2f0606f",
+    "tipo": "alta_empleado",
+    "estado": "pendiente",
+    "fecha_creacion": "2025-07-12T13:26:40.824652",
+    "usuario_creador": "sistema",
+    "datos": {
+      "nombre_completo": "Juan Pérez",
+      "departamento": "TI",
+      "cargo": "Desarrollador Senior",
+      "fecha_inicio": "2025-07-15",
+      "modalidad": "Presencial",
+      "equipo_movil": true
+    },
+    "acciones_ejecutadas": [],
+    "tareas_generadas": [],
+    "vista_previa": {
+      "activos_crear": 2,
+      "activos_modificar": 0,
+      "tareas_generar": 2
+    }
+  },
+  {
+    "id": "14c429ff-19a9-4385-82bd-f816c46aaeb2",
+    "tipo": "alta_empleado",
+    "estado": "procesado",
+    "fecha_creacion": "2025-07-12T13:27:00.769181",
+    "usuario_creador": "sistema",
+    "datos": {
+      "nombre_completo": "Juan Pérez",
+      "departamento": "TI",
+      "cargo": "Desarrollador Senior",
+      "fecha_inicio": "2025-07-15",
+      "modalidad": "Presencial",
+      "equipo_movil": true
+    },
+    "acciones_ejecutadas": {
+      "activos_creados": [
+        {
+          "id": "a4dbd895-5ae5-43d9-b4c4-6a02ba012ab6",
+          "fecha_creacion": "2025-07-12T13:27:01.024332",
+          "fecha_modificacion": "2025-07-12T13:27:01.024338",
+          "tipo": "Hardware",
+          "nombre": "Laptop para Juan Pérez",
+          "estado": "Activo",
+          "clasificacion": "Interno",
+          "criticidad": "Importante",
+          "responsable": "Juan Pérez",
+          "departamento": "TI",
+          "auditoria": [
+            {
+              "accion": "creacion",
+              "fecha": "2025-07-12T13:27:01.024346",
+              "usuario": "sistema",
+              "detalles": "Activo creado"
+            }
+          ]
+        },
+        {
+          "id": "787dd006-c586-47f8-b6ca-b7c46dad988f",
+          "fecha_creacion": "2025-07-12T13:27:01.026010",
+          "fecha_modificacion": "2025-07-12T13:27:01.026017",
+          "tipo": "Software",
+          "nombre": "Office 365 - Juan Pérez",
+          "tipo_software": "Productividad",
+          "estado": "Activo",
+          "clasificacion": "Interno",
+          "responsable": "Juan Pérez",
+          "departamento": "TI",
+          "auditoria": [
+            {
+              "accion": "creacion",
+              "fecha": "2025-07-12T13:27:01.026019",
+              "usuario": "sistema",
+              "detalles": "Activo creado"
+            }
+          ]
+        }
+      ],
+      "activos_modificados": [],
+      "tareas_creadas": [
+        {
+          "id": "de0bae49-e4ce-49dc-94c2-e1dab6ffd744",
+          "impacto_id": "14c429ff-19a9-4385-82bd-f816c46aaeb2",
+          "descripcion": "Preparar equipo para Juan Pérez",
+          "responsable": "IT",
+          "fecha_creacion": "2025-07-12T13:27:01.027359",
+          "fecha_limite": "2025-07-14T00:00:00",
+          "estado": "pendiente"
+        },
+        {
+          "id": "7dd202b9-72d8-447d-9b3a-f7bf18446ef7",
+          "impacto_id": "14c429ff-19a9-4385-82bd-f816c46aaeb2",
+          "descripcion": "Entregar kit de bienvenida a Juan Pérez",
+          "responsable": "RRHH",
+          "fecha_creacion": "2025-07-12T13:27:01.027370",
+          "fecha_limite": "2025-07-15T00:00:00",
+          "estado": "pendiente"
+        }
+      ]
+    },
+    "tareas_generadas": [],
+    "vista_previa": {
+      "activos_crear": 2,
+      "activos_modificar": 0,
+      "tareas_generar": 2
+    },
+    "fecha_procesamiento": "2025-07-12T13:27:01.027372"
   }
 ]
