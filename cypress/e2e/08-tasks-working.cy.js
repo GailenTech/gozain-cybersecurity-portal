@@ -1,23 +1,6 @@
 describe('Sistema de Tareas - Funcionamiento Real', () => {
   beforeEach(() => {
-    cy.visit('/')
-    cy.wait(2000)
-    
-    // Asegurar que tenemos una organización
-    cy.get('#organizationButton').click()
-    cy.wait(1000)
-    
-    // Seleccionar primera org o crear una nueva
-    cy.get('body').then($body => {
-      if ($body.find('#organizationList .list-group-item').length > 0) {
-        cy.get('#organizationList .list-group-item').first().click()
-      } else {
-        cy.get('#btnNewOrganization').click()
-        cy.get('#newOrgName').type('Test Org Tareas')
-        cy.get('#btnCreateOrganization').click()
-      }
-    })
-    cy.wait(2000)
+    cy.loginWithOrg('E2E Test Organization')
     
     // Ir a impactos
     cy.get('.tool-card').contains('Impactos de Negocio').click()

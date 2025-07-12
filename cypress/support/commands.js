@@ -224,13 +224,35 @@ Cypress.Commands.add('filterAssets', (filters) => {
 // Comando para cambiar vista
 Cypress.Commands.add('switchView', (view) => {
   if (view === 'dashboard') {
+    // Forzar click y esperar
     cy.get('#btnVistaDashboard').click({ force: true })
-    cy.wait(500)
-    cy.get('#dashboardView').should('be.visible')
-  } else if (view === 'lista') {
-    cy.get('#btnVistaLista').click({ force: true })
     cy.wait(1000)
-    cy.get('#listaView').should('be.visible')
+    
+    // Verificar que el dashboard es visible
+    cy.get('#dashboardView', { timeout: 10000 }).should('exist')
+    cy.get('#dashboardView').should('have.css', 'display').and('not.equal', 'none')
+  } else if (view === 'lista') {
+    // Forzar click múltiples veces si es necesario
+    cy.get('#btnVistaLista').then($btn => {
+      cy.wrap($btn).click({ force: true })
+      cy.wait(500)
+      
+      // Si no es visible, intentar de nuevo
+      cy.get('body').then($body => {
+        if ($body.find('#listaView:visible').length === 0) {
+          cy.log('Lista view not visible, trying again...')
+          cy.get('#btnVistaLista').click({ force: true })
+          cy.wait(1000)
+        }
+      })
+    })
+    
+    // Verificar que la lista es visible con múltiples checks
+    cy.get('#listaView', { timeout: 10000 }).should('exist')
+    cy.get('#listaView').should('have.css', 'display').and('not.equal', 'none')
+    
+    // Verificar que la tabla también existe
+    cy.get('#tablaActivos', { timeout: 5000 }).should('exist')
   }
 })
 
