@@ -36,8 +36,9 @@ describe('Problemas de Tareas - Simplificado', () => {
     cy.get('#nombre_completo').type('Test Employee')
     cy.get('#departamento').type('IT')
     cy.get('#cargo').type('Developer')
-    cy.get('#necesita_equipo').check()
-    cy.get('#necesita_acceso_sistemas').check()
+    cy.get('#fecha_inicio').type('2025-07-15')
+    cy.get('#modalidad').select('Presencial')
+    cy.get('#equipo_movil').check()
     
     cy.get('#btnCrearImpacto').click()
     cy.wait(2000)

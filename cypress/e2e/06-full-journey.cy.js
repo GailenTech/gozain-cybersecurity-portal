@@ -60,8 +60,9 @@ describe('Flujo Completo del Sistema', () => {
     cy.get('#nombre_completo').type('María García');
     cy.get('#departamento').type('IT');
     cy.get('#cargo').type('Senior Developer');
-    cy.get('#necesita_equipo').check();
-    cy.get('#necesita_acceso_sistemas').check();
+    cy.get('#fecha_inicio').type('2025-07-15');
+    cy.get('#modalidad').select('Presencial');
+    cy.get('#equipo_movil').check();
     cy.get('#btnCrearImpacto').click();
     
     // 11. Procesar el impacto
@@ -79,7 +80,6 @@ describe('Flujo Completo del Sistema', () => {
     // 14. Verificar que se generaron tareas
     cy.get('#tablaTareas tbody tr').should('have.length.greaterThan', 0);
     cy.get('#tablaTareas').should('contain', 'equipo');
-    cy.get('#tablaTareas').should('contain', 'acceso');
     
     // 15. Completar una tarea
     cy.get('#tablaTareas tbody tr').first().within(() => {
