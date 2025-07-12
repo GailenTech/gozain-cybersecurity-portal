@@ -50,5 +50,161 @@
         "detalles": "Assessment creado"
       }
     ]
+  },
+  {
+    "id": "96689b6f-3be1-46d1-9f28-3c832b443d1f",
+    "organizacion_id": "demo",
+    "cuestionario_id": "cuestionario_ciberplan_v1",
+    "fecha_inicio": "2025-07-12T16:35:19.943276",
+    "fecha_completado": null,
+    "fecha_firmado": null,
+    "estado": "abierto",
+    "firmado_por": null,
+    "nombre": "Test E2",
+    "descripcion": "Prueba automatizada básica",
+    "resultados": null,
+    "objetivos": {
+      "6_meses": 2.5,
+      "1_año": 3,
+      "2_años": 4
+    },
+    "auditoria": [
+      {
+        "accion": "creacion",
+        "fecha": "2025-07-12T16:35:19.943343",
+        "usuario": "sistema",
+        "detalles": "Assessment creado"
+      }
+    ]
+  },
+  {
+    "id": "c8749762-0ee6-4073-961b-de12b12c084b",
+    "organizacion_id": "demo",
+    "cuestionario_id": "cuestionario_ciberplan_v1",
+    "fecha_inicio": "2025-07-12T16:35:47.795949",
+    "fecha_completado": null,
+    "fecha_firmado": null,
+    "estado": "abierto",
+    "firmado_por": null,
+    "nombre": "Test Fix",
+    "descripcion": "",
+    "resultados": null,
+    "objetivos": {
+      "6_meses": 2.5,
+      "1_año": 3,
+      "2_años": 4
+    },
+    "auditoria": [
+      {
+        "accion": "creacion",
+        "fecha": "2025-07-12T16:35:47.795973",
+        "usuario": "sistema",
+        "detalles": "Assessment creado"
+      }
+    ]
+  },
+  {
+    "id": "646703ec-66eb-43c8-a7af-29e4ea27036f",
+    "organizacion_id": "demo",
+    "cuestionario_id": "cuestionario_ciberplan_v1",
+    "fecha_inicio": "2025-07-12T16:35:58.230670",
+    "fecha_completado": null,
+    "fecha_firmado": null,
+    "estado": "abierto",
+    "firmado_por": null,
+    "nombre": "Test Listene",
+    "descripcion": "",
+    "resultados": null,
+    "objetivos": {
+      "6_meses": 2.5,
+      "1_año": 3,
+      "2_años": 4
+    },
+    "auditoria": [
+      {
+        "accion": "creacion",
+        "fecha": "2025-07-12T16:35:58.230689",
+        "usuario": "sistema",
+        "detalles": "Assessment creado"
+      }
+    ]
+  },
+  {
+    "id": "8d7659ef-881c-4f17-bca8-e055feb7bfd9",
+    "organizacion_id": "demo",
+    "cuestionario_id": "cuestionario_ciberplan_v1",
+    "fecha_inicio": "2025-07-12T16:36:13.581064",
+    "fecha_completado": null,
+    "fecha_firmado": null,
+    "estado": "abierto",
+    "firmado_por": null,
+    "nombre": "Test Complet",
+    "descripcion": "",
+    "resultados": null,
+    "objetivos": {
+      "6_meses": 2.5,
+      "1_año": 3,
+      "2_años": 4
+    },
+    "auditoria": [
+      {
+        "accion": "creacion",
+        "fecha": "2025-07-12T16:36:13.581103",
+        "usuario": "sistema",
+        "detalles": "Assessment creado"
+      }
+    ]
+  },
+  {
+    "id": "dcfe81a3-fa9d-41df-91fe-59f2f8540cdb",
+    "organizacion_id": "demo",
+    "cuestionario_id": "cuestionario_ciberplan_v1",
+    "fecha_inicio": "2025-07-12T16:36:42.701446",
+    "fecha_completado": null,
+    "fecha_firmado": null,
+    "estado": "abierto",
+    "firmado_por": null,
+    "nombre": "Validac",
+    "descripcion": "",
+    "resultados": null,
+    "objetivos": {
+      "6_meses": 2.5,
+      "1_año": 3,
+      "2_años": 4
+    },
+    "auditoria": [
+      {
+        "accion": "creacion",
+        "fecha": "2025-07-12T16:36:42.701470",
+        "usuario": "sistema",
+        "detalles": "Assessment creado"
+      }
+    ]
+  },
+  {
+    "id": "4b11ab75-8bd2-48f5-b950-9984baa41d13",
+    "organizacion_id": "demo",
+    "cuestionario_id": "cuestionario_ciberplan_v1",
+    "fecha_inicio": "2025-07-12T16:36:53.070051",
+    "fecha_completado": null,
+    "fecha_firmado": null,
+    "estado": "abierto",
+    "firmado_por": null,
+    "nombre": "Test Vista",
+    "descripcion": "",
+    "resultados": null,
+    "objetivos": {
+      "6_meses": 2.5,
+      "1_año": 3,
+      "2_años": 4
+    },
+    "auditoria": [
+      {
+        "accion": "creacion",
+        "fecha": "2025-07-12T16:36:53.070074",
+        "usuario": "sistema",
+        "detalles": "Assessment creado"
+      }
+    ]
   }
 ]

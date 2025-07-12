@@ -1980,5 +1980,288 @@
       "activos_modificar": 0,
       "tareas_generar": 3
     }
+  },
+  {
+    "id": "feec43e0-9d86-4918-8e09-12253bbe458b",
+    "tipo": "alta_empleado",
+    "estado": "procesado",
+    "fecha_creacion": "2025-07-12T16:24:32.716644",
+    "usuario_creador": "sistema",
+    "datos": {
+      "nombre_completo": "Test User",
+      "departamento": "IT",
+      "cargo": "Developer",
+      "fecha_inicio": "2025-07-15",
+      "modalidad": "Presencial",
+      "equipo_movil": true
+    },
+    "acciones_ejecutadas": {
+      "activos_creados": [
+        {
+          "id": "9247bb81-69ec-4cfc-93b3-b0e41d34800c",
+          "fecha_creacion": "2025-07-12T16:24:34.055612",
+          "fecha_modificacion": "2025-07-12T16:24:34.055621",
+          "tipo": "Hardware",
+          "nombre": "Laptop para Test User",
+          "estado": "Activo",
+          "clasificacion": "Interno",
+          "criticidad": "Importante",
+          "responsable": "Test User",
+          "departamento": "IT",
+          "auditoria": [
+            {
+              "accion": "creacion",
+              "fecha": "2025-07-12T16:24:34.055627",
+              "usuario": "sistema",
+              "detalles": "Activo creado"
+            }
+          ]
+        },
+        {
+          "id": "ccec2b1c-3d09-43f5-bd71-681a62971e34",
+          "fecha_creacion": "2025-07-12T16:24:34.123712",
+          "fecha_modificacion": "2025-07-12T16:24:34.123722",
+          "tipo": "Software",
+          "nombre": "Office 365 - Test User",
+          "tipo_software": "Productividad",
+          "estado": "Activo",
+          "clasificacion": "Interno",
+          "responsable": "Test User",
+          "departamento": "IT",
+          "auditoria": [
+            {
+              "accion": "creacion",
+              "fecha": "2025-07-12T16:24:34.123725",
+              "usuario": "sistema",
+              "detalles": "Activo creado"
+            }
+          ]
+        }
+      ],
+      "activos_modificados": [],
+      "tareas_creadas": [
+        {
+          "id": "2ba5e7f3-7b83-4056-a0f1-9ec618b76b14",
+          "impacto_id": "feec43e0-9d86-4918-8e09-12253bbe458b",
+          "descripcion": "Preparar equipo para Test User",
+          "responsable": "IT",
+          "fecha_creacion": "2025-07-12T16:24:34.129337",
+          "fecha_limite": "2025-07-14T00:00:00",
+          "estado": "pendiente"
+        },
+        {
+          "id": "0161d0cc-2d1f-4d4c-9bc4-4f7dc910534c",
+          "impacto_id": "feec43e0-9d86-4918-8e09-12253bbe458b",
+          "descripcion": "Entregar kit de bienvenida a Test User",
+          "responsable": "RRHH",
+          "fecha_creacion": "2025-07-12T16:24:34.129353",
+          "fecha_limite": "2025-07-15T00:00:00",
+          "estado": "pendiente"
+        }
+      ]
+    },
+    "tareas_generadas": [],
+    "vista_previa": {
+      "activos_crear": 2,
+      "activos_modificar": 0,
+      "tareas_generar": 2
+    },
+    "fecha_procesamiento": "2025-07-12T16:24:34.129355"
+  },
+  {
+    "id": "315cd8b8-8ee4-4db6-a71d-fabfbb71a135",
+    "tipo": "alta_empleado",
+    "estado": "procesado",
+    "fecha_creacion": "2025-07-12T16:24:50.955717",
+    "usuario_creador": "sistema",
+    "datos": {
+      "nombre_completo": "Test User",
+      "departamento": "IT",
+      "cargo": "Developer",
+      "fecha_inicio": "2025-07-15",
+      "modalidad": "Presencial",
+      "equipo_movil": true
+    },
+    "acciones_ejecutadas": {
+      "activos_creados": [
+        {
+          "id": "d0467f2a-34d6-4961-b362-a2bb882f50a3",
+          "fecha_creacion": "2025-07-12T16:24:52.044905",
+          "fecha_modificacion": "2025-07-12T16:24:52.044911",
+          "tipo": "Hardware",
+          "nombre": "Laptop para Test User",
+          "estado": "Activo",
+          "clasificacion": "Interno",
+          "criticidad": "Importante",
+          "responsable": "Test User",
+          "departamento": "IT",
+          "auditoria": [
+            {
+              "accion": "creacion",
+              "fecha": "2025-07-12T16:24:52.044916",
+              "usuario": "sistema",
+              "detalles": "Activo creado"
+            }
+          ]
+        },
+        {
+          "id": "e2fdcbfb-8a49-4408-be69-ed68cb278b26",
+          "fecha_creacion": "2025-07-12T16:24:52.049188",
+          "fecha_modificacion": "2025-07-12T16:24:52.049194",
+          "tipo": "Software",
+          "nombre": "Office 365 - Test User",
+          "tipo_software": "Productividad",
+          "estado": "Activo",
+          "clasificacion": "Interno",
+          "responsable": "Test User",
+          "departamento": "IT",
+          "auditoria": [
+            {
+              "accion": "creacion",
+              "fecha": "2025-07-12T16:24:52.049195",
+              "usuario": "sistema",
+              "detalles": "Activo creado"
+            }
+          ]
+        }
+      ],
+      "activos_modificados": [],
+      "tareas_creadas": [
+        {
+          "id": "fd248121-38cc-4240-9745-6b2135eb84bd",
+          "impacto_id": "315cd8b8-8ee4-4db6-a71d-fabfbb71a135",
+          "descripcion": "Preparar equipo para Test User",
+          "responsable": "IT",
+          "fecha_creacion": "2025-07-12T16:24:52.050820",
+          "fecha_limite": "2025-07-14T00:00:00",
+          "estado": "pendiente"
+        },
+        {
+          "id": "0c9f0bf0-606a-4bae-ad51-934aaf425f4d",
+          "impacto_id": "315cd8b8-8ee4-4db6-a71d-fabfbb71a135",
+          "descripcion": "Entregar kit de bienvenida a Test User",
+          "responsable": "RRHH",
+          "fecha_creacion": "2025-07-12T16:24:52.050829",
+          "fecha_limite": "2025-07-15T00:00:00",
+          "estado": "pendiente"
+        }
+      ]
+    },
+    "tareas_generadas": [],
+    "vista_previa": {
+      "activos_crear": 2,
+      "activos_modificar": 0,
+      "tareas_generar": 2
+    },
+    "fecha_procesamiento": "2025-07-12T16:24:52.050831"
+  },
+  {
+    "id": "de4e8025-c48b-445a-8c85-850b308fbcc6",
+    "tipo": "alta_empleado",
+    "estado": "procesado",
+    "fecha_creacion": "2025-07-12T16:25:09.089052",
+    "usuario_creador": "sistema",
+    "datos": {
+      "nombre_completo": "Test User",
+      "departamento": "IT",
+      "cargo": "Developer",
+      "fecha_inicio": "2025-07-15",
+      "modalidad": "Presencial",
+      "equipo_movil": true
+    },
+    "acciones_ejecutadas": {
+      "activos_creados": [
+        {
+          "id": "f053efb1-c65e-4cd3-b57e-e52d8cf0061a",
+          "fecha_creacion": "2025-07-12T16:25:10.176822",
+          "fecha_modificacion": "2025-07-12T16:25:10.176829",
+          "tipo": "Hardware",
+          "nombre": "Laptop para Test User",
+          "estado": "Activo",
+          "clasificacion": "Interno",
+          "criticidad": "Importante",
+          "responsable": "Test User",
+          "departamento": "IT",
+          "auditoria": [
+            {
+              "accion": "creacion",
+              "fecha": "2025-07-12T16:25:10.176834",
+              "usuario": "sistema",
+              "detalles": "Activo creado"
+            }
+          ]
+        },
+        {
+          "id": "32e14a09-7b67-4502-ae2c-2b9101992c17",
+          "fecha_creacion": "2025-07-12T16:25:10.181245",
+          "fecha_modificacion": "2025-07-12T16:25:10.181250",
+          "tipo": "Software",
+          "nombre": "Office 365 - Test User",
+          "tipo_software": "Productividad",
+          "estado": "Activo",
+          "clasificacion": "Interno",
+          "responsable": "Test User",
+          "departamento": "IT",
+          "auditoria": [
+            {
+              "accion": "creacion",
+              "fecha": "2025-07-12T16:25:10.181252",
+              "usuario": "sistema",
+              "detalles": "Activo creado"
+            }
+          ]
+        }
+      ],
+      "activos_modificados": [],
+      "tareas_creadas": [
+        {
+          "id": "8a59c5dd-2d72-4351-baaa-c2d57a1b3699",
+          "impacto_id": "de4e8025-c48b-445a-8c85-850b308fbcc6",
+          "descripcion": "Preparar equipo para Test User",
+          "responsable": "IT",
+          "fecha_creacion": "2025-07-12T16:25:10.183119",
+          "fecha_limite": "2025-07-14T00:00:00",
+          "estado": "pendiente"
+        },
+        {
+          "id": "55bca93b-59b6-4b16-be10-c28524ee81dd",
+          "impacto_id": "de4e8025-c48b-445a-8c85-850b308fbcc6",
+          "descripcion": "Entregar kit de bienvenida a Test User",
+          "responsable": "RRHH",
+          "fecha_creacion": "2025-07-12T16:25:10.183130",
+          "fecha_limite": "2025-07-15T00:00:00",
+          "estado": "pendiente"
+        }
+      ]
+    },
+    "tareas_generadas": [],
+    "vista_previa": {
+      "activos_crear": 2,
+      "activos_modificar": 0,
+      "tareas_generar": 2
+    },
+    "fecha_procesamiento": "2025-07-12T16:25:10.183132"
+  },
+  {
+    "id": "e0ff0773-3a60-49d3-bb6d-a835729c4626",
+    "tipo": "alta_empleado",
+    "estado": "pendiente",
+    "fecha_creacion": "2025-07-12T16:31:23.945798",
+    "usuario_creador": "sistema",
+    "datos": {
+      "nombre_completo": "Empleado Test E2E",
+      "departamento": "IT",
+      "cargo": "Desarrollador",
+      "fecha_inicio": "2025-08-01",
+      "modalidad": "Híbrido",
+      "equipo_movil": true
+    },
+    "acciones_ejecutadas": [],
+    "tareas_generadas": [],
+    "vista_previa": {
+      "activos_crear": 2,
+      "activos_modificar": 0,
+      "tareas_generar": 2
+    }
   }
 ]

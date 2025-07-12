@@ -848,13 +848,192 @@
     "organizacion_id": "e2e_test_organization",
     "cuestionario_id": "cuestionario_ciberplan_v1",
     "fecha_inicio": "2025-07-11T22:20:42.346549",
-    "fecha_completado": null,
+    "fecha_completado": "2025-07-12T16:29:53.576042",
     "fecha_firmado": null,
-    "estado": "abierto",
+    "estado": "completado",
     "firmado_por": null,
     "nombre": "Test Dashb",
     "descripcion": "Evaluación de prueba automatizada",
-    "resultados": null,
+    "resultados": {
+      "dominios": [
+        {
+          "dominio_id": "proteccion_acceso",
+          "nivel_actual": 2.0,
+          "respuestas": [
+            {
+              "pregunta_id": "pa_1",
+              "respuesta": "Parcialmente",
+              "valor": 2,
+              "comentario": ""
+            },
+            {
+              "pregunta_id": "pa_2",
+              "respuesta": "No",
+              "valor": 1,
+              "comentario": ""
+            },
+            {
+              "pregunta_id": "pa_3",
+              "respuesta": "Sí",
+              "valor": 3,
+              "comentario": ""
+            }
+          ]
+        },
+        {
+          "dominio_id": "seguridad_dispositivos",
+          "nivel_actual": 3.0,
+          "respuestas": [
+            {
+              "pregunta_id": "sd_1",
+              "respuesta": "Parcialmente",
+              "valor": 2,
+              "comentario": ""
+            },
+            {
+              "pregunta_id": "sd_2",
+              "respuesta": "Avanzado",
+              "valor": 4,
+              "comentario": ""
+            },
+            {
+              "pregunta_id": "sd_3",
+              "respuesta": "Sí",
+              "valor": 3,
+              "comentario": ""
+            }
+          ]
+        },
+        {
+          "dominio_id": "proteccion_datos",
+          "nivel_actual": 2.33,
+          "respuestas": [
+            {
+              "pregunta_id": "pd_1",
+              "respuesta": "Parcialmente",
+              "valor": 2,
+              "comentario": ""
+            },
+            {
+              "pregunta_id": "pd_2",
+              "respuesta": "Avanzado",
+              "valor": 4,
+              "comentario": ""
+            },
+            {
+              "pregunta_id": "pd_3",
+              "respuesta": "No",
+              "valor": 1,
+              "comentario": ""
+            }
+          ]
+        },
+        {
+          "dominio_id": "prevencion_amenazas",
+          "nivel_actual": 3.0,
+          "respuestas": [
+            {
+              "pregunta_id": "pa_am_1",
+              "respuesta": "Parcialmente",
+              "valor": 2,
+              "comentario": ""
+            },
+            {
+              "pregunta_id": "pa_am_2",
+              "respuesta": "Sí",
+              "valor": 3,
+              "comentario": ""
+            },
+            {
+              "pregunta_id": "pa_am_3",
+              "respuesta": "Avanzado",
+              "valor": 4,
+              "comentario": ""
+            }
+          ]
+        },
+        {
+          "dominio_id": "gestion_accesos",
+          "nivel_actual": 2.0,
+          "respuestas": [
+            {
+              "pregunta_id": "ga_1",
+              "respuesta": "No",
+              "valor": 1,
+              "comentario": ""
+            },
+            {
+              "pregunta_id": "ga_2",
+              "respuesta": "Sí",
+              "valor": 3,
+              "comentario": ""
+            },
+            {
+              "pregunta_id": "ga_3",
+              "respuesta": "Parcialmente",
+              "valor": 2,
+              "comentario": ""
+            }
+          ]
+        },
+        {
+          "dominio_id": "respuesta_incidentes",
+          "nivel_actual": 2.33,
+          "respuestas": [
+            {
+              "pregunta_id": "ri_1",
+              "respuesta": "No",
+              "valor": 1,
+              "comentario": ""
+            },
+            {
+              "pregunta_id": "ri_2",
+              "respuesta": "Avanzado",
+              "valor": 4,
+              "comentario": ""
+            },
+            {
+              "pregunta_id": "ri_3",
+              "respuesta": "Parcialmente",
+              "valor": 2,
+              "comentario": ""
+            }
+          ]
+        },
+        {
+          "dominio_id": "procesos_criticos",
+          "nivel_actual": 3.0,
+          "respuestas": [
+            {
+              "pregunta_id": "pc_1",
+              "respuesta": "Sí",
+              "valor": 3,
+              "comentario": ""
+            },
+            {
+              "pregunta_id": "pc_2",
+              "respuesta": "Parcialmente",
+              "valor": 2,
+              "comentario": ""
+            },
+            {
+              "pregunta_id": "pc_3",
+              "respuesta": "Avanzado",
+              "valor": 4,
+              "comentario": ""
+            },
+            {
+              "pregunta_id": "pc_4",
+              "respuesta": "Sí",
+              "valor": 3,
+              "comentario": ""
+            }
+          ]
+        }
+      ],
+      "puntuacion_total": 2.55,
+      "fecha_calculo": "2025-07-12T16:29:53.576034"
+    },
     "objetivos": {
       "6_meses": 2.5,
       "1_año": 3,
@@ -866,6 +1045,12 @@
         "fecha": "2025-07-11T22:20:42.346585",
         "usuario": "sistema",
         "detalles": "Assessment creado"
+      },
+      {
+        "accion": "completado",
+        "fecha": "2025-07-12T16:29:53.576044",
+        "usuario": "sistema",
+        "detalles": "Assessment completado con puntuación 2.55"
       }
     ]
   },
@@ -874,13 +1059,192 @@
     "organizacion_id": "e2e_test_organization",
     "cuestionario_id": "cuestionario_ciberplan_v1",
     "fecha_inicio": "2025-07-11T22:20:55.572322",
-    "fecha_completado": null,
+    "fecha_completado": "2025-07-12T16:30:22.767584",
     "fecha_firmado": null,
-    "estado": "abierto",
+    "estado": "completado",
     "firmado_por": null,
     "nombre": "Test Firma",
     "descripcion": "Evaluación de prueba automatizada",
-    "resultados": null,
+    "resultados": {
+      "dominios": [
+        {
+          "dominio_id": "proteccion_acceso",
+          "nivel_actual": 2.67,
+          "respuestas": [
+            {
+              "pregunta_id": "pa_1",
+              "respuesta": "Sí",
+              "valor": 3,
+              "comentario": ""
+            },
+            {
+              "pregunta_id": "pa_2",
+              "respuesta": "Sí",
+              "valor": 3,
+              "comentario": ""
+            },
+            {
+              "pregunta_id": "pa_3",
+              "respuesta": "Parcialmente",
+              "valor": 2,
+              "comentario": ""
+            }
+          ]
+        },
+        {
+          "dominio_id": "seguridad_dispositivos",
+          "nivel_actual": 2.67,
+          "respuestas": [
+            {
+              "pregunta_id": "sd_1",
+              "respuesta": "Parcialmente",
+              "valor": 2,
+              "comentario": ""
+            },
+            {
+              "pregunta_id": "sd_2",
+              "respuesta": "Avanzado",
+              "valor": 4,
+              "comentario": ""
+            },
+            {
+              "pregunta_id": "sd_3",
+              "respuesta": "Parcialmente",
+              "valor": 2,
+              "comentario": ""
+            }
+          ]
+        },
+        {
+          "dominio_id": "proteccion_datos",
+          "nivel_actual": 2.33,
+          "respuestas": [
+            {
+              "pregunta_id": "pd_1",
+              "respuesta": "No",
+              "valor": 1,
+              "comentario": ""
+            },
+            {
+              "pregunta_id": "pd_2",
+              "respuesta": "Sí",
+              "valor": 3,
+              "comentario": ""
+            },
+            {
+              "pregunta_id": "pd_3",
+              "respuesta": "Sí",
+              "valor": 3,
+              "comentario": ""
+            }
+          ]
+        },
+        {
+          "dominio_id": "prevencion_amenazas",
+          "nivel_actual": 2.33,
+          "respuestas": [
+            {
+              "pregunta_id": "pa_am_1",
+              "respuesta": "Avanzado",
+              "valor": 4,
+              "comentario": ""
+            },
+            {
+              "pregunta_id": "pa_am_2",
+              "respuesta": "No",
+              "valor": 1,
+              "comentario": ""
+            },
+            {
+              "pregunta_id": "pa_am_3",
+              "respuesta": "Parcialmente",
+              "valor": 2,
+              "comentario": ""
+            }
+          ]
+        },
+        {
+          "dominio_id": "gestion_accesos",
+          "nivel_actual": 3.67,
+          "respuestas": [
+            {
+              "pregunta_id": "ga_1",
+              "respuesta": "Sí",
+              "valor": 3,
+              "comentario": ""
+            },
+            {
+              "pregunta_id": "ga_2",
+              "respuesta": "Avanzado",
+              "valor": 4,
+              "comentario": ""
+            },
+            {
+              "pregunta_id": "ga_3",
+              "respuesta": "Avanzado",
+              "valor": 4,
+              "comentario": ""
+            }
+          ]
+        },
+        {
+          "dominio_id": "respuesta_incidentes",
+          "nivel_actual": 1.67,
+          "respuestas": [
+            {
+              "pregunta_id": "ri_1",
+              "respuesta": "Parcialmente",
+              "valor": 2,
+              "comentario": ""
+            },
+            {
+              "pregunta_id": "ri_2",
+              "respuesta": "Parcialmente",
+              "valor": 2,
+              "comentario": ""
+            },
+            {
+              "pregunta_id": "ri_3",
+              "respuesta": "No",
+              "valor": 1,
+              "comentario": ""
+            }
+          ]
+        },
+        {
+          "dominio_id": "procesos_criticos",
+          "nivel_actual": 2.5,
+          "respuestas": [
+            {
+              "pregunta_id": "pc_1",
+              "respuesta": "Parcialmente",
+              "valor": 2,
+              "comentario": ""
+            },
+            {
+              "pregunta_id": "pc_2",
+              "respuesta": "Sí",
+              "valor": 3,
+              "comentario": ""
+            },
+            {
+              "pregunta_id": "pc_3",
+              "respuesta": "Sí",
+              "valor": 3,
+              "comentario": ""
+            },
+            {
+              "pregunta_id": "pc_4",
+              "respuesta": "Parcialmente",
+              "valor": 2,
+              "comentario": ""
+            }
+          ]
+        }
+      ],
+      "puntuacion_total": 2.55,
+      "fecha_calculo": "2025-07-12T16:30:22.767552"
+    },
     "objetivos": {
       "6_meses": 2.5,
       "1_año": 3,
@@ -892,6 +1256,12 @@
         "fecha": "2025-07-11T22:20:55.572341",
         "usuario": "sistema",
         "detalles": "Assessment creado"
+      },
+      {
+        "accion": "completado",
+        "fecha": "2025-07-12T16:30:22.767588",
+        "usuario": "sistema",
+        "detalles": "Assessment completado con puntuación 2.55"
       }
     ]
   },
@@ -900,13 +1270,192 @@
     "organizacion_id": "e2e_test_organization",
     "cuestionario_id": "cuestionario_ciberplan_v1",
     "fecha_inicio": "2025-07-11T22:21:08.840627",
-    "fecha_completado": null,
+    "fecha_completado": "2025-07-12T16:33:19.429361",
     "fecha_firmado": null,
-    "estado": "abierto",
+    "estado": "completado",
     "firmado_por": null,
     "nombre": "Histórico ",
     "descripcion": "Evaluación de prueba automatizada",
-    "resultados": null,
+    "resultados": {
+      "dominios": [
+        {
+          "dominio_id": "proteccion_acceso",
+          "nivel_actual": 3.0,
+          "respuestas": [
+            {
+              "pregunta_id": "pa_1",
+              "respuesta": "Sí",
+              "valor": 3,
+              "comentario": ""
+            },
+            {
+              "pregunta_id": "pa_2",
+              "respuesta": "Sí",
+              "valor": 3,
+              "comentario": ""
+            },
+            {
+              "pregunta_id": "pa_3",
+              "respuesta": "Sí",
+              "valor": 3,
+              "comentario": ""
+            }
+          ]
+        },
+        {
+          "dominio_id": "seguridad_dispositivos",
+          "nivel_actual": 2.0,
+          "respuestas": [
+            {
+              "pregunta_id": "sd_1",
+              "respuesta": "Parcialmente",
+              "valor": 2,
+              "comentario": ""
+            },
+            {
+              "pregunta_id": "sd_2",
+              "respuesta": "Parcialmente",
+              "valor": 2,
+              "comentario": ""
+            },
+            {
+              "pregunta_id": "sd_3",
+              "respuesta": "Parcialmente",
+              "valor": 2,
+              "comentario": ""
+            }
+          ]
+        },
+        {
+          "dominio_id": "proteccion_datos",
+          "nivel_actual": 4.0,
+          "respuestas": [
+            {
+              "pregunta_id": "pd_1",
+              "respuesta": "Avanzado",
+              "valor": 4,
+              "comentario": ""
+            },
+            {
+              "pregunta_id": "pd_2",
+              "respuesta": "Avanzado",
+              "valor": 4,
+              "comentario": ""
+            },
+            {
+              "pregunta_id": "pd_3",
+              "respuesta": "Avanzado",
+              "valor": 4,
+              "comentario": ""
+            }
+          ]
+        },
+        {
+          "dominio_id": "prevencion_amenazas",
+          "nivel_actual": 1.0,
+          "respuestas": [
+            {
+              "pregunta_id": "pa_am_1",
+              "respuesta": "No",
+              "valor": 1,
+              "comentario": ""
+            },
+            {
+              "pregunta_id": "pa_am_2",
+              "respuesta": "No",
+              "valor": 1,
+              "comentario": ""
+            },
+            {
+              "pregunta_id": "pa_am_3",
+              "respuesta": "No",
+              "valor": 1,
+              "comentario": ""
+            }
+          ]
+        },
+        {
+          "dominio_id": "gestion_accesos",
+          "nivel_actual": 3.0,
+          "respuestas": [
+            {
+              "pregunta_id": "ga_1",
+              "respuesta": "Sí",
+              "valor": 3,
+              "comentario": ""
+            },
+            {
+              "pregunta_id": "ga_2",
+              "respuesta": "Sí",
+              "valor": 3,
+              "comentario": ""
+            },
+            {
+              "pregunta_id": "ga_3",
+              "respuesta": "Sí",
+              "valor": 3,
+              "comentario": ""
+            }
+          ]
+        },
+        {
+          "dominio_id": "respuesta_incidentes",
+          "nivel_actual": 2.0,
+          "respuestas": [
+            {
+              "pregunta_id": "ri_1",
+              "respuesta": "Parcialmente",
+              "valor": 2,
+              "comentario": ""
+            },
+            {
+              "pregunta_id": "ri_2",
+              "respuesta": "Parcialmente",
+              "valor": 2,
+              "comentario": ""
+            },
+            {
+              "pregunta_id": "ri_3",
+              "respuesta": "Parcialmente",
+              "valor": 2,
+              "comentario": ""
+            }
+          ]
+        },
+        {
+          "dominio_id": "procesos_criticos",
+          "nivel_actual": 4.0,
+          "respuestas": [
+            {
+              "pregunta_id": "pc_1",
+              "respuesta": "Avanzado",
+              "valor": 4,
+              "comentario": ""
+            },
+            {
+              "pregunta_id": "pc_2",
+              "respuesta": "Avanzado",
+              "valor": 4,
+              "comentario": ""
+            },
+            {
+              "pregunta_id": "pc_3",
+              "respuesta": "Avanzado",
+              "valor": 4,
+              "comentario": ""
+            },
+            {
+              "pregunta_id": "pc_4",
+              "respuesta": "Avanzado",
+              "valor": 4,
+              "comentario": ""
+            }
+          ]
+        }
+      ],
+      "puntuacion_total": 2.77,
+      "fecha_calculo": "2025-07-12T16:33:19.429333"
+    },
     "objetivos": {
       "6_meses": 2.5,
       "1_año": 3,
@@ -918,6 +1467,12 @@
         "fecha": "2025-07-11T22:21:08.840649",
         "usuario": "sistema",
         "detalles": "Assessment creado"
+      },
+      {
+        "accion": "completado",
+        "fecha": "2025-07-12T16:33:19.429366",
+        "usuario": "sistema",
+        "detalles": "Assessment completado con puntuación 2.77"
       }
     ]
   },
@@ -1462,6 +2017,292 @@
       {
         "accion": "creacion",
         "fecha": "2025-07-12T16:03:57.987827",
+        "usuario": "sistema",
+        "detalles": "Assessment creado"
+      }
+    ]
+  },
+  {
+    "id": "132692c2-7742-449b-b7c8-d8991144f1ab",
+    "organizacion_id": "e2e_test_organization",
+    "cuestionario_id": "cuestionario_ciberplan_v1",
+    "fecha_inicio": "2025-07-12T16:29:03.967040",
+    "fecha_completado": null,
+    "fecha_firmado": null,
+    "estado": "abierto",
+    "firmado_por": null,
+    "nombre": "Evaluac",
+    "descripcion": "Test automatizado de evaluación",
+    "resultados": null,
+    "objetivos": {
+      "6_meses": 2.5,
+      "1_año": 3,
+      "2_años": 4
+    },
+    "auditoria": [
+      {
+        "accion": "creacion",
+        "fecha": "2025-07-12T16:29:03.967069",
+        "usuario": "sistema",
+        "detalles": "Assessment creado"
+      }
+    ]
+  },
+  {
+    "id": "71be7438-e26b-4f00-9ff4-31e7aaa51fce",
+    "organizacion_id": "e2e_test_organization",
+    "cuestionario_id": "cuestionario_ciberplan_v1",
+    "fecha_inicio": "2025-07-12T16:29:24.342734",
+    "fecha_completado": null,
+    "fecha_firmado": null,
+    "estado": "abierto",
+    "firmado_por": null,
+    "nombre": "Test N",
+    "descripcion": "Test de navegación",
+    "resultados": null,
+    "objetivos": {
+      "6_meses": 2.5,
+      "1_año": 3,
+      "2_años": 4
+    },
+    "auditoria": [
+      {
+        "accion": "creacion",
+        "fecha": "2025-07-12T16:29:24.342776",
+        "usuario": "sistema",
+        "detalles": "Assessment creado"
+      }
+    ]
+  },
+  {
+    "id": "241839e3-ca8d-4125-9335-28ba737a2e25",
+    "organizacion_id": "e2e_test_organization",
+    "cuestionario_id": "cuestionario_ciberplan_v1",
+    "fecha_inicio": "2025-07-12T16:29:43.501724",
+    "fecha_completado": null,
+    "fecha_firmado": null,
+    "estado": "abierto",
+    "firmado_por": null,
+    "nombre": "Test Comp",
+    "descripcion": "",
+    "resultados": null,
+    "objetivos": {
+      "6_meses": 2.5,
+      "1_año": 3,
+      "2_años": 4
+    },
+    "auditoria": [
+      {
+        "accion": "creacion",
+        "fecha": "2025-07-12T16:29:43.501745",
+        "usuario": "sistema",
+        "detalles": "Assessment creado"
+      }
+    ]
+  },
+  {
+    "id": "3986700a-68ef-45de-aecc-eb2978417b5d",
+    "organizacion_id": "e2e_test_organization",
+    "cuestionario_id": "cuestionario_ciberplan_v1",
+    "fecha_inicio": "2025-07-12T16:30:12.675129",
+    "fecha_completado": null,
+    "fecha_firmado": null,
+    "estado": "abierto",
+    "firmado_por": null,
+    "nombre": "Test Da",
+    "descripcion": "",
+    "resultados": null,
+    "objetivos": {
+      "6_meses": 2.5,
+      "1_año": 3,
+      "2_años": 4
+    },
+    "auditoria": [
+      {
+        "accion": "creacion",
+        "fecha": "2025-07-12T16:30:12.675146",
+        "usuario": "sistema",
+        "detalles": "Assessment creado"
+      }
+    ]
+  },
+  {
+    "id": "19a87804-c5ad-42b0-98bc-3a51ec717c77",
+    "organizacion_id": "e2e_test_organization",
+    "cuestionario_id": "cuestionario_ciberplan_v1",
+    "fecha_inicio": "2025-07-12T16:31:30.377732",
+    "fecha_completado": null,
+    "fecha_firmado": null,
+    "estado": "abierto",
+    "firmado_por": null,
+    "nombre": "Evaluaci",
+    "descripcion": "Evaluación inicial para pruebas automatizadas",
+    "resultados": null,
+    "objetivos": {
+      "6_meses": 2.5,
+      "1_año": 3,
+      "2_años": 4
+    },
+    "auditoria": [
+      {
+        "accion": "creacion",
+        "fecha": "2025-07-12T16:31:30.377767",
+        "usuario": "sistema",
+        "detalles": "Assessment creado"
+      }
+    ]
+  },
+  {
+    "id": "388b5f63-158d-4920-b229-4ccfa437dcdd",
+    "organizacion_id": "e2e_test_organization",
+    "cuestionario_id": "cuestionario_ciberplan_v1",
+    "fecha_inicio": "2025-07-12T16:33:09.353452",
+    "fecha_completado": null,
+    "fecha_firmado": null,
+    "estado": "abierto",
+    "firmado_por": null,
+    "nombre": "Test Nav",
+    "descripcion": "",
+    "resultados": null,
+    "objetivos": {
+      "6_meses": 2.5,
+      "1_año": 3,
+      "2_años": 4
+    },
+    "auditoria": [
+      {
+        "accion": "creacion",
+        "fecha": "2025-07-12T16:33:09.353469",
+        "usuario": "sistema",
+        "detalles": "Assessment creado"
+      }
+    ]
+  },
+  {
+    "id": "2d85be7e-a517-46fe-8738-413501f7ff18",
+    "organizacion_id": "e2e_test_organization",
+    "cuestionario_id": "cuestionario_ciberplan_v1",
+    "fecha_inicio": "2025-07-12T16:33:26.466030",
+    "fecha_completado": null,
+    "fecha_firmado": null,
+    "estado": "abierto",
+    "firmado_por": null,
+    "nombre": "Test Pe",
+    "descripcion": "",
+    "resultados": null,
+    "objetivos": {
+      "6_meses": 2.5,
+      "1_año": 3,
+      "2_años": 4
+    },
+    "auditoria": [
+      {
+        "accion": "creacion",
+        "fecha": "2025-07-12T16:33:26.466052",
+        "usuario": "sistema",
+        "detalles": "Assessment creado"
+      }
+    ]
+  },
+  {
+    "id": "f68450d4-6396-4d26-a7f0-a8d1a8de1e3d",
+    "organizacion_id": "e2e_test_organization",
+    "cuestionario_id": "cuestionario_ciberplan_v1",
+    "fecha_inicio": "2025-07-12T16:33:38.777860",
+    "fecha_completado": null,
+    "fecha_firmado": null,
+    "estado": "abierto",
+    "firmado_por": null,
+    "nombre": "Test Va",
+    "descripcion": "",
+    "resultados": null,
+    "objetivos": {
+      "6_meses": 2.5,
+      "1_año": 3,
+      "2_años": 4
+    },
+    "auditoria": [
+      {
+        "accion": "creacion",
+        "fecha": "2025-07-12T16:33:38.777888",
+        "usuario": "sistema",
+        "detalles": "Assessment creado"
+      }
+    ]
+  },
+  {
+    "id": "8ae12fbd-31f7-41f2-83c0-03c48bca56a3",
+    "organizacion_id": "e2e_test_organization",
+    "cuestionario_id": "cuestionario_ciberplan_v1",
+    "fecha_inicio": "2025-07-12T16:34:01.653226",
+    "fecha_completado": null,
+    "fecha_firmado": null,
+    "estado": "abierto",
+    "firmado_por": null,
+    "nombre": "Test Borr",
+    "descripcion": "",
+    "resultados": null,
+    "objetivos": {
+      "6_meses": 2.5,
+      "1_año": 3,
+      "2_años": 4
+    },
+    "auditoria": [
+      {
+        "accion": "creacion",
+        "fecha": "2025-07-12T16:34:01.653257",
+        "usuario": "sistema",
+        "detalles": "Assessment creado"
+      }
+    ]
+  },
+  {
+    "id": "51261e97-98ed-4946-b067-4a14eaf02074",
+    "organizacion_id": "e2e_test_organization",
+    "cuestionario_id": "cuestionario_ciberplan_v1",
+    "fecha_inicio": "2025-07-12T16:34:13.844711",
+    "fecha_completado": null,
+    "fecha_firmado": null,
+    "estado": "abierto",
+    "firmado_por": null,
+    "nombre": "Test Pr",
+    "descripcion": "",
+    "resultados": null,
+    "objetivos": {
+      "6_meses": 2.5,
+      "1_año": 3,
+      "2_años": 4
+    },
+    "auditoria": [
+      {
+        "accion": "creacion",
+        "fecha": "2025-07-12T16:34:13.844737",
+        "usuario": "sistema",
+        "detalles": "Assessment creado"
+      }
+    ]
+  },
+  {
+    "id": "86ca3103-767e-44c8-a790-41f9dcf986ed",
+    "organizacion_id": "e2e_test_organization",
+    "cuestionario_id": "cuestionario_ciberplan_v1",
+    "fecha_inicio": "2025-07-12T16:34:33.133538",
+    "fecha_completado": null,
+    "fecha_firmado": null,
+    "estado": "abierto",
+    "firmado_por": null,
+    "nombre": "Test Com",
+    "descripcion": "",
+    "resultados": null,
+    "objetivos": {
+      "6_meses": 2.5,
+      "1_año": 3,
+      "2_años": 4
+    },
+    "auditoria": [
+      {
+        "accion": "creacion",
+        "fecha": "2025-07-12T16:34:33.133563",
         "usuario": "sistema",
         "detalles": "Assessment creado"
       }

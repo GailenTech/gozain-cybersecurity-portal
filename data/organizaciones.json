@@ -178,5 +178,11 @@
     "nombre": "Mi E",
     "fecha_creacion": "2025-07-12T16:19:38.773588",
     "activa": true
+  },
+  {
+    "id": "test_nav_org_1752330724442",
+    "nombre": "Test Nav Org 1752330724442",
+    "fecha_creacion": "2025-07-12T16:32:09.123111",
+    "activa": true
   }
 ]

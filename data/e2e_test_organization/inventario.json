@@ -3364,5 +3364,188 @@
         "detalles": "Activo creado"
       }
     ]
+  },
+  {
+    "id": "9247bb81-69ec-4cfc-93b3-b0e41d34800c",
+    "fecha_creacion": "2025-07-12T16:24:34.055612",
+    "fecha_modificacion": "2025-07-12T16:24:34.055621",
+    "tipo": "Hardware",
+    "nombre": "Laptop para Test User",
+    "estado": "Activo",
+    "clasificacion": "Interno",
+    "criticidad": "Importante",
+    "responsable": "Test User",
+    "departamento": "IT",
+    "auditoria": [
+      {
+        "accion": "creacion",
+        "fecha": "2025-07-12T16:24:34.055627",
+        "usuario": "sistema",
+        "detalles": "Activo creado"
+      }
+    ]
+  },
+  {
+    "id": "ccec2b1c-3d09-43f5-bd71-681a62971e34",
+    "fecha_creacion": "2025-07-12T16:24:34.123712",
+    "fecha_modificacion": "2025-07-12T16:24:34.123722",
+    "tipo": "Software",
+    "nombre": "Office 365 - Test User",
+    "tipo_software": "Productividad",
+    "estado": "Activo",
+    "clasificacion": "Interno",
+    "responsable": "Test User",
+    "departamento": "IT",
+    "auditoria": [
+      {
+        "accion": "creacion",
+        "fecha": "2025-07-12T16:24:34.123725",
+        "usuario": "sistema",
+        "detalles": "Activo creado"
+      }
+    ]
+  },
+  {
+    "id": "d0467f2a-34d6-4961-b362-a2bb882f50a3",
+    "fecha_creacion": "2025-07-12T16:24:52.044905",
+    "fecha_modificacion": "2025-07-12T16:24:52.044911",
+    "tipo": "Hardware",
+    "nombre": "Laptop para Test User",
+    "estado": "Activo",
+    "clasificacion": "Interno",
+    "criticidad": "Importante",
+    "responsable": "Test User",
+    "departamento": "IT",
+    "auditoria": [
+      {
+        "accion": "creacion",
+        "fecha": "2025-07-12T16:24:52.044916",
+        "usuario": "sistema",
+        "detalles": "Activo creado"
+      }
+    ]
+  },
+  {
+    "id": "e2fdcbfb-8a49-4408-be69-ed68cb278b26",
+    "fecha_creacion": "2025-07-12T16:24:52.049188",
+    "fecha_modificacion": "2025-07-12T16:24:52.049194",
+    "tipo": "Software",
+    "nombre": "Office 365 - Test User",
+    "tipo_software": "Productividad",
+    "estado": "Activo",
+    "clasificacion": "Interno",
+    "responsable": "Test User",
+    "departamento": "IT",
+    "auditoria": [
+      {
+        "accion": "creacion",
+        "fecha": "2025-07-12T16:24:52.049195",
+        "usuario": "sistema",
+        "detalles": "Activo creado"
+      }
+    ]
+  },
+  {
+    "id": "f053efb1-c65e-4cd3-b57e-e52d8cf0061a",
+    "fecha_creacion": "2025-07-12T16:25:10.176822",
+    "fecha_modificacion": "2025-07-12T16:25:10.176829",
+    "tipo": "Hardware",
+    "nombre": "Laptop para Test User",
+    "estado": "Activo",
+    "clasificacion": "Interno",
+    "criticidad": "Importante",
+    "responsable": "Test User",
+    "departamento": "IT",
+    "auditoria": [
+      {
+        "accion": "creacion",
+        "fecha": "2025-07-12T16:25:10.176834",
+        "usuario": "sistema",
+        "detalles": "Activo creado"
+      }
+    ]
+  },
+  {
+    "id": "32e14a09-7b67-4502-ae2c-2b9101992c17",
+    "fecha_creacion": "2025-07-12T16:25:10.181245",
+    "fecha_modificacion": "2025-07-12T16:25:10.181250",
+    "tipo": "Software",
+    "nombre": "Office 365 - Test User",
+    "tipo_software": "Productividad",
+    "estado": "Activo",
+    "clasificacion": "Interno",
+    "responsable": "Test User",
+    "departamento": "IT",
+    "auditoria": [
+      {
+        "accion": "creacion",
+        "fecha": "2025-07-12T16:25:10.181252",
+        "usuario": "sistema",
+        "detalles": "Activo creado"
+      }
+    ]
+  },
+  {
+    "id": "1bea625b-d0e7-407e-90cc-a669deb4269e",
+    "fecha_creacion": "2025-07-12T16:31:10.559411",
+    "fecha_modificacion": "2025-07-12T16:31:10.559425",
+    "tipo": "Hardware",
+    "estado": "Activo",
+    "nombre": "Servidor Principal TEST",
+    "responsable": "Admin Test",
+    "departamento": "IT",
+    "clasificacion": "Confidencial",
+    "criticidad": "Crítica",
+    "descripcion": "",
+    "auditoria": [
+      {
+        "accion": "creacion",
+        "fecha": "2025-07-12T16:31:10.559431",
+        "usuario": "sistema",
+        "detalles": "Activo creado"
+      }
+    ]
+  },
+  {
+    "id": "5b2ca48e-65fe-4468-bc67-3e9c055bb659",
+    "fecha_creacion": "2025-07-12T16:31:13.588937",
+    "fecha_modificacion": "2025-07-12T16:31:13.588944",
+    "tipo": "Software",
+    "estado": "Activo",
+    "nombre": "Sistema ERP TEST",
+    "responsable": "Admin Test",
+    "departamento": "Finanzas",
+    "clasificacion": "Interno",
+    "criticidad": "Importante",
+    "descripcion": "",
+    "auditoria": [
+      {
+        "accion": "creacion",
+        "fecha": "2025-07-12T16:31:13.588946",
+        "usuario": "sistema",
+        "detalles": "Activo creado"
+      }
+    ]
+  },
+  {
+    "id": "613d274e-fe21-4941-a795-d01078324b95",
+    "fecha_creacion": "2025-07-12T16:31:16.643367",
+    "fecha_modificacion": "2025-07-12T16:31:16.643375",
+    "tipo": "Personal",
+    "estado": "Activo",
+    "nombre": "Usuario Test E2E",
+    "responsable": "RRHH Test",
+    "departamento": "Desarrollo",
+    "clasificacion": "Interno",
+    "criticidad": "Normal",
+    "descripcion": "",
+    "auditoria": [
+      {
+        "accion": "creacion",
+        "fecha": "2025-07-12T16:31:16.643377",
+        "usuario": "sistema",
+        "detalles": "Activo creado"
+      }
+    ]
   }
 ]
