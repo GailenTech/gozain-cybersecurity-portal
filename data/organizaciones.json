@@ -184,5 +184,11 @@
     "nombre": "Test Nav Org 1752330724442",
     "fecha_creacion": "2025-07-12T16:32:09.123111",
     "activa": true
+  },
+  {
+    "id": "mi_empresa_test",
+    "nombre": "Mi Empresa Test",
+    "fecha_creacion": "2025-07-12T16:47:20.053188",
+    "activa": true
   }
 ]
