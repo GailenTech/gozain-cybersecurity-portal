@@ -1,10 +1,9 @@
 describe('Gestión de Tareas', () => {
   beforeEach(() => {
-    cy.resetData();
-    cy.createTestOrganization();
-    cy.visit('/');
-    cy.selectOrganization('org-test');
-    cy.selectTool('impactos');
+    cy.loginWithOrg('E2E Test Organization');
+    
+    // Navegar a impactos
+    cy.contains('.tool-card', 'Análisis de Impactos').click();
   });
 
   describe('Vista de Tareas', () => {

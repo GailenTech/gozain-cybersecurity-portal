@@ -104,7 +104,7 @@ describe('Flujo Completo del Sistema', () => {
     cy.selectOrganization('org-test');
     
     // Test en Inventario
-    cy.selectTool('inventario');
+    cy.contains('.tool-card', 'Inventario de Activos').click();
     
     // Crear varios activos
     const activos = [
@@ -159,7 +159,7 @@ describe('Flujo Completo del Sistema', () => {
     cy.createTestOrganization();
     cy.visit('/');
     cy.selectOrganization('org-test');
-    cy.selectTool('inventario');
+    cy.contains('.tool-card', 'Inventario de Activos').click();
     
     // Verificar navegación con botones de vista
     cy.get('#btnVistaDashboard').should('have.class', 'active');

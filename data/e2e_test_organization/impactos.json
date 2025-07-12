@@ -610,5 +610,202 @@
       "tareas_generar": 2
     },
     "fecha_procesamiento": "2025-07-12T13:27:01.027372"
+  },
+  {
+    "id": "b42bd723-f9f5-41c5-8b61-26db51f93e61",
+    "tipo": "alta_empleado",
+    "estado": "pendiente",
+    "fecha_creacion": "2025-07-12T13:33:38.258468",
+    "usuario_creador": "sistema",
+    "datos": {
+      "nombre_completo": "Empleado Test E2E",
+      "departamento": "IT",
+      "cargo": "Desarrollador",
+      "fecha_inicio": "2025-08-01",
+      "modalidad": "Híbrido",
+      "equipo_movil": true
+    },
+    "acciones_ejecutadas": [],
+    "tareas_generadas": [],
+    "vista_previa": {
+      "activos_crear": 2,
+      "activos_modificar": 0,
+      "tareas_generar": 2
+    }
+  },
+  {
+    "id": "0ac34206-c55e-42e1-8331-0d1bc29388bb",
+    "tipo": "alta_empleado",
+    "estado": "pendiente",
+    "fecha_creacion": "2025-07-12T14:07:03.365874",
+    "usuario_creador": "sistema",
+    "datos": {
+      "nombre_completo": "Empleado Test E2E",
+      "departamento": "IT",
+      "cargo": "Desarrollador",
+      "fecha_inicio": "2025-08-01",
+      "modalidad": "Híbrido",
+      "equipo_movil": true
+    },
+    "acciones_ejecutadas": [],
+    "tareas_generadas": [],
+    "vista_previa": {
+      "activos_crear": 2,
+      "activos_modificar": 0,
+      "tareas_generar": 2
+    }
+  },
+  {
+    "id": "096a94e9-f786-4197-877f-da238340c83e",
+    "tipo": "alta_empleado",
+    "estado": "pendiente",
+    "fecha_creacion": "2025-07-12T14:09:09.109410",
+    "usuario_creador": "sistema",
+    "datos": {
+      "nombre_completo": "Empleado Test E2E",
+      "departamento": "IT",
+      "cargo": "Desarrollador",
+      "fecha_inicio": "2025-08-01",
+      "modalidad": "Híbrido",
+      "equipo_movil": true
+    },
+    "acciones_ejecutadas": [],
+    "tareas_generadas": [],
+    "vista_previa": {
+      "activos_crear": 2,
+      "activos_modificar": 0,
+      "tareas_generar": 2
+    }
+  },
+  {
+    "id": "63ee6780-229a-402b-8c7e-0cc509dc1502",
+    "tipo": "alta_empleado",
+    "estado": "pendiente",
+    "fecha_creacion": "2025-07-12T14:11:06.976140",
+    "usuario_creador": "sistema",
+    "datos": {
+      "nombre_completo": "Juan Pérez",
+      "departamento": "TI",
+      "cargo": "Desarrollador Senior",
+      "fecha_inicio": "2025-07-15",
+      "modalidad": "Presencial",
+      "equipo_movil": true
+    },
+    "acciones_ejecutadas": [],
+    "tareas_generadas": [],
+    "vista_previa": {
+      "activos_crear": 2,
+      "activos_modificar": 0,
+      "tareas_generar": 2
+    }
+  },
+  {
+    "id": "a09363d5-c49f-4907-abd3-6aa3508c689d",
+    "tipo": "alta_empleado",
+    "estado": "procesado",
+    "fecha_creacion": "2025-07-12T14:11:27.002903",
+    "usuario_creador": "sistema",
+    "datos": {
+      "nombre_completo": "Juan Pérez",
+      "departamento": "TI",
+      "cargo": "Desarrollador Senior",
+      "fecha_inicio": "2025-07-15",
+      "modalidad": "Presencial",
+      "equipo_movil": true
+    },
+    "acciones_ejecutadas": {
+      "activos_creados": [
+        {
+          "id": "9678f11e-9a3a-4dc9-afd2-4b401bdb86cb",
+          "fecha_creacion": "2025-07-12T14:11:27.266416",
+          "fecha_modificacion": "2025-07-12T14:11:27.266423",
+          "tipo": "Hardware",
+          "nombre": "Laptop para Juan Pérez",
+          "estado": "Activo",
+          "clasificacion": "Interno",
+          "criticidad": "Importante",
+          "responsable": "Juan Pérez",
+          "departamento": "TI",
+          "auditoria": [
+            {
+              "accion": "creacion",
+              "fecha": "2025-07-12T14:11:27.266457",
+              "usuario": "sistema",
+              "detalles": "Activo creado"
+            }
+          ]
+        },
+        {
+          "id": "3d5c3f28-f8e2-46b3-8f6b-d1e0bb76ebd2",
+          "fecha_creacion": "2025-07-12T14:11:27.273951",
+          "fecha_modificacion": "2025-07-12T14:11:27.273955",
+          "tipo": "Software",
+          "nombre": "Office 365 - Juan Pérez",
+          "tipo_software": "Productividad",
+          "estado": "Activo",
+          "clasificacion": "Interno",
+          "responsable": "Juan Pérez",
+          "departamento": "TI",
+          "auditoria": [
+            {
+              "accion": "creacion",
+              "fecha": "2025-07-12T14:11:27.273956",
+              "usuario": "sistema",
+              "detalles": "Activo creado"
+            }
+          ]
+        }
+      ],
+      "activos_modificados": [],
+      "tareas_creadas": [
+        {
+          "id": "d14aebd1-4e45-4264-a645-bdb6924c3d4d",
+          "impacto_id": "a09363d5-c49f-4907-abd3-6aa3508c689d",
+          "descripcion": "Preparar equipo para Juan Pérez",
+          "responsable": "IT",
+          "fecha_creacion": "2025-07-12T14:11:27.275151",
+          "fecha_limite": "2025-07-14T00:00:00",
+          "estado": "pendiente"
+        },
+        {
+          "id": "6c4afb4f-fc63-47aa-8305-5bd7fe1a2bec",
+          "impacto_id": "a09363d5-c49f-4907-abd3-6aa3508c689d",
+          "descripcion": "Entregar kit de bienvenida a Juan Pérez",
+          "responsable": "RRHH",
+          "fecha_creacion": "2025-07-12T14:11:27.275159",
+          "fecha_limite": "2025-07-15T00:00:00",
+          "estado": "pendiente"
+        }
+      ]
+    },
+    "tareas_generadas": [],
+    "vista_previa": {
+      "activos_crear": 2,
+      "activos_modificar": 0,
+      "tareas_generar": 2
+    },
+    "fecha_procesamiento": "2025-07-12T14:11:27.275161"
+  },
+  {
+    "id": "ff8ef963-2918-4aa8-9a14-52a655b20c30",
+    "tipo": "alta_empleado",
+    "estado": "pendiente",
+    "fecha_creacion": "2025-07-12T14:13:50.132955",
+    "usuario_creador": "sistema",
+    "datos": {
+      "nombre_completo": "Empleado Test E2E",
+      "departamento": "IT",
+      "cargo": "Desarrollador",
+      "fecha_inicio": "2025-08-01",
+      "modalidad": "Híbrido",
+      "equipo_movil": true
+    },
+    "acciones_ejecutadas": [],
+    "tareas_generadas": [],
+    "vista_previa": {
+      "activos_crear": 2,
+      "activos_modificar": 0,
+      "tareas_generar": 2
+    }
   }
 ]

@@ -862,5 +862,109 @@
         "detalles": "Assessment creado"
       }
     ]
+  },
+  {
+    "id": "5871d33a-fcba-4a7b-88a3-91c716d63578",
+    "organizacion_id": "e2e_test_organization",
+    "cuestionario_id": "cuestionario_ciberplan_v1",
+    "fecha_inicio": "2025-07-12T13:33:44.681642",
+    "fecha_completado": null,
+    "fecha_firmado": null,
+    "estado": "abierto",
+    "firmado_por": null,
+    "nombre": "Evaluaci",
+    "descripcion": "Evaluación inicial para pruebas automatizadas",
+    "resultados": null,
+    "objetivos": {
+      "6_meses": 2.5,
+      "1_año": 3,
+      "2_años": 4
+    },
+    "auditoria": [
+      {
+        "accion": "creacion",
+        "fecha": "2025-07-12T13:33:44.681662",
+        "usuario": "sistema",
+        "detalles": "Assessment creado"
+      }
+    ]
+  },
+  {
+    "id": "e6cf891c-db80-4db4-b0a4-32eaaa0200ee",
+    "organizacion_id": "e2e_test_organization",
+    "cuestionario_id": "cuestionario_ciberplan_v1",
+    "fecha_inicio": "2025-07-12T14:07:09.812356",
+    "fecha_completado": null,
+    "fecha_firmado": null,
+    "estado": "abierto",
+    "firmado_por": null,
+    "nombre": "Evaluación",
+    "descripcion": "Evaluación inicial para pruebas automatizadas",
+    "resultados": null,
+    "objetivos": {
+      "6_meses": 2.5,
+      "1_año": 3,
+      "2_años": 4
+    },
+    "auditoria": [
+      {
+        "accion": "creacion",
+        "fecha": "2025-07-12T14:07:09.812403",
+        "usuario": "sistema",
+        "detalles": "Assessment creado"
+      }
+    ]
+  },
+  {
+    "id": "0fa4bfe5-7963-4b38-b0d4-398495f5e817",
+    "organizacion_id": "e2e_test_organization",
+    "cuestionario_id": "cuestionario_ciberplan_v1",
+    "fecha_inicio": "2025-07-12T14:09:15.556202",
+    "fecha_completado": null,
+    "fecha_firmado": null,
+    "estado": "abierto",
+    "firmado_por": null,
+    "nombre": "Evalua",
+    "descripcion": "Evaluación inicial para pruebas automatizadas",
+    "resultados": null,
+    "objetivos": {
+      "6_meses": 2.5,
+      "1_año": 3,
+      "2_años": 4
+    },
+    "auditoria": [
+      {
+        "accion": "creacion",
+        "fecha": "2025-07-12T14:09:15.556220",
+        "usuario": "sistema",
+        "detalles": "Assessment creado"
+      }
+    ]
+  },
+  {
+    "id": "ffdfac84-0be8-4ef4-8c0c-29ee21584062",
+    "organizacion_id": "e2e_test_organization",
+    "cuestionario_id": "cuestionario_ciberplan_v1",
+    "fecha_inicio": "2025-07-12T14:13:56.574035",
+    "fecha_completado": null,
+    "fecha_firmado": null,
+    "estado": "abierto",
+    "firmado_por": null,
+    "nombre": "Evaluac",
+    "descripcion": "Evaluación inicial para pruebas automatizadas",
+    "resultados": null,
+    "objetivos": {
+      "6_meses": 2.5,
+      "1_año": 3,
+      "2_años": 4
+    },
+    "auditoria": [
+      {
+        "accion": "creacion",
+        "fecha": "2025-07-12T14:13:56.574059",
+        "usuario": "sistema",
+        "detalles": "Assessment creado"
+      }
+    ]
   }
 ]
