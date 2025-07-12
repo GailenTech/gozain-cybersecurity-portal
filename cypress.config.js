@@ -22,6 +22,34 @@ module.exports = defineConfig({
       if (config.env.baseUrl) {
         config.baseUrl = config.env.baseUrl;
       }
+      
+      // Configuración específica para CI
+      if (process.env.CI || config.baseUrl.includes('run.app')) {
+        console.log('🤖 Detectado entorno CI - aplicando configuración especial')
+        
+        // Timeouts más largos para CI
+        config.defaultCommandTimeout = 20000
+        config.pageLoadTimeout = 30000
+        config.requestTimeout = 15000
+        config.responseTimeout = 15000
+        
+        // Viewport más grande para evitar problemas de elementos ocultos
+        config.viewportWidth = 1920
+        config.viewportHeight = 1080
+        
+        // Reintentos automáticos
+        config.retries = {
+          runMode: 2,
+          openMode: 0
+        }
+        
+        // Variables de entorno para CI
+        config.env.CI = true
+        
+        // Deshabilitar animaciones
+        config.env.ANIMATION_DISTANCE_THRESHOLD = 999999
+      }
+      
       return config;
     },
   },

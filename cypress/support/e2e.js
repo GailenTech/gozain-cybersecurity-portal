@@ -4,6 +4,8 @@ import './commands'
 import * as helpers from './test-helpers'
 // Import switchView helper para GitHub Actions
 import './switchview-helper'
+// Import CI visibility fixes
+import './ci-visibility-fix'
 
 // Hacer helpers disponibles globalmente
 window.testHelpers = helpers
