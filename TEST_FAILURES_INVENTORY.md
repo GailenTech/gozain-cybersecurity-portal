@@ -106,7 +106,8 @@ Ejecutar cada archivo de test individualmente y documentar:
 ## Resumen Total
 - **Total de archivos**: 23
 - **Archivos pasando 100%**: 5 (22%)
-- **Archivos con fallos**: 18 (78%)
+- **Archivos parcialmente arreglados**: 5 (22%)
+- **Archivos pendientes**: 13 (56%)
 - **Objetivo**: 23/23 archivos al 100%
 
 ## Patrones de Fallos Comunes
