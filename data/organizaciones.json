@@ -160,5 +160,23 @@
     "nombre": "Test Org 1752322482973",
     "fecha_creacion": "2025-07-12T14:14:47.614929",
     "activa": true
+  },
+  {
+    "id": "test_nav_org_1752328943733",
+    "nombre": "Test Nav Org 1752328943733",
+    "fecha_creacion": "2025-07-12T16:02:28.426952",
+    "activa": true
+  },
+  {
+    "id": "test_org_1752329094566",
+    "nombre": "Test Org 1752329094566",
+    "fecha_creacion": "2025-07-12T16:04:59.170861",
+    "activa": true
+  },
+  {
+    "id": "mi_e",
+    "nombre": "Mi E",
+    "fecha_creacion": "2025-07-12T16:19:38.773588",
+    "activa": true
   }
 ]

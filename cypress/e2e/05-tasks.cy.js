@@ -3,7 +3,7 @@ describe('Gestión de Tareas', () => {
     cy.loginWithOrg('E2E Test Organization');
     
     // Navegar a impactos
-    cy.contains('.tool-card', 'Análisis de Impactos').click();
+    cy.contains('.tool-card', 'Impactos de Negocio').click();
   });
 
   describe('Vista de Tareas', () => {

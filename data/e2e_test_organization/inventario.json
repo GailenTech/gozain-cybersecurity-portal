@@ -2571,5 +2571,798 @@
         "detalles": "Activo creado"
       }
     ]
+  },
+  {
+    "id": "40ad7ce2-ff9c-4530-8aeb-c11f74d8acf4",
+    "fecha_creacion": "2025-07-12T15:55:17.605300",
+    "fecha_modificacion": "2025-07-12T15:55:17.605307",
+    "tipo": "Hardware",
+    "nombre": "Laptop para Test Employee",
+    "estado": "Activo",
+    "clasificacion": "Interno",
+    "criticidad": "Importante",
+    "responsable": "Test Employee",
+    "departamento": "IT",
+    "auditoria": [
+      {
+        "accion": "creacion",
+        "fecha": "2025-07-12T15:55:17.605313",
+        "usuario": "sistema",
+        "detalles": "Activo creado"
+      }
+    ]
+  },
+  {
+    "id": "103971cf-5412-4f38-932a-fe0dc99e7057",
+    "fecha_creacion": "2025-07-12T15:55:17.608209",
+    "fecha_modificacion": "2025-07-12T15:55:17.608215",
+    "tipo": "Software",
+    "nombre": "Office 365 - Test Employee",
+    "tipo_software": "Productividad",
+    "estado": "Activo",
+    "clasificacion": "Interno",
+    "responsable": "Test Employee",
+    "departamento": "IT",
+    "auditoria": [
+      {
+        "accion": "creacion",
+        "fecha": "2025-07-12T15:55:17.608217",
+        "usuario": "sistema",
+        "detalles": "Activo creado"
+      }
+    ]
+  },
+  {
+    "id": "94affde9-403f-4712-a503-0b4372408db9",
+    "fecha_creacion": "2025-07-12T15:55:35.943088",
+    "fecha_modificacion": "2025-07-12T15:55:35.943096",
+    "tipo": "Hardware",
+    "nombre": "Laptop para Test Employee",
+    "estado": "Activo",
+    "clasificacion": "Interno",
+    "criticidad": "Importante",
+    "responsable": "Test Employee",
+    "departamento": "IT",
+    "auditoria": [
+      {
+        "accion": "creacion",
+        "fecha": "2025-07-12T15:55:35.943101",
+        "usuario": "sistema",
+        "detalles": "Activo creado"
+      }
+    ]
+  },
+  {
+    "id": "e0d197b4-3626-4e8f-9960-294dfbaefd1b",
+    "fecha_creacion": "2025-07-12T15:55:35.946233",
+    "fecha_modificacion": "2025-07-12T15:55:35.946237",
+    "tipo": "Software",
+    "nombre": "Office 365 - Test Employee",
+    "tipo_software": "Productividad",
+    "estado": "Activo",
+    "clasificacion": "Interno",
+    "responsable": "Test Employee",
+    "departamento": "IT",
+    "auditoria": [
+      {
+        "accion": "creacion",
+        "fecha": "2025-07-12T15:55:35.946238",
+        "usuario": "sistema",
+        "detalles": "Activo creado"
+      }
+    ]
+  },
+  {
+    "id": "56c84291-2b17-4470-b711-4ec1f8e5a32a",
+    "fecha_creacion": "2025-07-12T15:55:54.439426",
+    "fecha_modificacion": "2025-07-12T15:55:54.439435",
+    "tipo": "Hardware",
+    "nombre": "Laptop para Test Employee",
+    "estado": "Activo",
+    "clasificacion": "Interno",
+    "criticidad": "Importante",
+    "responsable": "Test Employee",
+    "departamento": "IT",
+    "auditoria": [
+      {
+        "accion": "creacion",
+        "fecha": "2025-07-12T15:55:54.439442",
+        "usuario": "sistema",
+        "detalles": "Activo creado"
+      }
+    ]
+  },
+  {
+    "id": "77d3c5c5-5e2e-4935-9f07-2c420f3bc360",
+    "fecha_creacion": "2025-07-12T15:55:54.442264",
+    "fecha_modificacion": "2025-07-12T15:55:54.442271",
+    "tipo": "Software",
+    "nombre": "Office 365 - Test Employee",
+    "tipo_software": "Productividad",
+    "estado": "Activo",
+    "clasificacion": "Interno",
+    "responsable": "Test Employee",
+    "departamento": "IT",
+    "auditoria": [
+      {
+        "accion": "creacion",
+        "fecha": "2025-07-12T15:55:54.442273",
+        "usuario": "sistema",
+        "detalles": "Activo creado"
+      }
+    ]
+  },
+  {
+    "id": "387fa340-5791-4841-acd5-37eee89b64f3",
+    "fecha_creacion": "2025-07-12T15:56:03.018700",
+    "fecha_modificacion": "2025-07-12T15:56:03.018708",
+    "tipo": "Hardware",
+    "nombre": "Laptop para Test Employee",
+    "estado": "Activo",
+    "clasificacion": "Interno",
+    "criticidad": "Importante",
+    "responsable": "Test Employee",
+    "departamento": "IT",
+    "auditoria": [
+      {
+        "accion": "creacion",
+        "fecha": "2025-07-12T15:56:03.018712",
+        "usuario": "sistema",
+        "detalles": "Activo creado"
+      }
+    ]
+  },
+  {
+    "id": "b98a7543-40e9-40d2-bf00-3e9d34c68a5b",
+    "fecha_creacion": "2025-07-12T15:56:03.022121",
+    "fecha_modificacion": "2025-07-12T15:56:03.022127",
+    "tipo": "Software",
+    "nombre": "Office 365 - Test Employee",
+    "tipo_software": "Productividad",
+    "estado": "Activo",
+    "clasificacion": "Interno",
+    "responsable": "Test Employee",
+    "departamento": "IT",
+    "auditoria": [
+      {
+        "accion": "creacion",
+        "fecha": "2025-07-12T15:56:03.022129",
+        "usuario": "sistema",
+        "detalles": "Activo creado"
+      }
+    ]
+  },
+  {
+    "id": "53e8ac6f-bcdd-4606-bcbf-4b05094f2de9",
+    "fecha_creacion": "2025-07-12T15:56:21.501284",
+    "fecha_modificacion": "2025-07-12T15:56:21.501292",
+    "tipo": "Hardware",
+    "nombre": "Laptop para Test Employee",
+    "estado": "Activo",
+    "clasificacion": "Interno",
+    "criticidad": "Importante",
+    "responsable": "Test Employee",
+    "departamento": "IT",
+    "auditoria": [
+      {
+        "accion": "creacion",
+        "fecha": "2025-07-12T15:56:21.501296",
+        "usuario": "sistema",
+        "detalles": "Activo creado"
+      }
+    ]
+  },
+  {
+    "id": "9333591c-5972-4079-aa66-30a36bca6a1a",
+    "fecha_creacion": "2025-07-12T15:56:21.508236",
+    "fecha_modificacion": "2025-07-12T15:56:21.508242",
+    "tipo": "Software",
+    "nombre": "Office 365 - Test Employee",
+    "tipo_software": "Productividad",
+    "estado": "Activo",
+    "clasificacion": "Interno",
+    "responsable": "Test Employee",
+    "departamento": "IT",
+    "auditoria": [
+      {
+        "accion": "creacion",
+        "fecha": "2025-07-12T15:56:21.508244",
+        "usuario": "sistema",
+        "detalles": "Activo creado"
+      }
+    ]
+  },
+  {
+    "id": "b6a1a841-557a-4fee-adbb-8e031691e919",
+    "fecha_creacion": "2025-07-12T15:56:29.772836",
+    "fecha_modificacion": "2025-07-12T15:56:29.772848",
+    "tipo": "Hardware",
+    "nombre": "Laptop para Test Employee",
+    "estado": "Activo",
+    "clasificacion": "Interno",
+    "criticidad": "Importante",
+    "responsable": "Test Employee",
+    "departamento": "IT",
+    "auditoria": [
+      {
+        "accion": "creacion",
+        "fecha": "2025-07-12T15:56:29.772851",
+        "usuario": "sistema",
+        "detalles": "Activo creado"
+      }
+    ]
+  },
+  {
+    "id": "0fb6f7d8-6575-4f98-815e-5ea7872e4c96",
+    "fecha_creacion": "2025-07-12T15:56:29.775973",
+    "fecha_modificacion": "2025-07-12T15:56:29.775983",
+    "tipo": "Software",
+    "nombre": "Office 365 - Test Employee",
+    "tipo_software": "Productividad",
+    "estado": "Activo",
+    "clasificacion": "Interno",
+    "responsable": "Test Employee",
+    "departamento": "IT",
+    "auditoria": [
+      {
+        "accion": "creacion",
+        "fecha": "2025-07-12T15:56:29.775985",
+        "usuario": "sistema",
+        "detalles": "Activo creado"
+      }
+    ]
+  },
+  {
+    "id": "3aef9d60-00de-44d7-b032-490ffb722a03",
+    "fecha_creacion": "2025-07-12T15:56:37.816960",
+    "fecha_modificacion": "2025-07-12T15:56:37.816968",
+    "tipo": "Hardware",
+    "nombre": "Laptop para Test Employee",
+    "estado": "Activo",
+    "clasificacion": "Interno",
+    "criticidad": "Importante",
+    "responsable": "Test Employee",
+    "departamento": "IT",
+    "auditoria": [
+      {
+        "accion": "creacion",
+        "fecha": "2025-07-12T15:56:37.816973",
+        "usuario": "sistema",
+        "detalles": "Activo creado"
+      }
+    ]
+  },
+  {
+    "id": "ea25daaa-ea54-41f8-ab15-5134a01b1e70",
+    "fecha_creacion": "2025-07-12T15:56:37.821799",
+    "fecha_modificacion": "2025-07-12T15:56:37.821805",
+    "tipo": "Software",
+    "nombre": "Office 365 - Test Employee",
+    "tipo_software": "Productividad",
+    "estado": "Activo",
+    "clasificacion": "Interno",
+    "responsable": "Test Employee",
+    "departamento": "IT",
+    "auditoria": [
+      {
+        "accion": "creacion",
+        "fecha": "2025-07-12T15:56:37.821807",
+        "usuario": "sistema",
+        "detalles": "Activo creado"
+      }
+    ]
+  },
+  {
+    "id": "c5bd9da5-e2b6-43a7-bfbf-3771c108a04d",
+    "fecha_creacion": "2025-07-12T15:56:56.018301",
+    "fecha_modificacion": "2025-07-12T15:56:56.018310",
+    "tipo": "Hardware",
+    "nombre": "Laptop para Test Employee",
+    "estado": "Activo",
+    "clasificacion": "Interno",
+    "criticidad": "Importante",
+    "responsable": "Test Employee",
+    "departamento": "IT",
+    "auditoria": [
+      {
+        "accion": "creacion",
+        "fecha": "2025-07-12T15:56:56.018313",
+        "usuario": "sistema",
+        "detalles": "Activo creado"
+      }
+    ]
+  },
+  {
+    "id": "de109340-0096-461a-867f-b2791bd01bd4",
+    "fecha_creacion": "2025-07-12T15:56:56.021462",
+    "fecha_modificacion": "2025-07-12T15:56:56.021468",
+    "tipo": "Software",
+    "nombre": "Office 365 - Test Employee",
+    "tipo_software": "Productividad",
+    "estado": "Activo",
+    "clasificacion": "Interno",
+    "responsable": "Test Employee",
+    "departamento": "IT",
+    "auditoria": [
+      {
+        "accion": "creacion",
+        "fecha": "2025-07-12T15:56:56.021471",
+        "usuario": "sistema",
+        "detalles": "Activo creado"
+      }
+    ]
+  },
+  {
+    "id": "ac1fcb2b-ca1d-4768-9a0d-9b5d96a5d4a8",
+    "fecha_creacion": "2025-07-12T15:57:04.142671",
+    "fecha_modificacion": "2025-07-12T15:57:04.142682",
+    "tipo": "Hardware",
+    "nombre": "Laptop para Test Employee",
+    "estado": "Activo",
+    "clasificacion": "Interno",
+    "criticidad": "Importante",
+    "responsable": "Test Employee",
+    "departamento": "IT",
+    "auditoria": [
+      {
+        "accion": "creacion",
+        "fecha": "2025-07-12T15:57:04.142686",
+        "usuario": "sistema",
+        "detalles": "Activo creado"
+      }
+    ]
+  },
+  {
+    "id": "b3991cf9-55df-4bf7-8e1d-a61c9ca6e2af",
+    "fecha_creacion": "2025-07-12T15:57:04.146392",
+    "fecha_modificacion": "2025-07-12T15:57:04.146399",
+    "tipo": "Software",
+    "nombre": "Office 365 - Test Employee",
+    "tipo_software": "Productividad",
+    "estado": "Activo",
+    "clasificacion": "Interno",
+    "responsable": "Test Employee",
+    "departamento": "IT",
+    "auditoria": [
+      {
+        "accion": "creacion",
+        "fecha": "2025-07-12T15:57:04.146401",
+        "usuario": "sistema",
+        "detalles": "Activo creado"
+      }
+    ]
+  },
+  {
+    "id": "c09fa99f-d12f-404f-b642-fe7ffe757db7",
+    "fecha_creacion": "2025-07-12T15:57:29.095711",
+    "fecha_modificacion": "2025-07-12T15:57:29.095719",
+    "tipo": "Hardware",
+    "estado": "Inactivo",
+    "nombre": "Laptop Dell - Disponible",
+    "responsable": "Almacén TI",
+    "departamento": "TI",
+    "clasificacion": "Interno",
+    "criticidad": "Normal",
+    "descripcion": "",
+    "auditoria": [
+      {
+        "accion": "creacion",
+        "fecha": "2025-07-12T15:57:29.095725",
+        "usuario": "sistema",
+        "detalles": "Activo creado"
+      }
+    ]
+  },
+  {
+    "id": "e6b92636-f598-4cdf-ae19-873c625d70b8",
+    "fecha_creacion": "2025-07-12T15:57:46.252746",
+    "fecha_modificacion": "2025-07-12T15:57:46.252753",
+    "tipo": "Hardware",
+    "estado": "Activo",
+    "nombre": "Servidor Principal DC01",
+    "responsable": "Carlos Mendez",
+    "departamento": "TI",
+    "clasificacion": "Confidencial",
+    "criticidad": "Crítica",
+    "descripcion": "Servidor principal del datacenter",
+    "auditoria": [
+      {
+        "accion": "creacion",
+        "fecha": "2025-07-12T15:57:46.252757",
+        "usuario": "sistema",
+        "detalles": "Activo creado"
+      }
+    ]
+  },
+  {
+    "id": "8e734365-2532-42f3-8fb4-fb399dbfe787",
+    "fecha_creacion": "2025-07-12T16:03:38.155714",
+    "fecha_modificacion": "2025-07-12T16:03:38.155722",
+    "tipo": "Hardware",
+    "estado": "Activo",
+    "nombre": "Servidor Principal TEST",
+    "responsable": "Admin Test",
+    "departamento": "IT",
+    "clasificacion": "Confidencial",
+    "criticidad": "Crítica",
+    "descripcion": "",
+    "auditoria": [
+      {
+        "accion": "creacion",
+        "fecha": "2025-07-12T16:03:38.155729",
+        "usuario": "sistema",
+        "detalles": "Activo creado"
+      }
+    ]
+  },
+  {
+    "id": "cb51a982-f0a0-41e1-bdb5-ed7a0c678911",
+    "fecha_creacion": "2025-07-12T16:03:41.157918",
+    "fecha_modificacion": "2025-07-12T16:03:41.157928",
+    "tipo": "Software",
+    "estado": "Activo",
+    "nombre": "Sistema ERP TEST",
+    "responsable": "Admin Test",
+    "departamento": "Finanzas",
+    "clasificacion": "Interno",
+    "criticidad": "Importante",
+    "descripcion": "",
+    "auditoria": [
+      {
+        "accion": "creacion",
+        "fecha": "2025-07-12T16:03:41.157930",
+        "usuario": "sistema",
+        "detalles": "Activo creado"
+      }
+    ]
+  },
+  {
+    "id": "9e5c3dc5-cd24-4555-8f75-eced4a3d9220",
+    "fecha_creacion": "2025-07-12T16:03:44.209979",
+    "fecha_modificacion": "2025-07-12T16:03:44.209986",
+    "tipo": "Personal",
+    "estado": "Activo",
+    "nombre": "Usuario Test E2E",
+    "responsable": "RRHH Test",
+    "departamento": "Desarrollo",
+    "clasificacion": "Interno",
+    "criticidad": "Normal",
+    "descripcion": "",
+    "auditoria": [
+      {
+        "accion": "creacion",
+        "fecha": "2025-07-12T16:03:44.209988",
+        "usuario": "sistema",
+        "detalles": "Activo creado"
+      }
+    ]
+  },
+  {
+    "id": "c20b28ff-4a01-47f7-9585-5952058ce797",
+    "fecha_creacion": "2025-07-12T16:08:40.162437",
+    "fecha_modificacion": "2025-07-12T16:08:40.162451",
+    "tipo": "Hardware",
+    "estado": "Inactivo",
+    "nombre": "Laptop Dell - Disponible",
+    "responsable": "Almacén TI",
+    "departamento": "TI",
+    "clasificacion": "Interno",
+    "criticidad": "Normal",
+    "descripcion": "",
+    "auditoria": [
+      {
+        "accion": "creacion",
+        "fecha": "2025-07-12T16:08:40.162461",
+        "usuario": "sistema",
+        "detalles": "Activo creado"
+      }
+    ]
+  },
+  {
+    "id": "0e3f12eb-07c4-4ba0-9410-a2b315bc4d31",
+    "fecha_creacion": "2025-07-12T16:08:57.175287",
+    "fecha_modificacion": "2025-07-12T16:08:57.175296",
+    "tipo": "Hardware",
+    "estado": "Activo",
+    "nombre": "Servidor Principal DC01",
+    "responsable": "Carlos Mendez",
+    "departamento": "TI",
+    "clasificacion": "Confidencial",
+    "criticidad": "Crítica",
+    "descripcion": "Servidor principal del datacenter",
+    "auditoria": [
+      {
+        "accion": "creacion",
+        "fecha": "2025-07-12T16:08:57.175300",
+        "usuario": "sistema",
+        "detalles": "Activo creado"
+      }
+    ]
+  },
+  {
+    "id": "195e469e-54d3-4e0e-8ef8-ecc4ee549171",
+    "fecha_creacion": "2025-07-12T16:11:06.531969",
+    "fecha_modificacion": "2025-07-12T16:11:06.531977",
+    "tipo": "Hardware",
+    "estado": "Inactivo",
+    "nombre": "Laptop Dell - Disponible",
+    "responsable": "Almacén TI",
+    "departamento": "TI",
+    "clasificacion": "Interno",
+    "criticidad": "Normal",
+    "descripcion": "",
+    "auditoria": [
+      {
+        "accion": "creacion",
+        "fecha": "2025-07-12T16:11:06.531984",
+        "usuario": "sistema",
+        "detalles": "Activo creado"
+      }
+    ]
+  },
+  {
+    "id": "53a3f600-b63f-4060-b117-ce58e5697ff8",
+    "fecha_creacion": "2025-07-12T16:11:23.706852",
+    "fecha_modificacion": "2025-07-12T16:11:23.706859",
+    "tipo": "Hardware",
+    "estado": "Activo",
+    "nombre": "Servidor Principal DC01",
+    "responsable": "Carlos Mendez",
+    "departamento": "TI",
+    "clasificacion": "Confidencial",
+    "criticidad": "Crítica",
+    "descripcion": "Servidor principal del datacenter",
+    "auditoria": [
+      {
+        "accion": "creacion",
+        "fecha": "2025-07-12T16:11:23.706861",
+        "usuario": "sistema",
+        "detalles": "Activo creado"
+      }
+    ]
+  },
+  {
+    "id": "a9c0d73f-260a-48ea-b788-afbc600684bf",
+    "fecha_creacion": "2025-07-12T16:13:47.192134",
+    "fecha_modificacion": "2025-07-12T16:13:47.192142",
+    "tipo": "Hardware",
+    "estado": "Inactivo",
+    "nombre": "Laptop Dell - Disponible",
+    "responsable": "Almacén TI",
+    "departamento": "TI",
+    "clasificacion": "Interno",
+    "criticidad": "Normal",
+    "descripcion": "",
+    "auditoria": [
+      {
+        "accion": "creacion",
+        "fecha": "2025-07-12T16:13:47.192148",
+        "usuario": "sistema",
+        "detalles": "Activo creado"
+      }
+    ]
+  },
+  {
+    "id": "be933581-3c8c-463f-8013-30b03a09aec0",
+    "fecha_creacion": "2025-07-12T16:13:55.395694",
+    "fecha_modificacion": "2025-07-12T16:13:55.395713",
+    "tipo": "Hardware",
+    "estado": "Activo",
+    "nombre": "Servidor Principal DC01",
+    "responsable": "Carlos Mendez",
+    "departamento": "TI",
+    "clasificacion": "Confidencial",
+    "criticidad": "Crítica",
+    "descripcion": "Servidor principal del datacenter",
+    "auditoria": [
+      {
+        "accion": "creacion",
+        "fecha": "2025-07-12T16:13:55.395721",
+        "usuario": "sistema",
+        "detalles": "Activo creado"
+      }
+    ]
+  },
+  {
+    "id": "5c4a1965-1ff0-433c-9ff8-69438b821dbf",
+    "fecha_creacion": "2025-07-12T16:15:43.628849",
+    "fecha_modificacion": "2025-07-12T16:15:43.628858",
+    "tipo": "Hardware",
+    "estado": "Inactivo",
+    "nombre": "Laptop Dell - Disponible",
+    "responsable": "Almacén TI",
+    "departamento": "TI",
+    "clasificacion": "Interno",
+    "criticidad": "Normal",
+    "descripcion": "",
+    "auditoria": [
+      {
+        "accion": "creacion",
+        "fecha": "2025-07-12T16:15:43.628864",
+        "usuario": "sistema",
+        "detalles": "Activo creado"
+      }
+    ]
+  },
+  {
+    "id": "191c667f-8f34-4d15-ae39-26178ad0e394",
+    "fecha_creacion": "2025-07-12T16:15:47.725366",
+    "fecha_modificacion": "2025-07-12T16:15:47.725375",
+    "tipo": "Hardware",
+    "nombre": "Laptop para Juan Pérez",
+    "estado": "Activo",
+    "clasificacion": "Interno",
+    "criticidad": "Importante",
+    "responsable": "Juan Pérez",
+    "departamento": "TI",
+    "auditoria": [
+      {
+        "accion": "creacion",
+        "fecha": "2025-07-12T16:15:47.725378",
+        "usuario": "sistema",
+        "detalles": "Activo creado"
+      }
+    ]
+  },
+  {
+    "id": "7aa32dbc-4b42-423d-a5bc-d09155bd3976",
+    "fecha_creacion": "2025-07-12T16:15:47.729603",
+    "fecha_modificacion": "2025-07-12T16:15:47.729610",
+    "tipo": "Software",
+    "nombre": "Office 365 - Juan Pérez",
+    "tipo_software": "Productividad",
+    "estado": "Activo",
+    "clasificacion": "Interno",
+    "responsable": "Juan Pérez",
+    "departamento": "TI",
+    "auditoria": [
+      {
+        "accion": "creacion",
+        "fecha": "2025-07-12T16:15:47.729612",
+        "usuario": "sistema",
+        "detalles": "Activo creado"
+      }
+    ]
+  },
+  {
+    "id": "8925ca1d-b393-4fbb-b2c8-0e58c4be2077",
+    "fecha_creacion": "2025-07-12T16:16:04.830829",
+    "fecha_modificacion": "2025-07-12T16:16:04.830837",
+    "tipo": "Hardware",
+    "estado": "Activo",
+    "nombre": "Servidor Principal DC01",
+    "responsable": "Carlos Mendez",
+    "departamento": "TI",
+    "clasificacion": "Confidencial",
+    "criticidad": "Crítica",
+    "descripcion": "Servidor principal del datacenter",
+    "auditoria": [
+      {
+        "accion": "creacion",
+        "fecha": "2025-07-12T16:16:04.830845",
+        "usuario": "sistema",
+        "detalles": "Activo creado"
+      }
+    ]
+  },
+  {
+    "id": "942c9638-025e-4bf6-b9f8-e7f7c7c7642b",
+    "fecha_creacion": "2025-07-12T16:18:04.122232",
+    "fecha_modificacion": "2025-07-12T16:18:04.122250",
+    "tipo": "Hardware",
+    "nombre": "Laptop para Test Employee",
+    "estado": "Activo",
+    "clasificacion": "Interno",
+    "criticidad": "Importante",
+    "responsable": "Test Employee",
+    "departamento": "IT",
+    "auditoria": [
+      {
+        "accion": "creacion",
+        "fecha": "2025-07-12T16:18:04.122261",
+        "usuario": "sistema",
+        "detalles": "Activo creado"
+      }
+    ]
+  },
+  {
+    "id": "e21a2842-7a70-41f0-8b4d-d7b6c75eb2de",
+    "fecha_creacion": "2025-07-12T16:18:04.131355",
+    "fecha_modificacion": "2025-07-12T16:18:04.131364",
+    "tipo": "Software",
+    "nombre": "Office 365 - Test Employee",
+    "tipo_software": "Productividad",
+    "estado": "Activo",
+    "clasificacion": "Interno",
+    "responsable": "Test Employee",
+    "departamento": "IT",
+    "auditoria": [
+      {
+        "accion": "creacion",
+        "fecha": "2025-07-12T16:18:04.131366",
+        "usuario": "sistema",
+        "detalles": "Activo creado"
+      }
+    ]
+  },
+  {
+    "id": "1573bcaf-a86c-4119-8132-b6740dfb8475",
+    "fecha_creacion": "2025-07-12T16:18:22.735270",
+    "fecha_modificacion": "2025-07-12T16:18:22.735279",
+    "tipo": "Hardware",
+    "nombre": "Laptop para Test Employee",
+    "estado": "Activo",
+    "clasificacion": "Interno",
+    "criticidad": "Importante",
+    "responsable": "Test Employee",
+    "departamento": "IT",
+    "auditoria": [
+      {
+        "accion": "creacion",
+        "fecha": "2025-07-12T16:18:22.735286",
+        "usuario": "sistema",
+        "detalles": "Activo creado"
+      }
+    ]
+  },
+  {
+    "id": "e5f10fa7-1f2f-4f38-b8a0-a9cfa21ab1e4",
+    "fecha_creacion": "2025-07-12T16:18:22.740927",
+    "fecha_modificacion": "2025-07-12T16:18:22.740943",
+    "tipo": "Software",
+    "nombre": "Office 365 - Test Employee",
+    "tipo_software": "Productividad",
+    "estado": "Activo",
+    "clasificacion": "Interno",
+    "responsable": "Test Employee",
+    "departamento": "IT",
+    "auditoria": [
+      {
+        "accion": "creacion",
+        "fecha": "2025-07-12T16:18:22.740948",
+        "usuario": "sistema",
+        "detalles": "Activo creado"
+      }
+    ]
+  },
+  {
+    "id": "667a9862-d617-4b04-a5f6-7a8a98b1978f",
+    "fecha_creacion": "2025-07-12T16:18:41.440715",
+    "fecha_modificacion": "2025-07-12T16:18:41.440725",
+    "tipo": "Hardware",
+    "nombre": "Laptop para Test Employee",
+    "estado": "Activo",
+    "clasificacion": "Interno",
+    "criticidad": "Importante",
+    "responsable": "Test Employee",
+    "departamento": "IT",
+    "auditoria": [
+      {
+        "accion": "creacion",
+        "fecha": "2025-07-12T16:18:41.440733",
+        "usuario": "sistema",
+        "detalles": "Activo creado"
+      }
+    ]
+  },
+  {
+    "id": "0f40c326-fe74-4e7c-9849-6aa404b7aaf0",
+    "fecha_creacion": "2025-07-12T16:18:41.526908",
+    "fecha_modificacion": "2025-07-12T16:18:41.526920",
+    "tipo": "Software",
+    "nombre": "Office 365 - Test Employee",
+    "tipo_software": "Productividad",
+    "estado": "Activo",
+    "clasificacion": "Interno",
+    "responsable": "Test Employee",
+    "departamento": "IT",
+    "auditoria": [
+      {
+        "accion": "creacion",
+        "fecha": "2025-07-12T16:18:41.526923",
+        "usuario": "sistema",
+        "detalles": "Activo creado"
+      }
+    ]
   }
 ]

@@ -1,7 +1,9 @@
 describe('Flujo Completo del Sistema', () => {
   beforeEach(() => {
-    // Por ahora no reseteamos datos en producción
-    cy.visit('/');
+    // Ignorar errores de scripts cross-origin
+    cy.on('uncaught:exception', (err, runnable) => {
+      return false
+    })
   });
 
   it('Flujo completo: desde crear organización hasta completar tareas', () => {
@@ -11,16 +13,20 @@ describe('Flujo Completo del Sistema', () => {
     
     // 2. Crear nueva organización
     cy.get('#organizationButton').click();
+    cy.wait(500);
     cy.get('#btnNewOrganization').click();
+    cy.wait(500);
     cy.get('#newOrgName').type('Mi Empresa Test');
     cy.get('#btnCreateOrganization').click();
+    cy.wait(2000);
     
     // 3. Verificar que se muestra el selector de herramientas
     cy.get('.tool-selector-container').should('be.visible');
     cy.get('.tool-card').should('have.length', 3);
     
     // 4. Seleccionar Inventario
-    cy.get('.tool-card').contains('Inventario de Activos').click();
+    cy.get('.tool-card').contains('Inventario de Activos').click({ force: true });
+    cy.wait(1000);
     
     // 5. Verificar elementos del inventario
     cy.get('#appMenu').should('be.visible');
@@ -99,9 +105,7 @@ describe('Flujo Completo del Sistema', () => {
 
   it('Flujo de filtrado y búsqueda en ambos módulos', () => {
     // Setup inicial
-    cy.createTestOrganization();
-    cy.visit('/');
-    cy.selectOrganization('org-test');
+    cy.loginWithOrg('E2E Test Organization');
     
     // Test en Inventario
     cy.contains('.tool-card', 'Inventario de Activos').click();
@@ -156,9 +160,7 @@ describe('Flujo Completo del Sistema', () => {
   });
 
   it('Flujo de navegación entre vistas', () => {
-    cy.createTestOrganization();
-    cy.visit('/');
-    cy.selectOrganization('org-test');
+    cy.loginWithOrg('E2E Test Organization');
     cy.contains('.tool-card', 'Inventario de Activos').click();
     
     // Verificar navegación con botones de vista

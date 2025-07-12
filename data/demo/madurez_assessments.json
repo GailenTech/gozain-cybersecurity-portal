@@ -24,5 +24,31 @@
         "detalles": "Assessment creado"
       }
     ]
+  },
+  {
+    "id": "8f6f5510-6d43-4b98-95a3-7f7a6d709585",
+    "organizacion_id": "demo",
+    "cuestionario_id": "cuestionario_ciberplan_v1",
+    "fecha_inicio": "2025-07-12T16:06:09.299938",
+    "fecha_completado": null,
+    "fecha_firmado": null,
+    "estado": "abierto",
+    "firmado_por": null,
+    "nombre": "Test E2",
+    "descripcion": "Prueba automatizada básica",
+    "resultados": null,
+    "objetivos": {
+      "6_meses": 2.5,
+      "1_año": 3,
+      "2_años": 4
+    },
+    "auditoria": [
+      {
+        "accion": "creacion",
+        "fecha": "2025-07-12T16:06:09.299956",
+        "usuario": "sistema",
+        "detalles": "Assessment creado"
+      }
+    ]
   }
 ]
