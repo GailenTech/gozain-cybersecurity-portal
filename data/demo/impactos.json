@@ -83,5 +83,92 @@
       "tareas_generar": 2
     },
     "fecha_procesamiento": "2025-07-10T12:26:12.357991"
+  },
+  {
+    "id": "750c9f04-2b0b-4ddf-836f-a9943eb39ec0",
+    "tipo": "alta_empleado",
+    "estado": "procesado",
+    "fecha_creacion": "2025-07-12T16:41:42.706415",
+    "usuario_creador": "sistema",
+    "datos": {
+      "nombre_completo": "Test Employee",
+      "departamento": "IT",
+      "cargo": "Developer",
+      "fecha_inicio": "2025-07-15",
+      "modalidad": "Presencial",
+      "equipo_movil": true
+    },
+    "acciones_ejecutadas": {
+      "activos_creados": [
+        {
+          "id": "cecd93b8-45cb-4f56-92af-ff3cf19286ad",
+          "fecha_creacion": "2025-07-12T16:41:44.789863",
+          "fecha_modificacion": "2025-07-12T16:41:44.789873",
+          "tipo": "Hardware",
+          "nombre": "Laptop para Test Employee",
+          "estado": "Activo",
+          "clasificacion": "Interno",
+          "criticidad": "Importante",
+          "responsable": "Test Employee",
+          "departamento": "IT",
+          "auditoria": [
+            {
+              "accion": "creacion",
+              "fecha": "2025-07-12T16:41:44.789886",
+              "usuario": "sistema",
+              "detalles": "Activo creado"
+            }
+          ]
+        },
+        {
+          "id": "9ae20fd6-cacc-456b-aa74-cf83e1685c3e",
+          "fecha_creacion": "2025-07-12T16:41:44.790189",
+          "fecha_modificacion": "2025-07-12T16:41:44.790192",
+          "tipo": "Software",
+          "nombre": "Office 365 - Test Employee",
+          "tipo_software": "Productividad",
+          "estado": "Activo",
+          "clasificacion": "Interno",
+          "responsable": "Test Employee",
+          "departamento": "IT",
+          "auditoria": [
+            {
+              "accion": "creacion",
+              "fecha": "2025-07-12T16:41:44.790193",
+              "usuario": "sistema",
+              "detalles": "Activo creado"
+            }
+          ]
+        }
+      ],
+      "activos_modificados": [],
+      "tareas_creadas": [
+        {
+          "id": "359d13d8-52c0-427f-8e21-fdf4cb026730",
+          "impacto_id": "750c9f04-2b0b-4ddf-836f-a9943eb39ec0",
+          "descripcion": "Preparar equipo para Test Employee",
+          "responsable": "IT",
+          "fecha_creacion": "2025-07-12T16:41:44.792161",
+          "fecha_limite": "2025-07-14T00:00:00",
+          "estado": "pendiente"
+        },
+        {
+          "id": "e2d60e54-81f2-48f0-985b-1d8a4f72c554",
+          "impacto_id": "750c9f04-2b0b-4ddf-836f-a9943eb39ec0",
+          "descripcion": "Entregar kit de bienvenida a Test Employee",
+          "responsable": "RRHH",
+          "fecha_creacion": "2025-07-12T16:41:44.792173",
+          "fecha_limite": "2025-07-15T00:00:00",
+          "estado": "pendiente"
+        }
+      ]
+    },
+    "tareas_generadas": [],
+    "vista_previa": {
+      "activos_crear": 2,
+      "activos_modificar": 0,
+      "tareas_generar": 2
+    },
+    "fecha_procesamiento": "2025-07-12T16:41:44.792175"
   }
 ]
