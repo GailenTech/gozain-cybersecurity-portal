@@ -224,10 +224,12 @@ Cypress.Commands.add('filterAssets', (filters) => {
 // Comando para cambiar vista
 Cypress.Commands.add('switchView', (view) => {
   if (view === 'dashboard') {
-    cy.get('#btnVistaDashboard').click()
+    cy.get('#btnVistaDashboard').click({ force: true })
+    cy.wait(500)
     cy.get('#dashboardView').should('be.visible')
   } else if (view === 'lista') {
-    cy.get('#btnVistaLista').click()
+    cy.get('#btnVistaLista').click({ force: true })
+    cy.wait(1000)
     cy.get('#listaView').should('be.visible')
   }
 })

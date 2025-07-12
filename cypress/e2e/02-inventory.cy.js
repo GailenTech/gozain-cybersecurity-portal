@@ -167,8 +167,7 @@ describe('Módulo de Inventario', () => {
           const createdAssetId = response.body.id
           
           // Cambiar a vista lista
-          cy.get('#btnVistaLista').click()
-          cy.get('#listaView').should('be.visible')
+          cy.switchView('lista')
           
           // Esperar a que se cargue la lista
           cy.wait(1000)
