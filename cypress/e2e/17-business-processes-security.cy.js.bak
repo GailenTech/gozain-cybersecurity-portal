@@ -1,4 +1,4 @@
-describe.skip('Procesos de Negocio - Seguridad y Cumplimiento', () => {
+describe('Procesos de Negocio - Seguridad y Cumplimiento', () => {
   beforeEach(() => {
     cy.loginWithOrg()
     cy.get('.tool-card').contains('Impactos de Negocio').click()

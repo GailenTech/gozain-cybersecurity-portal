@@ -14,6 +14,7 @@ describe('Pruebas de Integración', () => {
     it('Debe completar un flujo de alta de empleado', () => {
       // 1. Crear algunos activos base
       cy.get('.tool-card').contains('Inventario de Activos').click()
+      cy.wait(2000) // Esperar a que cargue el módulo
       cy.switchView('lista')
       
       cy.fixture('test-data.json').then((data) => {
@@ -46,6 +47,7 @@ describe('Pruebas de Integración', () => {
         cy.get('#toolSelectorButton').click({ force: true })
         cy.wait(500)
         cy.get('.tool-card').contains('Inventario de Activos').click()
+        cy.wait(2000) // Esperar a que cargue el módulo
         cy.switchView('lista')
         
         // Verificar que hay al menos un activo
@@ -122,7 +124,7 @@ describe('Pruebas de Integración', () => {
       cy.viewport('iphone-x')
       
       cy.visit('/')
-      cy.selectOrganization('Organización Demo')
+      cy.loginWithOrg('E2E Test Organization')
       
       // El selector de herramientas debe adaptarse
       cy.get('.tool-selector-container').should('be.visible')
@@ -157,7 +159,7 @@ describe('Pruebas de Integración', () => {
     })
 
     it('Debe limpiar el estado al cambiar de organización', () => {
-      cy.loginWithOrg('Organización Demo')
+      cy.loginWithOrg('E2E Test Organization')
       cy.get('.tool-card').contains('Inventario de Activos').click({ force: true })
       cy.wait(2000)
       
@@ -165,10 +167,10 @@ describe('Pruebas de Integración', () => {
       cy.get('#organizationButton').click({ force: true })
       cy.wait(1000)
       
-      // Seleccionar Test Corp
-      cy.get('#organizationList').within(() => {
-        cy.contains('.list-group-item', 'Test Corp').click()
-      })
+      // Crear nueva organización para asegurar que existe
+      cy.get('#btnNewOrganization').click()
+      cy.get('#newOrgName').type('Test Cambio Org ' + Date.now())
+      cy.get('#btnCreateOrganization').click()
       cy.wait(2000)
       
       // Debe volver al selector de herramientas

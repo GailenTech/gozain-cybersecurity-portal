@@ -1,2 +1,33 @@
 
-DevTools listening on ws://127.0.0.1:59720/devtools/browser/e2b98a8a-be2b-4a66-bd01-0d315359fe56
+DevTools listening on ws://127.0.0.1:54992/devtools/browser/94527f7e-fcc0-4e09-a855-bd5115c6d696
+
+Opening `/dev/tty` failed (6): Device not configured
+resize:  can't open terminal /dev/tty
+================================================================================
+
+  (Run Starting)
+
+  ┌────────────────────────────────────────────────────────────────────────────────────────────────┐
+  │ Cypress:        13.17.0                                                                        │
+  │ Browser:        Electron 118 (headless)                                                        │
+  │ Node Version:   v23.7.0 (/opt/homebrew/Cellar/node/23.7.0/bin/node)                            │
+  │ Specs:          1 found (05-tasks.cy.js)                                                       │
+  │ Searched:       cypress/e2e/05-tasks.cy.js                                                     │
+  └────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+
+────────────────────────────────────────────────────────────────────────────────────────────────────
+                                                                                                    
+  Running:  05-tasks.cy.js                                                                  (1 of 1)
+[83908:0712/190758.966143:ERROR:trust_store_mac.cc(846)] Error parsing certificate:
+ERROR: Failed parsing extensions
+
+[83908:0712/190758.966241:ERROR:trust_store_mac.cc(846)] Error parsing certificate:
+ERROR: Policies is an empty SEQUENCE
+ERROR: Failed parsing certificate policies
+
+[83908:0712/190758.966415:ERROR:cert_verify_proc_builtin.cc(701)] CertVerifyProcBuiltin for cdn.jsdelivr.net failed:
+----- Certificate i=0 (OU=Cypress Proxy Server Certificate,O=Cypress Proxy CA,L=Internet,ST=Internet,C=Internet,CN=cdn.jsdelivr.net) -----
+ERROR: No matching issuer found
+
+

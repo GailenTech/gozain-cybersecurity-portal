@@ -1,4 +1,4 @@
-describe.skip('Procesos de Negocio - Gestión de Crisis', () => {
+describe('Procesos de Negocio - Gestión de Crisis', () => {
   beforeEach(() => {
     cy.loginWithOrg()
     cy.get('.tool-card').contains('Impactos de Negocio').click()

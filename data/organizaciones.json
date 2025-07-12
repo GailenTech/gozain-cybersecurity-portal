@@ -190,5 +190,59 @@
     "nombre": "Mi Empresa Test",
     "fecha_creacion": "2025-07-12T16:47:20.053188",
     "activa": true
+  },
+  {
+    "id": "test_org_1752339394390",
+    "nombre": "Test Org 1752339394390",
+    "fecha_creacion": "2025-07-12T18:56:39.017116",
+    "activa": true
+  },
+  {
+    "id": "test_nav_org_1752339433846",
+    "nombre": "Test Nav Org 1752339433846",
+    "fecha_creacion": "2025-07-12T18:57:18.556173",
+    "activa": true
+  },
+  {
+    "id": "test_nav_org_1752339692478",
+    "nombre": "Test Nav Org 1752339692478",
+    "fecha_creacion": "2025-07-12T19:01:37.162679",
+    "activa": true
+  },
+  {
+    "id": "test_org_1752339780452",
+    "nombre": "Test Org 1752339780452",
+    "fecha_creacion": "2025-07-12T19:03:05.080134",
+    "activa": true
+  },
+  {
+    "id": "test_cambio_org_17",
+    "nombre": "Test Cambio Org 17",
+    "fecha_creacion": "2025-07-12T19:15:21.580418",
+    "activa": true
+  },
+  {
+    "id": "test_org_1752340846891",
+    "nombre": "Test Org 1752340846891",
+    "fecha_creacion": "2025-07-12T19:20:51.524184",
+    "activa": true
+  },
+  {
+    "id": "test_nav_org_1752340886380",
+    "nombre": "Test Nav Org 1752340886380",
+    "fecha_creacion": "2025-07-12T19:21:31.088292",
+    "activa": true
+  },
+  {
+    "id": "test_cambio_org_1",
+    "nombre": "Test Cambio Org 1",
+    "fecha_creacion": "2025-07-12T19:26:04.993588",
+    "activa": true
+  },
+  {
+    "id": "test_nav_org_1752341266048",
+    "nombre": "Test Nav Org 1752341266048",
+    "fecha_creacion": "2025-07-12T19:27:50.745013",
+    "activa": true
   }
 ]

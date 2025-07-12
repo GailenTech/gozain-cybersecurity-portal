@@ -1,4 +1,4 @@
-describe.skip('Validación Completa de Procesos de Negocio', () => {
+describe('Validación Completa de Procesos de Negocio', () => {
   beforeEach(() => {
     cy.loginWithOrg('E2E Test Organization')
     cy.get('.tool-card').contains('Impactos de Negocio').click()

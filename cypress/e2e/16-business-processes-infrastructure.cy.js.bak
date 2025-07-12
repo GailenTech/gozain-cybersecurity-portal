@@ -1,4 +1,4 @@
-describe.skip('Procesos de Negocio - Infraestructura y Sistemas', () => {
+describe('Procesos de Negocio - Infraestructura y Sistemas', () => {
   beforeEach(() => {
     cy.loginWithOrg()
     cy.get('.tool-card').contains('Impactos de Negocio').click()
