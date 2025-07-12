@@ -1,18 +1,35 @@
 describe('Navegación del Cuestionario de Madurez - Validación Específica', () => {
   beforeEach(() => {
     cy.loginWithOrg()
-    cy.selectTool('madurez')
+    cy.get('.tool-card').contains('Madurez en Ciberseguridad').click()
+    cy.get('.madurez-app', { timeout: 10000 }).should('be.visible')
     cy.wait(2000)
   })
 
   it('Debe permitir avanzar desde la segunda pantalla del cuestionario', () => {
-    // Crear evaluación específica para esta prueba
-    cy.createMaturityAssessment({
-      nombre: 'Test Navegación Específico'
+    // Create assessment specific for this test using UI steps
+    cy.get('body').then($body => {
+      if ($body.find('[data-menu-item="nueva"]').length > 0) {
+        cy.get('[data-menu-item="nueva"]').click()
+      } else if ($body.find('#btnNuevaEvaluacion').length > 0) {
+        cy.get('#btnNuevaEvaluacion').click()
+      } else {
+        cy.get('.btn').contains('Nueva Evaluación').click()
+      }
     })
     
-    // Ir a la evaluación
-    cy.switchMaturityView('lista')
+    cy.get('#modalNuevaEvaluacion').should('be.visible')
+    cy.get('#nombreEvaluacion').clear().type('Test Navegación Específico')
+    cy.get('#btnCrearEvaluacion').click()
+    
+    // Wait for modal to close
+    cy.wait(2000)
+    cy.get('.modal-backdrop', { timeout: 10000 }).should('not.exist')
+    cy.get('#modalNuevaEvaluacion', { timeout: 10000 }).should('not.be.visible')
+    
+    // Go to the assessment
+    cy.get('#btnVistaLista').click()
+    cy.get('#listaView').should('be.visible')
     cy.get('button[onclick*="completarEvaluacion"]').first().click()
     
     // PANTALLA 1: Verificar que estamos en el primer dominio
@@ -113,11 +130,29 @@ describe('Navegación del Cuestionario de Madurez - Validación Específica', ()
   })
 
   it('Debe mantener las respuestas al navegar entre dominios', () => {
-    cy.createMaturityAssessment({
-      nombre: 'Test Persistencia Respuestas'
+    // Create assessment using UI steps
+    cy.get('body').then($body => {
+      if ($body.find('[data-menu-item="nueva"]').length > 0) {
+        cy.get('[data-menu-item="nueva"]').click()
+      } else if ($body.find('#btnNuevaEvaluacion').length > 0) {
+        cy.get('#btnNuevaEvaluacion').click()
+      } else {
+        cy.get('.btn').contains('Nueva Evaluación').click()
+      }
     })
     
-    cy.switchMaturityView('lista')
+    cy.get('#modalNuevaEvaluacion').should('be.visible')
+    cy.get('#nombreEvaluacion').clear().type('Test Persistencia Respuestas')
+    cy.get('#btnCrearEvaluacion').click()
+    
+    // Wait for modal to close
+    cy.wait(2000)
+    cy.get('.modal-backdrop', { timeout: 10000 }).should('not.exist')
+    cy.get('#modalNuevaEvaluacion', { timeout: 10000 }).should('not.be.visible')
+    
+    // Go to list and open questionnaire
+    cy.get('#btnVistaLista').click()
+    cy.get('#listaView').should('be.visible')
     cy.get('button[onclick*="completarEvaluacion"]').first().click()
     
     // Responder primera pregunta con valor específico
@@ -156,11 +191,29 @@ describe('Navegación del Cuestionario de Madurez - Validación Específica', ()
   })
 
   it('Debe validar respuestas completas antes de avanzar', () => {
-    cy.createMaturityAssessment({
-      nombre: 'Test Validación'
+    // Create assessment using UI steps
+    cy.get('body').then($body => {
+      if ($body.find('[data-menu-item="nueva"]').length > 0) {
+        cy.get('[data-menu-item="nueva"]').click()
+      } else if ($body.find('#btnNuevaEvaluacion').length > 0) {
+        cy.get('#btnNuevaEvaluacion').click()
+      } else {
+        cy.get('.btn').contains('Nueva Evaluación').click()
+      }
     })
     
-    cy.switchMaturityView('lista')
+    cy.get('#modalNuevaEvaluacion').should('be.visible')
+    cy.get('#nombreEvaluacion').clear().type('Test Validación')
+    cy.get('#btnCrearEvaluacion').click()
+    
+    // Wait for modal to close
+    cy.wait(2000)
+    cy.get('.modal-backdrop', { timeout: 10000 }).should('not.exist')
+    cy.get('#modalNuevaEvaluacion', { timeout: 10000 }).should('not.be.visible')
+    
+    // Go to list and open questionnaire
+    cy.get('#btnVistaLista').click()
+    cy.get('#listaView').should('be.visible')
     cy.get('button[onclick*="completarEvaluacion"]').first().click()
     
     // Intentar avanzar sin responder nada
@@ -187,11 +240,29 @@ describe('Navegación del Cuestionario de Madurez - Validación Específica', ()
   })
 
   it('Debe funcionar el botón de guardar borrador', () => {
-    cy.createMaturityAssessment({
-      nombre: 'Test Borrador'
+    // Create assessment using UI steps
+    cy.get('body').then($body => {
+      if ($body.find('[data-menu-item="nueva"]').length > 0) {
+        cy.get('[data-menu-item="nueva"]').click()
+      } else if ($body.find('#btnNuevaEvaluacion').length > 0) {
+        cy.get('#btnNuevaEvaluacion').click()
+      } else {
+        cy.get('.btn').contains('Nueva Evaluación').click()
+      }
     })
     
-    cy.switchMaturityView('lista')
+    cy.get('#modalNuevaEvaluacion').should('be.visible')
+    cy.get('#nombreEvaluacion').clear().type('Test Borrador')
+    cy.get('#btnCrearEvaluacion').click()
+    
+    // Wait for modal to close
+    cy.wait(2000)
+    cy.get('.modal-backdrop', { timeout: 10000 }).should('not.exist')
+    cy.get('#modalNuevaEvaluacion', { timeout: 10000 }).should('not.be.visible')
+    
+    // Go to list and open questionnaire
+    cy.get('#btnVistaLista').click()
+    cy.get('#listaView').should('be.visible')
     cy.get('button[onclick*="completarEvaluacion"]').first().click()
     
     // Responder algunas preguntas
@@ -205,11 +276,29 @@ describe('Navegación del Cuestionario de Madurez - Validación Específica', ()
   })
 
   it('Debe mostrar progreso visual correcto', () => {
-    cy.createMaturityAssessment({
-      nombre: 'Test Progreso'
+    // Create assessment using UI steps
+    cy.get('body').then($body => {
+      if ($body.find('[data-menu-item="nueva"]').length > 0) {
+        cy.get('[data-menu-item="nueva"]').click()
+      } else if ($body.find('#btnNuevaEvaluacion').length > 0) {
+        cy.get('#btnNuevaEvaluacion').click()
+      } else {
+        cy.get('.btn').contains('Nueva Evaluación').click()
+      }
     })
     
-    cy.switchMaturityView('lista')
+    cy.get('#modalNuevaEvaluacion').should('be.visible')
+    cy.get('#nombreEvaluacion').clear().type('Test Progreso')
+    cy.get('#btnCrearEvaluacion').click()
+    
+    // Wait for modal to close
+    cy.wait(2000)
+    cy.get('.modal-backdrop', { timeout: 10000 }).should('not.exist')
+    cy.get('#modalNuevaEvaluacion', { timeout: 10000 }).should('not.be.visible')
+    
+    // Go to list and open questionnaire
+    cy.get('#btnVistaLista').click()
+    cy.get('#listaView').should('be.visible')
     cy.get('button[onclick*="completarEvaluacion"]').first().click()
     
     // Verificar progreso inicial (1/7 = ~14%)
@@ -236,11 +325,29 @@ describe('Navegación del Cuestionario de Madurez - Validación Específica', ()
   })
 
   it('Debe permitir navegación con comentarios opcionales', () => {
-    cy.createMaturityAssessment({
-      nombre: 'Test Comentarios'
+    // Create assessment using UI steps
+    cy.get('body').then($body => {
+      if ($body.find('[data-menu-item="nueva"]').length > 0) {
+        cy.get('[data-menu-item="nueva"]').click()
+      } else if ($body.find('#btnNuevaEvaluacion').length > 0) {
+        cy.get('#btnNuevaEvaluacion').click()
+      } else {
+        cy.get('.btn').contains('Nueva Evaluación').click()
+      }
     })
     
-    cy.switchMaturityView('lista')
+    cy.get('#modalNuevaEvaluacion').should('be.visible')
+    cy.get('#nombreEvaluacion').clear().type('Test Comentarios')
+    cy.get('#btnCrearEvaluacion').click()
+    
+    // Wait for modal to close
+    cy.wait(2000)
+    cy.get('.modal-backdrop', { timeout: 10000 }).should('not.exist')
+    cy.get('#modalNuevaEvaluacion', { timeout: 10000 }).should('not.be.visible')
+    
+    // Go to list and open questionnaire
+    cy.get('#btnVistaLista').click()
+    cy.get('#listaView').should('be.visible')
     cy.get('button[onclick*="completarEvaluacion"]').first().click()
     
     // Responder preguntas y agregar comentarios

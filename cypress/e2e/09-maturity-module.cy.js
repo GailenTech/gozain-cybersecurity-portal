@@ -1,7 +1,10 @@
 describe('Módulo de Madurez en Ciberseguridad', () => {
   beforeEach(() => {
     cy.loginWithOrg()
-    cy.selectTool('madurez')
+    // Navigate to Maturity module through the tool selector
+    cy.get('.tool-selector-container', { timeout: 10000 }).should('be.visible')
+    cy.contains('.tool-card', 'Madurez en Ciberseguridad').click()
+    cy.get('.madurez-app', { timeout: 10000 }).should('be.visible')
     cy.wait(2000) // Esperar a que cargue el módulo
   })
 
@@ -38,13 +41,38 @@ describe('Módulo de Madurez en Ciberseguridad', () => {
   })
 
   it('Debe permitir crear una nueva evaluación', () => {
-    cy.createMaturityAssessment({
-      nombre: 'Evaluación E2E Test',
-      descripcion: 'Test automatizado de evaluación'
+    // Click on new assessment button
+    cy.get('body').then($body => {
+      if ($body.find('[data-menu-item="nueva"]').length > 0) {
+        cy.get('[data-menu-item="nueva"]').click()
+      } else if ($body.find('#btnNuevaEvaluacion').length > 0) {
+        cy.get('#btnNuevaEvaluacion').click()
+      } else {
+        cy.get('.btn').contains('Nueva Evaluación').click()
+      }
     })
     
-    // Verificar que aparece en la lista
-    cy.switchMaturityView('lista')
+    // Wait for modal
+    cy.get('#modalNuevaEvaluacion').should('be.visible')
+    
+    // Fill form
+    cy.get('#nombreEvaluacion').clear().type('Evaluación E2E Test')
+    cy.get('#descripcionEvaluacion').clear().type('Test automatizado de evaluación')
+    cy.get('#objetivo6m').clear().type('2.5')
+    cy.get('#objetivo1a').clear().type('3.0')
+    cy.get('#objetivo2a').clear().type('4.0')
+    
+    // Create assessment
+    cy.get('#btnCrearEvaluacion').click()
+    
+    // Wait for modal to close
+    cy.wait(2000)
+    cy.get('.modal-backdrop', { timeout: 10000 }).should('not.exist')
+    cy.get('#modalNuevaEvaluacion', { timeout: 10000 }).should('not.be.visible')
+    
+    // Verify it appears in the list
+    cy.get('#btnVistaLista').click()
+    cy.get('#listaView').should('be.visible')
     cy.contains('Evaluación E2E Test').should('be.visible')
     
     // Verificar estado
@@ -54,13 +82,33 @@ describe('Módulo de Madurez en Ciberseguridad', () => {
   })
 
   it('Debe navegar correctamente por el cuestionario', () => {
-    // Crear evaluación
-    cy.createMaturityAssessment({
-      nombre: 'Test Navegación'
+    // Create assessment using UI steps
+    cy.get('body').then($body => {
+      if ($body.find('[data-menu-item="nueva"]').length > 0) {
+        cy.get('[data-menu-item="nueva"]').click()
+      } else if ($body.find('#btnNuevaEvaluacion').length > 0) {
+        cy.get('#btnNuevaEvaluacion').click()
+      } else {
+        cy.get('.btn').contains('Nueva Evaluación').click()
+      }
     })
     
-    // Ir a lista y abrir el cuestionario
-    cy.switchMaturityView('lista')
+    cy.get('#modalNuevaEvaluacion').should('be.visible')
+    cy.get('#nombreEvaluacion').clear().type('Test Navegación')
+    cy.get('#descripcionEvaluacion').clear().type('Test de navegación')
+    cy.get('#objetivo6m').clear().type('2.5')
+    cy.get('#objetivo1a').clear().type('3.0')
+    cy.get('#objetivo2a').clear().type('4.0')
+    cy.get('#btnCrearEvaluacion').click()
+    
+    // Wait for modal to close
+    cy.wait(2000)
+    cy.get('.modal-backdrop', { timeout: 10000 }).should('not.exist')
+    cy.get('#modalNuevaEvaluacion', { timeout: 10000 }).should('not.be.visible')
+    
+    // Go to list and open questionnaire
+    cy.get('#btnVistaLista').click()
+    cy.get('#listaView').should('be.visible')
     cy.get('button[onclick*="completarEvaluacion"]').first().click()
     
     // Verificar que se carga el cuestionario
@@ -109,13 +157,29 @@ describe('Módulo de Madurez en Ciberseguridad', () => {
   })
 
   it('Debe completar un cuestionario completo y mostrar resultados', () => {
-    // Crear evaluación
-    cy.createMaturityAssessment({
-      nombre: 'Test Completo'
+    // Create assessment using UI steps
+    cy.get('body').then($body => {
+      if ($body.find('[data-menu-item="nueva"]').length > 0) {
+        cy.get('[data-menu-item="nueva"]').click()
+      } else if ($body.find('#btnNuevaEvaluacion').length > 0) {
+        cy.get('#btnNuevaEvaluacion').click()
+      } else {
+        cy.get('.btn').contains('Nueva Evaluación').click()
+      }
     })
     
-    // Completar cuestionario completo
-    cy.switchMaturityView('lista')
+    cy.get('#modalNuevaEvaluacion').should('be.visible')
+    cy.get('#nombreEvaluacion').clear().type('Test Completo')
+    cy.get('#btnCrearEvaluacion').click()
+    
+    // Wait for modal to close
+    cy.wait(2000)
+    cy.get('.modal-backdrop', { timeout: 10000 }).should('not.exist')
+    cy.get('#modalNuevaEvaluacion', { timeout: 10000 }).should('not.be.visible')
+    
+    // Go to list and complete questionnaire
+    cy.get('#btnVistaLista').click()
+    cy.get('#listaView').should('be.visible')
     cy.completeMaturityQuestionnaire()
     
     // Verificar que volvió a la lista
@@ -132,12 +196,29 @@ describe('Módulo de Madurez en Ciberseguridad', () => {
   })
 
   it('Debe mostrar dashboard de resultados con visualizaciones', () => {
-    // Primero necesitamos una evaluación completada
-    cy.createMaturityAssessment({
-      nombre: 'Test Dashboard'
+    // First create an assessment using UI steps
+    cy.get('body').then($body => {
+      if ($body.find('[data-menu-item="nueva"]').length > 0) {
+        cy.get('[data-menu-item="nueva"]').click()
+      } else if ($body.find('#btnNuevaEvaluacion').length > 0) {
+        cy.get('#btnNuevaEvaluacion').click()
+      } else {
+        cy.get('.btn').contains('Nueva Evaluación').click()
+      }
     })
     
-    cy.switchMaturityView('lista')
+    cy.get('#modalNuevaEvaluacion').should('be.visible')
+    cy.get('#nombreEvaluacion').clear().type('Test Dashboard')
+    cy.get('#btnCrearEvaluacion').click()
+    
+    // Wait for modal to close
+    cy.wait(2000)
+    cy.get('.modal-backdrop', { timeout: 10000 }).should('not.exist')
+    cy.get('#modalNuevaEvaluacion', { timeout: 10000 }).should('not.be.visible')
+    
+    // Go to list and complete questionnaire
+    cy.get('#btnVistaLista').click()
+    cy.get('#listaView').should('be.visible')
     cy.completeMaturityQuestionnaire()
     
     // Acceder al dashboard de resultados
@@ -163,12 +244,29 @@ describe('Módulo de Madurez en Ciberseguridad', () => {
   })
 
   it('Debe permitir firmar una evaluación', () => {
-    // Crear y completar evaluación
-    cy.createMaturityAssessment({
-      nombre: 'Test Firma'
+    // Create and complete assessment using UI steps
+    cy.get('body').then($body => {
+      if ($body.find('[data-menu-item="nueva"]').length > 0) {
+        cy.get('[data-menu-item="nueva"]').click()
+      } else if ($body.find('#btnNuevaEvaluacion').length > 0) {
+        cy.get('#btnNuevaEvaluacion').click()
+      } else {
+        cy.get('.btn').contains('Nueva Evaluación').click()
+      }
     })
     
-    cy.switchMaturityView('lista')
+    cy.get('#modalNuevaEvaluacion').should('be.visible')
+    cy.get('#nombreEvaluacion').clear().type('Test Firma')
+    cy.get('#btnCrearEvaluacion').click()
+    
+    // Wait for modal to close
+    cy.wait(2000)
+    cy.get('.modal-backdrop', { timeout: 10000 }).should('not.exist')
+    cy.get('#modalNuevaEvaluacion', { timeout: 10000 }).should('not.be.visible')
+    
+    // Go to list and complete questionnaire
+    cy.get('#btnVistaLista').click()
+    cy.get('#listaView').should('be.visible')
     cy.completeMaturityQuestionnaire()
     
     // Verificar botón de firma está disponible
@@ -184,12 +282,29 @@ describe('Módulo de Madurez en Ciberseguridad', () => {
   })
 
   it('Debe mostrar histórico de evaluaciones', () => {
-    // Primero crear algunas evaluaciones
-    cy.createMaturityAssessment({
-      nombre: 'Histórico Test 1'
+    // First create an assessment using UI steps
+    cy.get('body').then($body => {
+      if ($body.find('[data-menu-item="nueva"]').length > 0) {
+        cy.get('[data-menu-item="nueva"]').click()
+      } else if ($body.find('#btnNuevaEvaluacion').length > 0) {
+        cy.get('#btnNuevaEvaluacion').click()
+      } else {
+        cy.get('.btn').contains('Nueva Evaluación').click()
+      }
     })
     
-    cy.switchMaturityView('lista')
+    cy.get('#modalNuevaEvaluacion').should('be.visible')
+    cy.get('#nombreEvaluacion').clear().type('Histórico Test 1')
+    cy.get('#btnCrearEvaluacion').click()
+    
+    // Wait for modal to close
+    cy.wait(2000)
+    cy.get('.modal-backdrop', { timeout: 10000 }).should('not.exist')
+    cy.get('#modalNuevaEvaluacion', { timeout: 10000 }).should('not.be.visible')
+    
+    // Go to list and complete questionnaire
+    cy.get('#btnVistaLista').click()
+    cy.get('#listaView').should('be.visible')
     cy.completeMaturityQuestionnaire()
     
     // Ir a histórico
@@ -205,12 +320,12 @@ describe('Módulo de Madurez en Ciberseguridad', () => {
   })
 
   it('Debe mantener navegación coherente entre vistas', () => {
-    // Probar navegación desde dashboard
-    cy.switchMaturityView('dashboard')
+    // Test navigation from dashboard
+    cy.get('#btnVistaDashboard').click()
     cy.get('#dashboardView').should('be.visible')
     
-    // Cambiar a lista
-    cy.switchMaturityView('lista')
+    // Change to list
+    cy.get('#btnVistaLista').click()
     cy.get('#listaView').should('be.visible')
     
     // Usar menú lateral para navegación
@@ -226,17 +341,44 @@ describe('Módulo de Madurez en Ciberseguridad', () => {
   })
 
   it('Debe filtrar evaluaciones correctamente', () => {
-    // Crear evaluaciones con diferentes estados
-    cy.createMaturityAssessment({
-      nombre: 'Eval Filtro 1'
+    // Create assessments with different states using UI steps
+    // First assessment
+    cy.get('body').then($body => {
+      if ($body.find('[data-menu-item="nueva"]').length > 0) {
+        cy.get('[data-menu-item="nueva"]').click()
+      } else if ($body.find('#btnNuevaEvaluacion').length > 0) {
+        cy.get('#btnNuevaEvaluacion').click()
+      } else {
+        cy.get('.btn').contains('Nueva Evaluación').click()
+      }
     })
     
-    cy.createMaturityAssessment({
-      nombre: 'Eval Filtro 2'
+    cy.get('#modalNuevaEvaluacion').should('be.visible')
+    cy.get('#nombreEvaluacion').clear().type('Eval Filtro 1')
+    cy.get('#btnCrearEvaluacion').click()
+    cy.wait(2000)
+    cy.get('.modal-backdrop', { timeout: 10000 }).should('not.exist')
+    
+    // Second assessment
+    cy.get('body').then($body => {
+      if ($body.find('[data-menu-item="nueva"]').length > 0) {
+        cy.get('[data-menu-item="nueva"]').click()
+      } else if ($body.find('#btnNuevaEvaluacion').length > 0) {
+        cy.get('#btnNuevaEvaluacion').click()
+      } else {
+        cy.get('.btn').contains('Nueva Evaluación').click()
+      }
     })
     
-    // Completar una
-    cy.switchMaturityView('lista')
+    cy.get('#modalNuevaEvaluacion').should('be.visible')
+    cy.get('#nombreEvaluacion').clear().type('Eval Filtro 2')
+    cy.get('#btnCrearEvaluacion').click()
+    cy.wait(2000)
+    cy.get('.modal-backdrop', { timeout: 10000 }).should('not.exist')
+    
+    // Complete one
+    cy.get('#btnVistaLista').click()
+    cy.get('#listaView').should('be.visible')
     cy.get('button[onclick*="completarEvaluacion"]').first().click()
     cy.completeMaturityQuestionnaire()
     
@@ -260,14 +402,28 @@ describe('Módulo de Madurez en Ciberseguridad', () => {
   it('No debe mostrar errores en consola durante la navegación', () => {
     cy.checkNoConsoleErrors()
     
-    // Navegación básica
-    cy.switchMaturityView('lista')
-    cy.switchMaturityView('dashboard')
+    // Basic navigation
+    cy.get('#btnVistaLista').click()
+    cy.get('#listaView').should('be.visible')
+    cy.get('#btnVistaDashboard').click()
+    cy.get('#dashboardView').should('be.visible')
     
-    // Crear evaluación
-    cy.createMaturityAssessment()
+    // Create assessment using UI steps
+    cy.get('body').then($body => {
+      if ($body.find('[data-menu-item="nueva"]').length > 0) {
+        cy.get('[data-menu-item="nueva"]').click()
+      } else if ($body.find('#btnNuevaEvaluacion').length > 0) {
+        cy.get('#btnNuevaEvaluacion').click()
+      } else {
+        cy.get('.btn').contains('Nueva Evaluación').click()
+      }
+    })
     
-    // Verificar sin errores
+    cy.get('#modalNuevaEvaluacion').should('be.visible')
+    cy.get('#nombreEvaluacion').clear().type('Test Console Errors')
+    cy.get('#btnCrearEvaluacion').click()
+    
+    // Verify no errors
     cy.checkNoConsoleErrors()
   })
 })

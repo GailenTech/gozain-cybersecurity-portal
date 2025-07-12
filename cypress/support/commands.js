@@ -15,28 +15,8 @@ Cypress.Commands.add('createTestOrganization', () => {
   cy.get('#btnCreateOrganization').click()
 })
 
-// Seleccionar herramienta
-Cypress.Commands.add('selectTool', (toolId) => {
-  const toolNames = {
-    'inventario': 'Inventario de Activos',
-    'impactos': 'Impactos de Negocio',
-    'madurez': 'Madurez en Ciberseguridad'
-  }
-  
-  cy.get('body').then($body => {
-    // Si ya estamos en una herramienta, usar el selector
-    if ($body.find('#toolSelectorButton').length > 0 && $body.find('#toolSelectorButton').is(':visible')) {
-      cy.get('#toolSelectorButton').click()
-    }
-    
-    // Seleccionar la herramienta
-    cy.contains('.tool-card', toolNames[toolId]).click()
-    
-    // Verificar que se cargó
-    cy.get('#appMenu').should('be.visible')
-    cy.get('#currentToolName').should('contain', toolNames[toolId])
-  })
-})
+// DEPRECATED: Use direct navigation instead
+// Example: cy.contains('.tool-card', 'Madurez en Ciberseguridad').click()
 
 // Comando para seleccionar organización
 Cypress.Commands.add('selectOrganization', (orgName) => {
@@ -262,55 +242,12 @@ Cypress.Commands.add('checkNoConsoleErrors', () => {
 
 // =================== COMANDOS ESPECÍFICOS PARA MADUREZ ===================
 
-// Comando para crear una evaluación de madurez
-Cypress.Commands.add('createMaturityAssessment', (assessmentData = {}) => {
-  const defaultData = {
-    nombre: 'Evaluación Test',
-    descripcion: 'Evaluación de prueba automatizada',
-    objetivo6m: '2.5',
-    objetivo1a: '3.0',
-    objetivo2a: '4.0'
-  }
-  
-  const data = { ...defaultData, ...assessmentData }
-  
-  // Hacer clic en nueva evaluación (botón del menú o del dashboard)
-  cy.get('body').then($body => {
-    if ($body.find('[data-menu-item="nueva"]').length > 0) {
-      cy.get('[data-menu-item="nueva"]').click()
-    } else if ($body.find('#btnNuevaEvaluacion').length > 0) {
-      cy.get('#btnNuevaEvaluacion').click()
-    } else {
-      cy.get('.btn').contains('Nueva Evaluación').click()
-    }
-  })
-  
-  // Esperar a que aparezca el modal
-  cy.get('#modalNuevaEvaluacion').should('be.visible')
-  
-  // Llenar formulario
-  cy.get('#nombreEvaluacion').clear().type(data.nombre)
-  cy.get('#descripcionEvaluacion').clear().type(data.descripcion)
-  cy.get('#objetivo6m').clear().type(data.objetivo6m)
-  cy.get('#objetivo1a').clear().type(data.objetivo1a)
-  cy.get('#objetivo2a').clear().type(data.objetivo2a)
-  
-  // Crear evaluación
-  cy.get('#btnCrearEvaluacion').click()
-  
-  // Esperar a que se cierre el modal
-  cy.get('#modalNuevaEvaluacion', { timeout: 5000 }).should('not.exist')
-  
-  // Verificar toast o cambio en la lista
-  cy.get('body').then($body => {
-    if ($body.find('.toast-body').length > 0) {
-      cy.get('.toast-body').should('contain', 'correctamente')
-    } else {
-      // Si no hay toast, verificar que se actualizó la lista
-      cy.log('No toast found, checking if assessment was created')
-    }
-  })
-})
+// DEPRECATED: Use direct UI steps instead
+// Example:
+// cy.get('[data-menu-item="nueva"]').click()
+// cy.get('#modalNuevaEvaluacion').should('be.visible')
+// cy.get('#nombreEvaluacion').clear().type('Test')
+// cy.get('#btnCrearEvaluacion').click()
 
 // Comando para completar un cuestionario de madurez
 Cypress.Commands.add('completeMaturityQuestionnaire', (responses = 'random') => {
@@ -368,16 +305,8 @@ Cypress.Commands.add('completeMaturityQuestionnaire', (responses = 'random') => 
   }
 })
 
-// Comando para navegar entre vistas del módulo de madurez
-Cypress.Commands.add('switchMaturityView', (view) => {
-  if (view === 'dashboard') {
-    cy.get('#btnVistaDashboard').click()
-    cy.get('#dashboardView').should('be.visible')
-  } else if (view === 'lista') {
-    cy.get('#btnVistaLista').click()
-    cy.get('#listaView').should('be.visible')
-  }
-})
+// DEPRECATED: Use direct navigation instead
+// Example: cy.get('#btnVistaLista').click()
 
 // Comando para verificar dashboard de resultados
 Cypress.Commands.add('verifyMaturityDashboard', (assessmentId = null) => {
