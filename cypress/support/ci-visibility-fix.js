@@ -47,36 +47,16 @@ Cypress.Commands.add('waitForStability', () => {
   })
 })
 
-// 4. Override para should('be.visible') en CI
+// 4. Override para should('be.visible') en CI - DESHABILITADO POR CAUSAR LOOPS
+// TODO: Investigar una mejor solución
+/*
 if (Cypress.env('CI') || Cypress.config('baseUrl').includes('run.app')) {
   Cypress.Commands.overwrite('should', (originalFn, element, ...args) => {
-    if (args[0] === 'be.visible') {
-      // En CI, ser menos estricto con la visibilidad
-      return cy.wrap(element)
-        .should('exist')
-        .then($el => {
-          const isHidden = $el.css('display') === 'none' || 
-                          $el.css('visibility') === 'hidden'
-          
-          if (isHidden && $el.attr('id') && $el.attr('id').includes('View')) {
-            // Si es una vista, intentar forzar visibilidad
-            cy.log('Vista oculta detectada, forzando visibilidad...')
-            cy.wrap($el).invoke('css', 'display', 'block')
-            cy.wrap($el).invoke('css', 'visibility', 'visible')
-          }
-          
-          // Verificar de manera más flexible
-          expect($el).to.exist
-          // No verificar offsetWidth en CI, puede causar loops
-          if (!Cypress.env('CI')) {
-            expect($el[0].offsetWidth).to.be.greaterThan(0)
-          }
-        })
-    }
-    
+    // DESHABILITADO - causaba loops infinitos
     return originalFn(element, ...args)
   })
 }
+*/
 
 // 5. Inyectar CSS para forzar visibilidad en CI
 Cypress.on('window:before:load', (win) => {
