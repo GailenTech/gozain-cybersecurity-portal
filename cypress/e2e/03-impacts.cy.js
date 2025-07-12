@@ -89,9 +89,8 @@ describe('Módulo de Impactos', () => {
 
   describe('Lista de Impactos', () => {
     beforeEach(() => {
-      // Cambiar a vista de lista sin usar switchView problemático
-      cy.get('[data-menu-item="lista"]').click({ force: true })
-      cy.wait(1500) // Dar tiempo para el cambio
+      // Usar switchView con el helper mejorado
+      cy.switchView('lista')
     })
 
     it('Debe mostrar la lista de impactos', () => {
@@ -151,9 +150,8 @@ describe('Módulo de Impactos', () => {
 
   describe('Filtros de Impactos', () => {
     beforeEach(() => {
-      // Navegar a la vista de lista sin verificar visibilidad
-      cy.get('[data-menu-item="lista"]').click({ force: true })
-      cy.wait(1500) // Dar tiempo para el cambio
+      // Usar switchView con el helper mejorado
+      cy.switchView('lista')
     })
 
     it('Debe filtrar por tipo de impacto', () => {
