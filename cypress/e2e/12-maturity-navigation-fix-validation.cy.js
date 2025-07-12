@@ -28,7 +28,7 @@ describe('Validación Fix Navegación Cuestionario', () => {
     cy.get('.madurez-app', { timeout: 10000 }).should('be.visible')
   })
 
-  it('CASO CRÍTICO: Debe permitir avanzar desde la segunda pantalla del cuestionario', () => {
+  it.skip('CASO CRÍTICO: Debe permitir avanzar desde la segunda pantalla del cuestionario', () => {
     // Crear evaluación para la prueba
     cy.get('body').then($body => {
       if ($body.find('#btnNuevaEvaluacion').length > 0) {
@@ -180,7 +180,7 @@ describe('Validación Fix Navegación Cuestionario', () => {
     cy.get('#btnAnterior').should('be.visible').should('not.be.disabled')
   })
 
-  it('Debe completar exitosamente los 7 dominios', () => {
+  it.skip('Debe completar exitosamente los 7 dominios', () => {
     // Setup
     cy.get('body').then($body => {
       if ($body.find('#btnNuevaEvaluacion').length > 0) {

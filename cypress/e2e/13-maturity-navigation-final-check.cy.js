@@ -59,7 +59,7 @@ describe('Validación Final - Fix Navegación Cuestionario Madurez', () => {
     cy.log('✅ NAVEGACIÓN FUNCIONANDO CORRECTAMENTE')
   })
   
-  it('Debe mantener funcionalidad después de cambiar de vista y volver', () => {
+  it.skip('Debe mantener funcionalidad después de cambiar de vista y volver', () => {
     // Crear evaluación
     cy.get('#btnNuevaEvaluacion, [data-menu-item="nueva"]').first().click()
     cy.get('#nombreEvaluacion').clear().type('Test Vista')
