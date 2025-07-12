@@ -27,11 +27,11 @@ module.exports = defineConfig({
       if (process.env.CI || config.baseUrl.includes('run.app')) {
         console.log('🤖 Detectado entorno CI - aplicando configuración especial')
         
-        // Timeouts más largos para CI
-        config.defaultCommandTimeout = 20000
-        config.pageLoadTimeout = 30000
-        config.requestTimeout = 15000
-        config.responseTimeout = 15000
+        // Timeouts más largos para CI (pero no excesivos)
+        config.defaultCommandTimeout = 15000  // Reducido de 20000
+        config.pageLoadTimeout = 20000       // Reducido de 30000
+        config.requestTimeout = 10000        // Reducido de 15000
+        config.responseTimeout = 10000       // Reducido de 15000
         
         // Viewport más grande para evitar problemas de elementos ocultos
         config.viewportWidth = 1920
