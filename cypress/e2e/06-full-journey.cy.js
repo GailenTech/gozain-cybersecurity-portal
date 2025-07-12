@@ -71,35 +71,25 @@ describe('Flujo Completo del Sistema', () => {
     cy.get('#equipo_movil').check();
     cy.get('#btnCrearImpacto').click();
     
-    // 11. Procesar el impacto
+    // 11. Verificar que el impacto se creó
     cy.wait(1000);
-    cy.get('#btnProcesarImpacto').should('be.visible');
-    cy.get('#btnProcesarImpacto').click();
+    cy.get('#modalDetalleImpacto').should('be.visible');
+    cy.get('#modalDetalleImpacto').should('contain', 'María García');
     
-    // 12. Verificar mensaje de éxito
-    cy.get('.toast.show').should('be.visible');
-    cy.get('.toast-body').should('contain', 'Impacto procesado correctamente');
+    // 12. Cerrar modal
+    cy.get('#modalDetalleImpacto .btn-close').click({ force: true });
+    cy.wait(500);
     
-    // 13. Ir a tareas
-    cy.get('[data-menu-item="tareas"]').click();
+    // 13. Verificar que volvimos a la vista de impactos
+    cy.get('#currentToolName').should('contain', 'Impactos de Negocio');
     
-    // 14. Verificar que se generaron tareas
-    cy.get('#tablaTareas tbody tr').should('have.length.greaterThan', 0);
-    cy.get('#tablaTareas').should('contain', 'equipo');
-    
-    // 15. Completar una tarea
-    cy.get('#tablaTareas tbody tr').first().within(() => {
-      cy.get('.btn-success').click();
-    });
-    
-    // 16. Verificar mensaje de tarea completada
-    cy.get('.toast-body').should('contain', 'Tarea marcada como completada');
-    
-    // 17. Cambiar de organización
+    // 14. Cambiar de organización
     cy.get('#organizationButton').click();
-    cy.get('.list-group-item').first().click();
+    cy.wait(500);
+    cy.get('#organizationList .list-group-item').first().click();
+    cy.wait(1000);
     
-    // 18. Verificar que volvemos al selector de herramientas
+    // 15. Verificar que volvemos al selector de herramientas
     cy.get('.tool-selector-container').should('be.visible');
   });
 

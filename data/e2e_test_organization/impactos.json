@@ -2263,5 +2263,27 @@
       "activos_modificar": 0,
       "tareas_generar": 2
     }
+  },
+  {
+    "id": "157ef48f-924a-4b07-8274-2748080c4e48",
+    "tipo": "alta_empleado",
+    "estado": "pendiente",
+    "fecha_creacion": "2025-07-12T16:39:25.242421",
+    "usuario_creador": "sistema",
+    "datos": {
+      "nombre_completo": "Juan Pérez",
+      "departamento": "TI",
+      "cargo": "Desarrollador Senior",
+      "fecha_inicio": "2025-07-15",
+      "modalidad": "Presencial",
+      "equipo_movil": true
+    },
+    "acciones_ejecutadas": [],
+    "tareas_generadas": [],
+    "vista_previa": {
+      "activos_crear": 2,
+      "activos_modificar": 0,
+      "tareas_generar": 2
+    }
   }
 ]

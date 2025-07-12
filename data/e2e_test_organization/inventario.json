@@ -3547,5 +3547,47 @@
         "detalles": "Activo creado"
       }
     ]
+  },
+  {
+    "id": "0383457c-d2db-4e80-8a6f-c135484d948c",
+    "fecha_creacion": "2025-07-12T16:39:21.747791",
+    "fecha_modificacion": "2025-07-12T16:39:21.747804",
+    "tipo": "Hardware",
+    "estado": "Inactivo",
+    "nombre": "Laptop Dell - Disponible",
+    "responsable": "Almacén TI",
+    "departamento": "TI",
+    "clasificacion": "Interno",
+    "criticidad": "Normal",
+    "descripcion": "",
+    "auditoria": [
+      {
+        "accion": "creacion",
+        "fecha": "2025-07-12T16:39:21.747812",
+        "usuario": "sistema",
+        "detalles": "Activo creado"
+      }
+    ]
+  },
+  {
+    "id": "93f46533-58b1-40b3-a645-2f4eb6d148a4",
+    "fecha_creacion": "2025-07-12T16:39:43.236937",
+    "fecha_modificacion": "2025-07-12T16:39:43.236945",
+    "tipo": "Hardware",
+    "estado": "Activo",
+    "nombre": "Servidor Principal DC01",
+    "responsable": "Carlos Mendez",
+    "departamento": "TI",
+    "clasificacion": "Confidencial",
+    "criticidad": "Crítica",
+    "descripcion": "Servidor principal del datacenter",
+    "auditoria": [
+      {
+        "accion": "creacion",
+        "fecha": "2025-07-12T16:39:43.236952",
+        "usuario": "sistema",
+        "detalles": "Activo creado"
+      }
+    ]
   }
 ]
