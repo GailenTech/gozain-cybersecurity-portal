@@ -20,9 +20,12 @@ describe('Gestión de Tareas', () => {
       });
       
       // Procesar el impacto para generar tareas
-      cy.get('[data-cy=tabla-impactos]').find('tr').first().find('.btn-primary').click();
+      // El impacto se crea y el modal de detalle ya está abierto
+      cy.get('#modalDetalleImpacto').should('be.visible');
       cy.get('#btnProcesarImpacto').click();
-      cy.get('.btn-close').click(); // Cerrar modal
+      cy.on('window:confirm', () => true);
+      cy.wait(1000);
+      cy.get('#modalDetalleImpacto .btn-secondary').click(); // Cerrar modal
       
       // Navegar a tareas
       cy.get('[data-menu-item="tareas"]').click();

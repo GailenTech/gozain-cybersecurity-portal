@@ -38,7 +38,7 @@ describe('Pruebas de Integración', () => {
         
         // 5. Verificar tareas generadas
         cy.get('[data-menu-item="tareas"]').click()
-        cy.get('#tablaTareas').should('contain', data.impacts.alta_empleado.nombre_empleado)
+        cy.get('#tablaTareas').should('contain', data.impacts.alta_empleado.nombre_completo)
         
         // 6. Volver a inventario y verificar nuevos activos
         cy.get('#btnHomeTop').click()
@@ -46,7 +46,7 @@ describe('Pruebas de Integración', () => {
         cy.switchView('lista')
         
         // Buscar activos del nuevo empleado
-        cy.filterAssets({ busqueda: data.impacts.alta_empleado.nombre_empleado })
+        cy.filterAssets({ busqueda: data.impacts.alta_empleado.nombre_completo })
         cy.get('#tablaActivos tr').should('have.length.at.least', 1)
       })
     })

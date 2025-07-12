@@ -130,5 +130,332 @@
       "activos_modificar": 0,
       "tareas_generar": 2
     }
+  },
+  {
+    "id": "3628ba70-45f9-4fc2-a4ed-07cd8cbad9f2",
+    "tipo": "alta_empleado",
+    "estado": "pendiente",
+    "fecha_creacion": "2025-07-12T12:17:15.231879",
+    "usuario_creador": "sistema",
+    "datos": {
+      "nombre_completo": "Juan Pérez",
+      "departamento": "TI",
+      "cargo": "Desarrollador Senior",
+      "fecha_inicio": "2025-07-15",
+      "modalidad": "Presencial",
+      "equipo_movil": true
+    },
+    "acciones_ejecutadas": [],
+    "tareas_generadas": [],
+    "vista_previa": {
+      "activos_crear": 2,
+      "activos_modificar": 0,
+      "tareas_generar": 2
+    }
+  },
+  {
+    "id": "7c3a5815-7654-4b0f-92a7-6b4b31432933",
+    "tipo": "alta_empleado",
+    "estado": "procesado",
+    "fecha_creacion": "2025-07-12T12:17:35.189822",
+    "usuario_creador": "sistema",
+    "datos": {
+      "nombre_completo": "Juan Pérez",
+      "departamento": "TI",
+      "cargo": "Desarrollador Senior",
+      "fecha_inicio": "2025-07-15",
+      "modalidad": "Presencial",
+      "equipo_movil": true
+    },
+    "acciones_ejecutadas": {
+      "activos_creados": [
+        {
+          "id": "bf7b9a89-7cd0-4ac0-8413-f13bbe2ab414",
+          "fecha_creacion": "2025-07-12T12:17:35.475487",
+          "fecha_modificacion": "2025-07-12T12:17:35.475494",
+          "tipo": "Hardware",
+          "nombre": "Laptop para Juan Pérez",
+          "estado": "Activo",
+          "clasificacion": "Interno",
+          "criticidad": "Importante",
+          "responsable": "Juan Pérez",
+          "departamento": "TI",
+          "auditoria": [
+            {
+              "accion": "creacion",
+              "fecha": "2025-07-12T12:17:35.475501",
+              "usuario": "sistema",
+              "detalles": "Activo creado"
+            }
+          ]
+        },
+        {
+          "id": "8fdf0334-50cf-41a5-92d7-b57a7c23120b",
+          "fecha_creacion": "2025-07-12T12:17:35.476639",
+          "fecha_modificacion": "2025-07-12T12:17:35.476642",
+          "tipo": "Software",
+          "nombre": "Office 365 - Juan Pérez",
+          "tipo_software": "Productividad",
+          "estado": "Activo",
+          "clasificacion": "Interno",
+          "responsable": "Juan Pérez",
+          "departamento": "TI",
+          "auditoria": [
+            {
+              "accion": "creacion",
+              "fecha": "2025-07-12T12:17:35.476643",
+              "usuario": "sistema",
+              "detalles": "Activo creado"
+            }
+          ]
+        }
+      ],
+      "activos_modificados": [],
+      "tareas_creadas": [
+        {
+          "id": "df0e7b5e-e0df-4b8c-96a8-744dbdc12665",
+          "impacto_id": "7c3a5815-7654-4b0f-92a7-6b4b31432933",
+          "descripcion": "Preparar equipo para Juan Pérez",
+          "responsable": "IT",
+          "fecha_creacion": "2025-07-12T12:17:35.477151",
+          "fecha_limite": "2025-07-14T00:00:00",
+          "estado": "pendiente"
+        },
+        {
+          "id": "77989f48-2ae8-4a8f-8b68-702741b594c1",
+          "impacto_id": "7c3a5815-7654-4b0f-92a7-6b4b31432933",
+          "descripcion": "Entregar kit de bienvenida a Juan Pérez",
+          "responsable": "RRHH",
+          "fecha_creacion": "2025-07-12T12:17:35.477161",
+          "fecha_limite": "2025-07-15T00:00:00",
+          "estado": "pendiente"
+        }
+      ]
+    },
+    "tareas_generadas": [],
+    "vista_previa": {
+      "activos_crear": 2,
+      "activos_modificar": 0,
+      "tareas_generar": 2
+    },
+    "fecha_procesamiento": "2025-07-12T12:17:35.477163"
+  },
+  {
+    "id": "cf355dee-120a-4931-96fc-e390a89a3c4e",
+    "tipo": "alta_empleado",
+    "estado": "pendiente",
+    "fecha_creacion": "2025-07-12T12:19:20.611416",
+    "usuario_creador": "sistema",
+    "datos": {
+      "nombre_completo": "Juan Pérez",
+      "departamento": "TI",
+      "cargo": "Desarrollador Senior",
+      "fecha_inicio": "2025-07-15",
+      "modalidad": "Presencial",
+      "equipo_movil": true
+    },
+    "acciones_ejecutadas": [],
+    "tareas_generadas": [],
+    "vista_previa": {
+      "activos_crear": 2,
+      "activos_modificar": 0,
+      "tareas_generar": 2
+    }
+  },
+  {
+    "id": "9ebf3662-ad29-4a5c-8f80-da35c3c85853",
+    "tipo": "alta_empleado",
+    "estado": "procesado",
+    "fecha_creacion": "2025-07-12T12:19:40.581018",
+    "usuario_creador": "sistema",
+    "datos": {
+      "nombre_completo": "Juan Pérez",
+      "departamento": "TI",
+      "cargo": "Desarrollador Senior",
+      "fecha_inicio": "2025-07-15",
+      "modalidad": "Presencial",
+      "equipo_movil": true
+    },
+    "acciones_ejecutadas": {
+      "activos_creados": [
+        {
+          "id": "e80340fb-b5f2-4ade-b124-273d2066d81d",
+          "fecha_creacion": "2025-07-12T12:19:40.836045",
+          "fecha_modificacion": "2025-07-12T12:19:40.836058",
+          "tipo": "Hardware",
+          "nombre": "Laptop para Juan Pérez",
+          "estado": "Activo",
+          "clasificacion": "Interno",
+          "criticidad": "Importante",
+          "responsable": "Juan Pérez",
+          "departamento": "TI",
+          "auditoria": [
+            {
+              "accion": "creacion",
+              "fecha": "2025-07-12T12:19:40.836068",
+              "usuario": "sistema",
+              "detalles": "Activo creado"
+            }
+          ]
+        },
+        {
+          "id": "289e8834-5461-4b64-bc93-cd99a3e0cda9",
+          "fecha_creacion": "2025-07-12T12:19:40.837407",
+          "fecha_modificacion": "2025-07-12T12:19:40.837412",
+          "tipo": "Software",
+          "nombre": "Office 365 - Juan Pérez",
+          "tipo_software": "Productividad",
+          "estado": "Activo",
+          "clasificacion": "Interno",
+          "responsable": "Juan Pérez",
+          "departamento": "TI",
+          "auditoria": [
+            {
+              "accion": "creacion",
+              "fecha": "2025-07-12T12:19:40.837414",
+              "usuario": "sistema",
+              "detalles": "Activo creado"
+            }
+          ]
+        }
+      ],
+      "activos_modificados": [],
+      "tareas_creadas": [
+        {
+          "id": "8e60987e-6970-4589-8783-80ed534f31ff",
+          "impacto_id": "9ebf3662-ad29-4a5c-8f80-da35c3c85853",
+          "descripcion": "Preparar equipo para Juan Pérez",
+          "responsable": "IT",
+          "fecha_creacion": "2025-07-12T12:19:40.838179",
+          "fecha_limite": "2025-07-14T00:00:00",
+          "estado": "pendiente"
+        },
+        {
+          "id": "e383acf9-64b2-46ac-8bd4-55fd0c66ee51",
+          "impacto_id": "9ebf3662-ad29-4a5c-8f80-da35c3c85853",
+          "descripcion": "Entregar kit de bienvenida a Juan Pérez",
+          "responsable": "RRHH",
+          "fecha_creacion": "2025-07-12T12:19:40.838187",
+          "fecha_limite": "2025-07-15T00:00:00",
+          "estado": "pendiente"
+        }
+      ]
+    },
+    "tareas_generadas": [],
+    "vista_previa": {
+      "activos_crear": 2,
+      "activos_modificar": 0,
+      "tareas_generar": 2
+    },
+    "fecha_procesamiento": "2025-07-12T12:19:40.838189"
+  },
+  {
+    "id": "24694870-8ef4-41fd-8abc-8c279b7f840b",
+    "tipo": "alta_empleado",
+    "estado": "pendiente",
+    "fecha_creacion": "2025-07-12T12:21:31.003966",
+    "usuario_creador": "sistema",
+    "datos": {
+      "nombre_completo": "Juan Pérez",
+      "departamento": "TI",
+      "cargo": "Desarrollador Senior",
+      "fecha_inicio": "2025-07-15",
+      "modalidad": "Presencial",
+      "equipo_movil": true
+    },
+    "acciones_ejecutadas": [],
+    "tareas_generadas": [],
+    "vista_previa": {
+      "activos_crear": 2,
+      "activos_modificar": 0,
+      "tareas_generar": 2
+    }
+  },
+  {
+    "id": "e315285b-a06d-41ca-a1fb-5547aefb01d9",
+    "tipo": "alta_empleado",
+    "estado": "procesado",
+    "fecha_creacion": "2025-07-12T12:21:51.013250",
+    "usuario_creador": "sistema",
+    "datos": {
+      "nombre_completo": "Juan Pérez",
+      "departamento": "TI",
+      "cargo": "Desarrollador Senior",
+      "fecha_inicio": "2025-07-15",
+      "modalidad": "Presencial",
+      "equipo_movil": true
+    },
+    "acciones_ejecutadas": {
+      "activos_creados": [
+        {
+          "id": "e9bb6bee-eff8-486e-a1f6-e8ce85f465b9",
+          "fecha_creacion": "2025-07-12T12:21:51.267566",
+          "fecha_modificacion": "2025-07-12T12:21:51.267575",
+          "tipo": "Hardware",
+          "nombre": "Laptop para Juan Pérez",
+          "estado": "Activo",
+          "clasificacion": "Interno",
+          "criticidad": "Importante",
+          "responsable": "Juan Pérez",
+          "departamento": "TI",
+          "auditoria": [
+            {
+              "accion": "creacion",
+              "fecha": "2025-07-12T12:21:51.267583",
+              "usuario": "sistema",
+              "detalles": "Activo creado"
+            }
+          ]
+        },
+        {
+          "id": "c3f66006-7c42-4dfa-978c-66507869d08c",
+          "fecha_creacion": "2025-07-12T12:21:51.271567",
+          "fecha_modificacion": "2025-07-12T12:21:51.271572",
+          "tipo": "Software",
+          "nombre": "Office 365 - Juan Pérez",
+          "tipo_software": "Productividad",
+          "estado": "Activo",
+          "clasificacion": "Interno",
+          "responsable": "Juan Pérez",
+          "departamento": "TI",
+          "auditoria": [
+            {
+              "accion": "creacion",
+              "fecha": "2025-07-12T12:21:51.271574",
+              "usuario": "sistema",
+              "detalles": "Activo creado"
+            }
+          ]
+        }
+      ],
+      "activos_modificados": [],
+      "tareas_creadas": [
+        {
+          "id": "527492fb-1549-4990-8938-37bc9c94f17a",
+          "impacto_id": "e315285b-a06d-41ca-a1fb-5547aefb01d9",
+          "descripcion": "Preparar equipo para Juan Pérez",
+          "responsable": "IT",
+          "fecha_creacion": "2025-07-12T12:21:51.272170",
+          "fecha_limite": "2025-07-14T00:00:00",
+          "estado": "pendiente"
+        },
+        {
+          "id": "455dece4-c933-4103-973b-a56ebccb8fe5",
+          "impacto_id": "e315285b-a06d-41ca-a1fb-5547aefb01d9",
+          "descripcion": "Entregar kit de bienvenida a Juan Pérez",
+          "responsable": "RRHH",
+          "fecha_creacion": "2025-07-12T12:21:51.272178",
+          "fecha_limite": "2025-07-15T00:00:00",
+          "estado": "pendiente"
+        }
+      ]
+    },
+    "tareas_generadas": [],
+    "vista_previa": {
+      "activos_crear": 2,
+      "activos_modificar": 0,
+      "tareas_generar": 2
+    },
+    "fecha_procesamiento": "2025-07-12T12:21:51.272180"
   }
 ]
