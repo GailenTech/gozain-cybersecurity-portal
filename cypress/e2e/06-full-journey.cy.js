@@ -17,7 +17,7 @@ describe('Flujo Completo del Sistema', () => {
     
     // 3. Verificar que se muestra el selector de herramientas
     cy.get('.tool-selector-container').should('be.visible');
-    cy.get('.tool-card').should('have.length', 2);
+    cy.get('.tool-card').should('have.length', 3);
     
     // 4. Seleccionar Inventario
     cy.get('.tool-card').contains('Inventario de Activos').click();

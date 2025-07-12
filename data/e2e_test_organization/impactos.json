@@ -457,5 +457,27 @@
       "tareas_generar": 2
     },
     "fecha_procesamiento": "2025-07-12T12:21:51.272180"
+  },
+  {
+    "id": "550679e2-aa66-4c3d-bfc7-37b5b0cc943e",
+    "tipo": "alta_empleado",
+    "estado": "pendiente",
+    "fecha_creacion": "2025-07-12T12:31:11.859169",
+    "usuario_creador": "sistema",
+    "datos": {
+      "nombre_completo": "Empleado Test E2E",
+      "departamento": "IT",
+      "cargo": "Desarrollador",
+      "fecha_inicio": "2025-08-01",
+      "modalidad": "Híbrido",
+      "equipo_movil": true
+    },
+    "acciones_ejecutadas": [],
+    "tareas_generadas": [],
+    "vista_previa": {
+      "activos_crear": 2,
+      "activos_modificar": 0,
+      "tareas_generar": 2
+    }
   }
 ]

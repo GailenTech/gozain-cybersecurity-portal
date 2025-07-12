@@ -1,14 +1,12 @@
 describe('Problemas Reportados', () => {
   beforeEach(() => {
-    cy.resetData();
-    cy.createTestOrganization();
-    cy.visit('/');
-    cy.selectOrganization('org-test');
+    cy.loginWithOrg('E2E Test Organization');
   });
 
   describe('Funcionalidad de Tareas', () => {
     beforeEach(() => {
-      cy.selectTool('impactos');
+      cy.get('.tool-card').contains('Impactos de Negocio').click();
+      cy.get('#appMenu', { timeout: 10000 }).should('be.visible');
       
       // Crear y procesar un impacto para generar tareas
       cy.get('[data-menu-item="nuevo"]').click();
@@ -18,8 +16,9 @@ describe('Problemas Reportados', () => {
       cy.get('#nombre_completo').type('Test User');
       cy.get('#departamento').type('IT');
       cy.get('#cargo').type('Developer');
-      cy.get('#necesita_equipo').check();
-      cy.get('#necesita_acceso_sistemas').check();
+      cy.get('#fecha_inicio').type('2025-07-15');
+      cy.get('#modalidad').select('Presencial');
+      cy.get('#equipo_movil').check();
       cy.get('#btnCrearImpacto').click();
       
       cy.wait(1000);
@@ -98,7 +97,8 @@ describe('Problemas Reportados', () => {
 
   describe('Problemas de Persistencia', () => {
     it('Las tareas no se almacenan en el backend', () => {
-      cy.selectTool('impactos');
+      cy.get('.tool-card').contains('Impactos de Negocio').click();
+      cy.get('#appMenu', { timeout: 10000 }).should('be.visible');
       
       // Ir directamente a tareas (sin crear impactos nuevos)
       cy.get('[data-menu-item="tareas"]').click();
@@ -109,7 +109,8 @@ describe('Problemas Reportados', () => {
     });
 
     it('Los cambios en tareas no afectan otros módulos', () => {
-      cy.selectTool('impactos');
+      cy.get('.tool-card').contains('Impactos de Negocio').click();
+      cy.get('#appMenu', { timeout: 10000 }).should('be.visible');
       
       // Crear impacto
       cy.createImpact('alta_empleado', {
@@ -148,7 +149,8 @@ describe('Problemas Reportados', () => {
 
   describe('Funcionalidades Faltantes', () => {
     it('No hay forma de editar una tarea', () => {
-      cy.selectTool('impactos');
+      cy.get('.tool-card').contains('Impactos de Negocio').click();
+      cy.get('#appMenu', { timeout: 10000 }).should('be.visible');
       cy.get('[data-menu-item="tareas"]').click();
       
       // Buscar botones de edición
@@ -160,7 +162,8 @@ describe('Problemas Reportados', () => {
     });
 
     it('No hay filtros en la vista de tareas', () => {
-      cy.selectTool('impactos');
+      cy.get('.tool-card').contains('Impactos de Negocio').click();
+      cy.get('#appMenu', { timeout: 10000 }).should('be.visible');
       cy.get('[data-menu-item="tareas"]').click();
       
       // Verificar que no hay filtros disponibles
@@ -172,7 +175,8 @@ describe('Problemas Reportados', () => {
     });
 
     it('No hay vista de calendario para tareas', () => {
-      cy.selectTool('impactos');
+      cy.get('.tool-card').contains('Impactos de Negocio').click();
+      cy.get('#appMenu', { timeout: 10000 }).should('be.visible');
       
       // No existe opción de vista calendario
       cy.get('[data-menu-item="calendario"]').should('not.exist');
@@ -180,7 +184,8 @@ describe('Problemas Reportados', () => {
     });
 
     it('Falta integración real con el sistema de notificaciones', () => {
-      cy.selectTool('impactos');
+      cy.get('.tool-card').contains('Impactos de Negocio').click();
+      cy.get('#appMenu', { timeout: 10000 }).should('be.visible');
       
       // Las tareas vencidas no generan notificaciones
       // No hay indicadores visuales de tareas próximas a vencer

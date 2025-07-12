@@ -1042,5 +1042,68 @@
         "detalles": "Activo creado"
       }
     ]
+  },
+  {
+    "id": "f3359b95-d212-404d-8725-513a297865bf",
+    "fecha_creacion": "2025-07-12T12:30:58.514694",
+    "fecha_modificacion": "2025-07-12T12:30:58.514701",
+    "tipo": "Hardware",
+    "estado": "Activo",
+    "nombre": "Servidor Principal TEST",
+    "responsable": "Admin Test",
+    "departamento": "IT",
+    "clasificacion": "Confidencial",
+    "criticidad": "Crítica",
+    "descripcion": "",
+    "auditoria": [
+      {
+        "accion": "creacion",
+        "fecha": "2025-07-12T12:30:58.514707",
+        "usuario": "sistema",
+        "detalles": "Activo creado"
+      }
+    ]
+  },
+  {
+    "id": "fdc9937c-6587-4ee9-a108-764cb78ba1f3",
+    "fecha_creacion": "2025-07-12T12:31:01.536097",
+    "fecha_modificacion": "2025-07-12T12:31:01.536106",
+    "tipo": "Software",
+    "estado": "Activo",
+    "nombre": "Sistema ERP TEST",
+    "responsable": "Admin Test",
+    "departamento": "Finanzas",
+    "clasificacion": "Interno",
+    "criticidad": "Importante",
+    "descripcion": "",
+    "auditoria": [
+      {
+        "accion": "creacion",
+        "fecha": "2025-07-12T12:31:01.536108",
+        "usuario": "sistema",
+        "detalles": "Activo creado"
+      }
+    ]
+  },
+  {
+    "id": "38766744-e38a-4bd7-b7fa-df148527a885",
+    "fecha_creacion": "2025-07-12T12:31:04.581504",
+    "fecha_modificacion": "2025-07-12T12:31:04.581511",
+    "tipo": "Personal",
+    "estado": "Activo",
+    "nombre": "Usuario Test E2E",
+    "responsable": "RRHH Test",
+    "departamento": "Desarrollo",
+    "clasificacion": "Interno",
+    "criticidad": "Normal",
+    "descripcion": "",
+    "auditoria": [
+      {
+        "accion": "creacion",
+        "fecha": "2025-07-12T12:31:04.581513",
+        "usuario": "sistema",
+        "detalles": "Activo creado"
+      }
+    ]
   }
 ]

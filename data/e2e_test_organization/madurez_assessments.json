@@ -336,5 +336,31 @@
         "detalles": "Assessment creado"
       }
     ]
+  },
+  {
+    "id": "3fb5f74b-c7c2-4ab9-b0e1-84b9a48e2b22",
+    "organizacion_id": "e2e_test_organization",
+    "cuestionario_id": "cuestionario_ciberplan_v1",
+    "fecha_inicio": "2025-07-12T12:31:18.230004",
+    "fecha_completado": null,
+    "fecha_firmado": null,
+    "estado": "abierto",
+    "firmado_por": null,
+    "nombre": "Evaluación",
+    "descripcion": "Evaluación inicial para pruebas automatizadas",
+    "resultados": null,
+    "objetivos": {
+      "6_meses": 2.5,
+      "1_año": 3,
+      "2_años": 4
+    },
+    "auditoria": [
+      {
+        "accion": "creacion",
+        "fecha": "2025-07-12T12:31:18.230033",
+        "usuario": "sistema",
+        "detalles": "Assessment creado"
+      }
+    ]
   }
 ]

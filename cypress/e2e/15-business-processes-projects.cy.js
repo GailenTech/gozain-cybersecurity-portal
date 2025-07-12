@@ -1,7 +1,8 @@
 describe('Procesos de Negocio - Clientes, Proyectos y Proveedores', () => {
   beforeEach(() => {
     cy.loginWithOrg()
-    cy.navigateToTool('Impactos de Negocio')
+    cy.get('.tool-card').contains('Impactos de Negocio').click()
+    cy.get('#appMenu', { timeout: 10000 }).should('be.visible')
   })
 
   it('Debe crear proceso de Inicio de Proyecto', () => {

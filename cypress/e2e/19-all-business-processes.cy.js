@@ -1,7 +1,8 @@
 describe('Validación Completa de Procesos de Negocio', () => {
   beforeEach(() => {
     cy.loginWithOrg('E2E Test Organization')
-    cy.selectTool('impactos')
+    cy.get('.tool-card').contains('Impactos de Negocio').click()
+    cy.get('#appMenu', { timeout: 10000 }).should('be.visible')
   })
 
   const procesosDeNegocio = {
