@@ -389,8 +389,8 @@ export default class MadurezApp {
         const listaView = this.container.querySelector('#listaView');
         const dashboardView = this.container.querySelector('#dashboardView');
         
-        if (listaView) listaView.style.display = 'block';
-        if (dashboardView) dashboardView.style.display = 'none';
+        if (listaView) listaView.classList.remove('d-none');
+        if (dashboardView) dashboardView.classList.add('d-none');
         
         this.currentView = 'lista';
     }
@@ -414,8 +414,8 @@ export default class MadurezApp {
         const listaView = this.container.querySelector('#listaView');
         const dashboardView = this.container.querySelector('#dashboardView');
         
-        if (listaView) listaView.style.display = 'none';
-        if (dashboardView) dashboardView.style.display = 'block';
+        if (listaView) listaView.classList.add('d-none');
+        if (dashboardView) dashboardView.classList.remove('d-none');
         
         this.currentView = 'dashboard';
         

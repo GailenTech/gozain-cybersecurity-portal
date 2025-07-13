@@ -7,6 +7,9 @@ WORKDIR /app
 # Copiar archivos de requerimientos
 COPY requirements.txt .
 
+# Instalar curl para healthchecks
+RUN apt-get update && apt-get install -y curl && rm -rf /var/lib/apt/lists/*
+
 # Instalar dependencias
 RUN pip install --no-cache-dir -r requirements.txt
 

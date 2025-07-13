@@ -223,66 +223,31 @@ Cypress.Commands.add('filterAssets', (filters) => {
 
 // Comando para cambiar vista
 Cypress.Commands.add('switchView', (view) => {
-  // En entornos CI, manipular DOM directamente para evitar problemas de visibilidad
-  const isCI = Cypress.env('CI') || Cypress.config('baseUrl').includes('run.app')
-  
   if (view === 'dashboard') {
-    if (isCI) {
-      // Manipulación directa del DOM en CI
-      cy.window().then(win => {
-        const doc = win.document
-        const dashboardView = doc.getElementById('dashboardView')
-        const listaView = doc.getElementById('listaView')
-        const btnDashboard = doc.getElementById('btnVistaDashboard')
-        const btnLista = doc.getElementById('btnVistaLista')
-        const filtros = doc.getElementById('filtrosSection')
-        
-        if (listaView) listaView.style.display = 'none'
-        if (dashboardView) dashboardView.style.display = 'block'
-        if (btnDashboard) btnDashboard.classList.add('active')
-        if (btnLista) btnLista.classList.remove('active')
-        if (filtros) filtros.style.display = 'none'
-      })
-      cy.wait(500)
-    } else {
-      // Click normal en local
-      cy.get('#btnVistaDashboard').click({ force: true })
-      cy.wait(1000)
-    }
+    // Click en el botón
+    cy.get('#btnVistaDashboard').click({ force: true })
+    cy.wait(500)
     
-    // Verificar que el dashboard es visible
-    cy.get('#dashboardView', { timeout: 10000 }).should('exist')
-    cy.get('#dashboardView').should('have.css', 'display').and('not.equal', 'none')
+    // Verificar que el dashboard es visible usando clases
+    cy.get('#dashboardView').should('not.have.class', 'd-none')
+    cy.get('#listaView').should('have.class', 'd-none')
+    
+    // Verificar atributo data
+    cy.get('.inventario-app').should('have.attr', 'data-current-view', 'dashboard')
   } else if (view === 'lista') {
-    if (isCI) {
-      // Manipulación directa del DOM en CI
-      cy.window().then(win => {
-        const doc = win.document
-        const dashboardView = doc.getElementById('dashboardView')
-        const listaView = doc.getElementById('listaView')
-        const btnLista = doc.getElementById('btnVistaLista')
-        const btnDashboard = doc.getElementById('btnVistaDashboard')
-        const filtros = doc.getElementById('filtrosSection')
-        
-        if (dashboardView) dashboardView.style.display = 'none'
-        if (listaView) listaView.style.display = 'block'
-        if (btnLista) btnLista.classList.add('active')
-        if (btnDashboard) btnDashboard.classList.remove('active')
-        if (filtros) filtros.style.display = 'block'
-      })
-      cy.wait(500)
-    } else {
-      // Click normal en local
-      cy.get('#btnVistaLista').click({ force: true })
-      cy.wait(1000)
-    }
+    // Click en el botón
+    cy.get('#btnVistaLista').click({ force: true })
+    cy.wait(500)
     
-    // Verificar que la lista es visible
-    cy.get('#listaView', { timeout: 10000 }).should('exist')
-    cy.get('#listaView').should('have.css', 'display').and('not.equal', 'none')
+    // Verificar que la lista es visible usando clases
+    cy.get('#listaView').should('not.have.class', 'd-none')
+    cy.get('#dashboardView').should('have.class', 'd-none')
+    
+    // Verificar atributo data
+    cy.get('.inventario-app').should('have.attr', 'data-current-view', 'lista')
     
     // Verificar que la tabla también existe
-    cy.get('#tablaActivos', { timeout: 5000 }).should('exist')
+    cy.get('#tablaActivos').should('exist')
   }
 })
 

@@ -1,0 +1,29 @@
+name: Test Act Against Production
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - fix/cypress-view-switching-classes
+
+jobs:
+  cypress-prod-test:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+      
+      - name: Install dependencies
+        run: npm ci
+      
+      - name: Run Cypress tests against production
+        run: |
+          npx cypress run --spec "cypress/e2e/00-setup.cy.js,cypress/e2e/01-navigation.cy.js,cypress/e2e/02-inventory.cy.js"
+        env:
+          CYPRESS_baseUrl: https://inventario-activos-339555320786.us-central1.run.app

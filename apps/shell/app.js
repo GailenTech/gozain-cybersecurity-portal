@@ -177,8 +177,8 @@ class GozainApp {
     
     selectOrganization(orgId, orgName) {
         if (!orgId) {
-            document.getElementById('welcomeScreen').style.display = 'block';
-            document.getElementById('appContainer').style.display = 'none';
+            document.getElementById('welcomeScreen').classList.remove('d-none');
+            document.getElementById('appContainer').classList.add('d-none');
             document.getElementById('organizationName').textContent = 'Seleccionar Organización';
             this.storage.remove('selectedOrganization');
             return;
@@ -194,8 +194,8 @@ class GozainApp {
         this.navigation.setOrganization(orgId);
         document.getElementById('organizationName').textContent = orgName;
         
-        document.getElementById('welcomeScreen').style.display = 'none';
-        document.getElementById('appContainer').style.display = 'block';
+        document.getElementById('welcomeScreen').classList.add('d-none');
+        document.getElementById('appContainer').classList.remove('d-none');
         
         // Mostrar selector de herramientas
         this.showToolSelector();
@@ -255,7 +255,7 @@ class GozainApp {
         document.body.classList.remove('showing-tool-selector');
         const sidebar = document.getElementById('sidebarMenu');
         if (sidebar) {
-            sidebar.style.display = 'block';
+            sidebar.classList.remove('d-none');
         }
         
         // Restaurar el ancho del main
@@ -271,8 +271,8 @@ class GozainApp {
         const currentApp = apps.find(app => app.id === appId);
         
         if (toolBtn && currentApp) {
-            toolBtn.style.display = 'block';
-            if (toolDivider) toolDivider.style.display = 'block';
+            toolBtn.classList.remove('d-none');
+            if (toolDivider) toolDivider.classList.remove('d-none');
             
             const toolNameEl = document.getElementById('currentToolName');
             if (toolNameEl) {
@@ -309,14 +309,14 @@ class GozainApp {
         document.body.classList.add('showing-tool-selector');
         const sidebar = document.getElementById('sidebarMenu');
         if (sidebar) {
-            sidebar.style.display = 'none';
+            sidebar.classList.add('d-none');
         }
         
         // Ocultar selector de herramientas
         const toolBtn = document.getElementById('toolSelectorButton');
         const toolDivider = document.getElementById('toolDivider');
-        if (toolBtn) toolBtn.style.display = 'none';
-        if (toolDivider) toolDivider.style.display = 'none';
+        if (toolBtn) toolBtn.classList.add('d-none');
+        if (toolDivider) toolDivider.classList.add('d-none');
         
         // Limpiar tema de aplicación
         document.body.removeAttribute('data-app-theme');
