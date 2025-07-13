@@ -221,38 +221,14 @@ Cypress.Commands.add('filterAssets', (filters) => {
   cy.get('#btnBuscar').click()
 })
 
-// Comando para cambiar vista
-Cypress.Commands.add('switchView', (view) => {
-  if (view === 'dashboard') {
-    // Click en el botón
-    cy.get('#btnVistaDashboard').click({ force: true })
-    cy.wait(1000) // Más tiempo de espera
-    
-    // Verificar que el dashboard es visible usando clases
-    cy.get('#dashboardView').should('not.have.class', 'd-none')
-    cy.get('#listaView').should('have.class', 'd-none')
-    
-    // Verificar atributo data
-    cy.get('.inventario-app').should('have.attr', 'data-current-view', 'dashboard')
-  } else if (view === 'lista') {
-    // Click en el botón
-    cy.get('#btnVistaLista').should('be.visible').click({ force: true })
-    cy.wait(1500) // Más tiempo de espera
-    
-    // Verificar que la lista es visible - usar should directamente
-    cy.get('#listaView').should('be.visible')
-    cy.get('#dashboardView').should('not.be.visible')
-    
-    // Verificar atributo data
-    cy.get('.inventario-app').should('have.attr', 'data-current-view', 'lista')
-    
-    // Verificar que la tabla también existe
-    cy.get('#tablaActivos').should('exist')
-    
-    // Verificar que los filtros son visibles
-    cy.get('#filtrosSection').should('be.visible')
-  }
-})
+// DEPRECATED: switchView command removed after refactor
+// Use menu navigation instead:
+// - Dashboard: cy.get('[data-menu-item="dashboard"]').click()
+// - Inventory: cy.get('[data-menu-item="inventario"]').click()
+//
+// Cypress.Commands.add('switchView', (view) => {
+//   // Removed - use menu navigation
+// })
 
 // Comando para verificar que no hay errores en consola
 Cypress.Commands.add('checkNoConsoleErrors', () => {
