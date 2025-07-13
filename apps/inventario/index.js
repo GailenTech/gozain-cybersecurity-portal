@@ -35,7 +35,12 @@ export default class InventarioApp {
     }
     
     setupModuleMenu() {
-        const eventBus = window.eventBus;
+        const eventBus = window.gozainApp?.eventBus;
+        
+        if (!eventBus) {
+            console.warn('EventBus no disponible');
+            return;
+        }
         
         const menuItems = [
             { id: 'dashboard', label: 'Dashboard', icon: 'bi-grid-3x3-gap' },
