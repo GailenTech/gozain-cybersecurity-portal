@@ -292,5 +292,11 @@
     "nombre": "Test Nav Org 1752413401103",
     "fecha_creacion": "2025-07-13T15:30:05.782280",
     "activa": true
+  },
+  {
+    "id": "test_org_1752442818068",
+    "nombre": "Test Org 1752442818068",
+    "fecha_creacion": "2025-07-13T23:40:22.675279",
+    "activa": true
   }
 ]
