@@ -656,8 +656,11 @@ export default class InventarioApp {
         this.container.querySelector('#listaView').classList.remove('d-none');
         this.container.querySelector('#dashboardView').classList.add('d-none');
         
-        // Agregar atributo para testing
-        this.container.setAttribute('data-current-view', 'lista');
+        // Agregar atributo para testing - en el elemento correcto
+        const inventarioApp = this.container.querySelector('.inventario-app');
+        if (inventarioApp) {
+            inventarioApp.setAttribute('data-current-view', 'lista');
+        }
         
         // Mostrar filtros en vista lista
         const filtrosSection = this.container.querySelector('#filtrosSection');
@@ -686,8 +689,11 @@ export default class InventarioApp {
         this.container.querySelector('#listaView').classList.add('d-none');
         this.container.querySelector('#dashboardView').classList.remove('d-none');
         
-        // Agregar atributo para testing
-        this.container.setAttribute('data-current-view', 'dashboard');
+        // Agregar atributo para testing - en el elemento correcto
+        const inventarioApp = this.container.querySelector('.inventario-app');
+        if (inventarioApp) {
+            inventarioApp.setAttribute('data-current-view', 'dashboard');
+        }
         
         // Ocultar filtros en vista dashboard
         const filtrosSection = this.container.querySelector('#filtrosSection');

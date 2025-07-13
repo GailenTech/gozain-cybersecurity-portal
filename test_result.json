@@ -1,0 +1,32 @@
+
+> gozain-e2e-tests@0.0.1 cypress:run
+> cypress run --spec cypress/e2e/02-inventory.cy.js --reporter json
+
+
+DevTools listening on ws://127.0.0.1:54491/devtools/browser/b666b038-f1c5-4b34-8721-aba2670b2e53
+
+Opening `/dev/tty` failed (6): Device not configured
+resize:  can't open terminal /dev/tty
+================================================================================
+
+  (Run Starting)
+
+  ┌────────────────────────────────────────────────────────────────────────────────────────────────┐
+  │ Cypress:        13.17.0                                                                        │
+  │ Browser:        Electron 118 (headless)                                                        │
+  │ Node Version:   v23.7.0 (/opt/homebrew/Cellar/node/23.7.0/bin/node)                            │
+  │ Specs:          1 found (02-inventory.cy.js)                                                   │
+  │ Searched:       cypress/e2e/02-inventory.cy.js                                                 │
+  └────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+
+────────────────────────────────────────────────────────────────────────────────────────────────────
+                                                                                                    
+  Running:  02-inventory.cy.js                                                              (1 of 1)
+[1834:0713/194346.622435:ERROR:trust_store_mac.cc(846)] Error parsing certificate:
+ERROR: Failed parsing extensions
+
+[1834:0713/194346.622530:ERROR:trust_store_mac.cc(846)] Error parsing certificate:
+ERROR: Policies is an empty SEQUENCE
+ERROR: Failed parsing certificate policies
+

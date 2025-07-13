@@ -226,7 +226,7 @@ Cypress.Commands.add('switchView', (view) => {
   if (view === 'dashboard') {
     // Click en el botón
     cy.get('#btnVistaDashboard').click({ force: true })
-    cy.wait(500)
+    cy.wait(1000) // Más tiempo de espera
     
     // Verificar que el dashboard es visible usando clases
     cy.get('#dashboardView').should('not.have.class', 'd-none')
@@ -237,17 +237,20 @@ Cypress.Commands.add('switchView', (view) => {
   } else if (view === 'lista') {
     // Click en el botón
     cy.get('#btnVistaLista').click({ force: true })
-    cy.wait(500)
+    cy.wait(1000) // Más tiempo de espera
     
     // Verificar que la lista es visible usando clases
     cy.get('#listaView').should('not.have.class', 'd-none')
     cy.get('#dashboardView').should('have.class', 'd-none')
     
-    // Verificar atributo data
+    // Verificar atributo data - corregir selector
     cy.get('.inventario-app').should('have.attr', 'data-current-view', 'lista')
     
     // Verificar que la tabla también existe
     cy.get('#tablaActivos').should('exist')
+    
+    // Verificar que los filtros son visibles
+    cy.get('#filtrosSection').should('not.have.class', 'd-none')
   }
 })
 

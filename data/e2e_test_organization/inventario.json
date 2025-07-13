@@ -1,26 +1,5 @@
 [
   {
-    "id": "cc1ae6b1-18a7-4de2-a144-5ab92451a48e",
-    "fecha_creacion": "2025-07-11T22:29:18.713907",
-    "fecha_modificacion": "2025-07-11T22:29:18.713918",
-    "tipo": "Hardware",
-    "estado": "Activo",
-    "nombre": "Servidor Principal DC01",
-    "responsable": "Carlos Mendez",
-    "departamento": "TI",
-    "clasificacion": "Confidencial",
-    "criticidad": "Crítica",
-    "descripcion": "Servidor principal del datacenter",
-    "auditoria": [
-      {
-        "accion": "creacion",
-        "fecha": "2025-07-11T22:29:18.713920",
-        "usuario": "sistema",
-        "detalles": "Activo creado"
-      }
-    ]
-  },
-  {
     "id": "96c92e09-778f-48b2-8e76-f6efdd4c0ba4",
     "fecha_creacion": "2025-07-11T22:29:21.841930",
     "fecha_modificacion": "2025-07-11T22:29:21.841938",
@@ -6307,6 +6286,111 @@
       {
         "accion": "creacion",
         "fecha": "2025-07-13T15:34:31.533195",
+        "usuario": "sistema",
+        "detalles": "Activo creado"
+      }
+    ]
+  },
+  {
+    "id": "32274dc2-eb81-4a7e-bdf6-26cc13444c30",
+    "fecha_creacion": "2025-07-13T19:44:20.418463",
+    "fecha_modificacion": "2025-07-13T19:44:20.418471",
+    "tipo": "Hardware",
+    "estado": "Activo",
+    "nombre": "Servidor Principal DC01",
+    "responsable": "Carlos Mendez",
+    "departamento": "TI",
+    "clasificacion": "Confidencial",
+    "criticidad": "Crítica",
+    "descripcion": "Servidor principal del datacenter",
+    "auditoria": [
+      {
+        "accion": "creacion",
+        "fecha": "2025-07-13T19:44:20.418480",
+        "usuario": "sistema",
+        "detalles": "Activo creado"
+      }
+    ]
+  },
+  {
+    "id": "b8a10e99-c3c1-4922-857f-b611ad8229ee",
+    "fecha_creacion": "2025-07-13T19:44:33.833072",
+    "fecha_modificacion": "2025-07-13T19:44:33.833080",
+    "tipo": "Hardware",
+    "estado": "Activo",
+    "nombre": "Servidor Principal DC01",
+    "responsable": "Carlos Mendez",
+    "departamento": "TI",
+    "clasificacion": "Confidencial",
+    "criticidad": "Crítica",
+    "descripcion": "Servidor principal del datacenter",
+    "auditoria": [
+      {
+        "accion": "creacion",
+        "fecha": "2025-07-13T19:44:33.833082",
+        "usuario": "sistema",
+        "detalles": "Activo creado"
+      }
+    ]
+  },
+  {
+    "id": "6b951f6a-95e9-445b-b645-c4b73cb8200a",
+    "fecha_creacion": "2025-07-13T19:44:37.117341",
+    "fecha_modificacion": "2025-07-13T19:44:37.117348",
+    "tipo": "Software",
+    "estado": "Activo",
+    "nombre": "Microsoft Office 365",
+    "responsable": "Ana Garcia",
+    "departamento": "Administración",
+    "clasificacion": "Interno",
+    "criticidad": "Normal",
+    "descripcion": "Suite ofimática corporativa",
+    "auditoria": [
+      {
+        "accion": "creacion",
+        "fecha": "2025-07-13T19:44:37.117350",
+        "usuario": "sistema",
+        "detalles": "Activo creado"
+      }
+    ]
+  },
+  {
+    "id": "93844603-c903-4003-9084-e566f4727776",
+    "fecha_creacion": "2025-07-13T19:44:40.331880",
+    "fecha_modificacion": "2025-07-13T19:44:40.331886",
+    "tipo": "Hardware",
+    "estado": "Activo",
+    "nombre": "Laptop Dell Latitude 5520",
+    "responsable": "Pedro Lopez",
+    "departamento": "Ventas",
+    "clasificacion": "Interno",
+    "criticidad": "Normal",
+    "descripcion": "Equipo portátil asignado",
+    "auditoria": [
+      {
+        "accion": "creacion",
+        "fecha": "2025-07-13T19:44:40.331888",
+        "usuario": "sistema",
+        "detalles": "Activo creado"
+      }
+    ]
+  },
+  {
+    "id": "023765dd-3201-4b05-8409-83efe35e1b7e",
+    "fecha_creacion": "2025-07-13T19:45:22.084774",
+    "fecha_modificacion": "2025-07-13T19:45:22.084779",
+    "tipo": "Hardware",
+    "nombre": "Activo Test para Editar 1752428722078",
+    "responsable": "Carlos Mendez",
+    "departamento": "TI",
+    "estado": "Activo",
+    "criticidad": "Crítica",
+    "clasificacion": "Confidencial",
+    "descripcion": "Servidor principal del datacenter",
+    "auditoria": [
+      {
+        "accion": "creacion",
+        "fecha": "2025-07-13T19:45:22.084790",
         "usuario": "sistema",
         "detalles": "Activo creado"
       }
