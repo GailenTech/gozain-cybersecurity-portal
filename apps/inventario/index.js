@@ -120,8 +120,7 @@ export default class InventarioApp {
     async renderDashboard() {
         this.container.innerHTML = `
             <div class="dashboard-view fade-in">
-                <div class="d-flex justify-content-between align-items-center mb-4">
-                    <h2>Dashboard de Inventario</h2>
+                <div class="d-flex justify-content-end mb-4">
                     <button class="btn btn-primary" id="btnNuevoActivoDashboard">
                         <i class="bi bi-plus-circle"></i> Nuevo Activo
                     </button>
@@ -233,8 +232,7 @@ export default class InventarioApp {
     async renderInventarioList() {
         this.container.innerHTML = `
             <div class="inventario-list-view fade-in">
-                <div class="d-flex justify-content-between align-items-center mb-4">
-                    <h2>Inventario de Activos</h2>
+                <div class="d-flex justify-content-end mb-4">
                     <button class="btn btn-primary" id="btnNuevoActivo">
                         <i class="bi bi-plus-circle"></i> Nuevo Activo
                     </button>
@@ -665,6 +663,11 @@ export default class InventarioApp {
     }
     
     async loadChartJS() {
+        // Verificar si Chart.js ya está cargado
+        if (window.Chart) {
+            return Promise.resolve();
+        }
+        
         return new Promise((resolve, reject) => {
             const script = document.createElement('script');
             script.src = 'https://cdn.jsdelivr.net/npm/chart.js';
@@ -747,13 +750,27 @@ export default class InventarioApp {
             }
             
             // Cerrar modal
-            bootstrap.Modal.getInstance(this.container.querySelector('#modalActivo')).hide();
-            
-            // Recargar datos según la vista actual
-            if (this.currentView === 'dashboard') {
-                await this.loadDashboardData();
+            const modalElement = this.container.querySelector('#modalActivo');
+            const modal = bootstrap.Modal.getInstance(modalElement);
+            if (modal) {
+                // Esperar a que el modal se cierre completamente
+                modalElement.addEventListener('hidden.bs.modal', async () => {
+                    // Recargar datos según la vista actual
+                    if (this.currentView === 'dashboard') {
+                        await this.loadDashboardData();
+                    } else {
+                        await this.cargarActivos();
+                    }
+                }, { once: true });
+                
+                modal.hide();
             } else {
-                await this.cargarActivos();
+                // Si no hay modal, recargar directamente
+                if (this.currentView === 'dashboard') {
+                    await this.loadDashboardData();
+                } else {
+                    await this.cargarActivos();
+                }
             }
             
         } catch (error) {
