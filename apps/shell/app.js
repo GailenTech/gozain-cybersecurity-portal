@@ -22,6 +22,9 @@ class GozainApp {
             }
         };
         
+        // Hacer eventBus disponible directamente en window para compatibilidad
+        window.gozainApp = this;
+        
         this.init();
     }
     
@@ -173,6 +176,15 @@ class GozainApp {
             });
         }
         
+        // Escuchar actualizaciones del menú del módulo
+        this.eventBus.on('shell:updateModuleMenu', (data) => {
+            this.updateModuleMenu(data);
+        });
+        
+        // Escuchar selecciones del menú del módulo
+        this.eventBus.on('shell:moduleMenuSelect', (data) => {
+            // Esto se maneja en el módulo directamente
+        });
     }
     
     selectOrganization(orgId, orgName) {
@@ -347,6 +359,57 @@ class GozainApp {
         });
         
         this.toolSelector.render();
+    }
+    
+    updateModuleMenu(data) {
+        const { moduleId, items } = data;
+        const appMenu = document.getElementById('appMenu');
+        
+        if (!appMenu) return;
+        
+        // Limpiar menú actual
+        appMenu.innerHTML = '';
+        
+        // Crear elementos del menú
+        items.forEach(item => {
+            const li = document.createElement('li');
+            li.className = 'nav-item';
+            
+            const a = document.createElement('a');
+            a.className = 'nav-link';
+            a.href = '#';
+            a.setAttribute('data-menu-item', item.id);
+            a.innerHTML = `
+                <i class="${item.icon} me-2"></i>
+                ${item.label}
+            `;
+            
+            // Manejar click
+            a.addEventListener('click', (e) => {
+                e.preventDefault();
+                
+                // Actualizar clase activa
+                appMenu.querySelectorAll('.nav-link').forEach(link => {
+                    link.classList.remove('active');
+                });
+                a.classList.add('active');
+                
+                // Emitir evento de selección
+                this.eventBus.emit('shell:moduleMenuSelect', {
+                    moduleId,
+                    itemId: item.id
+                });
+            });
+            
+            li.appendChild(a);
+            appMenu.appendChild(li);
+        });
+        
+        // Activar el primer elemento por defecto
+        const firstItem = appMenu.querySelector('.nav-link');
+        if (firstItem) {
+            firstItem.classList.add('active');
+        }
     }
 }
 
