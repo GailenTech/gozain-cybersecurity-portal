@@ -7091,5 +7091,149 @@
         "detalles": "Activo creado"
       }
     ]
+  },
+  {
+    "id": "dc66bff8-c146-4c44-a4e9-26acd4d6f5bc",
+    "fecha_creacion": "2025-07-13T22:16:24.552898",
+    "fecha_modificacion": "2025-07-13T22:16:24.552910",
+    "tipo": "Hardware",
+    "tipo_activo": "Hardware",
+    "estado": "Activo",
+    "nombre": "Servidor Principal DC01",
+    "responsable": "Carlos Mendez",
+    "departamento": "TI",
+    "clasificacion": "Confidencial",
+    "criticidad": "Crítica",
+    "descripcion": "Servidor principal del datacenter",
+    "auditoria": [
+      {
+        "accion": "creacion",
+        "fecha": "2025-07-13T22:16:24.552920",
+        "usuario": "sistema",
+        "detalles": "Activo creado"
+      }
+    ]
+  },
+  {
+    "id": "df28e088-7cfb-41f1-950a-de07625d44a8",
+    "fecha_creacion": "2025-07-13T22:16:50.668149",
+    "fecha_modificacion": "2025-07-13T22:16:50.668160",
+    "tipo": "Hardware",
+    "tipo_activo": "Hardware",
+    "estado": "Activo",
+    "nombre": "Servidor Principal DC01",
+    "responsable": "Carlos Mendez",
+    "departamento": "TI",
+    "clasificacion": "Confidencial",
+    "criticidad": "Crítica",
+    "descripcion": "Servidor principal del datacenter",
+    "auditoria": [
+      {
+        "accion": "creacion",
+        "fecha": "2025-07-13T22:16:50.668171",
+        "usuario": "sistema",
+        "detalles": "Activo creado"
+      }
+    ]
+  },
+  {
+    "id": "ae34c3a8-99b1-4692-b54b-e5645d2e6c56",
+    "fecha_creacion": "2025-07-13T22:16:53.844797",
+    "fecha_modificacion": "2025-07-13T22:16:53.844806",
+    "tipo": "Software",
+    "tipo_activo": "Software",
+    "estado": "Activo",
+    "nombre": "Microsoft Office 365",
+    "responsable": "Ana Garcia",
+    "departamento": "Administración",
+    "clasificacion": "Interno",
+    "criticidad": "Normal",
+    "descripcion": "Suite ofimática corporativa",
+    "auditoria": [
+      {
+        "accion": "creacion",
+        "fecha": "2025-07-13T22:16:53.844809",
+        "usuario": "sistema",
+        "detalles": "Activo creado"
+      }
+    ]
+  },
+  {
+    "id": "4eccb7f2-06cc-449e-ade3-351788facbee",
+    "fecha_creacion": "2025-07-13T22:16:56.951187",
+    "fecha_modificacion": "2025-07-13T22:16:56.951198",
+    "tipo": "Hardware",
+    "tipo_activo": "Hardware",
+    "estado": "Activo",
+    "nombre": "Laptop Dell Latitude 5520",
+    "responsable": "Pedro Lopez",
+    "departamento": "Ventas",
+    "clasificacion": "Interno",
+    "criticidad": "Normal",
+    "descripcion": "Equipo portátil asignado",
+    "auditoria": [
+      {
+        "accion": "creacion",
+        "fecha": "2025-07-13T22:16:56.951200",
+        "usuario": "sistema",
+        "detalles": "Activo creado"
+      }
+    ]
+  },
+  {
+    "tipo": "Hardware",
+    "tipo_activo": "Hardware",
+    "estado": "En mantenimiento",
+    "nombre": "Activo Editable 1752437887613",
+    "responsable": "Responsable ",
+    "departamento": "TI",
+    "clasificacion": "Público",
+    "criticidad": "Crítica",
+    "descripcion": "",
+    "id": "c323d82f-56f1-4c60-96d4-c06895fe0549",
+    "fecha_creacion": "2025-07-13T22:18:09.273729",
+    "fecha_modificacion": "2025-07-13T22:18:15.599911",
+    "auditoria": [
+      {
+        "accion": "creacion",
+        "fecha": "2025-07-13T22:18:09.273746",
+        "usuario": "sistema",
+        "detalles": "Activo creado"
+      },
+      {
+        "accion": "modificacion",
+        "fecha": "2025-07-13T22:18:15.599928",
+        "usuario": "sistema",
+        "detalles": "Activo modificado"
+      }
+    ]
+  },
+  {
+    "tipo": "Hardware",
+    "tipo_activo": "Hardware",
+    "estado": "En mantenimiento",
+    "nombre": "Activo Editable 1752438021317",
+    "responsable": "Responsable ",
+    "departamento": "TI",
+    "clasificacion": "Público",
+    "criticidad": "Crítica",
+    "descripcion": "",
+    "id": "94a03919-3696-41a0-9ec0-270cec552c66",
+    "fecha_creacion": "2025-07-13T22:20:22.948170",
+    "fecha_modificacion": "2025-07-13T22:20:29.308937",
+    "auditoria": [
+      {
+        "accion": "creacion",
+        "fecha": "2025-07-13T22:20:22.948185",
+        "usuario": "sistema",
+        "detalles": "Activo creado"
+      },
+      {
+        "accion": "modificacion",
+        "fecha": "2025-07-13T22:20:29.308991",
+        "usuario": "sistema",
+        "detalles": "Activo modificado"
+      }
+    ]
   }
 ]
