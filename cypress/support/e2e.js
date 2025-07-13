@@ -2,8 +2,6 @@
 import './commands'
 // Import test helpers
 import * as helpers from './test-helpers'
-// Import switchView helper para GitHub Actions
-import './switchview-helper'
 // Import CI visibility fixes
 import './ci-visibility-fix'
 
