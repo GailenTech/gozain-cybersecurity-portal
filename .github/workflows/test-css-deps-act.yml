@@ -1,0 +1,55 @@
+name: CSS Test with Dependencies
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - fix/cypress-view-switching-classes
+
+jobs:
+  cypress-test:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      
+      - name: Install system dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            libgtk2.0-0 \
+            libgtk-3-0 \
+            libgbm-dev \
+            libnotify-dev \
+            libnss3 \
+            libxss1 \
+            libasound2 \
+            libxtst6 \
+            xauth \
+            xvfb
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+      
+      - name: Install Cypress
+        run: |
+          npm ci
+          npx cypress install
+          npx cypress verify
+      
+      - name: Run Cypress tests
+        run: |
+          xvfb-run -a npx cypress run --spec "cypress/e2e/00-setup.cy.js,cypress/e2e/01-navigation.cy.js,cypress/e2e/02-inventory.cy.js"
+        env:
+          CYPRESS_baseUrl: http://localhost:8080
+          
+      - name: Upload screenshots on failure
+        uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: cypress-screenshots
+          path: cypress/screenshots
+          retention-days: 7

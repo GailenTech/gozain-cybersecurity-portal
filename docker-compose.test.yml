@@ -1,0 +1,35 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    environment:
+      - PORT=8080
+      - USE_LOCAL_STORAGE=true
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/"]
+      interval: 5s
+      timeout: 10s
+      retries: 5
+
+  cypress:
+    image: cypress/included:13.17.0
+    depends_on:
+      app:
+        condition: service_healthy
+    environment:
+      - CYPRESS_baseUrl=http://app:8080
+    volumes:
+      - ./apps/inventario:/e2e
+    working_dir: /e2e
+    command: >
+      sh -c "
+        echo 'Waiting for app to be ready...' &&
+        sleep 10 &&
+        echo 'Running Cypress tests...' &&
+        cypress run --spec 'cypress/e2e/setup.cy.js,cypress/e2e/navigation.cy.js,cypress/e2e/inventory.cy.js'
+      "

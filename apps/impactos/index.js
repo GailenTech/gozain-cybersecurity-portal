@@ -653,7 +653,11 @@ export default class ImpactosApp {
         
         // Mostrar/ocultar botón procesar
         if (btnProcesar) {
-            btnProcesar.style.display = impacto.estado === 'pendiente' ? 'block' : 'none';
+            if (impacto.estado === 'pendiente') {
+                btnProcesar.classList.remove('d-none');
+            } else {
+                btnProcesar.classList.add('d-none');
+            }
         }
         
         content.innerHTML = `
@@ -978,14 +982,14 @@ export default class ImpactosApp {
         const dashboardView = this.container.querySelector('#dashboardView');
         const tareasView = this.container.querySelector('#tareasView');
         
-        if (listaView) listaView.style.display = 'none';
-        if (dashboardView) dashboardView.style.display = 'none';
-        if (tareasView) tareasView.style.display = 'block';
+        if (listaView) listaView.classList.add('d-none');
+        if (dashboardView) dashboardView.classList.add('d-none');
+        if (tareasView) tareasView.classList.remove('d-none');
         
         // Ocultar filtros en vista de tareas
         const filtrosSection = this.container.querySelector('#filtrosSection');
         if (filtrosSection) {
-            filtrosSection.style.display = 'none';
+            filtrosSection.classList.add('d-none');
         }
         
         // Actualizar menú lateral
@@ -1171,7 +1175,11 @@ export default class ImpactosApp {
         const accionesMasivas = this.container.querySelector('#accionesMasivas');
         
         if (accionesMasivas) {
-            accionesMasivas.style.display = checkboxes.length > 0 ? 'block' : 'none';
+            if (checkboxes.length > 0) {
+                accionesMasivas.classList.remove('d-none');
+            } else {
+                accionesMasivas.classList.add('d-none');
+            }
         }
     }
     
@@ -1270,14 +1278,14 @@ export default class ImpactosApp {
         const dashboardView = this.container.querySelector('#dashboardView');
         const tareasView = this.container.querySelector('#tareasView');
         
-        if (listaView) listaView.style.display = 'block';
-        if (dashboardView) dashboardView.style.display = 'none';
-        if (tareasView) tareasView.style.display = 'none';
+        if (listaView) listaView.classList.remove('d-none');
+        if (dashboardView) dashboardView.classList.add('d-none');
+        if (tareasView) tareasView.classList.add('d-none');
         
         // Mostrar filtros en vista lista
         const filtrosSection = this.container.querySelector('#filtrosSection');
         if (filtrosSection) {
-            filtrosSection.style.display = 'block';
+            filtrosSection.classList.remove('d-none');
         }
         
         // Actualizar menú lateral
@@ -1305,14 +1313,14 @@ export default class ImpactosApp {
         const dashboardView = this.container.querySelector('#dashboardView');
         const tareasView = this.container.querySelector('#tareasView');
         
-        if (listaView) listaView.style.display = 'none';
-        if (dashboardView) dashboardView.style.display = 'block';
-        if (tareasView) tareasView.style.display = 'none';
+        if (listaView) listaView.classList.add('d-none');
+        if (dashboardView) dashboardView.classList.remove('d-none');
+        if (tareasView) tareasView.classList.add('d-none');
         
         // Ocultar filtros en vista dashboard
         const filtrosSection = this.container.querySelector('#filtrosSection');
         if (filtrosSection) {
-            filtrosSection.style.display = 'none';
+            filtrosSection.classList.add('d-none');
         }
         
         // Actualizar menú lateral

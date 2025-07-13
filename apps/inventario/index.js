@@ -46,7 +46,7 @@ export default class InventarioApp {
     
     render() {
         this.container.innerHTML = `
-            <div class="inventario-app fade-in">
+            <div class="inventario-app fade-in" data-current-view="dashboard">
                 <div class="d-flex justify-content-end mb-4">
                     <div class="btn-group" role="group">
                         <button class="btn btn-outline-secondary" id="btnVistaLista" title="Vista de Lista">
@@ -134,7 +134,7 @@ export default class InventarioApp {
                 </div>
                 
                 <!-- Tabla de activos (oculta por defecto) -->
-                <div id="listaView" class="card" style="display: none;">
+                <div id="listaView" class="card d-none">
                     <div class="card-body">
                         <div class="table-responsive">
                             <table class="table table-hover">
@@ -264,7 +264,7 @@ export default class InventarioApp {
                                 </div>
                             </div>
                             
-                            <div id="previewImportar" style="display: none;">
+                            <div id="previewImportar" class="d-none">
                                 <h6>Vista previa:</h6>
                                 <div class="table-responsive" style="max-height: 200px; overflow-y: auto;">
                                     <table class="table table-sm" id="tablaPreview">
@@ -652,14 +652,17 @@ export default class InventarioApp {
         this.container.querySelector('#btnVistaLista').classList.add('active');
         this.container.querySelector('#btnVistaDashboard').classList.remove('active');
         
-        // Mostrar/ocultar vistas
-        this.container.querySelector('#listaView').style.display = 'block';
-        this.container.querySelector('#dashboardView').style.display = 'none';
+        // Mostrar/ocultar vistas usando clases CSS
+        this.container.querySelector('#listaView').classList.remove('d-none');
+        this.container.querySelector('#dashboardView').classList.add('d-none');
+        
+        // Agregar atributo para testing
+        this.container.setAttribute('data-current-view', 'lista');
         
         // Mostrar filtros en vista lista
         const filtrosSection = this.container.querySelector('#filtrosSection');
         if (filtrosSection) {
-            filtrosSection.style.display = 'block';
+            filtrosSection.classList.remove('d-none');
         }
         
         // Actualizar menú lateral
@@ -679,14 +682,17 @@ export default class InventarioApp {
         this.container.querySelector('#btnVistaLista').classList.remove('active');
         this.container.querySelector('#btnVistaDashboard').classList.add('active');
         
-        // Mostrar/ocultar vistas
-        this.container.querySelector('#listaView').style.display = 'none';
-        this.container.querySelector('#dashboardView').style.display = 'block';
+        // Mostrar/ocultar vistas usando clases CSS
+        this.container.querySelector('#listaView').classList.add('d-none');
+        this.container.querySelector('#dashboardView').classList.remove('d-none');
+        
+        // Agregar atributo para testing
+        this.container.setAttribute('data-current-view', 'dashboard');
         
         // Ocultar filtros en vista dashboard
         const filtrosSection = this.container.querySelector('#filtrosSection');
         if (filtrosSection) {
-            filtrosSection.style.display = 'none';
+            filtrosSection.classList.add('d-none');
         }
         
         // Actualizar menú lateral
@@ -858,14 +864,14 @@ export default class InventarioApp {
         // Reset
         fileInput.value = '';
         btnConfirmar.disabled = true;
-        preview.style.display = 'none';
+        preview.classList.add('d-none');
         
         // Event listener para archivo
         fileInput.addEventListener('change', async (e) => {
             const file = e.target.files[0];
             if (!file) {
                 btnConfirmar.disabled = true;
-                preview.style.display = 'none';
+                preview.classList.add('d-none');
                 return;
             }
             
@@ -927,7 +933,7 @@ export default class InventarioApp {
             ).join('');
             
             // Mostrar info
-            preview.style.display = 'block';
+            preview.classList.remove('d-none');
             
             // Mostrar resumen
             const resumen = document.createElement('div');

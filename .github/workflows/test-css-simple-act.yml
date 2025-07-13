@@ -1,0 +1,52 @@
+name: Simple CSS Test Act
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - fix/cypress-view-switching-classes
+
+jobs:
+  test-cypress:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+      
+      - name: Install Cypress binary
+        run: |
+          npm install -g cypress@13.17.0
+          cypress install
+      
+      - name: Install dependencies
+        run: |
+          cd apps/inventario
+          npm ci
+      
+      - name: Start Xvfb
+        run: |
+          export DISPLAY=:99
+          Xvfb :99 -screen 0 1280x1024x24 > /dev/null 2>&1 &
+          sleep 3
+      
+      - name: Run Cypress tests
+        run: |
+          cd apps/inventario
+          export DISPLAY=:99
+          cypress run --spec "cypress/e2e/setup.cy.js,cypress/e2e/navigation.cy.js,cypress/e2e/inventory.cy.js"
+        env:
+          CYPRESS_baseUrl: http://localhost:8080
+          
+      - name: Upload screenshots on failure
+        uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: cypress-screenshots
+          path: apps/inventario/cypress/screenshots
+          retention-days: 7
