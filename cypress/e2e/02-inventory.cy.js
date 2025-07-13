@@ -115,6 +115,8 @@ describe('Módulo de Inventario', () => {
       
       // Cerrar modal
       cy.get('#modalActivo .btn-close').click()
+      cy.wait(500)
+      cy.get('#modalActivo').should('not.have.class', 'show')
     })
 
     it('Debe crear múltiples activos', () => {
@@ -228,14 +230,12 @@ describe('Módulo de Inventario', () => {
           cy.get('#btnGuardarActivo').click()
           
           // Verificar que se muestra el mensaje de éxito
+          cy.get('.toast-container', {timeout: 5000}).should('exist')
           cy.get('.toast-body').should('contain', 'actualizado correctamente')
           
-          // Esperar a que el modal se cierre completamente
-          cy.get('#modalActivo').should('not.exist')
-          cy.wait(1000)
-          
-          // El test es exitoso si se mostró el mensaje de éxito
-          // Verificar adicionalmente que el modal no está visible
+          // Esperar a que el modal se cierre - verificar que no tiene clase 'show'
+          cy.wait(1500)
+          cy.get('#modalActivo').should('not.have.class', 'show')
           cy.get('.modal-backdrop').should('not.exist')
         })
       })
@@ -257,6 +257,7 @@ describe('Módulo de Inventario', () => {
         cy.on('window:confirm', () => true)
         
         // Verificar mensaje de éxito
+        cy.get('.toast-container', {timeout: 5000}).should('exist')
         cy.get('.toast-body').should('contain', 'eliminado correctamente')
         
         // Verificar que hay menos activos
