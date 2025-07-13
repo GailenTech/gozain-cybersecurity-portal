@@ -191,79 +191,108 @@ describe('Módulo de Inventario', () => {
   })
 
   describe('Editar y Eliminar', () => {
-    it('Debe editar un activo existente', () => {
-      // Primero crear un activo via API para garantizar que hay algo que editar
-      cy.fixture('test-data.json').then((data) => {
-        const testAsset = {
-          ...data.assets[0],
-          nombre: 'Activo Test para Editar ' + Date.now()
-        }
-        
-        cy.request({
-          method: 'POST',
-          url: '/api/inventario/activos',
-          headers: {
-            'X-Organization-Id': 'e2e_test_organization',
-            'Content-Type': 'application/json'
-          },
-          body: testAsset
-        }).then(response => {
-          const createdAssetId = response.body.id
-          
-          // Navegar a vista lista
-          cy.get('#btnVerInventario').click()
-          cy.get('.inventario-list-view').should('be.visible')
-          
-          // Esperar a que se cargue la lista
-          cy.wait(1000)
-          
-          // Buscar el botón de editar del activo creado
-          cy.get('#tablaActivos .btn-outline-primary').first().click()
-          cy.get('#modalActivo').should('be.visible')
-          cy.get('#modalActivoTitle').should('contain', 'Editar Activo')
-          
-          // Cambiar algunos valores
-          cy.get('#responsableActivo').clear().type('Responsable Editado E2E')
-          cy.get('#criticidadActivo').select('Crítica')
-          
-          // Guardar
-          cy.get('#btnGuardarActivo').click()
-          
-          // Verificar que se muestra el mensaje de éxito
-          cy.get('.toast-container', {timeout: 5000}).should('exist')
-          cy.get('.toast-body').should('contain', 'actualizado correctamente')
-          
-          // Esperar a que el modal se cierre - verificar que no tiene clase 'show'
-          cy.wait(1500)
-          cy.get('#modalActivo').should('not.have.class', 'show')
-          cy.get('.modal-backdrop').should('not.exist')
-        })
-      })
-    })
-
-    it('Debe eliminar un activo con confirmación', () => {
-      // Navegar a lista
+    it('Debe permitir editar un activo y guardar los cambios', () => {
+      // Crear un activo específico para este test
+      const uniqueName = `Activo Editable ${Date.now()}`
+      const updatedResponsable = 'Responsable Actualizado E2E'
+      
+      // Primero crear el activo via UI para asegurar consistencia
       cy.get('#btnVerInventario').click()
       cy.get('.inventario-list-view').should('be.visible')
       
-      // Contar activos antes
-      cy.get('#tablaActivos tr').then(($rows) => {
-        const countBefore = $rows.length
-        
-        // Click en eliminar
-        cy.get('#tablaActivos .btn-outline-danger').first().click()
-        
-        // Confirmar eliminación
-        cy.on('window:confirm', () => true)
-        
-        // Verificar mensaje de éxito
-        cy.get('.toast-container', {timeout: 5000}).should('exist')
-        cy.get('.toast-body').should('contain', 'eliminado correctamente')
-        
-        // Verificar que hay menos activos
-        cy.wait(1000)
-        cy.get('#tablaActivos tr').should('have.length.lessThan', countBefore)
+      // Crear activo
+      cy.get('#btnNuevoActivo').click()
+      cy.get('#modalActivo').should('be.visible')
+      cy.get('#tipoActivo').select('Hardware')
+      cy.get('#estadoActivo').select('Activo')
+      cy.get('#nombreActivo').type(uniqueName)
+      cy.get('#responsableActivo').type('Responsable Original')
+      cy.get('#departamentoActivo').type('TI')
+      cy.get('#btnGuardarActivo').click()
+      
+      // Esperar a que se cierre el modal y se actualice la tabla
+      cy.wait(2000)
+      
+      // Buscar el activo recién creado y editarlo
+      cy.get('#tablaActivos').contains(uniqueName)
+        .parent('tr')
+        .within(() => {
+          // Click en el botón editar de esta fila específica
+          cy.get('.btn-outline-primary').click()
+        })
+      
+      // Verificar que se abrió en modo edición
+      cy.get('#modalActivoTitle').should('contain', 'Editar Activo')
+      cy.get('#nombreActivo').should('have.value', uniqueName)
+      
+      // Realizar cambios
+      cy.get('#responsableActivo').clear().type(updatedResponsable)
+      cy.get('#criticidadActivo').select('Crítica')
+      cy.get('#estadoActivo').select('En mantenimiento')
+      
+      // Guardar cambios
+      cy.get('#btnGuardarActivo').click()
+      
+      // Verificar que el modal se cerró
+      cy.wait(2000)
+      cy.get('#modalActivo.show').should('not.exist')
+      
+      // Verificar que los cambios se reflejan en la tabla
+      cy.get('#tablaActivos').contains(uniqueName)
+        .parent('tr')
+        .within(() => {
+          cy.contains(updatedResponsable).should('exist')
+          cy.contains('Crítica').should('exist')
+          cy.contains('En mantenimiento').should('exist')
+        })
+    })
+
+    it('Debe solicitar confirmación antes de eliminar un activo', () => {
+      // Crear un activo específico para eliminar
+      const uniqueName = `Activo para Eliminar ${Date.now()}`
+      
+      // Crear el activo primero
+      cy.get('#btnVerInventario').click()
+      cy.get('.inventario-list-view').should('be.visible')
+      
+      cy.get('#btnNuevoActivo').click()
+      cy.get('#modalActivo').should('be.visible')
+      cy.get('#tipoActivo').select('Software')
+      cy.get('#estadoActivo').select('Activo')
+      cy.get('#nombreActivo').type(uniqueName)
+      cy.get('#btnGuardarActivo').click()
+      
+      // Esperar a que se actualice la tabla
+      cy.wait(2000)
+      
+      // Verificar que el activo existe
+      cy.get('#tablaActivos').contains(uniqueName).should('exist')
+      
+      // Interceptar el diálogo de confirmación
+      let confirmShown = false
+      cy.on('window:confirm', (str) => {
+        confirmShown = true
+        expect(str).to.include('eliminar')
+        return true // Confirmar eliminación
       })
+      
+      // Buscar el activo y eliminarlo
+      cy.get('#tablaActivos').contains(uniqueName)
+        .parent('tr')
+        .within(() => {
+          cy.get('.btn-outline-danger').click()
+        })
+      
+      // Verificar que se mostró el diálogo
+      cy.wrap(null).then(() => {
+        expect(confirmShown).to.be.true
+      })
+      
+      // Esperar a que se procese la eliminación
+      cy.wait(2000)
+      
+      // Verificar que el activo ya no existe en la tabla
+      cy.get('#tablaActivos').contains(uniqueName).should('not.exist')
     })
   })
 
