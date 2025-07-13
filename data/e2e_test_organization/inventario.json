@@ -7235,5 +7235,89 @@
         "detalles": "Activo modificado"
       }
     ]
+  },
+  {
+    "tipo": "Hardware",
+    "tipo_activo": "Hardware",
+    "estado": "Activo",
+    "nombre": "Test Bug 1752438614084",
+    "responsable": "Responsable",
+    "departamento": "TI",
+    "clasificacion": "Público",
+    "criticidad": "Baja",
+    "descripcion": "",
+    "id": "d73648c8-ad22-4047-865e-8333e8a071b4",
+    "fecha_creacion": "2025-07-13T22:30:15.673695",
+    "fecha_modificacion": "2025-07-13T22:30:21.724993",
+    "auditoria": [
+      {
+        "accion": "creacion",
+        "fecha": "2025-07-13T22:30:15.673714",
+        "usuario": "sistema",
+        "detalles": "Activo creado"
+      },
+      {
+        "accion": "modificacion",
+        "fecha": "2025-07-13T22:30:21.725006",
+        "usuario": "sistema",
+        "detalles": "Activo modificado"
+      }
+    ]
+  },
+  {
+    "id": "26cd9c26-82af-4ea4-90b0-eb0db1bd5b36",
+    "fecha_creacion": "2025-07-13T22:31:01.146853",
+    "fecha_modificacion": "2025-07-13T22:31:07.201005",
+    "tipo": "Hardware",
+    "tipo_activo": "Hardware",
+    "estado": "Activo",
+    "nombre": "Test Bug 1752438659531",
+    "responsable": "Responsab",
+    "departamento": "TI",
+    "clasificacion": "Público",
+    "criticidad": "Baja",
+    "descripcion": "",
+    "auditoria": [
+      {
+        "accion": "creacion",
+        "fecha": "2025-07-13T22:31:01.146865",
+        "usuario": "sistema",
+        "detalles": "Activo creado"
+      },
+      {
+        "accion": "modificacion",
+        "fecha": "2025-07-13T22:31:07.201014",
+        "usuario": "sistema",
+        "detalles": "Activo modificado"
+      }
+    ]
+  },
+  {
+    "id": "67b9ee70-c976-4bdf-965d-a6ebc7af7802",
+    "fecha_creacion": "2025-07-13T22:33:57.469933",
+    "fecha_modificacion": "2025-07-13T22:34:03.540038",
+    "tipo": "Hardware",
+    "tipo_activo": "Hardware",
+    "estado": "Activo",
+    "nombre": "Test Bug 1752438835875",
+    "responsable": "Responsabl",
+    "departamento": "TI",
+    "clasificacion": "Público",
+    "criticidad": "Baja",
+    "descripcion": "",
+    "auditoria": [
+      {
+        "accion": "creacion",
+        "fecha": "2025-07-13T22:33:57.469948",
+        "usuario": "sistema",
+        "detalles": "Activo creado"
+      },
+      {
+        "accion": "modificacion",
+        "fecha": "2025-07-13T22:34:03.540400",
+        "usuario": "sistema",
+        "detalles": "Activo modificado"
+      }
+    ]
   }
 ]
