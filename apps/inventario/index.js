@@ -482,7 +482,7 @@ export default class InventarioApp {
     async loadDashboardData() {
         try {
             // Cargar todos los activos para estadísticas
-            const response = await this.services.api.getActivos();
+            const response = await this.services.api.get('/inventario/activos');
             this.activos = response;
             
             // Actualizar estadísticas
@@ -498,11 +498,8 @@ export default class InventarioApp {
     
     async cargarActivos() {
         try {
-            const response = await this.services.api.getActivos(
-                this.filtros.tipo,
-                this.filtros.departamento,
-                this.filtros.busqueda
-            );
+            const params = new URLSearchParams(this.filtros);
+            const response = await this.services.api.get(`/inventario/activos?${params}`);
             
             this.activos = response;
             this.renderTablaActivos();
@@ -741,11 +738,11 @@ export default class InventarioApp {
         try {
             if (this.activoEditando) {
                 // Actualizar
-                await this.services.api.updateActivo(this.activoEditando.id, activo);
+                await this.services.api.put(`/inventario/activos/${this.activoEditando.id}`, activo);
                 this.mostrarToast('Activo actualizado correctamente', 'success');
             } else {
                 // Crear
-                await this.services.api.createActivo(activo);
+                await this.services.api.post('/inventario/activos', activo);
                 this.mostrarToast('Activo creado correctamente', 'success');
             }
             
@@ -778,7 +775,7 @@ export default class InventarioApp {
         }
         
         try {
-            await this.services.api.deleteActivo(id);
+            await this.services.api.delete(`/inventario/activos/${id}`);
             this.mostrarToast('Activo eliminado correctamente', 'success');
             
             // Recargar datos según la vista actual
