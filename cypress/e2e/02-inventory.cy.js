@@ -241,10 +241,14 @@ describe('Módulo de Inventario', () => {
       cy.get('#tablaActivos').contains(uniqueName)
         .parent('tr')
         .within(() => {
-          // Verificar al menos que criticidad y estado se actualizaron
+          // Verificar que todos los campos se actualizaron
           cy.contains('Crítica').should('exist')
           cy.contains('En mantenimiento').should('exist')
-          // TODO: Investigar por qué responsable no se actualiza en la tabla
+          cy.get('td').then($tds => {
+            const texts = Array.from($tds).map(td => td.textContent.trim())
+            // El responsable está en la posición 2 (índice 2)
+            expect(texts[2]).to.equal(updatedResponsable)
+          })
         })
     })
 
