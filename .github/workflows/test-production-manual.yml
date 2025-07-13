@@ -1,0 +1,77 @@
+name: Test Production Manual
+
+on:
+  workflow_dispatch:
+    inputs:
+      test_specs:
+        description: 'Test specs to run (comma separated, e.g. setup,navigation,inventory)'
+        required: false
+        default: 'setup,navigation,inventory,impacts,maturity'
+        type: string
+
+jobs:
+  test-production:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+      
+      - name: Install dependencies
+        run: npm ci
+      
+      - name: Run Cypress tests against production
+        run: |
+          # Construir la lista de specs
+          SPECS=""
+          IFS=',' read -ra SPEC_ARRAY <<< "${{ github.event.inputs.test_specs }}"
+          for spec in "${SPEC_ARRAY[@]}"; do
+            case $spec in
+              setup) SPECS="${SPECS}cypress/e2e/00-setup.cy.js," ;;
+              navigation) SPECS="${SPECS}cypress/e2e/01-navigation.cy.js," ;;
+              inventory) SPECS="${SPECS}cypress/e2e/02-inventory.cy.js," ;;
+              impacts) SPECS="${SPECS}cypress/e2e/03-impacts.cy.js," ;;
+              maturity) SPECS="${SPECS}cypress/e2e/09-maturity-module.cy.js," ;;
+              *) echo "Spec desconocido: $spec" ;;
+            esac
+          done
+          
+          # Eliminar la última coma
+          SPECS="${SPECS%,}"
+          
+          echo "Ejecutando specs: $SPECS"
+          
+          # Ejecutar Cypress
+          npx cypress run --spec "$SPECS"
+        env:
+          CYPRESS_baseUrl: https://gozain-687354193398.us-central1.run.app
+      
+      - name: Upload screenshots on failure
+        uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: cypress-screenshots
+          path: cypress/screenshots
+          retention-days: 7
+      
+      - name: Upload videos
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: cypress-videos
+          path: cypress/videos
+          retention-days: 7
+      
+      - name: Summary
+        if: always()
+        run: |
+          echo "## Test Results Summary" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "- **Environment**: Production (https://gozain-687354193398.us-central1.run.app)" >> $GITHUB_STEP_SUMMARY
+          echo "- **Test Specs**: ${{ github.event.inputs.test_specs }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Status**: ${{ job.status }}" >> $GITHUB_STEP_SUMMARY
