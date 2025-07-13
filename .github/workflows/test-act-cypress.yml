@@ -9,17 +9,17 @@ jobs:
   cypress-test:
     runs-on: ubuntu-latest
     container:
-      image: cypress/browsers:node-18.16.1-chrome-114.0.5735.198-1-ff-114.0.2-edge-114.0.1823.51-1
-      options: --user 1001
+      image: cypress/included:13.17.0
+      options: --user root
     
     steps:
     - name: Checkout code
       uses: actions/checkout@v3
 
-    - name: Install npm dependencies
+    - name: Verify Cypress
       run: |
-        npm ci
-        $(npm bin)/cypress verify
+        cypress verify
+        cypress info
 
     - name: Run Cypress tests - Setup
       env:

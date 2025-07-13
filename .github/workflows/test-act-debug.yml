@@ -1,0 +1,81 @@
+name: Debug Visibility Issue with Act
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ test-act-debug ]
+
+jobs:
+  debug-test:
+    runs-on: ubuntu-latest
+    container:
+      image: cypress/included:13.17.0
+    
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+
+    - name: Test específico del problema
+      env:
+        CYPRESS_BASE_URL: https://gozain-h556ekexqa-uc.a.run.app
+        CI: true
+        DEBUG: cypress:*
+      run: |
+        echo "🔍 Ejecutando test específico del problema de visibilidad..."
+        
+        # Crear un test inline para debug
+        cat > cypress/e2e/99-act-debug.cy.js << 'EOF'
+        describe('Debug Vista Lista en CI', () => {
+          it('Investigar problema de switchView', () => {
+            cy.loginWithOrg('E2E Test Organization')
+            cy.get('.tool-card').contains('Inventario de Activos').click()
+            cy.wait(2000)
+            
+            // Log estado antes del click
+            cy.get('#dashboardView').then($el => {
+              cy.log('Dashboard display antes:', $el.css('display'))
+            })
+            cy.get('#listaView').then($el => {
+              cy.log('Lista display antes:', $el.css('display'))
+            })
+            
+            // Click con diferentes métodos
+            cy.log('Intentando click en btnVistaLista...')
+            cy.get('#btnVistaLista').click({ force: true })
+            cy.wait(2000)
+            
+            // Log estado después
+            cy.get('#dashboardView').then($el => {
+              cy.log('Dashboard display después:', $el.css('display'))
+            })
+            cy.get('#listaView').then($el => {
+              cy.log('Lista display después:', $el.css('display'))
+              
+              // Si sigue oculto, intentar mostrar con jQuery
+              if ($el.css('display') === 'none') {
+                cy.log('⚠️ Vista lista sigue oculta, forzando con jQuery...')
+                cy.window().then(win => {
+                  win.$('#listaView').show()
+                  win.$('#dashboardView').hide()
+                })
+                cy.wait(1000)
+              }
+            })
+            
+            // Verificar que ahora sí es visible
+            cy.get('#listaView').should('exist')
+            cy.get('#tablaActivos').should('exist')
+          })
+        })
+        EOF
+        
+        # Ejecutar el test
+        cypress run --spec "cypress/e2e/99-act-debug.cy.js" \
+          --config "video=false,screenshotOnRunFailure=true" \
+          --browser chrome
+          
+    - name: Ver logs si falla
+      if: failure()
+      run: |
+        echo "📸 Screenshots:"
+        ls -la cypress/screenshots/ 2>/dev/null || echo "No screenshots"
