@@ -257,5 +257,71 @@
       "tareas_generar": 2
     },
     "fecha_procesamiento": "2025-07-12T19:35:52.716329"
+  },
+  {
+    "id": "780ab47f-7400-4d02-a22a-21309cf97368",
+    "tipo": "alta_empleado",
+    "estado": "pendiente",
+    "fecha_creacion": "2025-07-14T00:52:55.406328",
+    "usuario_creador": "sistema",
+    "datos": {
+      "nombre_completo": "Test Employee",
+      "departamento": "IT",
+      "cargo": "Developer",
+      "fecha_inicio": "2025-07-15",
+      "modalidad": "Presencial",
+      "equipo_movil": true
+    },
+    "acciones_ejecutadas": [],
+    "tareas_generadas": [],
+    "vista_previa": {
+      "activos_crear": 2,
+      "activos_modificar": 0,
+      "tareas_generar": 2
+    }
+  },
+  {
+    "id": "8b49b52a-f18c-4cbf-b44d-a3c585bf8fd3",
+    "tipo": "alta_empleado",
+    "estado": "pendiente",
+    "fecha_creacion": "2025-07-14T01:06:30.096486",
+    "usuario_creador": "sistema",
+    "datos": {
+      "nombre_completo": "Test Employee",
+      "departamento": "IT",
+      "cargo": "Developer",
+      "fecha_inicio": "2025-07-15",
+      "modalidad": "Presencial",
+      "equipo_movil": true
+    },
+    "acciones_ejecutadas": [],
+    "tareas_generadas": [],
+    "vista_previa": {
+      "activos_crear": 2,
+      "activos_modificar": 0,
+      "tareas_generar": 2
+    }
+  },
+  {
+    "id": "832530f9-46c1-4d6f-bba6-f6c377bafbd3",
+    "tipo": "alta_empleado",
+    "estado": "pendiente",
+    "fecha_creacion": "2025-07-14T01:17:59.192190",
+    "usuario_creador": "sistema",
+    "datos": {
+      "nombre_completo": "Test Employee",
+      "departamento": "IT",
+      "cargo": "Developer",
+      "fecha_inicio": "2025-07-15",
+      "modalidad": "Presencial",
+      "equipo_movil": true
+    },
+    "acciones_ejecutadas": [],
+    "tareas_generadas": [],
+    "vista_previa": {
+      "activos_crear": 2,
+      "activos_modificar": 0,
+      "tareas_generar": 2
+    }
   }
 ]

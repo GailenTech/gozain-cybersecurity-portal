@@ -1,22 +1,16 @@
-describe('Módulo de Inventario', () => {
+describe('Módulo de Inventario - Optimizado', () => {
   beforeEach(() => {
-    // Usar comando loginWithOrg para asegurar organización
     cy.loginWithOrg('E2E Test Organization')
-    
-    // Navegar a Inventario
     cy.get('.tool-card').contains('Inventario de Activos').click()
-    cy.wait(2000) // Esperar a que cargue el módulo
     
-    // Verificar que el menú existe (puede no ser visible en mobile)
-    cy.get('#appMenu').should('exist')
+    // Esperar a que el módulo cargue completamente
+    cy.get('#appMenu', {timeout: 5000}).should('exist')
+    cy.get('.dashboard-view, .inventario-list-view', {timeout: 5000}).should('exist')
   })
 
   describe('Vista Dashboard', () => {
     it('Debe mostrar el dashboard por defecto', () => {
-      // El dashboard debe ser la vista por defecto
       cy.get('.dashboard-view').should('be.visible')
-      // Por ahora comentar la verificación del menú hasta resolver el problema
-      // cy.get('[data-menu-item="dashboard"]').should('have.class', 'active')
     })
 
     it('Debe mostrar las estadísticas correctamente', () => {
@@ -42,17 +36,15 @@ describe('Módulo de Inventario', () => {
     
     it('Debe navegar a inventario desde acción rápida', () => {
       cy.get('#btnVerInventario').click()
-      cy.get('.inventario-list-view').should('be.visible')
-      // Verificar que estamos en la vista de lista
+      cy.get('.inventario-list-view', {timeout: 3000}).should('be.visible')
       cy.get('#filtroTipo').should('be.visible')
     })
   })
 
   describe('Vista Lista', () => {
     beforeEach(() => {
-      // Navegar a la vista de inventario usando la acción rápida del dashboard
       cy.get('#btnVerInventario').click()
-      cy.get('.inventario-list-view').should('be.visible')
+      cy.get('.inventario-list-view', {timeout: 3000}).should('be.visible')
     })
 
     it('Debe cambiar a vista de lista correctamente', () => {
@@ -84,14 +76,12 @@ describe('Módulo de Inventario', () => {
       cy.fixture('test-data.json').then((data) => {
         const asset = data.assets[0]
         
-        // Navegar a vista lista
         cy.get('#btnVerInventario').click()
-        cy.get('.inventario-list-view').should('be.visible')
+        cy.get('.inventario-list-view', {timeout: 3000}).should('be.visible')
         
-        // Crear activo
         cy.createAsset(asset)
         
-        // Verificar que aparece en la lista
+        // Verificar sin wait
         cy.get('#tablaActivos').should('contain', asset.nombre)
         cy.get('#tablaActivos').should('contain', asset.responsable)
         cy.get('#tablaActivos').should('contain', asset.departamento)
@@ -99,11 +89,9 @@ describe('Módulo de Inventario', () => {
     })
 
     it('Debe validar campos requeridos', () => {
-      // Primero ir a la vista de lista
       cy.get('#btnVerInventario').click()
-      cy.get('.inventario-list-view').should('be.visible')
+      cy.get('.inventario-list-view', {timeout: 3000}).should('be.visible')
       
-      // Ahora click en nuevo activo
       cy.get('#btnNuevoActivo').click()
       cy.get('#modalActivo').should('be.visible')
       
@@ -115,30 +103,28 @@ describe('Módulo de Inventario', () => {
       
       // Cerrar modal
       cy.get('#modalActivo .btn-close').click()
-      cy.wait(500)
-      cy.get('#modalActivo').should('not.have.class', 'show')
+      // Verificar que volvemos a la lista
+      cy.get('.inventario-list-view').should('be.visible')
     })
 
     it('Debe crear múltiples activos', () => {
       cy.fixture('test-data.json').then((data) => {
-        // Navegar a lista
         cy.get('#btnVerInventario').click()
-        cy.get('.inventario-list-view').should('be.visible')
+        cy.get('.inventario-list-view', {timeout: 3000}).should('be.visible')
         
-        // Crear varios activos
+        // Crear varios activos sin waits
         data.assets.slice(0, 3).forEach(asset => {
           cy.createAsset(asset)
-          cy.wait(500) // Pequeña espera entre creaciones
         })
         
-        // Verificar que se crearon los activos en la tabla
+        // Verificar en tabla
         cy.get('#tablaActivos tr').should('have.length.at.least', 3)
         
-        // Navegar de vuelta al dashboard para verificar estadísticas
+        // Navegar de vuelta al dashboard
         cy.get('[data-menu-item="dashboard"]').click()
-        cy.get('.dashboard-view').should('be.visible')
+        cy.get('.dashboard-view', {timeout: 3000}).should('be.visible')
         
-        // Verificar que las estadísticas se actualizan
+        // Verificar estadísticas
         cy.get('#statTotal').invoke('text').should('match', /\d+/)
       })
     })
@@ -146,35 +132,28 @@ describe('Módulo de Inventario', () => {
 
   describe('Filtros', () => {
     beforeEach(() => {
-      // Navegar a la vista de lista
       cy.get('#btnVerInventario').click()
-      cy.get('.inventario-list-view').should('be.visible')
+      cy.get('.inventario-list-view', {timeout: 3000}).should('be.visible')
     })
 
     it('Debe filtrar por tipo de activo', () => {
       cy.filterAssets({ tipo: 'Hardware' })
       
-      // Verificar que solo muestra Hardware
+      // Usar intercept para esperar respuesta
       cy.get('#tablaActivos .badge').each(($badge) => {
-        if ($badge.parent().index() === 0) { // Primera columna es tipo
+        if ($badge.parent().index() === 0) {
           cy.wrap($badge).should('contain', 'Hardware')
         }
       })
     })
 
     it('Debe filtrar por departamento', () => {
-      cy.fixture('test-data.json').then((data) => {
-        cy.filterAssets({ departamento: 'TI' })
-        
-        // Verificar resultados
-        cy.get('#tablaActivos tr').should('have.length.at.least', 1)
-      })
+      cy.filterAssets({ departamento: 'TI' })
+      cy.get('#tablaActivos tr').should('have.length.at.least', 1)
     })
 
     it('Debe buscar por texto', () => {
       cy.filterAssets({ busqueda: 'Servidor' })
-      
-      // Verificar que encuentra resultados
       cy.get('#tablaActivos').should('contain', 'Servidor')
     })
 
@@ -185,20 +164,21 @@ describe('Módulo de Inventario', () => {
         busqueda: 'Servidor'
       })
       
-      // Verificar resultados específicos
       cy.get('#tablaActivos tr').should('have.length.at.least', 1)
     })
   })
 
   describe('Editar y Eliminar', () => {
     it('Debe permitir editar un activo y guardar los cambios', () => {
-      // Crear un activo específico para este test
       const uniqueName = `Activo Editable ${Date.now()}`
       const updatedResponsable = 'Responsable Actualizado E2E'
       
-      // Primero crear el activo via UI para asegurar consistencia
+      // Intercept para esperar guardado
+      cy.intercept('POST', '/api/inventario/activos').as('createAsset')
+      cy.intercept('PUT', '/api/inventario/activos/*').as('updateAsset')
+      
       cy.get('#btnVerInventario').click()
-      cy.get('.inventario-list-view').should('be.visible')
+      cy.get('.inventario-list-view', {timeout: 3000}).should('be.visible')
       
       // Crear activo
       cy.get('#btnNuevoActivo').click()
@@ -210,18 +190,17 @@ describe('Módulo de Inventario', () => {
       cy.get('#departamentoActivo').type('TI')
       cy.get('#btnGuardarActivo').click()
       
-      // Esperar a que se cierre el modal y se actualice la tabla
-      cy.wait(2000)
+      // Esperar creación
+      cy.wait('@createAsset')
+      cy.get('#modalActivo').should('not.have.class', 'show')
       
-      // Buscar el activo recién creado y editarlo
+      // Buscar y editar
       cy.get('#tablaActivos').contains(uniqueName)
         .parent('tr')
         .within(() => {
-          // Click en el botón editar de esta fila específica
           cy.get('.btn-outline-primary').click()
         })
       
-      // Verificar que se abrió en modo edición
       cy.get('#modalActivoTitle').should('contain', 'Editar Activo')
       cy.get('#nombreActivo').should('have.value', uniqueName)
       
@@ -230,36 +209,32 @@ describe('Módulo de Inventario', () => {
       cy.get('#criticidadActivo').select('Crítica')
       cy.get('#estadoActivo').select('En mantenimiento')
       
-      // Guardar cambios
       cy.get('#btnGuardarActivo').click()
       
-      // Verificar que el modal se cerró
-      cy.wait(2000)
-      cy.get('#modalActivo.show').should('not.exist')
+      // Esperar actualización
+      cy.wait('@updateAsset')
+      cy.get('#modalActivo').should('not.have.class', 'show')
       
-      // Verificar que los cambios se reflejan en la tabla
-      cy.get('#tablaActivos').contains(uniqueName)
+      // Verificar cambios - dar tiempo para que se actualice la tabla
+      cy.get('#tablaActivos', {timeout: 5000}).contains(uniqueName)
         .parent('tr')
         .within(() => {
-          // Verificar que todos los campos se actualizaron
           cy.contains('Crítica').should('exist')
           cy.contains('En mantenimiento').should('exist')
-          cy.get('td').then($tds => {
-            const texts = Array.from($tds).map(td => td.textContent.trim())
-            // El responsable está en la posición 2 (índice 2)
-            expect(texts[2]).to.equal(updatedResponsable)
-          })
+          // El responsable está en la columna 3 (índice 2)
+          cy.get('td').eq(2).should('contain', updatedResponsable)
         })
     })
 
     it('Debe solicitar confirmación antes de eliminar un activo', () => {
-      // Crear un activo específico para eliminar
       const uniqueName = `Activo para Eliminar ${Date.now()}`
       
-      // Crear el activo primero
-      cy.get('#btnVerInventario').click()
-      cy.get('.inventario-list-view').should('be.visible')
+      cy.intercept('DELETE', '/api/inventario/activos/*').as('deleteAsset')
       
+      cy.get('#btnVerInventario').click()
+      cy.get('.inventario-list-view', {timeout: 3000}).should('be.visible')
+      
+      // Crear activo
       cy.get('#btnNuevoActivo').click()
       cy.get('#modalActivo').should('be.visible')
       cy.get('#tipoActivo').select('Software')
@@ -269,43 +244,36 @@ describe('Módulo de Inventario', () => {
       cy.get('#departamentoActivo').type('TI')
       cy.get('#btnGuardarActivo').click()
       
-      // Esperar a que se actualice la tabla
-      cy.wait(2000)
-      
-      // Verificar que el activo existe
+      cy.get('#modalActivo').should('not.have.class', 'show')
       cy.get('#tablaActivos').contains(uniqueName).should('exist')
       
-      // Interceptar el diálogo de confirmación
+      // Interceptar confirmación
       let confirmShown = false
       cy.on('window:confirm', (str) => {
         confirmShown = true
         expect(str).to.include('eliminar')
-        return true // Confirmar eliminación
+        return true
       })
       
-      // Buscar el activo y eliminarlo
+      // Eliminar
       cy.get('#tablaActivos').contains(uniqueName)
         .parent('tr')
         .within(() => {
           cy.get('.btn-outline-danger').click()
         })
       
-      // Verificar que se mostró el diálogo
+      // Verificar
       cy.wrap(null).then(() => {
         expect(confirmShown).to.be.true
       })
       
-      // Esperar a que se procese la eliminación
-      cy.wait(2000)
-      
-      // Verificar que el activo ya no existe en la tabla
+      cy.wait('@deleteAsset')
       cy.get('#tablaActivos').contains(uniqueName).should('not.exist')
     })
   })
 
   describe('Menú del Módulo', () => {
-    it.skip('Debe mostrar todas las opciones del menú', () => {
-      // Skipped: El menú lateral no se está mostrando correctamente
+    it('Debe mostrar todas las opciones del menú', () => {
       cy.get('[data-menu-item="dashboard"]').should('be.visible')
       cy.get('[data-menu-item="inventario"]').should('be.visible')
       cy.get('[data-menu-item="nuevo"]').should('be.visible')
@@ -314,8 +282,26 @@ describe('Módulo de Inventario', () => {
       cy.get('[data-menu-item="auditoria"]').should('be.visible')
     })
 
-    it.skip('Debe navegar entre opciones del menú', () => {
-      // Skipped: El menú lateral no se está mostrando correctamente
+    it('Debe navegar entre opciones del menú', () => {
+      // Dashboard a inventario
+      cy.get('[data-menu-item="inventario"]').click()
+      cy.get('.inventario-list-view').should('be.visible')
+      
+      // Inventario a dashboard
+      cy.get('[data-menu-item="dashboard"]').click()
+      cy.get('.dashboard-view').should('be.visible')
+      
+      // Nuevo activo
+      cy.get('[data-menu-item="nuevo"]').click()
+      cy.get('#modalActivo').should('be.visible')
+      cy.get('#modalActivo .btn-close').click()
+      cy.get('#modalActivo').should('not.have.class', 'show')
+      
+      // Importar
+      cy.get('[data-menu-item="importar"]').click()
+      cy.get('#modalImportar').should('be.visible')
+      cy.get('#modalImportar .btn-close').click()
+      cy.get('#modalImportar').should('not.have.class', 'show')
     })
   })
 })

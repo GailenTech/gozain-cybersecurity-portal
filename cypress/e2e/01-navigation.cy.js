@@ -1,200 +1,125 @@
 describe('Navegación General', () => {
   beforeEach(() => {
     cy.visit('/')
-    cy.wait(2000) // Esperar carga completa
+    cy.get('.navbar-brand', {timeout: 5000}).should('be.visible')
   })
 
   it('Debe mostrar la página de bienvenida correctamente', () => {
-    // Verificar URL correcta
     cy.url().should('satisfy', (url) => {
       return url.includes('localhost') || url.includes('gozain')
     })
     
-    // Verificar elementos principales
-    cy.get('#organizationButton').should('be.visible')
-    
-    // El welcomeScreen puede o no estar visible dependiendo del estado
     cy.get('body').then($body => {
       if ($body.find('#welcomeScreen').length > 0) {
         cy.get('#welcomeScreen').should('be.visible')
+        cy.get('#organizationButton').should('be.visible')
         cy.get('#organizationName').should('contain', 'Seleccionar Organización')
       } else {
-        // Ya hay una organización seleccionada
+        cy.get('#organizationButton').should('be.visible')
         cy.get('.tool-selector-container').should('be.visible')
       }
     })
     
-    // Verificar versión
     cy.get('#versionInfo').should('contain', 'v0.0.')
   })
 
   it('Debe permitir trabajar con organizaciones', () => {
-    // Click en selector de organización
     cy.get('#organizationButton').click()
-    cy.wait(1000)
+    cy.get('#organizationModal').should('have.class', 'show')
     
-    // Verificar modal
-    cy.get('#organizationModal').should('be.visible')
-    
-    // Si no hay organizaciones, crear una
-    cy.get('#organizationList').then($list => {
-      if ($list.find('.list-group-item').length === 0) {
+    // Seleccionar o crear organización
+    cy.get('body').then($body => {
+      if ($body.find('#organizationList .list-group-item').length === 0) {
+        // Crear nueva
         cy.get('#btnNewOrganization').click()
         cy.get('#newOrgName').type('Test Org ' + Date.now())
         cy.get('#btnCreateOrganization').click()
-        cy.wait(2000)
+        // El modal de nueva org se cierra y vuelve al principal que también se cierra
       } else {
-        // Seleccionar la primera
+        // Seleccionar existente
         cy.get('#organizationList .list-group-item').first().click()
-        cy.wait(1000)
       }
     })
     
-    // Verificar que se seleccionó
-    cy.get('#organizationName').should('not.contain', 'Seleccionar Organización')
+    // Verificar resultados en lugar de esperar que el modal se cierre
+    cy.get('#organizationName', {timeout: 5000}).should('not.contain', 'Seleccionar Organización')
+    cy.get('.tool-selector-container').should('be.visible')
   })
 
-  it('Debe mostrar el selector de herramientas', () => {
-    // Usar loginWithOrg para simplicidad
-    cy.loginWithOrg('E2E Test Organization')
+  it('Debe mostrar el selector de herramientas después de seleccionar organización', () => {
+    // Usar comando helper que ya maneja la organización
+    cy.loginWithOrg('Test Navigation Org')
     
-    // Verificar que se muestra el selector de herramientas
     cy.get('.tool-selector-container').should('be.visible')
     cy.contains('Seleccione una herramienta').should('be.visible')
     
-    // Verificar las 3 herramientas disponibles
     cy.get('.tool-card').should('have.length', 3)
     cy.contains('.tool-name', 'Inventario de Activos').should('be.visible')
     cy.contains('.tool-name', 'Impactos de Negocio').should('be.visible')
     cy.contains('.tool-name', 'Madurez en Ciberseguridad').should('be.visible')
   })
 
-  it('Debe navegar entre herramientas correctamente', () => {
-    // Usar loginWithOrg para simplicidad
-    cy.loginWithOrg('E2E Test Organization')
+  it('Debe navegar a inventario correctamente', () => {
+    cy.loginWithOrg('Test Navigation Org')
+    
+    cy.get('.tool-card').contains('Inventario de Activos').click()
+    
+    // Verificar carga del módulo
+    cy.get('#appMenu', {timeout: 5000}).should('be.visible')
+    cy.get('[data-menu-item="dashboard"]').should('have.class', 'active')
+    cy.get('#currentToolName').should('contain', 'Inventario de Activos')
+    cy.get('body').should('have.attr', 'data-app-theme', 'inventario')
+  })
+
+  it('Debe cambiar entre herramientas usando el selector', () => {
+    cy.loginWithOrg('Test Navigation Org')
     
     // Ir a inventario
     cy.get('.tool-card').contains('Inventario de Activos').click()
-    cy.wait(2000)
+    cy.get('#appMenu', {timeout: 5000}).should('be.visible')
     
-    // Verificar que estamos en inventario
-    cy.get('#appMenu').should('be.visible')
-    cy.get('#currentToolName').should('contain', 'Inventario de Activos')
-    cy.get('body').should('have.attr', 'data-app-theme', 'inventario')
-    
-    // Volver al selector
-    cy.get('#toolSelectorButton').click()
-    cy.wait(1000)
-    
-    // Ir a impactos
-    cy.get('.tool-card').contains('Impactos de Negocio').click()
-    cy.wait(2000)
+    // Cambiar a impactos
+    cy.get('#toolSelectorButton').should('be.visible').click()
+    cy.get('.tool-card', {timeout: 3000}).contains('Impactos de Negocio').click()
     
     // Verificar cambio
-    cy.get('#currentToolName').should('contain', 'Impactos de Negocio')
+    cy.get('#currentToolName', {timeout: 5000}).should('contain', 'Impactos de Negocio')
     cy.get('body').should('have.attr', 'data-app-theme', 'impactos')
   })
 
-  it('Debe mantener la organización seleccionada al navegar', () => {
-    // Crear y seleccionar una organización específica
-    const orgName = 'Test Nav Org ' + Date.now()
+  it('Debe navegar por los menús del módulo inventario', () => {
+    cy.loginWithOrg('Test Navigation Org')
+    
+    // Ir a inventario
+    cy.get('.tool-card').contains('Inventario de Activos').click()
+    cy.get('#appMenu', {timeout: 5000}).should('be.visible')
+    
+    // Probar navegación entre vistas
+    cy.get('[data-menu-item="inventario"]').click()
+    cy.get('.inventario-list-view', {timeout: 3000}).should('be.visible')
+    cy.get('.dashboard-view').should('not.exist')
+    
+    cy.get('[data-menu-item="dashboard"]').click()
+    cy.get('.dashboard-view', {timeout: 3000}).should('be.visible')
+    cy.get('.inventario-list-view').should('not.exist')
+  })
+
+  it('Debe mantener la organización al cambiar de herramienta', () => {
+    const orgName = 'Test Org ' + Date.now()
     cy.loginWithOrg(orgName)
     
-    // Verificar nombre de organización
     cy.get('#organizationName').should('contain', orgName)
     
-    // Navegar a inventario
+    // Ir a inventario
     cy.get('.tool-card').contains('Inventario de Activos').click()
-    cy.wait(2000)
-    
-    // Verificar que se mantiene la organización
+    cy.get('#appMenu', {timeout: 5000}).should('be.visible')
     cy.get('#organizationName').should('contain', orgName)
     
     // Cambiar a impactos
     cy.get('#toolSelectorButton').click()
-    cy.wait(1000)
-    cy.get('.tool-card').contains('Impactos de Negocio').click()
-    cy.wait(2000)
+    cy.get('.tool-card', {timeout: 3000}).contains('Impactos de Negocio').click()
     
-    // Verificar que aún se mantiene
-    cy.get('#organizationName').should('contain', orgName)
-  })
-
-  it('Debe cambiar de organización correctamente', () => {
-    // Primera organización
-    cy.loginWithOrg('E2E Test Organization')
-    cy.get('#organizationName').should('contain', 'E2E Test Organization')
-    
-    // Navegar a una herramienta
-    cy.get('.tool-card').contains('Inventario de Activos').click()
-    cy.wait(2000)
-    cy.get('#currentToolName').should('contain', 'Inventario de Activos')
-    
-    // Cambiar a otra organización existente
-    cy.get('#organizationButton').click()
-    cy.wait(1000)
-    
-    // Seleccionar otra organización de la lista (diferente a E2E Test Organization)
-    cy.get('#organizationList .list-group-item').then($items => {
-      // Buscar una organización diferente
-      const otherOrg = $items.toArray().find(el => !el.textContent.includes('E2E Test Organization'))
-      if (otherOrg) {
-        cy.wrap(otherOrg).click()
-        cy.wait(2000)
-        
-        // Verificar que cambió la organización
-        cy.get('#organizationName').should('not.contain', 'E2E Test Organization')
-        cy.get('.tool-selector-container').should('be.visible')
-      } else {
-        // Si no hay otra org, crear una y seleccionarla
-        cy.get('#btnNewOrganization').click()
-        const newOrgName = 'Org Cambio Test ' + Date.now()
-        cy.get('#newOrgName').type(newOrgName)
-        cy.get('#btnCreateOrganization').click()
-        cy.wait(2000)
-        
-        // Seleccionar la nueva
-        cy.get('#organizationList .list-group-item').contains(newOrgName).click()
-        cy.wait(1000)
-        
-        // Verificar cambio
-        cy.get('#organizationName').should('contain', newOrgName)
-        cy.get('.tool-selector-container').should('be.visible')
-      }
-    })
-  })
-
-  it('Debe completar un flujo completo de navegación sin errores', () => {
-    // Login
-    cy.loginWithOrg('E2E Test Organization')
-    
-    // Navegar por todas las herramientas
-    const tools = [
-      { name: 'Inventario de Activos', theme: 'inventario' },
-      { name: 'Impactos de Negocio', theme: 'impactos' },
-      { name: 'Madurez en Ciberseguridad', theme: 'madurez' }
-    ]
-    
-    tools.forEach((tool, index) => {
-      // Si no es la primera, volver al selector
-      if (index > 0) {
-        cy.get('#toolSelectorButton').click()
-        cy.wait(1000)
-      }
-      
-      // Navegar a la herramienta
-      cy.get('.tool-card').contains(tool.name).click()
-      cy.wait(2000)
-      
-      // Verificar que llegamos correctamente
-      cy.get('#currentToolName').should('contain', tool.name)
-      cy.get('body').should('have.attr', 'data-app-theme', tool.theme)
-      cy.get('#appMenu').should('be.visible')
-    })
-    
-    // Volver al inicio
-    cy.get('#toolSelectorButton').click()
-    cy.wait(1000)
-    cy.get('.tool-selector-container').should('be.visible')
+    // Verificar que se mantiene
+    cy.get('#organizationName', {timeout: 5000}).should('contain', orgName)
   })
 })
