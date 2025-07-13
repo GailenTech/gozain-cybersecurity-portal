@@ -286,13 +286,20 @@ export default class InventarioApp {
     
     setupEventListeners() {
         // Botones de vista
-        this.container.querySelector('#btnVistaLista').addEventListener('click', () => {
-            this.mostrarVistaLista();
-        });
+        const btnLista = this.container.querySelector('#btnVistaLista');
+        const btnDashboard = this.container.querySelector('#btnVistaDashboard');
         
-        this.container.querySelector('#btnVistaDashboard').addEventListener('click', () => {
-            this.mostrarVistaDashboard();
-        });
+        if (btnLista) {
+            btnLista.addEventListener('click', () => {
+                this.mostrarVistaLista();
+            });
+        }
+        
+        if (btnDashboard) {
+            btnDashboard.addEventListener('click', () => {
+                this.mostrarVistaDashboard();
+            });
+        }
         
         // Botón buscar
         this.container.querySelector('#btnBuscar').addEventListener('click', () => {
@@ -653,8 +660,16 @@ export default class InventarioApp {
         this.container.querySelector('#btnVistaDashboard').classList.remove('active');
         
         // Mostrar/ocultar vistas usando clases CSS
-        this.container.querySelector('#listaView').classList.remove('d-none');
-        this.container.querySelector('#dashboardView').classList.add('d-none');
+        const listaView = this.container.querySelector('#listaView');
+        const dashboardView = this.container.querySelector('#dashboardView');
+        
+        if (listaView) {
+            listaView.classList.remove('d-none');
+        }
+        
+        if (dashboardView) {
+            dashboardView.classList.add('d-none');
+        }
         
         // Agregar atributo para testing - en el elemento correcto
         const inventarioApp = this.container.querySelector('.inventario-app');
