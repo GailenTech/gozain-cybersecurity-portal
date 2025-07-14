@@ -29,14 +29,20 @@ export default class InventarioVueApp {
         const vueContainer = this.container.querySelector('#inventario-vue-root');
         
         // Montar la aplicación Vue
-        const { app, instance, unmount } = vueAdapter.mountApp(
-            'inventario',
-            vueContainer,
-            {}, // props
-            this.services // servicios
-        );
-        
-        this.vueApp = { app, instance, unmount };
+        try {
+            const { app, instance, unmount } = vueAdapter.mountApp(
+                'inventario',
+                vueContainer,
+                {}, // props
+                this.services // servicios
+            );
+            
+            this.vueApp = { app, instance, unmount };
+        } catch (error) {
+            console.error('Error montando aplicación Vue:', error);
+            this.container.innerHTML = `<div class="alert alert-danger m-4">Error al cargar el módulo: ${error.message}</div>`;
+            return;
+        }
         
         // Configurar event bus en la instancia Vue
         this.vueApp.app.config.globalProperties.eventBus = window.gozainApp?.eventBus;

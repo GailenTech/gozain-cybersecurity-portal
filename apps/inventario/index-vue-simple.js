@@ -46,11 +46,19 @@ export default class InventarioVueSimpleApp {
         const store = window.Vuex.createStore({
             state() {
                 return {
-                    organizationId: this.organization,
+                    organizationId: null,
                     currentView: 'dashboard'
                 };
+            },
+            mutations: {
+                SET_ORGANIZATION(state, orgId) {
+                    state.organizationId = orgId;
+                }
             }
         });
+        
+        // Configurar la organización en el store
+        store.commit('SET_ORGANIZATION', this.organization);
         
         // Crear y montar la aplicación Vue
         try {

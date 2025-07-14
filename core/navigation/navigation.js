@@ -33,7 +33,11 @@ export class NavigationManager {
         
         // Cargar el módulo de la aplicación
         try {
-            const module = await import(`${appConfig.path}/index.js`);
+            // Si el path ya termina en .js, usarlo directamente
+            const modulePath = appConfig.path.endsWith('.js') 
+                ? appConfig.path 
+                : `${appConfig.path}/index.js`;
+            const module = await import(modulePath);
             const AppClass = module.default;
             
             // Crear instancia de la aplicación
