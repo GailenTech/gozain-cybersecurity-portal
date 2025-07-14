@@ -1,0 +1,121 @@
+name: E2E Tests
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  e2e-tests:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    services:
+      postgres:
+        image: postgres:13
+        env:
+          POSTGRES_DB: testdb
+          POSTGRES_USER: testuser
+          POSTGRES_PASSWORD: testpass
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.9'
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+
+    - name: Install Python dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+
+    - name: Install Cypress
+      run: |
+        npm install --save-dev cypress@13.17.0
+
+    - name: Start application server
+      run: |
+        export FLASK_ENV=testing
+        export DATABASE_URL=postgresql://testuser:testpass@localhost/testdb
+        python backend/app.py &
+        echo $! > server.pid
+        sleep 10
+      
+    - name: Wait for server
+      run: |
+        for i in {1..30}; do
+          if curl -f http://localhost:5001/ > /dev/null 2>&1; then
+            echo "Server is ready"
+            break
+          fi
+          echo "Waiting for server... ($i/30)"
+          sleep 2
+        done
+
+    - name: Run E2E tests - Setup and Basic Navigation
+      run: |
+        npx cypress run \
+          --spec "cypress/e2e/00-setup.cy.js" \
+          --config baseUrl=http://localhost:5001 \
+          --browser electron \
+          --headless
+
+    - name: Run E2E tests - Inventario Module
+      run: |
+        npx cypress run \
+          --spec "cypress/e2e/inventario-basico.cy.js,cypress/e2e/dashboard-ciberseguridad.cy.js,cypress/e2e/inventario-funcionalidad.cy.js" \
+          --config baseUrl=http://localhost:5001 \
+          --browser electron \
+          --headless
+
+    - name: Run E2E tests - Impactos Module
+      run: |
+        npx cypress run \
+          --spec "cypress/e2e/03-impacts-optimized.cy.js,cypress/e2e/impactos-vue-migracion.cy.js" \
+          --config baseUrl=http://localhost:5001 \
+          --browser electron \
+          --headless
+
+    - name: Run E2E tests - Madurez Module
+      run: |
+        npx cypress run \
+          --spec "cypress/e2e/madurez-vue-migracion.cy.js" \
+          --config baseUrl=http://localhost:5001 \
+          --browser electron \
+          --headless
+
+    - name: Stop server
+      if: always()
+      run: |
+        if [ -f server.pid ]; then
+          kill $(cat server.pid) || true
+          rm server.pid
+        fi
+
+    - name: Upload Cypress videos
+      if: failure()
+      uses: actions/upload-artifact@v4
+      with:
+        name: cypress-videos
+        path: cypress/videos/
+
+    - name: Upload Cypress screenshots
+      if: failure()
+      uses: actions/upload-artifact@v4
+      with:
+        name: cypress-screenshots
+        path: cypress/screenshots/
