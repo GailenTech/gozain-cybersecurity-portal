@@ -391,6 +391,115 @@ def get_plantilla(tipo):
         logger.error(f"Error obteniendo plantilla: {e}")
         return jsonify({'error': str(e)}), 500
 
+@app.route('/api/impactos/estadisticas', methods=['GET'])
+def get_impactos_estadisticas():
+    try:
+        org_id = request.headers.get('X-Organization-Id')
+        if not org_id:
+            return jsonify({'error': 'Organización no especificada'}), 400
+        
+        impactos = impactos_service._load_impactos(org_id)
+        
+        # Calcular estadísticas
+        estadisticas = {
+            'total': len(impactos),
+            'pendientes': len([i for i in impactos if i.get('estado') == 'pendiente']),
+            'procesados': len([i for i in impactos if i.get('estado') == 'procesado']),
+            'porTipo': {}
+        }
+        
+        # Contar por tipo
+        for impacto in impactos:
+            tipo = impacto.get('tipo', 'sin_tipo')
+            estadisticas['porTipo'][tipo] = estadisticas['porTipo'].get(tipo, 0) + 1
+        
+        return jsonify(estadisticas)
+    except Exception as e:
+        logger.error(f"Error obteniendo estadísticas de impactos: {e}")
+        return jsonify({'error': str(e)}), 500
+
+@app.route('/api/impactos/tareas', methods=['GET'])
+def get_impactos_tareas():
+    try:
+        org_id = request.headers.get('X-Organization-Id')
+        if not org_id:
+            return jsonify({'error': 'Organización no especificada'}), 400
+        
+        # Por ahora devolver lista vacía, después implementaremos tareas reales
+        tareas = []
+        
+        return jsonify(tareas)
+    except Exception as e:
+        logger.error(f"Error obteniendo tareas: {e}")
+        return jsonify({'error': str(e)}), 500
+
+@app.route('/api/impactos/recientes', methods=['GET'])
+def get_impactos_recientes():
+    try:
+        org_id = request.headers.get('X-Organization-Id')
+        if not org_id:
+            return jsonify({'error': 'Organización no especificada'}), 400
+        
+        limit = int(request.args.get('limit', 10))
+        impactos = impactos_service._load_impactos(org_id)
+        
+        # Ordenar por fecha de creación descendente y tomar los últimos N
+        impactos_ordenados = sorted(impactos, key=lambda x: x.get('fecha_creacion', ''), reverse=True)
+        recientes = impactos_ordenados[:limit]
+        
+        return jsonify(recientes)
+    except Exception as e:
+        logger.error(f"Error obteniendo impactos recientes: {e}")
+        return jsonify({'error': str(e)}), 500
+
+@app.route('/api/impactos/actividad', methods=['GET'])
+def get_impactos_actividad():
+    try:
+        org_id = request.headers.get('X-Organization-Id')
+        if not org_id:
+            return jsonify({'error': 'Organización no especificada'}), 400
+        
+        limit = int(request.args.get('limit', 15))
+        
+        # Por ahora devolver lista vacía, después implementaremos actividad real
+        actividad = []
+        
+        return jsonify(actividad)
+    except Exception as e:
+        logger.error(f"Error obteniendo actividad: {e}")
+        return jsonify({'error': str(e)}), 500
+
+@app.route('/api/madurez/estadisticas', methods=['GET'])
+def get_madurez_estadisticas():
+    try:
+        org_id = request.headers.get('X-Organization-Id')
+        if not org_id:
+            return jsonify({'error': 'Organización no especificada'}), 400
+        
+        evaluaciones = madurez_service.get_evaluaciones(org_id)
+        
+        # Calcular estadísticas
+        total = len(evaluaciones)
+        completadas = len([e for e in evaluaciones if e.get('estado') == 'completada'])
+        progreso = len([e for e in evaluaciones if e.get('estado') == 'en_progreso'])
+        
+        # Calcular puntuación promedio
+        puntuaciones = [e.get('puntuacion_total', 0) for e in evaluaciones if e.get('estado') == 'completada']
+        puntuacion = sum(puntuaciones) / len(puntuaciones) if puntuaciones else None
+        
+        estadisticas = {
+            'total': total,
+            'completadas': completadas,
+            'progreso': progreso,
+            'puntuacion': puntuacion,
+            'ultimaEvaluacion': evaluaciones[0] if evaluaciones else None
+        }
+        
+        return jsonify(estadisticas)
+    except Exception as e:
+        logger.error(f"Error obteniendo estadísticas de madurez: {e}")
+        return jsonify({'error': str(e)}), 500
+
 # API de Madurez
 @app.route('/api/madurez/templates', methods=['GET'])
 def get_madurez_templates():
