@@ -394,5 +394,29 @@
     "nombre": "Test Org 1752449313450",
     "fecha_creacion": "2025-07-14T01:28:38.052130",
     "activa": true
+  },
+  {
+    "id": "test_org_1752478056682",
+    "nombre": "Test Org 1752478056682",
+    "fecha_creacion": "2025-07-14T09:27:41.279627",
+    "activa": true
+  },
+  {
+    "id": "test_org_1752480195740",
+    "nombre": "Test Org 1752480195740",
+    "fecha_creacion": "2025-07-14T10:03:20.361698",
+    "activa": true
+  },
+  {
+    "id": "test_org_1752480761792",
+    "nombre": "Test Org 1752480761792",
+    "fecha_creacion": "2025-07-14T10:12:46.420453",
+    "activa": true
+  },
+  {
+    "id": "test_org_1752480792908",
+    "nombre": "Test Org 1752480792908",
+    "fecha_creacion": "2025-07-14T10:13:17.604405",
+    "activa": true
   }
 ]

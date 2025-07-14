@@ -122,11 +122,18 @@ class InventarioService:
         
         for i, activo in enumerate(inventario):
             if activo['id'] == activo_id:
+                # DEBUG: Log el activo original
+                print(f"DEBUG - Activo original: {activo}")
+                print(f"DEBUG - Datos a actualizar: {data}")
+                
                 # Crear una copia del activo existente para preservar campos no enviados
                 activo_actualizado = activo.copy()
                 
                 # Actualizar solo los campos que vienen en data
                 activo_actualizado.update(data)
+                
+                # DEBUG: Log después de update
+                print(f"DEBUG - Activo después de update: {activo_actualizado}")
                 
                 # Preservar campos del sistema
                 activo_actualizado['id'] = activo_id

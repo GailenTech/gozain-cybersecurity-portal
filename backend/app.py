@@ -208,8 +208,14 @@ def update_activo(activo_id):
     try:
         org_id = get_organization()
         data = request.get_json()
+        # DEBUG: Log los datos recibidos
+        logger.info(f"PUT /api/inventario/activos/{activo_id}")
+        logger.info(f"Datos recibidos: {data}")
+        
         activo = inventario_service.update_activo(org_id, activo_id, data)
         if activo:
+            # DEBUG: Log el activo actualizado
+            logger.info(f"Activo actualizado - responsable: {activo.get('responsable')}")
             return jsonify(activo)
         return jsonify({'error': 'Activo no encontrado'}), 404
     except Exception as e:
