@@ -8,18 +8,18 @@ describe('Inventario Básico', () => {
 
   it('Navegación básica funciona', () => {
     // Dashboard por defecto - buscar elementos del dashboard
-    cy.contains('h2', 'Dashboard de Inventario', { timeout: 10000 }).should('exist');
-    cy.contains('Total Activos').should('exist');
+    cy.contains('Total Activos', { timeout: 10000 }).should('exist');
+    cy.contains('Operativos').should('exist');
     
     // Navegar a Inventario
     cy.get('#appMenu li[data-menu-id="inventario"] a').click();
     cy.url().should('include', '#/inventario');
-    cy.get('h2').contains('Inventario de Activos').should('exist');
+    cy.get('#btnNuevoActivo').should('exist');
     
     // Navegar a Dashboard
     cy.get('#appMenu li[data-menu-id="dashboard"] a').click();
     cy.url().should('include', '#/dashboard');
-    cy.contains('h2', 'Dashboard de Inventario').should('exist');
+    cy.contains('Total Activos').should('exist');
   });
 
   it('Modales funcionan correctamente', () => {
@@ -62,7 +62,7 @@ describe('Inventario Básico', () => {
     // Verificar que sigue en inventario - esperar a que se cargue Vue
     cy.get('#appMenu', { timeout: 10000 }).should('be.visible');
     cy.url().should('include', '#/inventario');
-    cy.get('h2').contains('Inventario de Activos').should('exist');
+    cy.get('#btnNuevoActivo').should('exist');
     cy.get('#appMenu li[data-menu-id="inventario"] .nav-link').should('have.class', 'active');
   });
 });
