@@ -95,7 +95,7 @@ class GozainApp {
                 name: 'Inventario de Activos',
                 icon: 'bi-box-seam',
                 description: 'Gestión de activos ISO 27001',
-                path: '/apps/inventario',
+                path: '/apps/inventario/index-vue-simple.js',
                 color: '#0d6efd'
             },
             {

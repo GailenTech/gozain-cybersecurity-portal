@@ -11063,5 +11063,303 @@
         "detalles": "Activo modificado"
       }
     ]
+  },
+  {
+    "id": "15d3ffd7-cc06-4d19-a3d8-5e54b5610ce4",
+    "fecha_creacion": "2025-07-14T12:07:24.782367",
+    "fecha_modificacion": "2025-07-14T12:07:24.782391",
+    "tipo": "Hardware",
+    "tipo_activo": "Hardware",
+    "estado": "Activo",
+    "nombre": "Servidor Principal DC01",
+    "responsable": "Carlos Mendez",
+    "departamento": "TI",
+    "clasificacion": "Confidencial",
+    "criticidad": "Crítica",
+    "descripcion": "Servidor principal del datacenter",
+    "auditoria": [
+      {
+        "accion": "creacion",
+        "fecha": "2025-07-14T12:07:24.782398",
+        "usuario": "sistema",
+        "detalles": "Activo creado"
+      }
+    ]
+  },
+  {
+    "id": "9d443f98-bbde-4c82-9c20-e70c9056888c",
+    "fecha_creacion": "2025-07-14T12:07:37.067070",
+    "fecha_modificacion": "2025-07-14T12:07:37.067100",
+    "tipo": "Hardware",
+    "tipo_activo": "Hardware",
+    "estado": "Activo",
+    "nombre": "Servidor Principal DC01",
+    "responsable": "Carlos Mendez",
+    "departamento": "TI",
+    "clasificacion": "Confidencial",
+    "criticidad": "Crítica",
+    "descripcion": "Servidor principal del datacenter",
+    "auditoria": [
+      {
+        "accion": "creacion",
+        "fecha": "2025-07-14T12:07:37.067108",
+        "usuario": "sistema",
+        "detalles": "Activo creado"
+      }
+    ]
+  },
+  {
+    "id": "13eba2ad-305e-4551-8659-8153867d3389",
+    "fecha_creacion": "2025-07-14T12:07:40.165140",
+    "fecha_modificacion": "2025-07-14T12:07:40.165150",
+    "tipo": "Software",
+    "tipo_activo": "Software",
+    "estado": "Activo",
+    "nombre": "Microsoft Office 365",
+    "responsable": "Ana Garcia",
+    "departamento": "Administración",
+    "clasificacion": "Interno",
+    "criticidad": "Normal",
+    "descripcion": "Suite ofimática corporativa",
+    "auditoria": [
+      {
+        "accion": "creacion",
+        "fecha": "2025-07-14T12:07:40.165154",
+        "usuario": "sistema",
+        "detalles": "Activo creado"
+      }
+    ]
+  },
+  {
+    "id": "d1b0b250-b9dd-4b83-91fc-117dec4f09c0",
+    "fecha_creacion": "2025-07-14T12:07:43.061547",
+    "fecha_modificacion": "2025-07-14T12:07:43.061558",
+    "tipo": "Hardware",
+    "tipo_activo": "Hardware",
+    "estado": "Activo",
+    "nombre": "Laptop Dell Latitude 5520",
+    "responsable": "Pedro Lopez",
+    "departamento": "Ventas",
+    "clasificacion": "Interno",
+    "criticidad": "Normal",
+    "descripcion": "Equipo portátil asignado",
+    "auditoria": [
+      {
+        "accion": "creacion",
+        "fecha": "2025-07-14T12:07:43.061561",
+        "usuario": "sistema",
+        "detalles": "Activo creado"
+      }
+    ]
+  },
+  {
+    "id": "2117ddb7-63b8-4514-b5ff-b295bdb0ad26",
+    "fecha_creacion": "2025-07-14T12:08:13.265278",
+    "fecha_modificacion": "2025-07-14T12:08:19.748317",
+    "tipo": "Hardware",
+    "tipo_activo": "Hardware",
+    "estado": "En mantenimiento",
+    "nombre": "Activo Editable 1752487691406",
+    "responsable": "Respon",
+    "departamento": "TI",
+    "clasificacion": "Público",
+    "criticidad": "Crítica",
+    "descripcion": "",
+    "auditoria": [
+      {
+        "accion": "creacion",
+        "fecha": "2025-07-14T12:08:13.265293",
+        "usuario": "sistema",
+        "detalles": "Activo creado"
+      },
+      {
+        "accion": "modificacion",
+        "fecha": "2025-07-14T12:08:19.748341",
+        "usuario": "sistema",
+        "detalles": "Activo modificado"
+      }
+    ]
+  },
+  {
+    "id": "e0d422e7-d64a-4e83-843b-016b111c1c45",
+    "fecha_creacion": "2025-07-14T12:12:22.678447",
+    "fecha_modificacion": "2025-07-14T12:12:22.678454",
+    "tipo": "Hardware",
+    "tipo_activo": "Hardware",
+    "estado": "Activo",
+    "nombre": "Servidor Principal TEST",
+    "responsable": "Admin Test",
+    "departamento": "IT",
+    "clasificacion": "Confidencial",
+    "criticidad": "Crítica",
+    "descripcion": "",
+    "auditoria": [
+      {
+        "accion": "creacion",
+        "fecha": "2025-07-14T12:12:22.678462",
+        "usuario": "sistema",
+        "detalles": "Activo creado"
+      }
+    ]
+  },
+  {
+    "id": "4e0d2429-ee06-4ba0-9ba9-1a1c0f997a90",
+    "fecha_creacion": "2025-07-14T12:12:25.842319",
+    "fecha_modificacion": "2025-07-14T12:12:25.842327",
+    "tipo": "Software",
+    "tipo_activo": "Software",
+    "estado": "Activo",
+    "nombre": "Sistema ERP TEST",
+    "responsable": "Admin Test",
+    "departamento": "Finanzas",
+    "clasificacion": "Interno",
+    "criticidad": "Importante",
+    "descripcion": "",
+    "auditoria": [
+      {
+        "accion": "creacion",
+        "fecha": "2025-07-14T12:12:25.842329",
+        "usuario": "sistema",
+        "detalles": "Activo creado"
+      }
+    ]
+  },
+  {
+    "id": "b2f4e51e-9b11-434f-a141-0dd54b0f4ab6",
+    "fecha_creacion": "2025-07-14T12:12:28.943149",
+    "fecha_modificacion": "2025-07-14T12:12:28.943155",
+    "tipo": "Personal",
+    "tipo_activo": "Personal",
+    "estado": "Activo",
+    "nombre": "Usuario Test E2E",
+    "responsable": "RRHH Test",
+    "departamento": "Desarrollo",
+    "clasificacion": "Interno",
+    "criticidad": "Normal",
+    "descripcion": "",
+    "auditoria": [
+      {
+        "accion": "creacion",
+        "fecha": "2025-07-14T12:12:28.943157",
+        "usuario": "sistema",
+        "detalles": "Activo creado"
+      }
+    ]
+  },
+  {
+    "id": "e0902d3f-a9ce-4ce3-983a-a78e377c0b5b",
+    "fecha_creacion": "2025-07-14T12:13:53.041463",
+    "fecha_modificacion": "2025-07-14T12:13:53.041470",
+    "tipo": "Hardware",
+    "tipo_activo": "Hardware",
+    "estado": "Activo",
+    "nombre": "Servidor Principal DC01",
+    "responsable": "Carlos Mendez",
+    "departamento": "TI",
+    "clasificacion": "Confidencial",
+    "criticidad": "Crítica",
+    "descripcion": "Servidor principal del datacenter",
+    "auditoria": [
+      {
+        "accion": "creacion",
+        "fecha": "2025-07-14T12:13:53.041472",
+        "usuario": "sistema",
+        "detalles": "Activo creado"
+      }
+    ]
+  },
+  {
+    "id": "722e4dce-407b-4fe8-97cb-cee5f298f304",
+    "fecha_creacion": "2025-07-14T12:14:04.758430",
+    "fecha_modificacion": "2025-07-14T12:14:04.758436",
+    "tipo": "Hardware",
+    "tipo_activo": "Hardware",
+    "estado": "Activo",
+    "nombre": "Servidor Principal DC01",
+    "responsable": "Carlos Mendez",
+    "departamento": "TI",
+    "clasificacion": "Confidencial",
+    "criticidad": "Crítica",
+    "descripcion": "Servidor principal del datacenter",
+    "auditoria": [
+      {
+        "accion": "creacion",
+        "fecha": "2025-07-14T12:14:04.758439",
+        "usuario": "sistema",
+        "detalles": "Activo creado"
+      }
+    ]
+  },
+  {
+    "id": "cbe78713-1282-464d-b32a-ad3db25c0099",
+    "fecha_creacion": "2025-07-14T12:14:07.607346",
+    "fecha_modificacion": "2025-07-14T12:14:07.607352",
+    "tipo": "Software",
+    "tipo_activo": "Software",
+    "estado": "Activo",
+    "nombre": "Microsoft Office 365",
+    "responsable": "Ana Garcia",
+    "departamento": "Administración",
+    "clasificacion": "Interno",
+    "criticidad": "Normal",
+    "descripcion": "Suite ofimática corporativa",
+    "auditoria": [
+      {
+        "accion": "creacion",
+        "fecha": "2025-07-14T12:14:07.607354",
+        "usuario": "sistema",
+        "detalles": "Activo creado"
+      }
+    ]
+  },
+  {
+    "id": "5cfbbc10-e149-4201-bfab-1f7801c2115f",
+    "fecha_creacion": "2025-07-14T12:14:10.424200",
+    "fecha_modificacion": "2025-07-14T12:14:10.424206",
+    "tipo": "Hardware",
+    "tipo_activo": "Hardware",
+    "estado": "Activo",
+    "nombre": "Laptop Dell Latitude 5520",
+    "responsable": "Pedro Lopez",
+    "departamento": "Ventas",
+    "clasificacion": "Interno",
+    "criticidad": "Normal",
+    "descripcion": "Equipo portátil asignado",
+    "auditoria": [
+      {
+        "accion": "creacion",
+        "fecha": "2025-07-14T12:14:10.424208",
+        "usuario": "sistema",
+        "detalles": "Activo creado"
+      }
+    ]
+  },
+  {
+    "id": "de9ec63d-2780-43c9-9fc9-44b7c6fdf4e5",
+    "fecha_creacion": "2025-07-14T12:14:37.994974",
+    "fecha_modificacion": "2025-07-14T12:14:44.414848",
+    "tipo": "Hardware",
+    "tipo_activo": "Hardware",
+    "estado": "En mantenimiento",
+    "nombre": "Activo Editable 1752488076245",
+    "responsable": "Responsable ",
+    "departamento": "TI",
+    "clasificacion": "Público",
+    "criticidad": "Crítica",
+    "descripcion": "",
+    "auditoria": [
+      {
+        "accion": "creacion",
+        "fecha": "2025-07-14T12:14:37.994983",
+        "usuario": "sistema",
+        "detalles": "Activo creado"
+      },
+      {
+        "accion": "modificacion",
+        "fecha": "2025-07-14T12:14:44.414856",
+        "usuario": "sistema",
+        "detalles": "Activo modificado"
+      }
+    ]
   }
 ]

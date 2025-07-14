@@ -5536,5 +5536,247 @@
       "activos_modificar": 0,
       "tareas_generar": 2
     }
+  },
+  {
+    "id": "78bf11fd-39af-4247-8d63-5102f2b5c26d",
+    "tipo": "alta_empleado",
+    "estado": "pendiente",
+    "fecha_creacion": "2025-07-14T11:36:56.110596",
+    "usuario_creador": "sistema",
+    "datos": {
+      "nombre_completo": "Empleado Test E2E",
+      "departamento": "IT",
+      "cargo": "Desarrollador",
+      "fecha_inicio": "2025-08-01",
+      "modalidad": "Híbrido",
+      "equipo_movil": true
+    },
+    "acciones_ejecutadas": [],
+    "tareas_generadas": [],
+    "vista_previa": {
+      "activos_crear": 2,
+      "activos_modificar": 0,
+      "tareas_generar": 2
+    }
+  },
+  {
+    "id": "c010664c-2d73-4e2d-9374-712d39e8bc60",
+    "tipo": "alta_empleado",
+    "estado": "pendiente",
+    "fecha_creacion": "2025-07-14T11:50:32.699513",
+    "usuario_creador": "sistema",
+    "datos": {
+      "nombre_completo": "Empleado Test E2E",
+      "departamento": "IT",
+      "cargo": "Desarrollador",
+      "fecha_inicio": "2025-08-01",
+      "modalidad": "Híbrido",
+      "equipo_movil": true
+    },
+    "acciones_ejecutadas": [],
+    "tareas_generadas": [],
+    "vista_previa": {
+      "activos_crear": 2,
+      "activos_modificar": 0,
+      "tareas_generar": 2
+    }
+  },
+  {
+    "id": "f8cbf917-f010-4366-9652-3d9959cd4864",
+    "tipo": "alta_empleado",
+    "estado": "pendiente",
+    "fecha_creacion": "2025-07-14T11:55:15.719515",
+    "usuario_creador": "sistema",
+    "datos": {
+      "nombre_completo": "Juan Pérez",
+      "departamento": "TI",
+      "cargo": "Desarrollador Senior",
+      "fecha_inicio": "2025-07-15",
+      "modalidad": "Presencial",
+      "equipo_movil": true
+    },
+    "acciones_ejecutadas": [],
+    "tareas_generadas": [],
+    "vista_previa": {
+      "activos_crear": 2,
+      "activos_modificar": 0,
+      "tareas_generar": 2
+    }
+  },
+  {
+    "id": "701ec2c1-c29b-446e-b9be-3cc890f9aded",
+    "tipo": "alta_empleado",
+    "estado": "pendiente",
+    "fecha_creacion": "2025-07-14T11:55:31.030641",
+    "usuario_creador": "sistema",
+    "datos": {
+      "nombre_completo": "Juan Pérez",
+      "departamento": "TI",
+      "cargo": "Desarrollador Senior",
+      "fecha_inicio": "2025-07-15",
+      "modalidad": "Presencial",
+      "equipo_movil": true
+    },
+    "acciones_ejecutadas": [],
+    "tareas_generadas": [],
+    "vista_previa": {
+      "activos_crear": 2,
+      "activos_modificar": 0,
+      "tareas_generar": 2
+    }
+  },
+  {
+    "id": "600e2381-df52-4898-9cd0-4af1000ef150",
+    "tipo": "alta_empleado",
+    "estado": "pendiente",
+    "fecha_creacion": "2025-07-14T11:58:09.949162",
+    "usuario_creador": "sistema",
+    "datos": {
+      "nombre_completo": "Test Employee Simple",
+      "departamento": "IT",
+      "cargo": "Developer",
+      "fecha_inicio": "2024-12-31",
+      "modalidad": "Presencial",
+      "equipo_movil": true
+    },
+    "acciones_ejecutadas": [],
+    "tareas_generadas": [],
+    "vista_previa": {
+      "activos_crear": 2,
+      "activos_modificar": 0,
+      "tareas_generar": 2
+    }
+  },
+  {
+    "id": "b93aaff6-589f-488c-912a-75883939442e",
+    "tipo": "alta_empleado",
+    "estado": "pendiente",
+    "fecha_creacion": "2025-07-14T11:58:54.956617",
+    "usuario_creador": "sistema",
+    "datos": {
+      "nombre_completo": "Test User",
+      "departamento": "IT",
+      "cargo": "Developer",
+      "fecha_inicio": "2025-07-15",
+      "modalidad": "Presencial",
+      "equipo_movil": true
+    },
+    "acciones_ejecutadas": [],
+    "tareas_generadas": [],
+    "vista_previa": {
+      "activos_crear": 2,
+      "activos_modificar": 0,
+      "tareas_generar": 2
+    }
+  },
+  {
+    "id": "b2d8e0fa-872d-4231-8c05-e36fc69ba238",
+    "tipo": "alta_empleado",
+    "estado": "pendiente",
+    "fecha_creacion": "2025-07-14T12:12:36.385887",
+    "usuario_creador": "sistema",
+    "datos": {
+      "nombre_completo": "Empleado Test E2E",
+      "departamento": "IT",
+      "cargo": "Desarrollador",
+      "fecha_inicio": "2025-08-01",
+      "modalidad": "Híbrido",
+      "equipo_movil": true
+    },
+    "acciones_ejecutadas": [],
+    "tareas_generadas": [],
+    "vista_previa": {
+      "activos_crear": 2,
+      "activos_modificar": 0,
+      "tareas_generar": 2
+    }
+  },
+  {
+    "id": "ba6d752b-726f-4730-aafc-3af558c7499e",
+    "tipo": "alta_empleado",
+    "estado": "pendiente",
+    "fecha_creacion": "2025-07-14T12:17:23.348426",
+    "usuario_creador": "sistema",
+    "datos": {
+      "nombre_completo": "Juan Pérez",
+      "departamento": "TI",
+      "cargo": "Desarrollador Senior",
+      "fecha_inicio": "2025-07-15",
+      "modalidad": "Presencial",
+      "equipo_movil": true
+    },
+    "acciones_ejecutadas": [],
+    "tareas_generadas": [],
+    "vista_previa": {
+      "activos_crear": 2,
+      "activos_modificar": 0,
+      "tareas_generar": 2
+    }
+  },
+  {
+    "id": "fe3ea2c4-d0d9-478d-8a6d-0eb50f467312",
+    "tipo": "alta_empleado",
+    "estado": "pendiente",
+    "fecha_creacion": "2025-07-14T12:17:39.009979",
+    "usuario_creador": "sistema",
+    "datos": {
+      "nombre_completo": "Juan Pérez",
+      "departamento": "TI",
+      "cargo": "Desarrollador Senior",
+      "fecha_inicio": "2025-07-15",
+      "modalidad": "Presencial",
+      "equipo_movil": true
+    },
+    "acciones_ejecutadas": [],
+    "tareas_generadas": [],
+    "vista_previa": {
+      "activos_crear": 2,
+      "activos_modificar": 0,
+      "tareas_generar": 2
+    }
+  },
+  {
+    "id": "e0a85a5d-c01f-48b9-b543-102fe763c2d5",
+    "tipo": "alta_empleado",
+    "estado": "pendiente",
+    "fecha_creacion": "2025-07-14T12:20:24.831420",
+    "usuario_creador": "sistema",
+    "datos": {
+      "nombre_completo": "Test Employee Simple",
+      "departamento": "IT",
+      "cargo": "Developer",
+      "fecha_inicio": "2024-12-31",
+      "modalidad": "Presencial",
+      "equipo_movil": true
+    },
+    "acciones_ejecutadas": [],
+    "tareas_generadas": [],
+    "vista_previa": {
+      "activos_crear": 2,
+      "activos_modificar": 0,
+      "tareas_generar": 2
+    }
+  },
+  {
+    "id": "484a9e04-a6a0-4013-bbe7-6f75470f057f",
+    "tipo": "alta_empleado",
+    "estado": "pendiente",
+    "fecha_creacion": "2025-07-14T12:21:10.485033",
+    "usuario_creador": "sistema",
+    "datos": {
+      "nombre_completo": "Test User",
+      "departamento": "IT",
+      "cargo": "Developer",
+      "fecha_inicio": "2025-07-15",
+      "modalidad": "Presencial",
+      "equipo_movil": true
+    },
+    "acciones_ejecutadas": [],
+    "tareas_generadas": [],
+    "vista_previa": {
+      "activos_crear": 2,
+      "activos_modificar": 0,
+      "tareas_generar": 2
+    }
   }
 ]

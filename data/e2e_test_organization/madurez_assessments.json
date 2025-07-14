@@ -3301,5 +3301,135 @@
         "detalles": "Assessment creado"
       }
     ]
+  },
+  {
+    "id": "f64e1259-cbc2-4c06-8849-2d09f532cb09",
+    "organizacion_id": "e2e_test_organization",
+    "cuestionario_id": "cuestionario_ciberplan_v1",
+    "fecha_inicio": "2025-07-14T11:37:02.328938",
+    "fecha_completado": null,
+    "fecha_firmado": null,
+    "estado": "abierto",
+    "firmado_por": null,
+    "nombre": "Evaluación T",
+    "descripcion": "Evaluación inicial para pruebas automatizadas",
+    "resultados": null,
+    "objetivos": {
+      "6_meses": 2.5,
+      "1_año": 3,
+      "2_años": 4
+    },
+    "auditoria": [
+      {
+        "accion": "creacion",
+        "fecha": "2025-07-14T11:37:02.328969",
+        "usuario": "sistema",
+        "detalles": "Assessment creado"
+      }
+    ]
+  },
+  {
+    "id": "3d460e89-fecf-454f-bac4-9600ba3abdc8",
+    "organizacion_id": "e2e_test_organization",
+    "cuestionario_id": "cuestionario_ciberplan_v1",
+    "fecha_inicio": "2025-07-14T11:50:38.911598",
+    "fecha_completado": null,
+    "fecha_firmado": null,
+    "estado": "abierto",
+    "firmado_por": null,
+    "nombre": "Evaluación T",
+    "descripcion": "Evaluación inicial para pruebas automatizadas",
+    "resultados": null,
+    "objetivos": {
+      "6_meses": 2.5,
+      "1_año": 3,
+      "2_años": 4
+    },
+    "auditoria": [
+      {
+        "accion": "creacion",
+        "fecha": "2025-07-14T11:50:38.911672",
+        "usuario": "sistema",
+        "detalles": "Assessment creado"
+      }
+    ]
+  },
+  {
+    "id": "af56fc95-0bfc-43ea-97ef-3addd45c42c2",
+    "organizacion_id": "e2e_test_organization",
+    "cuestionario_id": "cuestionario_ciberplan_v1",
+    "fecha_inicio": "2025-07-14T12:12:42.712893",
+    "fecha_completado": null,
+    "fecha_firmado": null,
+    "estado": "abierto",
+    "firmado_por": null,
+    "nombre": "Evaluació",
+    "descripcion": "Evaluación inicial para pruebas automatizadas",
+    "resultados": null,
+    "objetivos": {
+      "6_meses": 2.5,
+      "1_año": 3,
+      "2_años": 4
+    },
+    "auditoria": [
+      {
+        "accion": "creacion",
+        "fecha": "2025-07-14T12:12:42.712919",
+        "usuario": "sistema",
+        "detalles": "Assessment creado"
+      }
+    ]
+  },
+  {
+    "id": "b9273da2-1427-452d-a565-c60bc7b3b29f",
+    "organizacion_id": "e2e_test_organization",
+    "cuestionario_id": "cuestionario_ciberplan_v1",
+    "fecha_inicio": "2025-07-14T12:27:36.717023",
+    "fecha_completado": null,
+    "fecha_firmado": null,
+    "estado": "abierto",
+    "firmado_por": null,
+    "nombre": "Evalua",
+    "descripcion": "Test automatizado de evaluación",
+    "resultados": null,
+    "objetivos": {
+      "6_meses": 2.5,
+      "1_año": 3,
+      "2_años": 4
+    },
+    "auditoria": [
+      {
+        "accion": "creacion",
+        "fecha": "2025-07-14T12:27:36.717065",
+        "usuario": "sistema",
+        "detalles": "Assessment creado"
+      }
+    ]
+  },
+  {
+    "id": "3e597f04-4d60-49a1-996a-a85b2d63c33e",
+    "organizacion_id": "e2e_test_organization",
+    "cuestionario_id": "cuestionario_ciberplan_v1",
+    "fecha_inicio": "2025-07-14T12:27:56.949790",
+    "fecha_completado": null,
+    "fecha_firmado": null,
+    "estado": "abierto",
+    "firmado_por": null,
+    "nombre": "Test Navega",
+    "descripcion": "Test de navegación",
+    "resultados": null,
+    "objetivos": {
+      "6_meses": 2.5,
+      "1_año": 3,
+      "2_años": 4
+    },
+    "auditoria": [
+      {
+        "accion": "creacion",
+        "fecha": "2025-07-14T12:27:56.949809",
+        "usuario": "sistema",
+        "detalles": "Assessment creado"
+      }
+    ]
   }
 ]
