@@ -132,7 +132,7 @@ class GozainApp {
                 name: 'Impactos de Negocio',
                 icon: 'bi-lightning-charge',
                 description: 'Gestión de impactos y cambios',
-                path: '/apps/impactos',
+                path: '/apps/impactos/index-vue-router.js',
                 color: '#ffc107'
             },
             {
@@ -140,7 +140,7 @@ class GozainApp {
                 name: 'Madurez en Ciberseguridad',
                 icon: 'bi-shield-check',
                 description: 'Evaluación de madurez en ciberseguridad',
-                path: '/apps/madurez',
+                path: '/apps/madurez/index-vue-router.js',
                 color: '#6f42c1'
             }
         ];
