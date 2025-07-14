@@ -9,6 +9,7 @@ export const inventarioStore = window.Vuex.createStore({
             currentView: 'dashboard', // 'dashboard' o 'inventario'
             loading: false,
             error: null,
+            services: null, // Inyectado desde la app
             
             // Datos
             activos: [],
@@ -60,6 +61,10 @@ export const inventarioStore = window.Vuex.createStore({
         
         SET_ORGANIZATION(state, orgId) {
             state.organizationId = orgId;
+        },
+        
+        SET_SERVICES(state, services) {
+            state.services = services;
         },
         
         SET_ACTIVOS(state, activos) {
@@ -134,7 +139,9 @@ export const inventarioStore = window.Vuex.createStore({
             
             try {
                 const params = new URLSearchParams(state.filtros);
-                const response = await window.gozainApp.services.api.get(`/inventario/activos?${params}`);
+                const api = state.services?.api || window.gozainApp?.services?.api;
+                if (!api) throw new Error('API service not available');
+                const response = await api.get(`/inventario/activos?${params}`);
                 commit('SET_ACTIVOS', response);
                 
                 // Actualizar departamentos
@@ -153,7 +160,9 @@ export const inventarioStore = window.Vuex.createStore({
             if (!state.organizationId) return;
             
             try {
-                const response = await window.gozainApp.services.api.get('/inventario/estadisticas');
+                const api = state.services?.api || window.gozainApp?.services?.api;
+                if (!api) throw new Error('API service not available');
+                const response = await api.get('/inventario/estadisticas');
                 commit('SET_ESTADISTICAS', response);
             } catch (error) {
                 console.error('Error cargando estadísticas:', error);
@@ -164,14 +173,12 @@ export const inventarioStore = window.Vuex.createStore({
         async crearActivo({ commit, dispatch, state }, activo) {
             commit('SET_LOADING', true);
             try {
-                await window.gozainApp.services.api.post('/inventario/activos', activo);
+                const api = state.services?.api || window.gozainApp?.services?.api;
+                if (!api) throw new Error('API service not available');
+                await api.post('/inventario/activos', activo);
                 
                 // Recargar datos
-                if (state.currentView === 'dashboard') {
-                    await dispatch('cargarEstadisticas');
-                } else {
-                    await dispatch('cargarActivos');
-                }
+                await dispatch('cargarActivos');
                 
                 // Mostrar notificación
                 window.gozainApp.eventBus.emit('shell:showToast', {
@@ -192,14 +199,12 @@ export const inventarioStore = window.Vuex.createStore({
         async actualizarActivo({ commit, dispatch, state }, { id, activo }) {
             commit('SET_LOADING', true);
             try {
-                await window.gozainApp.services.api.put(`/inventario/activos/${id}`, activo);
+                const api = state.services?.api || window.gozainApp?.services?.api;
+                if (!api) throw new Error('API service not available');
+                await api.put(`/inventario/activos/${id}`, activo);
                 
                 // Recargar datos
-                if (state.currentView === 'dashboard') {
-                    await dispatch('cargarEstadisticas');
-                } else {
-                    await dispatch('cargarActivos');
-                }
+                await dispatch('cargarActivos');
                 
                 // Mostrar notificación
                 window.gozainApp.eventBus.emit('shell:showToast', {
@@ -224,14 +229,12 @@ export const inventarioStore = window.Vuex.createStore({
             
             commit('SET_LOADING', true);
             try {
-                await window.gozainApp.services.api.delete(`/inventario/activos/${id}`);
+                const api = state.services?.api || window.gozainApp?.services?.api;
+                if (!api) throw new Error('API service not available');
+                await api.delete(`/inventario/activos/${id}`);
                 
                 // Recargar datos
-                if (state.currentView === 'dashboard') {
-                    await dispatch('cargarEstadisticas');
-                } else {
-                    await dispatch('cargarActivos');
-                }
+                await dispatch('cargarActivos');
                 
                 // Mostrar notificación
                 window.gozainApp.eventBus.emit('shell:showToast', {

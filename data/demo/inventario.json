@@ -2,7 +2,7 @@
   {
     "tipo": "Hardware",
     "nombre": "Servidor Principal",
-    "responsable": "Juan Pérezas",
+    "responsable": "Juan Pérezasd",
     "departamento": "TI",
     "estado": "Activo",
     "criticidad": "Crítica",
@@ -10,23 +10,35 @@
     "descripcion": "Servidor de producción",
     "id": "28e4290a-1108-4313-b357-66ba47c99d30",
     "fecha_creacion": "2025-07-10T12:26:12.352516",
-    "fecha_modificacion": "2025-07-14T09:43:39.949606",
+    "fecha_modificacion": "2025-07-14T22:02:16.460468",
     "auditoria": [
       {
         "accion": "importacion",
+        "detalles": "Importado desde test_activos.csv",
         "fecha": "2025-07-10T12:26:12.352521",
-        "usuario": "sistema",
-        "detalles": "Importado desde test_activos.csv"
+        "usuario": "sistema"
       },
       {
         "accion": "modificacion",
+        "detalles": "Activo modificado",
         "fecha": "2025-07-14T09:34:38.400185",
-        "usuario": "sistema",
-        "detalles": "Activo modificado"
+        "usuario": "sistema"
       },
       {
         "accion": "modificacion",
+        "detalles": "Activo modificado",
         "fecha": "2025-07-14T09:43:39.949635",
+        "usuario": "sistema"
+      },
+      {
+        "accion": "modificacion",
+        "detalles": "Activo modificado",
+        "fecha": "2025-07-14T21:05:33.755396",
+        "usuario": "sistema"
+      },
+      {
+        "accion": "modificacion",
+        "fecha": "2025-07-14T22:02:16.460495",
         "usuario": "sistema",
         "detalles": "Activo modificado"
       }
@@ -65,13 +77,19 @@
     "descripcion": "Laptop del equipo de ventas",
     "id": "6ad9986a-bfc7-49bc-9110-e8aba37a650d",
     "fecha_creacion": "2025-07-10T12:26:12.352541",
-    "fecha_modificacion": "2025-07-10T12:26:12.352542",
+    "fecha_modificacion": "2025-07-14T22:02:10.364987",
     "auditoria": [
       {
         "accion": "importacion",
+        "detalles": "Importado desde test_activos.csv",
         "fecha": "2025-07-10T12:26:12.352543",
+        "usuario": "sistema"
+      },
+      {
+        "accion": "modificacion",
+        "fecha": "2025-07-14T22:02:10.365010",
         "usuario": "sistema",
-        "detalles": "Importado desde test_activos.csv"
+        "detalles": "Activo modificado"
       }
     ]
   },

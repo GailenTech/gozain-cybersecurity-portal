@@ -46,7 +46,36 @@ class GozainApp {
         if (selectedOrg) {
             const org = this.organizations?.find(o => o.id === selectedOrg);
             if (org) {
-                this.selectOrganization(selectedOrg, org.nombre);
+                // NO mostrar el selector de herramientas si hay una ruta guardada
+                const lastRouteStr = localStorage.getItem('gozain_last_route');
+                let shouldShowToolSelector = true;
+                
+                if (lastRouteStr) {
+                    try {
+                        const lastRoute = JSON.parse(lastRouteStr);
+                        if (lastRoute.organization === selectedOrg && lastRoute.module) {
+                            shouldShowToolSelector = false;
+                            // Seleccionar organización sin mostrar el selector
+                            this.selectOrganizationWithoutToolSelector(selectedOrg, org.nombre);
+                            
+                            // Cargar el módulo automáticamente
+                            setTimeout(() => {
+                                const apps = this.navigation.getApps();
+                                const appConfig = apps.find(app => app.id === lastRoute.module);
+                                if (appConfig) {
+                                    console.log('Restaurando aplicación:', lastRoute.module);
+                                    this.loadApplication(appConfig.id);
+                                }
+                            }, 100);
+                        }
+                    } catch (e) {
+                        console.error('Error restaurando ruta:', e);
+                    }
+                }
+                
+                if (shouldShowToolSelector) {
+                    this.selectOrganization(selectedOrg, org.nombre);
+                }
             }
         }
     }
@@ -95,7 +124,7 @@ class GozainApp {
                 name: 'Inventario de Activos',
                 icon: 'bi-box-seam',
                 description: 'Gestión de activos ISO 27001',
-                path: '/apps/inventario/index-vue-basic.js',
+                path: '/apps/inventario/index-vue-router-real.js',
                 color: '#0d6efd'
             },
             {
@@ -120,6 +149,10 @@ class GozainApp {
     }
     
     setupEventListeners() {
+        // Event listeners del eventBus
+        this.eventBus.on('shell:setAppMenu', (data) => this.setAppMenu(data));
+        this.eventBus.on('shell:updateMenuActiveState', (data) => this.updateMenuActiveState(data));
+        
         // Botón selector de herramientas
         const toolSelectorBtn = document.getElementById('toolSelectorButton');
         if (toolSelectorBtn) {
@@ -214,9 +247,33 @@ class GozainApp {
         
         // Notificar cambio de organización
         this.eventBus.emit('organization:changed', { organizationId: orgId });
+    }
+    
+    selectOrganizationWithoutToolSelector(orgId, orgName) {
+        if (!orgId) {
+            document.getElementById('welcomeScreen').classList.remove('d-none');
+            document.getElementById('appContainer').classList.add('d-none');
+            document.getElementById('organizationName').textContent = 'Seleccionar Organización';
+            this.storage.remove('selectedOrganization');
+            return;
+        }
         
-        // Mostrar selector de herramientas
-        this.showToolSelector();
+        // Si no se proporciona el nombre, buscarlo
+        if (!orgName && this.organizations) {
+            const org = this.organizations.find(o => o.id === orgId);
+            orgName = org ? org.nombre : 'Organización';
+        }
+        
+        this.storage.set('selectedOrganization', orgId);
+        this.navigation.setOrganization(orgId);
+        document.getElementById('organizationName').textContent = orgName;
+        
+        document.getElementById('welcomeScreen').classList.add('d-none');
+        document.getElementById('appContainer').classList.remove('d-none');
+        
+        // NO mostrar selector de herramientas
+        // Solo notificar cambio de organización
+        this.eventBus.emit('organization:changed', { organizationId: orgId });
     }
     
     showOrganizationModal() {
@@ -410,6 +467,72 @@ class GozainApp {
         if (firstItem) {
             firstItem.classList.add('active');
         }
+    }
+    
+    setAppMenu(data) {
+        const { appId, menu } = data;
+        const appMenu = document.getElementById('appMenu');
+        
+        if (!appMenu) return;
+        
+        // Limpiar menú actual
+        appMenu.innerHTML = '';
+        
+        // Crear elementos del menú
+        menu.forEach(item => {
+            if (item.divider) {
+                const hr = document.createElement('hr');
+                hr.className = 'sidebar-divider';
+                appMenu.appendChild(hr);
+                return;
+            }
+            
+            const li = document.createElement('li');
+            li.className = 'nav-item';
+            li.dataset.menuId = item.id; // Guardar ID para referencia
+            
+            const a = document.createElement('a');
+            a.className = 'nav-link' + (item.active ? ' active' : '');
+            a.href = '#';
+            a.innerHTML = `
+                <i class="${item.icon} me-2"></i>
+                ${item.label}
+            `;
+            
+            a.addEventListener('click', (e) => {
+                e.preventDefault();
+                
+                // Emitir evento de selección
+                this.eventBus.emit(`${appId}:menuAction`, {
+                    item: item.id
+                });
+            });
+            
+            li.appendChild(a);
+            appMenu.appendChild(li);
+        });
+    }
+    
+    updateMenuActiveState(data) {
+        const { appId, activeItem } = data;
+        const appMenu = document.getElementById('appMenu');
+        
+        if (!appMenu) return;
+        
+        // Actualizar clases activas basado en el data-menu-id
+        appMenu.querySelectorAll('.nav-item').forEach((li) => {
+            const link = li.querySelector('.nav-link');
+            if (!link) return;
+            
+            // Comparar el ID del menú con el item activo
+            const menuId = li.dataset.menuId;
+            
+            if (menuId === activeItem) {
+                link.classList.add('active');
+            } else {
+                link.classList.remove('active');
+            }
+        });
     }
 }
 

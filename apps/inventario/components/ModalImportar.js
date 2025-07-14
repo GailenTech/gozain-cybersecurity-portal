@@ -1,70 +1,15 @@
 /**
- * Componente Modal para importar activos
+ * Componente Modal para Importar
  */
 export const ModalImportar = {
     name: 'ModalImportar',
     
-    template: `
-        <div class="modal fade show d-block" id="modalImportar" tabindex="-1" @click.self="cerrar">
-            <div class="modal-dialog modal-lg modal-dialog-centered">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title">Importar Activos</h5>
-                        <button type="button" class="btn-close" @click="cerrar"></button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="mb-3">
-                            <label class="form-label">Seleccionar archivo</label>
-                            <input 
-                                type="file" 
-                                class="form-control" 
-                                id="archivoImportar"
-                                accept=".csv,.xlsx"
-                                @change="handleFileSelect"
-                            >
-                            <div class="form-text">Formatos soportados: CSV, Excel</div>
-                        </div>
-                        
-                        <div v-if="preview" class="mt-4" id="previewImportar">
-                            <h6>Vista previa</h6>
-                            <div class="table-responsive">
-                                <table class="table table-sm" id="tablaPreview">
-                                    <thead>
-                                        <tr>
-                                            <th v-for="header in preview.headers" :key="header">{{ header }}</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr v-for="(row, index) in preview.preview" :key="index">
-                                            <td v-for="(cell, cellIndex) in row" :key="cellIndex">
-                                                {{ cell || '-' }}
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                            <p class="text-muted mt-2">
-                                Mostrando {{ preview.preview.length }} de {{ preview.total }} filas
-                            </p>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" @click="cerrar">Cancelar</button>
-                        <button 
-                            type="button" 
-                            class="btn btn-primary" 
-                            id="btnConfirmarImportar"
-                            :disabled="!archivo"
-                            @click="confirmarImportacion"
-                        >
-                            Importar
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="modal-backdrop fade show"></div>
-    `,
+    computed: {
+        ...window.Vuex.mapState({
+            show: state => state.modalImportar.show,
+            loading: state => state.loading
+        })
+    },
     
     data() {
         return {
@@ -73,19 +18,58 @@ export const ModalImportar = {
         };
     },
     
-    mounted() {
-        // Prevenir scroll del body
-        document.body.classList.add('modal-open');
+    watch: {
+        show(newVal) {
+            if (newVal) {
+                this.$nextTick(() => {
+                    this.showModal();
+                });
+            } else {
+                this.hideModal();
+            }
+        }
     },
     
-    beforeUnmount() {
-        // Restaurar scroll del body
-        document.body.classList.remove('modal-open');
+    mounted() {
+        // No necesitamos el event listener de Bootstrap ya que controlamos todo desde Vue
     },
     
     methods: {
-        cerrar() {
-            this.$emit('close');
+        showModal() {
+            const modalElement = document.getElementById('modalImportar');
+            if (modalElement) {
+                const modal = bootstrap.Modal.getInstance(modalElement) || new bootstrap.Modal(modalElement);
+                modal.show();
+            }
+        },
+        
+        hideModal() {
+            const modalElement = document.getElementById('modalImportar');
+            if (modalElement) {
+                const modal = bootstrap.Modal.getInstance(modalElement);
+                if (modal) {
+                    modal.hide();
+                }
+                
+                // Asegurar limpieza completa después de la animación
+                setTimeout(() => {
+                    // Eliminar TODOS los backdrops (por si hay múltiples)
+                    document.querySelectorAll('.modal-backdrop').forEach(backdrop => {
+                        backdrop.remove();
+                    });
+                    // Limpiar clases del body
+                    document.body.classList.remove('modal-open');
+                    document.body.style.removeProperty('overflow');
+                    document.body.style.removeProperty('padding-right');
+                }, 300);
+            }
+        },
+        
+        cerrarModal() {
+            // Primero ocultar el modal de Bootstrap
+            this.hideModal();
+            // Luego actualizar el estado en Vue
+            this.$store.commit('HIDE_MODAL_IMPORTAR');
         },
         
         async handleFileSelect(event) {
@@ -113,20 +97,10 @@ export const ModalImportar = {
                 const formData = new FormData();
                 formData.append('file', file);
                 
-                const organizationId = this.$store.state.organizationId;
-                const response = await fetch(`${window.location.origin}/api/inventario/preview-import`, {
-                    method: 'POST',
-                    headers: {
-                        'X-Organization-Id': organizationId
-                    },
-                    body: formData
-                });
+                const api = this.$store.state.services?.api || window.gozainApp?.services?.api;
+                const response = await api.post('/inventario/preview-import', formData);
                 
-                if (!response.ok) {
-                    throw new Error('Error al procesar archivo');
-                }
-                
-                this.preview = await response.json();
+                this.preview = response;
             } catch (error) {
                 console.error('Error preview:', error);
                 this.mostrarError('Error al procesar el archivo');
@@ -143,20 +117,8 @@ export const ModalImportar = {
                 formData.append('file', this.archivo);
                 formData.append('reemplazar', 'false');
                 
-                const organizationId = this.$store.state.organizationId;
-                const response = await fetch(`${window.location.origin}/api/inventario/importar`, {
-                    method: 'POST',
-                    headers: {
-                        'X-Organization-Id': organizationId
-                    },
-                    body: formData
-                });
-                
-                if (!response.ok) {
-                    throw new Error('Error al importar');
-                }
-                
-                const result = await response.json();
+                const api = this.$store.state.services?.api || window.gozainApp?.services?.api;
+                const result = await api.post('/inventario/importar', formData);
                 
                 // Mostrar notificación
                 const eventBus = window.gozainApp?.eventBus;
@@ -171,7 +133,7 @@ export const ModalImportar = {
                 await this.$store.dispatch('cargarActivos');
                 
                 // Cerrar modal
-                this.cerrar();
+                this.cerrarModal();
             } catch (error) {
                 console.error('Error importando:', error);
                 this.mostrarError('Error al importar los activos');
@@ -187,5 +149,101 @@ export const ModalImportar = {
                 });
             }
         }
+    },
+    
+    render() {
+        const { h } = window.Vue;
+        
+        if (!this.show) {
+            return null;
+        }
+        
+        return h('div', {
+            class: 'modal fade',
+            id: 'modalImportar',
+            tabindex: '-1',
+            'aria-labelledby': 'modalImportarTitle',
+            'aria-hidden': 'true'
+        }, [
+            h('div', { class: 'modal-dialog modal-lg' }, [
+                h('div', { class: 'modal-content' }, [
+                    // Header
+                    h('div', { class: 'modal-header' }, [
+                        h('h5', { 
+                            class: 'modal-title',
+                            id: 'modalImportarTitle'
+                        }, 'Importar Activos'),
+                        h('button', {
+                            type: 'button',
+                            class: 'btn-close',
+                            'aria-label': 'Close',
+                            onClick: this.cerrarModal
+                        })
+                    ]),
+                    
+                    // Body
+                    h('div', { class: 'modal-body' }, [
+                        // Selector de archivo
+                        h('div', { class: 'mb-3' }, [
+                            h('label', { class: 'form-label' }, 'Seleccionar archivo'),
+                            h('input', {
+                                type: 'file',
+                                class: 'form-control',
+                                id: 'archivoImportar',
+                                accept: '.csv,.xlsx',
+                                onChange: this.handleFileSelect
+                            }),
+                            h('div', { class: 'form-text' }, 'Formatos soportados: CSV, Excel')
+                        ]),
+                        
+                        // Vista previa
+                        this.preview && h('div', { class: 'mt-4', id: 'previewImportar' }, [
+                            h('h6', {}, 'Vista previa'),
+                            h('div', { class: 'table-responsive' }, [
+                                h('table', { class: 'table table-sm', id: 'tablaPreview' }, [
+                                    h('thead', {}, [
+                                        h('tr', {}, 
+                                            this.preview.headers.map(header => 
+                                                h('th', {}, header)
+                                            )
+                                        )
+                                    ]),
+                                    h('tbody', {}, 
+                                        this.preview.preview.map((row, index) => 
+                                            h('tr', { key: index }, 
+                                                row.map((cell, cellIndex) => 
+                                                    h('td', { key: cellIndex }, cell || '-')
+                                                )
+                                            )
+                                        )
+                                    )
+                                ])
+                            ]),
+                            h('p', { class: 'text-muted mt-2' }, 
+                                `Mostrando ${this.preview.preview.length} de ${this.preview.total} filas`
+                            )
+                        ])
+                    ]),
+                    
+                    // Footer
+                    h('div', { class: 'modal-footer' }, [
+                        h('button', {
+                            type: 'button',
+                            class: 'btn btn-secondary',
+                            onClick: this.cerrarModal
+                        }, 'Cancelar'),
+                        h('button', {
+                            type: 'button',
+                            class: 'btn btn-primary',
+                            id: 'btnConfirmarImportar',
+                            onClick: this.confirmarImportacion,
+                            disabled: !this.archivo || this.loading
+                        }, [
+                            this.loading ? 'Importando...' : 'Importar'
+                        ])
+                    ])
+                ])
+            ])
+        ]);
     }
 };

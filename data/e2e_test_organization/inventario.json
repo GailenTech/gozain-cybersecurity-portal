@@ -11361,5 +11361,26 @@
         "detalles": "Activo modificado"
       }
     ]
+  },
+  {
+    "id": "cb4ff32b-e528-4e36-ae38-772a0b30eddc",
+    "fecha_creacion": "2025-07-14T21:21:02.055332",
+    "fecha_modificacion": "2025-07-14T21:21:02.055340",
+    "nombre": "Laptop Test 175252",
+    "tipo": "Hardware",
+    "estado": "Activo",
+    "departamento": "Desarrollo",
+    "responsable": "Juan Pérez",
+    "clasificacion": "Interno",
+    "criticidad": "Normal",
+    "descripcion": "Laptop de prueba para desarrollo",
+    "auditoria": [
+      {
+        "accion": "creacion",
+        "fecha": "2025-07-14T21:21:02.055349",
+        "usuario": "sistema",
+        "detalles": "Activo creado"
+      }
+    ]
   }
 ]
