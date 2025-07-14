@@ -1,0 +1,91 @@
+name: Tests E2E
+
+on:
+  push:
+    branches: [ main, develop, 'refactor/**' ]
+  pull_request:
+    branches: [ main, develop ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Install system dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y xvfb libgtk-3-0 libgbm-dev libnotify-dev libnss3 libxss1 libasound2
+    
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.9'
+    
+    - name: Install Python dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+    
+    - name: Set up Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '18'
+        cache: 'npm'
+    
+    - name: Install Node dependencies
+      run: npm ci
+    
+    - name: Start backend server
+      run: |
+        python backend/app.py &
+        echo $! > backend.pid
+        # Esperar a que el servidor esté listo
+        for i in {1..30}; do
+          if curl -s http://localhost:8080 > /dev/null; then
+            echo "Backend server is ready"
+            break
+          fi
+          echo "Waiting for backend server... ($i/30)"
+          sleep 1
+        done
+      env:
+        PORT: 8080
+    
+    - name: Run Cypress tests
+      uses: cypress-io/github-action@v5
+      with:
+        browser: chrome
+        config: baseUrl=http://localhost:8080
+        spec: |
+          cypress/e2e/00-setup.cy.js
+          cypress/e2e/01-navigation.cy.js
+          cypress/e2e/02-inventory.cy.js
+          cypress/e2e/03-impacts-optimized.cy.js
+          cypress/e2e/04-integration.cy.js
+          cypress/e2e/05-tasks-simple.cy.js
+      env:
+        CYPRESS_BASE_URL: http://localhost:8080
+    
+    - name: Stop backend server
+      if: always()
+      run: |
+        if [ -f backend.pid ]; then
+          kill $(cat backend.pid) || true
+          rm backend.pid
+        fi
+    
+    - name: Upload Cypress screenshots
+      uses: actions/upload-artifact@v3
+      if: failure()
+      with:
+        name: cypress-screenshots
+        path: cypress/screenshots
+    
+    - name: Upload Cypress videos
+      uses: actions/upload-artifact@v3
+      if: always()
+      with:
+        name: cypress-videos
+        path: cypress/videos
