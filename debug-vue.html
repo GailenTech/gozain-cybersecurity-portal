@@ -1,0 +1,23 @@
+<\!DOCTYPE html>
+<html>
+<head>
+    <title>Debug Vue Loading</title>
+</head>
+<body>
+    <h1>Debug Vue Loading</h1>
+    <p>Abre la consola del navegador y haz clic en el botón</p>
+    <button onclick="testVue()">Test Vue Loading</button>
+    
+    <script>
+        function testVue() {
+            console.log('Testing Vue...');
+            console.log('window.Vue:', window.Vue);
+            console.log('window.Vuex:', window.Vuex);
+            
+            // Cargar inventario
+            window.location.href = 'http://localhost:8080';
+        }
+    </script>
+</body>
+</html>
+EOF < /dev/null

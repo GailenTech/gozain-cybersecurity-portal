@@ -1,8 +1,10 @@
 # GitHub Actions Configuration
 
-## Required Secrets
+## Estado Actual
 
-Before using these workflows, you need to configure the following secrets in your GitHub repository:
+**Workflows limpiados** - Solo mantenemos el workflow de despliegue hasta completar todas las migraciones a Vue.
+
+## Required Secrets
 
 ### 1. GCP_SA_KEY (Required)
 Service Account key for Google Cloud Platform deployment.
@@ -22,23 +24,34 @@ To create this:
 ### 2. SLACK_WEBHOOK_URL (Optional)
 Webhook URL for Slack notifications.
 
-## Workflows
+## Active Workflows
 
-### 1. Deploy to Google Cloud Run (`deploy-gcp.yml`)
-- Triggers on push to main/master or manual dispatch
-- Updates version with GitHub run number
-- Deploys to Google Cloud Run
-- Commits version update back to repository
+### Deploy to Google Cloud Run (`deploy-gcp.yml`)
+- **Triggers**: Push to main/master or manual dispatch
+- **Actions**:
+  - Updates version with GitHub run number
+  - Deploys to Google Cloud Run
+  - Commits version update back to repository
+  - Sends Slack notification (if configured)
 
-### 2. Cypress E2E Tests (`cypress-tests.yml`)
-- Manual trigger only (workflow_dispatch)
-- Runs tests in Chrome and Firefox
-- Uploads screenshots and videos as artifacts
+**Note**: E2E tests removed temporarily - will be re-added after all app migrations are complete.
 
-### 3. E2E Tests After Deploy
-- Automatically runs after successful deployment
-- Tests on clean test organization
-- Validates all critical paths
+## Removed Workflows (Temporarily)
+
+The following workflows were removed and will be recreated after Vue migrations:
+- `cypress-tests.yml` - E2E tests with obsolete test files
+- `cypress-tests-optimized.yml` - Optimized version with obsolete tests
+- `test-local.yml` - Local testing workflow
+- `test-production-manual.yml` - Manual production testing
+
+## Future Workflow Plan
+
+After completing migrations to Vue for all applications:
+
+1. **Create new E2E test workflow** with updated test files
+2. **Test locally with `act`** before deploying to GitHub Actions
+3. **Add E2E tests back to deploy workflow** as a post-deployment step
+4. **Validate all critical paths** work in production
 
 ## Version Management
 
@@ -61,3 +74,8 @@ To trigger a manual deployment:
 2. Select "Deploy to Google Cloud Run"
 3. Click "Run workflow"
 4. Select branch and environment
+
+## Testing Strategy
+
+**Local Testing**: Use `npm run cypress:run` for E2E tests
+**Production Validation**: Manual testing after deployment until workflows are rebuilt

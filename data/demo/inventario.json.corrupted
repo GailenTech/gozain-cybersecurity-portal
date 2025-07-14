@@ -2,7 +2,7 @@
   {
     "tipo": "Hardware",
     "nombre": "Servidor Principal",
-    "responsable": "Juan Pérezasd",
+    "responsable": "Juan Péreza",
     "departamento": "TI",
     "estado": "Activo",
     "criticidad": "Crítica",
@@ -10,35 +10,17 @@
     "descripcion": "Servidor de producción",
     "id": "28e4290a-1108-4313-b357-66ba47c99d30",
     "fecha_creacion": "2025-07-10T12:26:12.352516",
-    "fecha_modificacion": "2025-07-14T22:02:16.460468",
+    "fecha_modificacion": "2025-07-14T09:34:38.400178",
     "auditoria": [
       {
         "accion": "importacion",
-        "detalles": "Importado desde test_activos.csv",
         "fecha": "2025-07-10T12:26:12.352521",
-        "usuario": "sistema"
+        "usuario": "sistema",
+        "detalles": "Importado desde test_activos.csv"
       },
       {
         "accion": "modificacion",
-        "detalles": "Activo modificado",
         "fecha": "2025-07-14T09:34:38.400185",
-        "usuario": "sistema"
-      },
-      {
-        "accion": "modificacion",
-        "detalles": "Activo modificado",
-        "fecha": "2025-07-14T09:43:39.949635",
-        "usuario": "sistema"
-      },
-      {
-        "accion": "modificacion",
-        "detalles": "Activo modificado",
-        "fecha": "2025-07-14T21:05:33.755396",
-        "usuario": "sistema"
-      },
-      {
-        "accion": "modificacion",
-        "fecha": "2025-07-14T22:02:16.460495",
         "usuario": "sistema",
         "detalles": "Activo modificado"
       }
@@ -77,19 +59,13 @@
     "descripcion": "Laptop del equipo de ventas",
     "id": "6ad9986a-bfc7-49bc-9110-e8aba37a650d",
     "fecha_creacion": "2025-07-10T12:26:12.352541",
-    "fecha_modificacion": "2025-07-14T22:02:10.364987",
+    "fecha_modificacion": "2025-07-10T12:26:12.352542",
     "auditoria": [
       {
         "accion": "importacion",
-        "detalles": "Importado desde test_activos.csv",
         "fecha": "2025-07-10T12:26:12.352543",
-        "usuario": "sistema"
-      },
-      {
-        "accion": "modificacion",
-        "fecha": "2025-07-14T22:02:10.365010",
         "usuario": "sistema",
-        "detalles": "Activo modificado"
+        "detalles": "Importado desde test_activos.csv"
       }
     ]
   },
@@ -232,32 +208,21 @@
         "detalles": "Activo creado"
       }
     ]
-  },
-  {
-    "id": "7bd3aa4e-e938-4c87-a610-b204877f07b1",
-    "fecha_creacion": "2025-07-14T09:44:00.315803",
-    "fecha_modificacion": "2025-07-14T09:44:14.482094",
-    "tipo": "Hardware",
-    "tipo_activo": "Hardware",
-    "estado": "Inactivo",
-    "nombre": "Cosas de paco",
-    "responsable": "Pacojones",
-    "departamento": "IT",
-    "clasificacion": "Público",
-    "criticidad": "Baja",
-    "descripcion": "",
+  }
+]vo": "Hardware",
+    "estado": "Activo",
+    "nombre": "Servidor Principal",
+    "responsable": "Juan Péreza",
+    "departamento": "TI",
+    "clasificacion": "Confidencial",
+    "criticidad": "Crítica",
+    "descripcion": "Servidor de producción",
     "auditoria": [
       {
         "accion": "creacion",
-        "fecha": "2025-07-14T09:44:00.315835",
+        "fecha": "2025-07-14T09:34:38.400220",
         "usuario": "sistema",
         "detalles": "Activo creado"
-      },
-      {
-        "accion": "modificacion",
-        "fecha": "2025-07-14T09:44:14.482122",
-        "usuario": "sistema",
-        "detalles": "Activo modificado"
       }
     ]
   }

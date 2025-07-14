@@ -122,25 +122,38 @@ class InventarioService:
         
         for i, activo in enumerate(inventario):
             if activo['id'] == activo_id:
+                # DEBUG: Log el activo original
+                print(f"DEBUG - Activo original: {activo}")
+                print(f"DEBUG - Datos a actualizar: {data}")
+                
+                # Crear una copia del activo existente para preservar campos no enviados
+                activo_actualizado = activo.copy()
+                
+                # Actualizar solo los campos que vienen en data
+                activo_actualizado.update(data)
+                
+                # DEBUG: Log después de update
+                print(f"DEBUG - Activo después de update: {activo_actualizado}")
+                
                 # Preservar campos del sistema
-                data['id'] = activo_id
-                data['fecha_creacion'] = activo['fecha_creacion']
-                data['fecha_modificacion'] = datetime.now().isoformat()
+                activo_actualizado['id'] = activo_id
+                activo_actualizado['fecha_creacion'] = activo['fecha_creacion']
+                activo_actualizado['fecha_modificacion'] = datetime.now().isoformat()
                 
                 # Agregar entrada de auditoría
-                if 'auditoria' not in data:
-                    data['auditoria'] = activo.get('auditoria', [])
+                if 'auditoria' not in activo_actualizado:
+                    activo_actualizado['auditoria'] = []
                 
-                data['auditoria'].append({
+                activo_actualizado['auditoria'].append({
                     'accion': 'modificacion',
                     'fecha': datetime.now().isoformat(),
                     'usuario': 'sistema',
                     'detalles': 'Activo modificado'
                 })
                 
-                inventario[i] = data
+                inventario[i] = activo_actualizado
                 self._save_inventario(org_id, inventario)
-                return data
+                return activo_actualizado
         
         return None
     

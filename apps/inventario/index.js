@@ -1,4 +1,4 @@
-// Módulo de Inventario de Activos ISO 27001
+// Módulo de Inventario de Activos ISO 27001 - Refactorizado
 export default class InventarioApp {
     constructor(options) {
         this.container = options.container;
@@ -13,30 +13,20 @@ export default class InventarioApp {
             departamento: '',
             busqueda: ''
         };
+        
+        // Vista actual
+        this.currentView = null;
     }
     
     async mount() {
         // Configurar API con la organización
         this.services.api.setOrganization(this.organization);
         
-        // Renderizar UI inicial
-        this.render();
-        
         // Configurar menú lateral del módulo
         this.setupModuleMenu();
         
-        // Cargar datos
-        await this.loadData();
-        
-        // Configurar event listeners
-        this.setupEventListeners();
-        
-        // Configurar listeners de eventos del dashboard
-        this.setupDashboardEventListeners();
-        
-        // Mostrar dashboard por defecto
-        this.container.querySelector('#btnVistaDashboard').classList.add('active');
-        await this.mostrarVistaDashboard();
+        // Navegar a dashboard por defecto
+        await this.navigateToView('dashboard');
     }
     
     async unmount() {
@@ -44,56 +34,100 @@ export default class InventarioApp {
         this.container.innerHTML = '';
     }
     
-    render() {
+    setupModuleMenu() {
+        const eventBus = window.gozainApp?.eventBus;
+        
+        if (!eventBus) {
+            console.warn('EventBus no disponible');
+            return;
+        }
+        
+        const menuItems = [
+            { id: 'dashboard', label: 'Dashboard', icon: 'bi-grid-3x3-gap' },
+            { id: 'inventario', label: 'Inventario', icon: 'bi-list-ul' },
+            { id: 'nuevo', label: 'Nuevo Activo', icon: 'bi-plus-circle' },
+            { id: 'importar', label: 'Importar', icon: 'bi-upload' },
+            { id: 'reportes', label: 'Reportes', icon: 'bi-file-earmark-text' },
+            { id: 'auditoria', label: 'Auditoría', icon: 'bi-shield-check' }
+        ];
+        
+        // Notificar al shell para actualizar el menú
+        eventBus.emit('shell:updateModuleMenu', {
+            moduleId: 'inventario',
+            items: menuItems
+        });
+        
+        // Escuchar selecciones del menú
+        eventBus.on('shell:moduleMenuSelect', (data) => {
+            if (data.moduleId === 'inventario') {
+                this.handleMenuSelection(data.itemId);
+            }
+        });
+    }
+    
+    async handleMenuSelection(menuItem) {
+        switch(menuItem) {
+            case 'dashboard':
+            case 'inventario':
+                await this.navigateToView(menuItem);
+                break;
+            case 'nuevo':
+                await this.navigateToView('inventario');
+                setTimeout(() => this.mostrarModalActivo(), 100);
+                break;
+            case 'importar':
+                await this.navigateToView('inventario');
+                setTimeout(() => this.mostrarModalImportar(), 100);
+                break;
+            case 'reportes':
+                this.mostrarToast('Reportes en desarrollo', 'info');
+                break;
+            case 'auditoria':
+                this.mostrarToast('Auditoría en desarrollo', 'info');
+                break;
+        }
+    }
+    
+    async navigateToView(view) {
+        // Si es la misma vista, no hacer nada
+        if (this.currentView === view) return;
+        
+        this.currentView = view;
+        this.container.innerHTML = ''; // Limpiar completamente
+        
+        // Actualizar menú lateral para mostrar vista activa
+        const appMenu = document.getElementById('appMenu');
+        if (appMenu) {
+            appMenu.querySelectorAll('.nav-link').forEach(link => {
+                link.classList.remove('active');
+                if (link.dataset.menuItem === view) {
+                    link.classList.add('active');
+                }
+            });
+        }
+        
+        // Renderizar la vista correspondiente
+        switch(view) {
+            case 'dashboard':
+                await this.renderDashboard();
+                break;
+            case 'inventario':
+                await this.renderInventarioList();
+                break;
+        }
+    }
+    
+    async renderDashboard() {
         this.container.innerHTML = `
-            <div class="inventario-app fade-in" data-current-view="dashboard">
+            <div class="dashboard-view fade-in">
                 <div class="d-flex justify-content-end mb-4">
-                    <div class="btn-group" role="group">
-                        <button class="btn btn-outline-secondary" id="btnVistaLista" title="Vista de Lista">
-                            <i class="bi bi-list-ul"></i>
-                        </button>
-                        <button class="btn btn-outline-secondary" id="btnVistaDashboard" title="Vista de Dashboard">
-                            <i class="bi bi-grid-3x3-gap"></i>
-                        </button>
-                    </div>
-                </div>
-                
-                <!-- Filtros -->
-                <div class="card mb-4" id="filtrosSection">
-                    <div class="card-body">
-                        <div class="row g-3">
-                            <div class="col-md-3">
-                                <label class="form-label">Tipo de Activo</label>
-                                <select class="form-select" id="filtroTipo">
-                                    <option value="">Todos</option>
-                                    <option value="Hardware">Hardware</option>
-                                    <option value="Software">Software</option>
-                                    <option value="Servicio">Servicio</option>
-                                    <option value="Información">Información</option>
-                                    <option value="Personal">Personal</option>
-                                </select>
-                            </div>
-                            <div class="col-md-3">
-                                <label class="form-label">Departamento</label>
-                                <select class="form-select" id="filtroDepartamento">
-                                    <option value="">Todos</option>
-                                </select>
-                            </div>
-                            <div class="col-md-4">
-                                <label class="form-label">Buscar</label>
-                                <input type="text" class="form-control" id="filtroBusqueda" placeholder="Buscar por nombre, descripción...">
-                            </div>
-                            <div class="col-md-2 d-flex align-items-end">
-                                <button class="btn btn-primary w-100" id="btnBuscar">
-                                    <i class="bi bi-search"></i> Buscar
-                                </button>
-                            </div>
-                        </div>
-                    </div>
+                    <button class="btn btn-primary" id="btnNuevoActivoDashboard">
+                        <i class="bi bi-plus-circle"></i> Nuevo Activo
+                    </button>
                 </div>
                 
                 <!-- Estadísticas -->
-                <div class="row mb-4" id="estadisticas">
+                <div class="row mb-4">
                     <div class="col-md-3">
                         <div class="card text-bg-primary">
                             <div class="card-body">
@@ -128,13 +162,118 @@ export default class InventarioApp {
                     </div>
                 </div>
                 
-                <!-- Dashboard (visible por defecto) -->
-                <div id="dashboardView">
-                    <!-- El contenido del dashboard se cargará dinámicamente -->
+                <!-- Gráficos -->
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="card mb-4">
+                            <div class="card-header">
+                                <h5 class="mb-0">Activos por Tipo</h5>
+                            </div>
+                            <div class="card-body">
+                                <canvas id="chartTipo" height="300"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card mb-4">
+                            <div class="card-header">
+                                <h5 class="mb-0">Activos por Departamento</h5>
+                            </div>
+                            <div class="card-body">
+                                <canvas id="chartDepartamento" height="300"></canvas>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 
-                <!-- Tabla de activos (oculta por defecto) -->
-                <div id="listaView" class="card d-none">
+                <!-- Accesos rápidos -->
+                <div class="row mt-4">
+                    <div class="col-12">
+                        <h4>Acciones Rápidas</h4>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card action-card" id="btnVerInventario">
+                            <div class="card-body text-center">
+                                <i class="bi bi-list-ul fs-1 text-primary"></i>
+                                <h5 class="mt-2">Ver Inventario</h5>
+                                <p class="text-muted">Gestionar todos los activos</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card action-card" id="btnImportarDashboard">
+                            <div class="card-body text-center">
+                                <i class="bi bi-upload fs-1 text-success"></i>
+                                <h5 class="mt-2">Importar Activos</h5>
+                                <p class="text-muted">Desde Excel o CSV</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card action-card" id="btnReportesDashboard">
+                            <div class="card-body text-center">
+                                <i class="bi bi-file-earmark-text fs-1 text-warning"></i>
+                                <h5 class="mt-2">Generar Reportes</h5>
+                                <p class="text-muted">Exportar información</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `;
+        
+        // Cargar datos del dashboard
+        await this.loadDashboardData();
+        
+        // Configurar event listeners del dashboard
+        this.setupDashboardEventListeners();
+    }
+    
+    async renderInventarioList() {
+        this.container.innerHTML = `
+            <div class="inventario-list-view fade-in">
+                <div class="d-flex justify-content-end mb-4">
+                    <button class="btn btn-primary" id="btnNuevoActivo">
+                        <i class="bi bi-plus-circle"></i> Nuevo Activo
+                    </button>
+                </div>
+                
+                <!-- Filtros -->
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <div class="row g-3">
+                            <div class="col-md-3">
+                                <label class="form-label">Tipo de Activo</label>
+                                <select class="form-select" id="filtroTipo">
+                                    <option value="">Todos</option>
+                                    <option value="Hardware">Hardware</option>
+                                    <option value="Software">Software</option>
+                                    <option value="Servicio">Servicio</option>
+                                    <option value="Información">Información</option>
+                                    <option value="Personal">Personal</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form-label">Departamento</label>
+                                <select class="form-select" id="filtroDepartamento">
+                                    <option value="">Todos</option>
+                                </select>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label">Buscar</label>
+                                <input type="text" class="form-control" id="filtroBusqueda" placeholder="Buscar por nombre, descripción...">
+                            </div>
+                            <div class="col-md-2 d-flex align-items-end">
+                                <button class="btn btn-primary w-100" id="btnBuscar">
+                                    <i class="bi bi-search"></i> Buscar
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Tabla de activos -->
+                <div class="card">
                     <div class="card-body">
                         <div class="table-responsive">
                             <table class="table table-hover">
@@ -162,6 +301,18 @@ export default class InventarioApp {
                 </div>
             </div>
             
+            ${this.renderModals()}
+        `;
+        
+        // Cargar activos
+        await this.cargarActivos();
+        
+        // Configurar event listeners de la lista
+        this.setupListEventListeners();
+    }
+    
+    renderModals() {
+        return `
             <!-- Modal para nuevo/editar activo -->
             <div class="modal fade" id="modalActivo" tabindex="-1">
                 <div class="modal-dialog modal-lg">
@@ -246,30 +397,17 @@ export default class InventarioApp {
                             <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                         </div>
                         <div class="modal-body">
-                            <div class="alert alert-info">
-                                <i class="bi bi-info-circle"></i> Formatos soportados: CSV, Excel (.xlsx)
-                            </div>
-                            
                             <div class="mb-3">
                                 <label class="form-label">Seleccionar archivo</label>
                                 <input type="file" class="form-control" id="archivoImportar" accept=".csv,.xlsx">
+                                <div class="form-text">Formatos soportados: CSV, Excel (.xlsx)</div>
                             </div>
-                            
-                            <div class="mb-3">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" id="reemplazarExistentes">
-                                    <label class="form-check-label" for="reemplazarExistentes">
-                                        Reemplazar activos existentes
-                                    </label>
-                                </div>
-                            </div>
-                            
                             <div id="previewImportar" class="d-none">
                                 <h6>Vista previa:</h6>
-                                <div class="table-responsive" style="max-height: 200px; overflow-y: auto;">
-                                    <table class="table table-sm" id="tablaPreview">
-                                        <thead></thead>
-                                        <tbody></tbody>
+                                <div class="table-responsive">
+                                    <table class="table table-sm">
+                                        <thead id="tablaPreview"></thead>
+                                        <tbody id="tablaPreview"></tbody>
                                     </table>
                                 </div>
                             </div>
@@ -284,134 +422,160 @@ export default class InventarioApp {
         `;
     }
     
-    setupEventListeners() {
-        // Botones de vista
-        const btnLista = this.container.querySelector('#btnVistaLista');
-        const btnDashboard = this.container.querySelector('#btnVistaDashboard');
+    setupDashboardEventListeners() {
+        // Botón nuevo activo desde dashboard
+        this.container.querySelector('#btnNuevoActivoDashboard')?.addEventListener('click', () => {
+            this.mostrarModalActivo();
+        });
         
-        if (btnLista) {
-            btnLista.addEventListener('click', () => {
-                this.mostrarVistaLista();
-            });
-        }
+        // Cards de acciones rápidas
+        this.container.querySelector('#btnVerInventario')?.addEventListener('click', () => {
+            this.navigateToView('inventario');
+        });
         
-        if (btnDashboard) {
-            btnDashboard.addEventListener('click', () => {
-                this.mostrarVistaDashboard();
+        this.container.querySelector('#btnImportarDashboard')?.addEventListener('click', () => {
+            this.navigateToView('inventario').then(() => {
+                setTimeout(() => this.mostrarModalImportar(), 100);
             });
-        }
+        });
+        
+        this.container.querySelector('#btnReportesDashboard')?.addEventListener('click', () => {
+            this.mostrarToast('Reportes en desarrollo', 'info');
+        });
+    }
+    
+    setupListEventListeners() {
+        // Botón nuevo activo
+        this.container.querySelector('#btnNuevoActivo')?.addEventListener('click', () => {
+            this.mostrarModalActivo();
+        });
         
         // Botón buscar
-        this.container.querySelector('#btnBuscar').addEventListener('click', () => {
+        this.container.querySelector('#btnBuscar')?.addEventListener('click', () => {
             this.aplicarFiltros();
         });
         
         // Enter en búsqueda
-        this.container.querySelector('#filtroBusqueda').addEventListener('keypress', (e) => {
+        this.container.querySelector('#filtroBusqueda')?.addEventListener('keypress', (e) => {
             if (e.key === 'Enter') {
                 this.aplicarFiltros();
             }
         });
         
         // Cambios en filtros
-        this.container.querySelector('#filtroTipo').addEventListener('change', () => {
+        this.container.querySelector('#filtroTipo')?.addEventListener('change', () => {
             this.aplicarFiltros();
         });
         
-        this.container.querySelector('#filtroDepartamento').addEventListener('change', () => {
+        this.container.querySelector('#filtroDepartamento')?.addEventListener('change', () => {
             this.aplicarFiltros();
         });
         
-        // Guardar activo
-        this.container.querySelector('#btnGuardarActivo').addEventListener('click', () => {
+        // Botón guardar activo
+        this.container.querySelector('#btnGuardarActivo')?.addEventListener('click', () => {
             this.guardarActivo();
         });
         
-        // Escuchar cambios de organización
-        this.services.eventBus.on('organization:changed', () => {
-            this.loadData();
-        });
+        // Configurar limpieza de modales cuando se cierren
+        const modalActivo = this.container.querySelector('#modalActivo');
+        if (modalActivo) {
+            // Handler para el botón cerrar
+            const btnClose = modalActivo.querySelector('.btn-close');
+            if (btnClose) {
+                btnClose.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    this.cerrarModalActivo();
+                });
+            }
+            
+            // Handler para el botón cancelar
+            const btnCancelar = modalActivo.querySelector('[data-bs-dismiss="modal"]');
+            if (btnCancelar) {
+                btnCancelar.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    this.cerrarModalActivo();
+                });
+            }
+            
+            modalActivo.addEventListener('hidden.bs.modal', () => {
+                const instance = bootstrap.Modal.getInstance(modalActivo);
+                if (instance) {
+                    instance.dispose();
+                }
+            });
+        }
+        
+        const modalImportar = this.container.querySelector('#modalImportar');
+        if (modalImportar) {
+            // Handler para el botón cerrar
+            const btnClose = modalImportar.querySelector('.btn-close');
+            if (btnClose) {
+                btnClose.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    this.cerrarModalImportar();
+                });
+            }
+            
+            // Handler para el botón cancelar
+            const btnCancelar = modalImportar.querySelector('[data-bs-dismiss="modal"]');
+            if (btnCancelar) {
+                btnCancelar.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    this.cerrarModalImportar();
+                });
+            }
+            
+            modalImportar.addEventListener('hidden.bs.modal', () => {
+                const instance = bootstrap.Modal.getInstance(modalImportar);
+                if (instance) {
+                    instance.dispose();
+                }
+            });
+        }
     }
     
-    async loadData() {
+    async loadDashboardData() {
         try {
-            // Cargar activos
-            await this.cargarActivos();
+            // Cargar todos los activos para estadísticas
+            const response = await this.services.api.get('/inventario/activos');
+            this.activos = response;
             
-            // Cargar departamentos
-            await this.cargarDepartamentos();
+            // Actualizar estadísticas
+            this.actualizarEstadisticas();
             
-            // Cargar estadísticas
-            await this.actualizarEstadisticas();
-            
+            // Cargar gráficos
+            await this.cargarGraficos();
         } catch (error) {
-            console.error('Error cargando datos:', error);
-            this.mostrarError('Error al cargar los datos');
+            console.error('Error cargando dashboard:', error);
+            this.mostrarError('Error al cargar el dashboard');
         }
     }
     
     async cargarActivos() {
         try {
             const params = new URLSearchParams(this.filtros);
-            this.activos = await this.services.api.get(`/inventario/activos?${params}`);
+            const response = await this.services.api.get(`/inventario/activos?${params}`);
+            
+            this.activos = response;
             this.renderTablaActivos();
+            
+            // Actualizar opciones de departamento
+            this.actualizarDepartamentos();
+            
         } catch (error) {
             console.error('Error cargando activos:', error);
             this.mostrarError('Error al cargar los activos');
         }
     }
     
-    async cargarDepartamentos() {
-        try {
-            const departamentos = await this.services.api.get('/inventario/departamentos');
-            const select = this.container.querySelector('#filtroDepartamento');
-            
-            // Si no existe el select (no estamos en vista con filtros), no hacer nada
-            if (!select) {
-                return;
-            }
-            
-            select.innerHTML = '<option value="">Todos</option>';
-            departamentos.forEach(depto => {
-                const option = document.createElement('option');
-                option.value = depto;
-                option.textContent = depto;
-                select.appendChild(option);
-            });
-        } catch (error) {
-            console.error('Error cargando departamentos:', error);
-        }
-    }
-    
-    async actualizarEstadisticas() {
-        try {
-            const stats = await this.services.api.get('/inventario/estadisticas');
-            
-            // Actualizar solo si existen los elementos
-            const statTotal = this.container.querySelector('#statTotal');
-            if (statTotal) statTotal.textContent = stats.total || 0;
-            
-            const statActivos = this.container.querySelector('#statActivos');
-            if (statActivos) statActivos.textContent = stats.por_estado?.Activo || 0;
-            
-            const statMantenimiento = this.container.querySelector('#statMantenimiento');
-            if (statMantenimiento) statMantenimiento.textContent = stats.por_estado?.['En mantenimiento'] || 0;
-            
-            const statCriticos = this.container.querySelector('#statCriticos');
-            if (statCriticos) statCriticos.textContent = stats.por_criticidad?.Crítica || 0;
-            
-        } catch (error) {
-            console.error('Error cargando estadísticas:', error);
-        }
-    }
-    
     renderTablaActivos() {
         const tbody = this.container.querySelector('#tablaActivos');
         
-        // Si no existe la tabla (no estamos en vista lista), no hacer nada
-        if (!tbody) {
-            return;
-        }
+        if (!tbody) return;
         
         if (this.activos.length === 0) {
             tbody.innerHTML = `
@@ -454,36 +618,144 @@ export default class InventarioApp {
         `).join('');
     }
     
-    getEstadoClass(estado) {
-        const clases = {
-            'Activo': 'bg-success',
-            'Inactivo': 'bg-secondary',
-            'En mantenimiento': 'bg-warning'
-        };
-        return clases[estado] || 'bg-secondary';
-    }
-    
-    getCriticidadClass(criticidad) {
-        const clases = {
-            'Baja': 'bg-info',
-            'Normal': 'bg-primary',
-            'Importante': 'bg-warning',
-            'Crítica': 'bg-danger'
-        };
-        return clases[criticidad] || 'bg-secondary';
-    }
-    
     aplicarFiltros() {
         this.filtros = {
-            tipo: this.container.querySelector('#filtroTipo').value,
-            departamento: this.container.querySelector('#filtroDepartamento').value,
-            busqueda: this.container.querySelector('#filtroBusqueda').value
+            tipo: this.container.querySelector('#filtroTipo')?.value || '',
+            departamento: this.container.querySelector('#filtroDepartamento')?.value || '',
+            busqueda: this.container.querySelector('#filtroBusqueda')?.value || ''
         };
         this.cargarActivos();
     }
     
+    actualizarEstadisticas() {
+        const stats = {
+            total: this.activos.length,
+            activos: this.activos.filter(a => a.estado === 'Activo').length,
+            mantenimiento: this.activos.filter(a => a.estado === 'En mantenimiento').length,
+            criticos: this.activos.filter(a => a.criticidad === 'Crítica').length
+        };
+        
+        // Actualizar UI
+        const updateStat = (id, value) => {
+            const element = this.container.querySelector(`#${id}`);
+            if (element) element.textContent = value;
+        };
+        
+        updateStat('statTotal', stats.total);
+        updateStat('statActivos', stats.activos);
+        updateStat('statMantenimiento', stats.mantenimiento);
+        updateStat('statCriticos', stats.criticos);
+    }
+    
+    actualizarDepartamentos() {
+        const departamentos = [...new Set(this.activos.map(a => a.departamento).filter(d => d))];
+        const select = this.container.querySelector('#filtroDepartamento');
+        
+        if (select) {
+            const valorActual = select.value;
+            select.innerHTML = '<option value="">Todos</option>' + 
+                departamentos.map(d => `<option value="${d}">${d}</option>`).join('');
+            select.value = valorActual;
+        }
+    }
+    
+    async cargarGraficos() {
+        // Cargar Chart.js si no está disponible
+        if (typeof Chart === 'undefined') {
+            await this.loadChartJS();
+        }
+        
+        // Preparar datos para gráficos
+        const tiposCount = {};
+        const departamentosCount = {};
+        
+        this.activos.forEach(activo => {
+            const tipo = activo.tipo || activo.tipo_activo || 'Sin tipo';
+            tiposCount[tipo] = (tiposCount[tipo] || 0) + 1;
+            
+            const depto = activo.departamento || 'Sin departamento';
+            departamentosCount[depto] = (departamentosCount[depto] || 0) + 1;
+        });
+        
+        // Gráfico de tipos
+        this.renderChart('chartTipo', {
+            type: 'doughnut',
+            data: {
+                labels: Object.keys(tiposCount),
+                datasets: [{
+                    data: Object.values(tiposCount),
+                    backgroundColor: [
+                        '#0d6efd', '#198754', '#ffc107', '#dc3545', '#6c757d'
+                    ]
+                }]
+            }
+        });
+        
+        // Gráfico de departamentos
+        this.renderChart('chartDepartamento', {
+            type: 'bar',
+            data: {
+                labels: Object.keys(departamentosCount),
+                datasets: [{
+                    label: 'Activos por Departamento',
+                    data: Object.values(departamentosCount),
+                    backgroundColor: '#0d6efd'
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            stepSize: 1
+                        }
+                    }
+                }
+            }
+        });
+    }
+    
+    renderChart(elementId, config) {
+        const canvas = this.container.querySelector(`#${elementId}`);
+        if (!canvas) return;
+        
+        const ctx = canvas.getContext('2d');
+        new Chart(ctx, config);
+    }
+    
+    async loadChartJS() {
+        // Verificar si Chart.js ya está cargado
+        if (window.Chart) {
+            return Promise.resolve();
+        }
+        
+        return new Promise((resolve, reject) => {
+            const script = document.createElement('script');
+            script.src = 'https://cdn.jsdelivr.net/npm/chart.js';
+            script.onload = resolve;
+            script.onerror = reject;
+            document.head.appendChild(script);
+        });
+    }
+    
     mostrarModalActivo(activo = null) {
-        const modal = new bootstrap.Modal(this.container.querySelector('#modalActivo'));
+        // Asegurarnos de que el modal existe
+        if (!this.container.querySelector('#modalActivo')) {
+            // Si estamos en dashboard, navegar a inventario primero
+            if (this.currentView === 'dashboard') {
+                this.navigateToView('inventario').then(() => {
+                    setTimeout(() => this.mostrarModalActivo(activo), 100);
+                });
+                return;
+            }
+        }
+        
+        const modalElement = this.container.querySelector('#modalActivo');
+        // Siempre crear nueva instancia para evitar conflictos
+        const modal = new bootstrap.Modal(modalElement, {
+            backdrop: 'static',
+            keyboard: true
+        });
         const form = this.container.querySelector('#formActivo');
         
         if (activo) {
@@ -512,13 +784,17 @@ export default class InventarioApp {
     
     async guardarActivo() {
         const form = this.container.querySelector('#formActivo');
+        
+        // Validar formulario
         if (!form.checkValidity()) {
             form.reportValidity();
             return;
         }
         
-        const datos = {
+        // Recopilar datos
+        const activo = {
             tipo: form.querySelector('#tipoActivo').value,
+            tipo_activo: form.querySelector('#tipoActivo').value, // Por compatibilidad
             estado: form.querySelector('#estadoActivo').value,
             nombre: form.querySelector('#nombreActivo').value,
             responsable: form.querySelector('#responsableActivo').value,
@@ -531,17 +807,46 @@ export default class InventarioApp {
         try {
             if (this.activoEditando) {
                 // Actualizar
-                await this.services.api.put(`/inventario/activos/${this.activoEditando.id}`, datos);
-                this.mostrarExito('Activo actualizado correctamente');
+                await this.services.api.put(`/inventario/activos/${this.activoEditando.id}`, activo);
+                this.mostrarToast('Activo actualizado correctamente', 'success');
             } else {
                 // Crear
-                await this.services.api.post('/inventario/activos', datos);
-                this.mostrarExito('Activo creado correctamente');
+                await this.services.api.post('/inventario/activos', activo);
+                this.mostrarToast('Activo creado correctamente', 'success');
             }
             
-            // Cerrar modal y recargar
-            bootstrap.Modal.getInstance(this.container.querySelector('#modalActivo')).hide();
-            await this.loadData();
+            // Cerrar modal forzadamente para tests
+            const modalElement = this.container.querySelector('#modalActivo');
+            const modal = bootstrap.Modal.getInstance(modalElement);
+            if (modal) {
+                modal.hide();
+                // Forzar remoción de clases para asegurar cierre inmediato
+                modalElement.classList.remove('show');
+                modalElement.style.display = 'none';
+                modalElement.setAttribute('aria-hidden', 'true');
+                modalElement.removeAttribute('aria-modal');
+                modalElement.removeAttribute('role');
+                
+                // Remover backdrop si existe
+                const backdrop = document.querySelector('.modal-backdrop');
+                if (backdrop) {
+                    backdrop.remove();
+                }
+                
+                // Restaurar scroll del body
+                document.body.classList.remove('modal-open');
+                document.body.style.removeProperty('overflow');
+                document.body.style.removeProperty('padding-right');
+            }
+            
+            // Recargar datos después de un pequeño delay
+            setTimeout(async () => {
+                if (this.currentView === 'dashboard') {
+                    await this.loadDashboardData();
+                } else {
+                    await this.cargarActivos();
+                }
+            }, 300);
             
         } catch (error) {
             console.error('Error guardando activo:', error);
@@ -563,321 +868,38 @@ export default class InventarioApp {
         
         try {
             await this.services.api.delete(`/inventario/activos/${id}`);
-            this.mostrarExito('Activo eliminado correctamente');
-            await this.loadData();
+            this.mostrarToast('Activo eliminado correctamente', 'success');
+            
+            // Recargar datos según la vista actual
+            if (this.currentView === 'dashboard') {
+                await this.loadDashboardData();
+            } else {
+                await this.cargarActivos();
+            }
         } catch (error) {
             console.error('Error eliminando activo:', error);
             this.mostrarError('Error al eliminar el activo');
         }
     }
     
-    mostrarExito(mensaje) {
-        // Crear toast de éxito
-        const toastHtml = `
-            <div class="toast align-items-center text-bg-success border-0" role="alert">
-                <div class="d-flex">
-                    <div class="toast-body">
-                        <i class="bi bi-check-circle me-2"></i>${mensaje}
-                    </div>
-                    <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
-                </div>
-            </div>
-        `;
-        this.mostrarToast(toastHtml);
-    }
-    
-    mostrarError(mensaje) {
-        // Crear toast de error
-        const toastHtml = `
-            <div class="toast align-items-center text-bg-danger border-0" role="alert">
-                <div class="d-flex">
-                    <div class="toast-body">
-                        <i class="bi bi-exclamation-circle me-2"></i>${mensaje}
-                    </div>
-                    <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
-                </div>
-            </div>
-        `;
-        this.mostrarToast(toastHtml);
-    }
-    
-    mostrarToast(mensaje, tipo = 'success') {
-        // Si es solo un mensaje, crear el HTML
-        if (typeof mensaje === 'string') {
-            const iconos = {
-                success: 'bi-check-circle',
-                error: 'bi-exclamation-circle',
-                info: 'bi-info-circle',
-                warning: 'bi-exclamation-triangle'
-            };
-            const clases = {
-                success: 'text-bg-success',
-                error: 'text-bg-danger',
-                info: 'text-bg-info',
-                warning: 'text-bg-warning'
-            };
-            const html = `
-                <div class="toast align-items-center ${clases[tipo]} border-0" role="alert">
-                    <div class="d-flex">
-                        <div class="toast-body">
-                            <i class="${iconos[tipo]} me-2"></i>${mensaje}
-                        </div>
-                        <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
-                    </div>
-                </div>
-            `;
-            this.mostrarToastHtml(html);
-        } else {
-            // Si es HTML directo
-            this.mostrarToastHtml(mensaje);
-        }
-    }
-    
-    mostrarToastHtml(html) {
-        // Crear contenedor si no existe
-        let container = document.querySelector('.toast-container');
-        if (!container) {
-            container = document.createElement('div');
-            container.className = 'toast-container position-fixed bottom-0 end-0 p-3';
-            document.body.appendChild(container);
-        }
-        
-        // Agregar toast
-        container.insertAdjacentHTML('beforeend', html);
-        const toast = container.lastElementChild;
-        const bsToast = new bootstrap.Toast(toast);
-        bsToast.show();
-        
-        // Eliminar después de ocultar
-        toast.addEventListener('hidden.bs.toast', () => {
-            toast.remove();
-        });
-    }
-    
-    mostrarVistaLista() {
-        // Cambiar estado de botones
-        this.container.querySelector('#btnVistaLista').classList.add('active');
-        this.container.querySelector('#btnVistaDashboard').classList.remove('active');
-        
-        // Mostrar/ocultar vistas usando clases CSS
-        const listaView = this.container.querySelector('#listaView');
-        const dashboardView = this.container.querySelector('#dashboardView');
-        
-        if (listaView) {
-            listaView.classList.remove('d-none');
-        }
-        
-        if (dashboardView) {
-            dashboardView.classList.add('d-none');
-        }
-        
-        // Agregar atributo para testing - en el elemento correcto
-        const inventarioApp = this.container.querySelector('.inventario-app');
-        if (inventarioApp) {
-            inventarioApp.setAttribute('data-current-view', 'lista');
-        }
-        
-        // Mostrar filtros en vista lista
-        const filtrosSection = this.container.querySelector('#filtrosSection');
-        if (filtrosSection) {
-            filtrosSection.classList.remove('d-none');
-        }
-        
-        // Actualizar menú lateral
-        const appMenu = document.getElementById('appMenu');
-        if (appMenu) {
-            appMenu.querySelectorAll('.nav-link').forEach(link => {
-                link.classList.remove('active');
-                if (link.dataset.menuItem === 'inventario') {
-                    link.classList.add('active');
-                }
-            });
-        }
-    }
-    
-    async mostrarVistaDashboard() {
-        // Cambiar estado de botones
-        this.container.querySelector('#btnVistaLista').classList.remove('active');
-        this.container.querySelector('#btnVistaDashboard').classList.add('active');
-        
-        // Mostrar/ocultar vistas usando clases CSS
-        this.container.querySelector('#listaView').classList.add('d-none');
-        this.container.querySelector('#dashboardView').classList.remove('d-none');
-        
-        // Agregar atributo para testing - en el elemento correcto
-        const inventarioApp = this.container.querySelector('.inventario-app');
-        if (inventarioApp) {
-            inventarioApp.setAttribute('data-current-view', 'dashboard');
-        }
-        
-        // Ocultar filtros en vista dashboard
-        const filtrosSection = this.container.querySelector('#filtrosSection');
-        if (filtrosSection) {
-            filtrosSection.classList.add('d-none');
-        }
-        
-        // Actualizar menú lateral
-        const appMenu = document.getElementById('appMenu');
-        if (appMenu) {
-            appMenu.querySelectorAll('.nav-link').forEach(link => {
-                link.classList.remove('active');
-                if (link.dataset.menuItem === 'dashboard') {
-                    link.classList.add('active');
-                }
-            });
-        }
-        
-        // Cargar dashboard si existe
-        try {
-            const { default: Dashboard } = await import('./dashboard.js');
-            const dashboard = new Dashboard(this.container.querySelector('#dashboardView'), this.services.api);
-            await dashboard.render();
-        } catch (error) {
-            console.error('Error cargando dashboard:', error);
-            this.container.querySelector('#dashboardView').innerHTML = `
-                <div class="alert alert-info">
-                    <i class="bi bi-info-circle"></i> Dashboard en desarrollo
-                </div>
-            `;
-        }
-    }
-    
-    setupModuleMenu() {
-        // Obtener el menú lateral
-        const appMenu = document.getElementById('appMenu');
-        if (!appMenu) return;
-        
-        // Limpiar el menú actual
-        appMenu.innerHTML = '';
-        
-        // Agregar opciones del módulo
-        const menuItems = [
-            { id: 'dashboard', icon: 'bi-speedometer2', text: 'Dashboard', active: true },
-            { id: 'inventario', icon: 'bi-box-seam', text: 'Inventario' },
-            { id: 'nuevo', icon: 'bi-plus-circle', text: 'Nuevo Activo' },
-            { id: 'importar', icon: 'bi-upload', text: 'Importar' },
-            { id: 'reportes', icon: 'bi-file-earmark-bar-graph', text: 'Reportes' },
-            { id: 'auditoria', icon: 'bi-clock-history', text: 'Auditoría' }
-        ];
-        
-        menuItems.forEach(item => {
-            const li = document.createElement('li');
-            li.className = 'nav-item';
-            li.innerHTML = `
-                <a class="nav-link ${item.active ? 'active' : ''}" href="#" data-menu-item="${item.id}">
-                    <i class="${item.icon}"></i>
-                    ${item.text}
-                </a>
-            `;
-            appMenu.appendChild(li);
-        });
-        
-        // Event listeners del menú
-        appMenu.addEventListener('click', (e) => {
-            const link = e.target.closest('.nav-link');
-            if (link) {
-                e.preventDefault();
-                const menuItem = link.dataset.menuItem;
-                
-                // Actualizar estado activo
-                appMenu.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
-                link.classList.add('active');
-                
-                // Manejar la selección
-                this.handleMenuSelection(menuItem);
-            }
-        });
-    }
-    
-    handleMenuSelection(menuItem) {
-        switch(menuItem) {
-            case 'dashboard':
-                this.mostrarVistaDashboard();
-                break;
-            case 'inventario':
-                this.mostrarVistaLista();
-                break;
-            case 'nuevo':
-                this.mostrarModalActivo();
-                break;
-            case 'importar':
-                this.mostrarModalImportar();
-                break;
-            case 'reportes':
-                // TODO: Implementar reportes
-                this.mostrarToast('Reportes en desarrollo', 'info');
-                break;
-            case 'auditoria':
-                // TODO: Implementar auditoría
-                this.mostrarToast('Auditoría en desarrollo', 'info');
-                break;
-        }
-    }
-    
-    setupDashboardEventListeners() {
-        // Escuchar eventos del dashboard
-        const eventBus = this.services.eventBus;
-        
-        // Exportar
-        eventBus.on('inventario:export', (data) => {
-            if (data.format === 'csv') {
-                // TODO: Implementar exportación CSV
-                this.mostrarToast('Exportación CSV en desarrollo', 'info');
-            } else if (data.format === 'excel') {
-                // TODO: Implementar exportación Excel
-                this.mostrarToast('Exportación Excel en desarrollo', 'info');
-            }
-        });
-        
-        // Nuevo activo
-        eventBus.on('inventario:new', () => {
-            this.mostrarModalActivo();
-        });
-        
-        // Ver lista
-        eventBus.on('inventario:viewList', () => {
-            this.mostrarVistaLista();
-        });
-        
-        // Importar
-        eventBus.on('inventario:import', () => {
-            this.mostrarModalImportar();
-        });
-        
-        // Filtrar
-        eventBus.on('inventario:filter', (filtros) => {
-            // Cambiar a vista de lista y aplicar filtros
-            this.mostrarVistaLista();
-            
-            // Aplicar filtros
-            if (filtros.tipo) {
-                this.filtros.tipo = filtros.tipo;
-                const selectTipo = this.container.querySelector('#filtroTipo');
-                if (selectTipo) {
-                    selectTipo.value = filtros.tipo;
-                }
-            }
-            
-            if (filtros.departamento) {
-                this.filtros.departamento = filtros.departamento;
-                const selectDepto = this.container.querySelector('#filtroDepartamento');
-                if (selectDepto) {
-                    // Crear opción si no existe
-                    let option = Array.from(selectDepto.options).find(opt => opt.text === filtros.departamento);
-                    if (!option) {
-                        option = new Option(filtros.departamento, filtros.departamento);
-                        selectDepto.add(option);
-                    }
-                    selectDepto.value = filtros.departamento;
-                }
-            }
-            
-            this.aplicarFiltros();
-        });
-    }
-    
     mostrarModalImportar() {
-        const modal = new bootstrap.Modal(this.container.querySelector('#modalImportar'));
+        // Asegurarnos de que el modal existe
+        if (!this.container.querySelector('#modalImportar')) {
+            // Si estamos en dashboard, navegar a inventario primero
+            if (this.currentView === 'dashboard') {
+                this.navigateToView('inventario').then(() => {
+                    setTimeout(() => this.mostrarModalImportar(), 100);
+                });
+                return;
+            }
+        }
+        
+        const modalElement = this.container.querySelector('#modalImportar');
+        // Siempre crear nueva instancia para evitar conflictos
+        const modal = new bootstrap.Modal(modalElement, {
+            backdrop: 'static',
+            keyboard: true
+        });
         const fileInput = this.container.querySelector('#archivoImportar');
         const btnConfirmar = this.container.querySelector('#btnConfirmarImportar');
         const preview = this.container.querySelector('#previewImportar');
@@ -912,7 +934,27 @@ export default class InventarioApp {
         // Event listener para confirmar
         btnConfirmar.addEventListener('click', async () => {
             await this.procesarImportacion();
-            modal.hide();
+            // Cerrar modal forzadamente
+            if (modal) {
+                modal.hide();
+                // Forzar remoción de clases para asegurar cierre inmediato
+                modalElement.classList.remove('show');
+                modalElement.style.display = 'none';
+                modalElement.setAttribute('aria-hidden', 'true');
+                modalElement.removeAttribute('aria-modal');
+                modalElement.removeAttribute('role');
+                
+                // Remover backdrop si existe
+                const backdrop = document.querySelector('.modal-backdrop');
+                if (backdrop) {
+                    backdrop.remove();
+                }
+                
+                // Restaurar scroll del body
+                document.body.classList.remove('modal-open');
+                document.body.style.removeProperty('overflow');
+                document.body.style.removeProperty('padding-right');
+            }
         });
         
         modal.show();
@@ -969,21 +1011,14 @@ export default class InventarioApp {
     }
     
     async procesarImportacion() {
-        const reemplazar = this.container.querySelector('#reemplazarExistentes').checked;
-        const fileInput = this.container.querySelector('#archivoImportar');
-        const file = fileInput.files[0];
-        
-        if (!file) return;
-        
         try {
+            const fileInput = this.container.querySelector('#archivoImportar');
+            const file = fileInput.files[0];
+            
             const formData = new FormData();
             formData.append('file', file);
-            formData.append('reemplazar', reemplazar);
             
-            // Mostrar loading
-            this.mostrarToast('Importando activos...', 'info');
-            
-            const response = await fetch(`${window.location.origin}/api/inventario/importar`, {
+            const response = await fetch(`${window.location.origin}/api/inventario/import`, {
                 method: 'POST',
                 headers: {
                     'X-Organization-Id': this.organization
@@ -992,53 +1027,124 @@ export default class InventarioApp {
             });
             
             if (!response.ok) {
-                const error = await response.json();
-                throw new Error(error.message || 'Error al importar');
+                throw new Error('Error al importar');
             }
             
-            const resultado = await response.json();
-            
-            // Mostrar resultado
-            this.mostrarExito(`Se importaron ${resultado.importados} activos correctamente`);
+            const result = await response.json();
+            this.mostrarToast(`Se importaron ${result.imported} activos correctamente`, 'success');
             
             // Recargar datos
-            await this.loadData();
+            if (this.currentView === 'inventario') {
+                await this.cargarActivos();
+            }
             
         } catch (error) {
             console.error('Error importando:', error);
-            this.mostrarError(`Error al importar: ${error.message}`);
+            this.mostrarError('Error al importar los activos');
         }
     }
     
-    async exportarActivos() {
-        try {
-            const params = new URLSearchParams(this.filtros);
-            const response = await fetch(`${window.location.origin}/api/inventario/exportar?${params}`, {
-                headers: {
-                    'X-Organization-Id': this.organization
-                }
-            });
-            
-            if (!response.ok) {
-                throw new Error('Error al exportar');
-            }
-            
-            // Descargar archivo
-            const blob = await response.blob();
-            const url = window.URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = `activos_${new Date().toISOString().split('T')[0]}.csv`;
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            window.URL.revokeObjectURL(url);
-            
-            this.mostrarExito('Activos exportados correctamente');
-            
-        } catch (error) {
-            console.error('Error exportando:', error);
-            this.mostrarError('Error al exportar activos');
+    getEstadoClass(estado) {
+        const clases = {
+            'Activo': 'bg-success',
+            'Inactivo': 'bg-secondary',
+            'En mantenimiento': 'bg-warning'
+        };
+        return clases[estado] || 'bg-secondary';
+    }
+    
+    getCriticidadClass(criticidad) {
+        const clases = {
+            'Baja': 'bg-info',
+            'Normal': 'bg-primary',
+            'Importante': 'bg-warning',
+            'Crítica': 'bg-danger'
+        };
+        return clases[criticidad] || 'bg-secondary';
+    }
+    
+    mostrarToast(mensaje, tipo = 'info') {
+        const toastHtml = `
+            <div class="toast align-items-center text-white bg-${tipo} border-0" role="alert">
+                <div class="d-flex">
+                    <div class="toast-body">
+                        ${mensaje}
+                    </div>
+                    <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+                </div>
+            </div>
+        `;
+        
+        const container = document.querySelector('.toast-container') || (() => {
+            const div = document.createElement('div');
+            div.className = 'toast-container position-fixed bottom-0 end-0 p-3';
+            document.body.appendChild(div);
+            return div;
+        })();
+        
+        container.insertAdjacentHTML('beforeend', toastHtml);
+        const toast = container.lastElementChild;
+        const bsToast = new bootstrap.Toast(toast);
+        bsToast.show();
+        
+        toast.addEventListener('hidden.bs.toast', () => {
+            toast.remove();
+        });
+    }
+    
+    mostrarError(mensaje) {
+        this.mostrarToast(mensaje, 'danger');
+    }
+    
+    cerrarModalActivo() {
+        const modalElement = this.container.querySelector('#modalActivo');
+        const modal = bootstrap.Modal.getInstance(modalElement);
+        if (modal) {
+            modal.hide();
         }
+        
+        // Forzar remoción de clases para asegurar cierre inmediato
+        modalElement.classList.remove('show');
+        modalElement.style.display = 'none';
+        modalElement.setAttribute('aria-hidden', 'true');
+        modalElement.removeAttribute('aria-modal');
+        modalElement.removeAttribute('role');
+        
+        // Remover backdrop si existe
+        const backdrop = document.querySelector('.modal-backdrop');
+        if (backdrop) {
+            backdrop.remove();
+        }
+        
+        // Restaurar scroll del body
+        document.body.classList.remove('modal-open');
+        document.body.style.removeProperty('overflow');
+        document.body.style.removeProperty('padding-right');
+    }
+    
+    cerrarModalImportar() {
+        const modalElement = this.container.querySelector('#modalImportar');
+        const modal = bootstrap.Modal.getInstance(modalElement);
+        if (modal) {
+            modal.hide();
+        }
+        
+        // Forzar remoción de clases para asegurar cierre inmediato
+        modalElement.classList.remove('show');
+        modalElement.style.display = 'none';
+        modalElement.setAttribute('aria-hidden', 'true');
+        modalElement.removeAttribute('aria-modal');
+        modalElement.removeAttribute('role');
+        
+        // Remover backdrop si existe
+        const backdrop = document.querySelector('.modal-backdrop');
+        if (backdrop) {
+            backdrop.remove();
+        }
+        
+        // Restaurar scroll del body
+        document.body.classList.remove('modal-open');
+        document.body.style.removeProperty('overflow');
+        document.body.style.removeProperty('padding-right');
     }
 }
