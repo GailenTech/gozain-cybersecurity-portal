@@ -1,5 +1,5 @@
 // Página de Tareas de Impactos
-import { ref, inject, onMounted, computed, reactive } from 'https://unpkg.com/vue@3/dist/vue.esm-browser.js';
+import { ref, inject, onMounted, computed, reactive, h } from 'https://unpkg.com/vue@3/dist/vue.esm-browser.js';
 
 export default {
     setup() {
@@ -226,152 +226,204 @@ export default {
         };
     },
 
-    template: `
-        <div class="tareas-impactos">
-            <!-- Filtros y acciones -->
-            <div class="card mb-4">
-                <div class="card-header d-flex justify-content-between align-items-center">
-                    <h5 class="mb-0">Tareas Pendientes</h5>
-                    <button class="btn btn-sm btn-outline-primary" @click="cargarTareas" :disabled="loading">
-                        <i class="bi bi-arrow-clockwise" :class="{ 'fa-spin': loading }"></i>
-                        Actualizar
-                    </button>
-                </div>
-                <div class="card-body">
-                    <div class="row g-3 mb-3">
-                        <div class="col-md-3">
-                            <label class="form-label">Prioridad</label>
-                            <select class="form-select" v-model="filtros.prioridad">
-                                <option value="">Todas las prioridades</option>
-                                <option v-for="prioridad in prioridades" :key="prioridad.value" :value="prioridad.value">
-                                    {{ prioridad.label }}
-                                </option>
-                            </select>
-                        </div>
-                        <div class="col-md-3">
-                            <label class="form-label">Responsable</label>
-                            <input type="text" class="form-control" v-model="filtros.responsable" 
-                                   placeholder="Filtrar por responsable">
-                        </div>
-                        <div class="col-md-3">
-                            <label class="form-label">Fecha Límite</label>
-                            <input type="date" class="form-control" v-model="filtros.fechaLimite">
-                        </div>
-                        <div class="col-md-3 d-flex align-items-end">
-                            <button class="btn btn-outline-secondary w-100" @click="limpiarFiltros">
-                                <i class="bi bi-x"></i> Limpiar Filtros
-                            </button>
-                        </div>
-                    </div>
-
-                    <!-- Acciones masivas -->
-                    <div v-if="algunasSeleccionadas" class="alert alert-info d-flex justify-content-between align-items-center" id="accionesMasivas">
-                        <span>{{ contadorSeleccionadas }} tarea(s) seleccionada(s)</span>
-                        <div class="btn-group btn-group-sm">
-                            <button class="btn btn-success" @click="completarSeleccionadas" id="btnCompletarSeleccionadas">
-                                <i class="bi bi-check-all"></i> Completar
-                            </button>
-                            <button class="btn btn-warning" @click="posponerSeleccionadas" id="btnPosponer">
-                                <i class="bi bi-calendar-plus"></i> Posponer
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Tabla de tareas -->
-            <div class="card">
-                <div class="card-body">
-                    <!-- Loading state -->
-                    <div v-if="loading" class="text-center py-4">
-                        <div class="spinner-border text-primary"></div>
-                        <p class="mt-2 mb-0 text-muted">Cargando tareas...</p>
-                    </div>
-
-                    <!-- Empty state -->
-                    <div v-else-if="!tieneTareas" class="text-center py-5">
-                        <i class="bi bi-check-circle display-4 text-success"></i>
-                        <h5 class="mt-3 text-muted">No hay tareas pendientes</h5>
-                        <p class="text-muted">
-                            Todas las tareas han sido completadas o no hay tareas que coincidan con los filtros.
-                        </p>
-                    </div>
-
-                    <!-- Tabla -->
-                    <div v-else class="table-responsive">
-                        <table class="table table-hover" id="tablaTareas">
-                            <thead>
-                                <tr>
-                                    <th>
-                                        <input 
-                                            type="checkbox" 
-                                            class="form-check-input" 
-                                            id="selectAllTareas"
-                                            :checked="todasSeleccionadas"
-                                            @change="toggleSeleccionarTodas"
-                                        >
-                                    </th>
-                                    <th>Tarea</th>
-                                    <th>Responsable</th>
-                                    <th>Prioridad</th>
-                                    <th>Fecha Límite</th>
-                                    <th>Impacto</th>
-                                    <th>Acciones</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr v-for="tarea in tareasFiltradas" :key="tarea.id"
-                                    :class="{ 'table-danger': esFechaVencida(tarea.fecha_limite), 'table-warning': esFechaProxima(tarea.fecha_limite) }">
-                                    <td>
-                                        <input 
-                                            type="checkbox" 
-                                            class="form-check-input tarea-checkbox"
-                                            :checked="tareasSeleccionadas.has(tarea.id)"
-                                            @change="toggleSeleccionarTarea(tarea.id)"
-                                        >
-                                    </td>
-                                    <td>
-                                        <div>
-                                            <strong>{{ tarea.titulo }}</strong>
-                                            <div v-if="tarea.descripcion" class="text-muted small">
-                                                {{ tarea.descripcion }}
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td>{{ tarea.responsable || 'Sin asignar' }}</td>
-                                    <td>
-                                        <span :class="getPrioridadClass(tarea.prioridad)">
-                                            <i class="bi bi-circle-fill"></i>
-                                            {{ getPrioridadLabel(tarea.prioridad) }}
-                                        </span>
-                                    </td>
-                                    <td>
-                                        <span :class="{ 'text-danger': esFechaVencida(tarea.fecha_limite), 'text-warning': esFechaProxima(tarea.fecha_limite) }">
-                                            {{ formatearFecha(tarea.fecha_limite) }}
-                                            <i v-if="esFechaVencida(tarea.fecha_limite)" class="bi bi-exclamation-triangle ms-1"></i>
-                                        </span>
-                                    </td>
-                                    <td>
-                                        <a href="#" @click.prevent="verDetalleImpacto(tarea.impacto_id)"
-                                           class="text-decoration-none">
-                                            <code>{{ tarea.impacto_id?.substring(0, 8) }}</code>
-                                        </a>
-                                    </td>
-                                    <td>
-                                        <button 
-                                            class="btn btn-sm btn-outline-success"
-                                            @click="completarTarea(tarea)"
-                                            title="Completar tarea"
-                                        >
-                                            <i class="bi bi-check"></i>
-                                        </button>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>
-    `
+    render() {
+        return h('div', { class: 'tareas-impactos' }, [
+            // Filtros y acciones
+            h('div', { class: 'card mb-4' }, [
+                h('div', { class: 'card-header d-flex justify-content-between align-items-center' }, [
+                    h('h5', { class: 'mb-0' }, 'Tareas Pendientes'),
+                    h('button', {
+                        class: 'btn btn-sm btn-outline-primary',
+                        onClick: this.cargarTareas,
+                        disabled: this.loading
+                    }, [
+                        h('i', { class: `bi bi-arrow-clockwise ${this.loading ? 'fa-spin' : ''}` }),
+                        ' Actualizar'
+                    ])
+                ]),
+                h('div', { class: 'card-body' }, [
+                    h('div', { class: 'row g-3 mb-3' }, [
+                        h('div', { class: 'col-md-3' }, [
+                            h('label', { class: 'form-label' }, 'Prioridad'),
+                            h('select', {
+                                class: 'form-select',
+                                'onUpdate:modelValue': (value) => this.filtros.prioridad = value,
+                                modelValue: this.filtros.prioridad
+                            }, [
+                                h('option', { value: '' }, 'Todas las prioridades'),
+                                ...this.prioridades.map(prioridad => 
+                                    h('option', { key: prioridad.value, value: prioridad.value }, prioridad.label)
+                                )
+                            ])
+                        ]),
+                        h('div', { class: 'col-md-3' }, [
+                            h('label', { class: 'form-label' }, 'Responsable'),
+                            h('input', {
+                                type: 'text',
+                                class: 'form-control',
+                                'onUpdate:modelValue': (value) => this.filtros.responsable = value,
+                                modelValue: this.filtros.responsable,
+                                placeholder: 'Filtrar por responsable'
+                            })
+                        ]),
+                        h('div', { class: 'col-md-3' }, [
+                            h('label', { class: 'form-label' }, 'Fecha Límite'),
+                            h('input', {
+                                type: 'date',
+                                class: 'form-control',
+                                'onUpdate:modelValue': (value) => this.filtros.fechaLimite = value,
+                                modelValue: this.filtros.fechaLimite
+                            })
+                        ]),
+                        h('div', { class: 'col-md-3 d-flex align-items-end' }, [
+                            h('button', {
+                                class: 'btn btn-outline-secondary w-100',
+                                onClick: this.limpiarFiltros
+                            }, [
+                                h('i', { class: 'bi bi-x' }),
+                                ' Limpiar Filtros'
+                            ])
+                        ])
+                    ]),
+                    
+                    // Acciones masivas
+                    this.algunasSeleccionadas ?
+                        h('div', {
+                            class: 'alert alert-info d-flex justify-content-between align-items-center',
+                            id: 'accionesMasivas'
+                        }, [
+                            h('span', {}, `${this.contadorSeleccionadas} tarea(s) seleccionada(s)`),
+                            h('div', { class: 'btn-group btn-group-sm' }, [
+                                h('button', {
+                                    class: 'btn btn-success',
+                                    onClick: this.completarSeleccionadas,
+                                    id: 'btnCompletarSeleccionadas'
+                                }, [
+                                    h('i', { class: 'bi bi-check-all' }),
+                                    ' Completar'
+                                ]),
+                                h('button', {
+                                    class: 'btn btn-warning',
+                                    onClick: this.posponerSeleccionadas,
+                                    id: 'btnPosponer'
+                                }, [
+                                    h('i', { class: 'bi bi-calendar-plus' }),
+                                    ' Posponer'
+                                ])
+                            ])
+                        ]) : null
+                ])
+            ]),
+            
+            // Tabla de tareas
+            h('div', { class: 'card' }, [
+                h('div', { class: 'card-body' }, [
+                    // Loading state
+                    this.loading ?
+                        h('div', { class: 'text-center py-4' }, [
+                            h('div', { class: 'spinner-border text-primary' }),
+                            h('p', { class: 'mt-2 mb-0 text-muted' }, 'Cargando tareas...')
+                        ]) :
+                    // Empty state
+                    !this.tieneTareas ?
+                        h('div', { class: 'text-center py-5' }, [
+                            h('i', { class: 'bi bi-check-circle display-4 text-success' }),
+                            h('h5', { class: 'mt-3 text-muted' }, 'No hay tareas pendientes'),
+                            h('p', { class: 'text-muted' }, 'Todas las tareas han sido completadas o no hay tareas que coincidan con los filtros.')
+                        ]) :
+                    // Tabla
+                    h('div', { class: 'table-responsive' }, [
+                        h('table', { class: 'table table-hover', id: 'tablaTareas' }, [
+                            h('thead', {}, [
+                                h('tr', {}, [
+                                    h('th', {}, [
+                                        h('input', {
+                                            type: 'checkbox',
+                                            class: 'form-check-input',
+                                            id: 'selectAllTareas',
+                                            checked: this.todasSeleccionadas,
+                                            onChange: this.toggleSeleccionarTodas
+                                        })
+                                    ]),
+                                    h('th', {}, 'Tarea'),
+                                    h('th', {}, 'Responsable'),
+                                    h('th', {}, 'Prioridad'),
+                                    h('th', {}, 'Fecha Límite'),
+                                    h('th', {}, 'Impacto'),
+                                    h('th', {}, 'Acciones')
+                                ])
+                            ]),
+                            h('tbody', {},
+                                this.tareasFiltradas.map(tarea => 
+                                    h('tr', {
+                                        key: tarea.id,
+                                        class: {
+                                            'table-danger': this.esFechaVencida(tarea.fecha_limite),
+                                            'table-warning': this.esFechaProxima(tarea.fecha_limite)
+                                        }
+                                    }, [
+                                        h('td', {}, [
+                                            h('input', {
+                                                type: 'checkbox',
+                                                class: 'form-check-input tarea-checkbox',
+                                                checked: this.tareasSeleccionadas.has(tarea.id),
+                                                onChange: () => this.toggleSeleccionarTarea(tarea.id)
+                                            })
+                                        ]),
+                                        h('td', {}, [
+                                            h('div', {}, [
+                                                h('strong', {}, tarea.titulo),
+                                                tarea.descripcion ?
+                                                    h('div', { class: 'text-muted small' }, tarea.descripcion) : null
+                                            ])
+                                        ]),
+                                        h('td', {}, tarea.responsable || 'Sin asignar'),
+                                        h('td', {}, [
+                                            h('span', { class: this.getPrioridadClass(tarea.prioridad) }, [
+                                                h('i', { class: 'bi bi-circle-fill' }),
+                                                ' ' + this.getPrioridadLabel(tarea.prioridad)
+                                            ])
+                                        ]),
+                                        h('td', {}, [
+                                            h('span', {
+                                                class: {
+                                                    'text-danger': this.esFechaVencida(tarea.fecha_limite),
+                                                    'text-warning': this.esFechaProxima(tarea.fecha_limite)
+                                                }
+                                            }, [
+                                                this.formatearFecha(tarea.fecha_limite),
+                                                this.esFechaVencida(tarea.fecha_limite) ?
+                                                    h('i', { class: 'bi bi-exclamation-triangle ms-1' }) : null
+                                            ])
+                                        ]),
+                                        h('td', {}, [
+                                            h('a', {
+                                                href: '#',
+                                                onClick: (e) => {
+                                                    e.preventDefault();
+                                                    this.verDetalleImpacto(tarea.impacto_id);
+                                                },
+                                                class: 'text-decoration-none'
+                                            }, [
+                                                h('code', {}, tarea.impacto_id?.substring(0, 8))
+                                            ])
+                                        ]),
+                                        h('td', {}, [
+                                            h('button', {
+                                                class: 'btn btn-sm btn-outline-success',
+                                                onClick: () => this.completarTarea(tarea),
+                                                title: 'Completar tarea'
+                                            }, [
+                                                h('i', { class: 'bi bi-check' })
+                                            ])
+                                        ])
+                                    ])
+                                )
+                            )
+                        ])
+                    ])
+                ])
+            ])
+        ]);
+    }
 };

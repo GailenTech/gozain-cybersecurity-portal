@@ -66,6 +66,16 @@ export default class ImpactosApp {
                 provide('estadisticas', estadisticas);
                 provide('loading', loading);
 
+                onMounted(() => {
+                    this.setupMenu();
+                    
+                    // Escuchar eventos del menú
+                    const eventBus = services.eventBus;
+                    if (eventBus) {
+                        eventBus.on('impactos:menuAction', this.handleMenuAction);
+                    }
+                });
+
                 return {
                     organization,
                     impactos,
@@ -74,63 +84,68 @@ export default class ImpactosApp {
                 };
             },
 
-            template: `
-                <div class="impactos-app fade-in">
-                    <div class="d-flex justify-content-between align-items-center mb-4">
-                        <h4 class="mb-0">
-                            <i class="bi bi-lightning-charge text-warning"></i>
-                            Impactos de Negocio
-                        </h4>
-                        <div class="btn-group" role="group">
-                            <router-link to="/lista" class="btn btn-outline-secondary" title="Lista">
-                                <i class="bi bi-list-ul"></i>
-                            </router-link>
-                            <router-link to="/dashboard" class="btn btn-outline-secondary" title="Dashboard">
-                                <i class="bi bi-grid-3x3-gap"></i>
-                            </router-link>
-                        </div>
-                    </div>
+            methods: {
+                handleMenuAction(data) {
+                    console.log('Menu action:', data);
                     
-                    <!-- Estadísticas principales -->
-                    <div class="row mb-4">
-                        <div class="col-md-3">
-                            <div class="card text-bg-primary">
-                                <div class="card-body">
-                                    <h6 class="card-title">Procesados Hoy</h6>
-                                    <h3 class="mb-0">{{ estadisticas.hoy }}</h3>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="card text-bg-warning">
-                                <div class="card-body">
-                                    <h6 class="card-title">Pendientes</h6>
-                                    <h3 class="mb-0">{{ estadisticas.pendientes }}</h3>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="card text-bg-success">
-                                <div class="card-body">
-                                    <h6 class="card-title">Esta Semana</h6>
-                                    <h3 class="mb-0">{{ estadisticas.semana }}</h3>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="card text-bg-info">
-                                <div class="card-body">
-                                    <h6 class="card-title">Total</h6>
-                                    <h3 class="mb-0">{{ estadisticas.total }}</h3>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    if (data.item === 'nuevo') {
+                        // Implementar modal de nuevo impacto
+                        console.log('Crear nuevo impacto');
+                    } else {
+                        // Navegar usando el router
+                        this.$router.push({ path: '/' + data.item });
+                    }
+                },
+                
+                setupMenu() {
+                    const eventBus = window.gozainApp?.eventBus;
+                    if (!eventBus) return;
+                    
+                    // Actualizar menú basado en la ruta actual
+                    const updateMenuState = () => {
+                        const currentPath = this.$route.path;
+                        eventBus.emit('shell:setAppMenu', {
+                            appId: 'impactos',
+                            menu: [
+                                {
+                                    id: 'dashboard',
+                                    label: 'Dashboard',
+                                    icon: 'bi-speedometer2',
+                                    active: currentPath === '/dashboard'
+                                },
+                                {
+                                    id: 'lista',
+                                    label: 'Lista de Impactos',
+                                    icon: 'bi-list-ul',
+                                    active: currentPath === '/lista'
+                                },
+                                {
+                                    id: 'tareas',
+                                    label: 'Tareas',
+                                    icon: 'bi-check-square',
+                                    active: currentPath === '/tareas'
+                                },
+                                { divider: true },
+                                {
+                                    id: 'nuevo',
+                                    label: 'Nuevo Impacto',
+                                    icon: 'bi-plus-circle'
+                                }
+                            ]
+                        });
+                    };
+                    
+                    // Llamar al inicio
+                    updateMenuState();
+                    
+                    // Actualizar en cada cambio de ruta
+                    this.$router.afterEach(() => {
+                        updateMenuState();
+                    });
+                }
+            },
 
-                    <!-- Router View -->
-                    <router-view></router-view>
-                </div>
-            `
+            template: `<router-view></router-view>`
         }.bind(this));
 
         this.vueApp.use(this.router);
