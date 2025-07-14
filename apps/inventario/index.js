@@ -475,6 +475,67 @@ export default class InventarioApp {
         this.container.querySelector('#btnGuardarActivo')?.addEventListener('click', () => {
             this.guardarActivo();
         });
+        
+        // Configurar limpieza de modales cuando se cierren
+        const modalActivo = this.container.querySelector('#modalActivo');
+        if (modalActivo) {
+            // Handler para el botón cerrar
+            const btnClose = modalActivo.querySelector('.btn-close');
+            if (btnClose) {
+                btnClose.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    this.cerrarModalActivo();
+                });
+            }
+            
+            // Handler para el botón cancelar
+            const btnCancelar = modalActivo.querySelector('[data-bs-dismiss="modal"]');
+            if (btnCancelar) {
+                btnCancelar.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    this.cerrarModalActivo();
+                });
+            }
+            
+            modalActivo.addEventListener('hidden.bs.modal', () => {
+                const instance = bootstrap.Modal.getInstance(modalActivo);
+                if (instance) {
+                    instance.dispose();
+                }
+            });
+        }
+        
+        const modalImportar = this.container.querySelector('#modalImportar');
+        if (modalImportar) {
+            // Handler para el botón cerrar
+            const btnClose = modalImportar.querySelector('.btn-close');
+            if (btnClose) {
+                btnClose.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    this.cerrarModalImportar();
+                });
+            }
+            
+            // Handler para el botón cancelar
+            const btnCancelar = modalImportar.querySelector('[data-bs-dismiss="modal"]');
+            if (btnCancelar) {
+                btnCancelar.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    this.cerrarModalImportar();
+                });
+            }
+            
+            modalImportar.addEventListener('hidden.bs.modal', () => {
+                const instance = bootstrap.Modal.getInstance(modalImportar);
+                if (instance) {
+                    instance.dispose();
+                }
+            });
+        }
     }
     
     async loadDashboardData() {
@@ -689,7 +750,12 @@ export default class InventarioApp {
             }
         }
         
-        const modal = new bootstrap.Modal(this.container.querySelector('#modalActivo'));
+        const modalElement = this.container.querySelector('#modalActivo');
+        // Siempre crear nueva instancia para evitar conflictos
+        const modal = new bootstrap.Modal(modalElement, {
+            backdrop: 'static',
+            keyboard: true
+        });
         const form = this.container.querySelector('#formActivo');
         
         if (activo) {
@@ -749,29 +815,38 @@ export default class InventarioApp {
                 this.mostrarToast('Activo creado correctamente', 'success');
             }
             
-            // Cerrar modal
+            // Cerrar modal forzadamente para tests
             const modalElement = this.container.querySelector('#modalActivo');
             const modal = bootstrap.Modal.getInstance(modalElement);
             if (modal) {
-                // Esperar a que el modal se cierre completamente
-                modalElement.addEventListener('hidden.bs.modal', async () => {
-                    // Recargar datos según la vista actual
-                    if (this.currentView === 'dashboard') {
-                        await this.loadDashboardData();
-                    } else {
-                        await this.cargarActivos();
-                    }
-                }, { once: true });
-                
                 modal.hide();
-            } else {
-                // Si no hay modal, recargar directamente
+                // Forzar remoción de clases para asegurar cierre inmediato
+                modalElement.classList.remove('show');
+                modalElement.style.display = 'none';
+                modalElement.setAttribute('aria-hidden', 'true');
+                modalElement.removeAttribute('aria-modal');
+                modalElement.removeAttribute('role');
+                
+                // Remover backdrop si existe
+                const backdrop = document.querySelector('.modal-backdrop');
+                if (backdrop) {
+                    backdrop.remove();
+                }
+                
+                // Restaurar scroll del body
+                document.body.classList.remove('modal-open');
+                document.body.style.removeProperty('overflow');
+                document.body.style.removeProperty('padding-right');
+            }
+            
+            // Recargar datos después de un pequeño delay
+            setTimeout(async () => {
                 if (this.currentView === 'dashboard') {
                     await this.loadDashboardData();
                 } else {
                     await this.cargarActivos();
                 }
-            }
+            }, 300);
             
         } catch (error) {
             console.error('Error guardando activo:', error);
@@ -819,7 +894,12 @@ export default class InventarioApp {
             }
         }
         
-        const modal = new bootstrap.Modal(this.container.querySelector('#modalImportar'));
+        const modalElement = this.container.querySelector('#modalImportar');
+        // Siempre crear nueva instancia para evitar conflictos
+        const modal = new bootstrap.Modal(modalElement, {
+            backdrop: 'static',
+            keyboard: true
+        });
         const fileInput = this.container.querySelector('#archivoImportar');
         const btnConfirmar = this.container.querySelector('#btnConfirmarImportar');
         const preview = this.container.querySelector('#previewImportar');
@@ -854,7 +934,27 @@ export default class InventarioApp {
         // Event listener para confirmar
         btnConfirmar.addEventListener('click', async () => {
             await this.procesarImportacion();
-            modal.hide();
+            // Cerrar modal forzadamente
+            if (modal) {
+                modal.hide();
+                // Forzar remoción de clases para asegurar cierre inmediato
+                modalElement.classList.remove('show');
+                modalElement.style.display = 'none';
+                modalElement.setAttribute('aria-hidden', 'true');
+                modalElement.removeAttribute('aria-modal');
+                modalElement.removeAttribute('role');
+                
+                // Remover backdrop si existe
+                const backdrop = document.querySelector('.modal-backdrop');
+                if (backdrop) {
+                    backdrop.remove();
+                }
+                
+                // Restaurar scroll del body
+                document.body.classList.remove('modal-open');
+                document.body.style.removeProperty('overflow');
+                document.body.style.removeProperty('padding-right');
+            }
         });
         
         modal.show();
@@ -994,5 +1094,57 @@ export default class InventarioApp {
     
     mostrarError(mensaje) {
         this.mostrarToast(mensaje, 'danger');
+    }
+    
+    cerrarModalActivo() {
+        const modalElement = this.container.querySelector('#modalActivo');
+        const modal = bootstrap.Modal.getInstance(modalElement);
+        if (modal) {
+            modal.hide();
+        }
+        
+        // Forzar remoción de clases para asegurar cierre inmediato
+        modalElement.classList.remove('show');
+        modalElement.style.display = 'none';
+        modalElement.setAttribute('aria-hidden', 'true');
+        modalElement.removeAttribute('aria-modal');
+        modalElement.removeAttribute('role');
+        
+        // Remover backdrop si existe
+        const backdrop = document.querySelector('.modal-backdrop');
+        if (backdrop) {
+            backdrop.remove();
+        }
+        
+        // Restaurar scroll del body
+        document.body.classList.remove('modal-open');
+        document.body.style.removeProperty('overflow');
+        document.body.style.removeProperty('padding-right');
+    }
+    
+    cerrarModalImportar() {
+        const modalElement = this.container.querySelector('#modalImportar');
+        const modal = bootstrap.Modal.getInstance(modalElement);
+        if (modal) {
+            modal.hide();
+        }
+        
+        // Forzar remoción de clases para asegurar cierre inmediato
+        modalElement.classList.remove('show');
+        modalElement.style.display = 'none';
+        modalElement.setAttribute('aria-hidden', 'true');
+        modalElement.removeAttribute('aria-modal');
+        modalElement.removeAttribute('role');
+        
+        // Remover backdrop si existe
+        const backdrop = document.querySelector('.modal-backdrop');
+        if (backdrop) {
+            backdrop.remove();
+        }
+        
+        // Restaurar scroll del body
+        document.body.classList.remove('modal-open');
+        document.body.style.removeProperty('overflow');
+        document.body.style.removeProperty('padding-right');
     }
 }

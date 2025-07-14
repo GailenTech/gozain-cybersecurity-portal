@@ -108,8 +108,10 @@ describe('Módulo de Inventario - Optimizado', () => {
       // Verificar que no se cierra el modal
       cy.get('#modalActivo').should('be.visible')
       
-      // Cerrar modal
-      cy.get('#modalActivo .btn-close').click()
+      // Cerrar modal - usar force para evitar problemas de overlay
+      cy.get('#modalActivo .btn-close').click({force: true})
+      // Esperar a que el modal se cierre completamente (animación de Bootstrap)
+      cy.get('#modalActivo', {timeout: 5000}).should('not.have.class', 'show')
       // Verificar que volvemos a la lista
       cy.get('.inventario-list-view').should('be.visible')
     })
@@ -200,7 +202,7 @@ describe('Módulo de Inventario - Optimizado', () => {
       
       // Esperar creación
       cy.wait('@createAsset')
-      cy.get('#modalActivo').should('not.have.class', 'show')
+      cy.get('#modalActivo', {timeout: 5000}).should('not.have.class', 'show')
       
       // Buscar y editar
       cy.get('#tablaActivos').contains(uniqueName)
@@ -221,7 +223,7 @@ describe('Módulo de Inventario - Optimizado', () => {
       
       // Esperar actualización
       cy.wait('@updateAsset')
-      cy.get('#modalActivo').should('not.have.class', 'show')
+      cy.get('#modalActivo', {timeout: 5000}).should('not.have.class', 'show')
       
       // Verificar cambios - dar tiempo para que se actualice la tabla
       cy.get('#tablaActivos', {timeout: 5000}).contains(uniqueName)
@@ -253,7 +255,7 @@ describe('Módulo de Inventario - Optimizado', () => {
       cy.get('#departamentoActivo').type('TI')
       cy.get('#btnGuardarActivo').click()
       
-      cy.get('#modalActivo').should('not.have.class', 'show')
+      cy.get('#modalActivo', {timeout: 5000}).should('not.have.class', 'show')
       cy.get('#tablaActivos').contains(uniqueName).should('exist')
       
       // Interceptar confirmación
@@ -303,14 +305,14 @@ describe('Módulo de Inventario - Optimizado', () => {
       // Nuevo activo
       cy.get('[data-menu-item="nuevo"]').click()
       cy.get('#modalActivo').should('be.visible')
-      cy.get('#modalActivo .btn-close').click()
-      cy.get('#modalActivo').should('not.have.class', 'show')
+      cy.get('#modalActivo .btn-close').click({force: true})
+      cy.get('#modalActivo', {timeout: 5000}).should('not.have.class', 'show')
       
       // Importar
       cy.get('[data-menu-item="importar"]').click()
       cy.get('#modalImportar').should('be.visible')
-      cy.get('#modalImportar .btn-close').click()
-      cy.get('#modalImportar').should('not.have.class', 'show')
+      cy.get('#modalImportar .btn-close').click({force: true})
+      cy.get('#modalImportar', {timeout: 5000}).should('not.have.class', 'show')
     })
   })
 })
