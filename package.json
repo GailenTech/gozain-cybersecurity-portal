@@ -7,9 +7,10 @@
     "cypress:run": "cypress run",
     "cypress:run:local": "cypress run --config baseUrl=http://localhost:8080",
     "cypress:run:prod": "cypress run --config baseUrl=https://gozain-h556ekexqa-uc.a.run.app",
-    "test:e2e": "npm run cypress:run",
-    "test:e2e:headed": "cypress run --headed",
-    "test:e2e:chrome": "cypress run --browser chrome",
+    "clean:test": "node cypress/support/clean-test-data.js",
+    "test:e2e": "npm run clean:test && npm run cypress:run",
+    "test:e2e:headed": "npm run clean:test && cypress run --headed",
+    "test:e2e:chrome": "npm run clean:test && cypress run --browser chrome",
     "test:setup": "node cypress/support/setup-test-data.js"
   },
   "devDependencies": {
