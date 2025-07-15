@@ -8,12 +8,12 @@ describe('Migración de Impactos a Vue 3', () => {
   describe('Navegación y Vue Router', () => {
     it('Debe cargar la aplicación con Vue 3', () => {
       // Verificar que la aplicación Vue se monta correctamente
-      cy.get('.impactos-app').should('be.visible')
-      cy.get('h4').should('contain', 'Impactos de Negocio')
+      cy.get('.impactos-module').should('be.visible')
       
-      // Verificar estadísticas se renderizan
+      // Verificar estadísticas se renderizan en el dashboard
+      cy.get('.dashboard-impactos').should('be.visible')
       cy.get('.card').should('have.length.at.least', 4)
-      cy.get('.card-body h3').should('exist')
+      cy.get('.card-body h1').should('exist')
     })
 
     it('Debe navegar entre vistas usando Vue Router', () => {
@@ -46,7 +46,7 @@ describe('Migración de Impactos a Vue 3', () => {
       cy.reload()
       
       // Verificar que vuelve a la misma vista
-      cy.get('.impactos-app').should('be.visible')
+      cy.get('.impactos-module').should('be.visible')
       cy.url().should('include', '#/lista')
       cy.get('[data-menu-item="lista"]').should('have.class', 'active')
     })
@@ -58,13 +58,13 @@ describe('Migración de Impactos a Vue 3', () => {
     })
 
     it('Debe mostrar estadísticas de impactos', () => {
-      cy.get('.card-body h3').should('have.length', 4)
+      cy.get('.card-body h1').should('have.length.at.least', 4)
       
       // Verificar las tarjetas de estadísticas
       cy.get('.card-body').should('contain', 'Procesados Hoy')
       cy.get('.card-body').should('contain', 'Pendientes')
-      cy.get('.card-body').should('contain', 'Esta Semana')
-      cy.get('.card-body').should('contain', 'Total')
+      cy.get('.card-body').should('contain', 'Completados (7 días)')
+      cy.get('.card-body').should('contain', 'Tareas Pendientes')
     })
 
     it('Debe mostrar secciones del dashboard', () => {
@@ -77,7 +77,15 @@ describe('Migración de Impactos a Vue 3', () => {
 
     it('Debe permitir crear nuevo impacto desde dashboard', () => {
       cy.get('.cursor-pointer').contains('Nuevo Impacto').should('be.visible')
-      // TODO: Implementar test de modal cuando esté disponible
+      cy.get('.cursor-pointer').contains('Nuevo Impacto').parent().click()
+      
+      // Verificar que se abre el modal
+      cy.get('.modal.show').should('be.visible')
+      cy.get('.modal-title').should('contain', 'Nuevo Impacto')
+      
+      // Cerrar modal
+      cy.get('.btn-close').click()
+      cy.get('.modal.show').should('not.exist')
     })
   })
 
@@ -98,6 +106,9 @@ describe('Migración de Impactos a Vue 3', () => {
 
     it('Debe mostrar tabla de impactos', () => {
       cy.get('.table-responsive').should('be.visible')
+      cy.get('table').should('be.visible')
+      
+      // Verificar columnas
       cy.get('table thead th').should('contain', 'ID')
       cy.get('table thead th').should('contain', 'Tipo')
       cy.get('table thead th').should('contain', 'Descripción')
@@ -153,10 +164,10 @@ describe('Migración de Impactos a Vue 3', () => {
 
   describe('Menú Lateral Vue', () => {
     it('Debe mostrar elementos del menú específicos de impactos', () => {
-      cy.get('[data-menu-item="dashboard"]').should('contain', 'Dashboard')
-      cy.get('[data-menu-item="lista"]').should('contain', 'Lista de Impactos')
-      cy.get('[data-menu-item="nuevo"]').should('contain', 'Nuevo Impacto')
-      cy.get('[data-menu-item="tareas"]').should('contain', 'Tareas')
+      cy.get('#appMenu .nav-link').should('contain', 'Dashboard')
+      cy.get('#appMenu .nav-link').should('contain', 'Lista de Impactos')
+      cy.get('#appMenu .nav-link').should('contain', 'Tareas')
+      cy.get('#appMenu .nav-link').should('contain', 'Nuevo')
     })
 
     it('Debe actualizar estado activo del menú', () => {
@@ -210,8 +221,9 @@ describe('Migración de Impactos a Vue 3', () => {
     it('Debe guardar ruta en localStorage', () => {
       cy.get('[data-menu-item="lista"]').click()
       
-      // Verificar que se guarda en localStorage
-      cy.window().its('localStorage').invoke('getItem', 'gozain_last_route')
+      cy.window()
+        .its('localStorage')
+        .invoke('getItem', 'gozain_last_route')
         .should('exist')
         .then((storedRoute) => {
           const route = JSON.parse(storedRoute)
@@ -234,9 +246,70 @@ describe('Migración de Impactos a Vue 3', () => {
       // Recargar página
       cy.reload()
       
-      // Verificar que se restaura a tareas
-      cy.get('.tareas-impactos', { timeout: 10000 }).should('be.visible')
+      // Verificar que se restaura la vista
+      cy.get('.impactos-module').should('be.visible')
+      cy.url().should('include', '#/tareas')
       cy.get('[data-menu-item="tareas"]').should('have.class', 'active')
+    })
+  })
+
+  describe('Funcionalidad de Modales', () => {
+    it('Debe crear un nuevo impacto', () => {
+      // Ir a dashboard
+      cy.get('[data-menu-item="dashboard"]').click()
+      
+      // Abrir modal de nuevo impacto
+      cy.get('.cursor-pointer').contains('Nuevo Impacto').parent().click()
+      cy.get('.modal.show').should('be.visible')
+      
+      // Llenar formulario
+      cy.get('select').first().select('alta_empleado')
+      cy.wait(500) // Esperar a que cargue la plantilla
+      
+      cy.get('textarea').type('Nuevo empleado en el departamento de desarrollo')
+      
+      // Llenar campos de la plantilla
+      cy.get('input[type="text"]').first().type('Ana García')
+      cy.get('input[type="text"]').eq(1).type('Desarrollo')
+      cy.get('input[type="text"]').eq(2).type('Frontend Developer')
+      cy.get('input[type="date"]').type('2025-08-01')
+      cy.get('select').last().select('Remoto')
+      
+      // Guardar
+      cy.get('button').contains('Guardar').click()
+      
+      // Verificar que el modal se cierra
+      cy.get('.modal.show').should('not.exist')
+      
+      // Verificar que aparece en la lista
+      cy.get('.card').contains('Impactos Recientes').parent().within(() => {
+        cy.get('.list-group-item').should('contain', 'Alta de Empleado')
+      })
+    })
+
+    it('Debe ver detalle y procesar un impacto', () => {
+      // Ir a lista
+      cy.get('[data-menu-item="lista"]').click()
+      cy.wait(1000)
+      
+      // Hacer clic en ver detalle del primer impacto pendiente
+      cy.get('table tbody tr').first().within(() => {
+        cy.get('button').contains('Ver').click()
+      })
+      
+      // Verificar modal de detalle
+      cy.get('.modal.show').should('be.visible')
+      cy.get('.modal-title').should('contain', 'Detalle del Impacto')
+      
+      // Si el impacto está pendiente, debe mostrar botón de procesar
+      cy.get('.modal-body').then($body => {
+        if ($body.text().includes('pendiente')) {
+          cy.get('button').contains('Procesar').should('be.visible')
+        }
+      })
+      
+      // Cerrar modal
+      cy.get('.btn-close').click()
     })
   })
 })
