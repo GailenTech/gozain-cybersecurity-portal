@@ -41,18 +41,42 @@ function copyTestData() {
       organizaciones = JSON.parse(content);
     }
     
+    // Convertir a array si es un objeto
+    let orgsArray = Array.isArray(organizaciones) ? organizaciones : Object.values(organizaciones);
+    let orgsObject = Array.isArray(organizaciones) ? {} : organizaciones;
+    
+    // Si es array, convertir a objeto
+    if (Array.isArray(organizaciones)) {
+      orgsArray.forEach(org => {
+        orgsObject[org.id] = org;
+      });
+    }
+    
     // Verificar si la organización de prueba existe
-    const existeOrg = organizaciones.some(org => org.id === TEST_ORG_ID);
+    const existeOrg = TEST_ORG_ID in orgsObject;
     
     if (!existeOrg) {
-      organizaciones.push({
+      orgsObject[TEST_ORG_ID] = {
         id: TEST_ORG_ID,
         nombre: "E2E Test Organization",
         fecha_creacion: new Date().toISOString(),
-        activa: true
-      });
+        activa: true,
+        oauth_config: {
+          provider: "google",
+          client_id: "test-client-id",
+          client_secret: "test-client-secret",
+          allowed_domains: ["test.com"],
+          require_domain_match: false,
+          custom_claims: {}
+        },
+        seguridad: {
+          require_mfa: false,
+          session_timeout: 3600,
+          ip_whitelist: []
+        }
+      };
       
-      fs.writeFileSync(orgsFile, JSON.stringify(organizaciones, null, 2));
+      fs.writeFileSync(orgsFile, JSON.stringify(orgsObject, null, 2));
       console.log('📝 Añadida organización de prueba a organizaciones.json');
     }
     

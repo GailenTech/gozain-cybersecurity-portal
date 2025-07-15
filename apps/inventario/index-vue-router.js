@@ -22,6 +22,12 @@ export default class InventarioVueRouterApp {
     async mount() {
         console.log('InventarioVueRouterApp mount() called');
         
+        // Verificar autenticación
+        if (!window.authService || !window.authService.isAuthenticated()) {
+            this.showUnauthenticatedView();
+            return;
+        }
+        
         // Configurar API con la organización
         this.services.api.setOrganization(this.organization);
         
@@ -108,5 +114,56 @@ export default class InventarioVueRouterApp {
             this.vueApp.unmount();
         }
         this.container.innerHTML = '';
+    }
+    
+    showUnauthenticatedView() {
+        this.container.innerHTML = `
+            <div class="container py-5">
+                <div class="row justify-content-center">
+                    <div class="col-md-8 text-center">
+                        <div class="mb-4">
+                            <i class="bi bi-box-seam" style="font-size: 4rem; color: var(--bs-primary);"></i>
+                        </div>
+                        <h2 class="mb-4">Inventario de Activos ISO 27001</h2>
+                        <p class="lead mb-4">
+                            Gestiona el inventario completo de activos de tu organización siguiendo 
+                            los estándares ISO 27001.
+                        </p>
+                        <div class="row mb-5">
+                            <div class="col-md-4">
+                                <div class="feature-box p-3">
+                                    <i class="bi bi-shield-check fs-3 text-primary mb-3"></i>
+                                    <h5>Clasificación de Seguridad</h5>
+                                    <p class="text-muted">Clasifica activos por niveles de confidencialidad</p>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="feature-box p-3">
+                                    <i class="bi bi-exclamation-triangle fs-3 text-warning mb-3"></i>
+                                    <h5>Evaluación de Criticidad</h5>
+                                    <p class="text-muted">Identifica activos críticos para el negocio</p>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="feature-box p-3">
+                                    <i class="bi bi-clock-history fs-3 text-info mb-3"></i>
+                                    <h5>Auditoría Completa</h5>
+                                    <p class="text-muted">Rastrea todos los cambios realizados</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="alert alert-info">
+                            <i class="bi bi-info-circle me-2"></i>
+                            <strong>Autenticación requerida</strong><br>
+                            Para acceder al inventario de activos, debes iniciar sesión con tu cuenta organizacional.
+                        </div>
+                        <button class="btn btn-primary btn-lg" onclick="document.querySelector('#login-btn').click()">
+                            <i class="bi bi-box-arrow-in-right me-2"></i>
+                            Iniciar Sesión
+                        </button>
+                    </div>
+                </div>
+            </div>
+        `;
     }
 }

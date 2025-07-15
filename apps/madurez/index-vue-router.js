@@ -15,6 +15,12 @@ export default class MadurezVueRouterApp {
     async mount() {
         console.log('MadurezVueRouterApp mount() called');
         
+        // Verificar autenticación
+        if (!window.authService || !window.authService.isAuthenticated()) {
+            this.showUnauthenticatedView();
+            return;
+        }
+        
         // Configurar API con la organización
         this.services.api.setOrganization(this.organization);
         
@@ -231,5 +237,56 @@ export default class MadurezVueRouterApp {
             this.vueApp.unmount();
         }
         this.container.innerHTML = '';
+    }
+    
+    showUnauthenticatedView() {
+        this.container.innerHTML = `
+            <div class="container py-5">
+                <div class="row justify-content-center">
+                    <div class="col-md-8 text-center">
+                        <div class="mb-4">
+                            <i class="bi bi-speedometer2" style="font-size: 4rem; color: var(--bs-success);"></i>
+                        </div>
+                        <h2 class="mb-4">Evaluación de Madurez en Ciberseguridad</h2>
+                        <p class="lead mb-4">
+                            Evalúa el nivel de madurez de tu organización en ciberseguridad 
+                            basado en marcos reconocidos internacionalmente.
+                        </p>
+                        <div class="row mb-5">
+                            <div class="col-md-4">
+                                <div class="feature-box p-3">
+                                    <i class="bi bi-clipboard-check fs-3 text-primary mb-3"></i>
+                                    <h5>Evaluaciones Completas</h5>
+                                    <p class="text-muted">Cuestionarios basados en NIST y CIS</p>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="feature-box p-3">
+                                    <i class="bi bi-graph-up-arrow fs-3 text-warning mb-3"></i>
+                                    <h5>Seguimiento de Progreso</h5>
+                                    <p class="text-muted">Visualiza tu evolución en el tiempo</p>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="feature-box p-3">
+                                    <i class="bi bi-file-earmark-text fs-3 text-info mb-3"></i>
+                                    <h5>Planes de Mejora</h5>
+                                    <p class="text-muted">Recomendaciones personalizadas</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="alert alert-info">
+                            <i class="bi bi-info-circle me-2"></i>
+                            <strong>Autenticación requerida</strong><br>
+                            Para acceder a las evaluaciones de madurez, debes iniciar sesión con tu cuenta organizacional.
+                        </div>
+                        <button class="btn btn-primary btn-lg" onclick="document.querySelector('#login-btn').click()">
+                            <i class="bi bi-box-arrow-in-right me-2"></i>
+                            Iniciar Sesión
+                        </button>
+                    </div>
+                </div>
+            </div>
+        `;
     }
 }

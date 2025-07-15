@@ -49,9 +49,9 @@ fi
 
 # Iniciar servidor
 echo -e "${GREEN}✅ Iniciando servidor Flask...${NC}"
-echo -e "${GREEN}🌐 Accede a: http://localhost:8080${NC}"
+echo -e "${GREEN}🌐 Accede a: http://localhost:8888${NC}"
 echo -e "${YELLOW}💡 Presiona Ctrl+C para detener${NC}"
 echo ""
 
 # Ejecutar la aplicación principal (sistema Gozain modular)
-cd backend && python app.py
+cd backend && PORT=8888 python app.py

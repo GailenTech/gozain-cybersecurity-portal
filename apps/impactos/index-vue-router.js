@@ -14,6 +14,12 @@ export default class ImpactosVueRouterApp {
     async mount() {
         console.log('ImpactosVueRouterApp mount() called');
         
+        // Verificar autenticación
+        if (!window.authService || !window.authService.isAuthenticated()) {
+            this.showUnauthenticatedView();
+            return;
+        }
+        
         // Configurar API con la organización
         this.services.api.setOrganization(this.organization);
         
@@ -195,5 +201,56 @@ export default class ImpactosVueRouterApp {
             this.vueApp.unmount();
         }
         this.container.innerHTML = '';
+    }
+    
+    showUnauthenticatedView() {
+        this.container.innerHTML = `
+            <div class="container py-5">
+                <div class="row justify-content-center">
+                    <div class="col-md-8 text-center">
+                        <div class="mb-4">
+                            <i class="bi bi-diagram-3" style="font-size: 4rem; color: var(--bs-warning);"></i>
+                        </div>
+                        <h2 class="mb-4">Gestión de Impactos de Negocio</h2>
+                        <p class="lead mb-4">
+                            Registra y gestiona los impactos de negocio, cambios organizacionales 
+                            y tareas asociadas de manera eficiente.
+                        </p>
+                        <div class="row mb-5">
+                            <div class="col-md-4">
+                                <div class="feature-box p-3">
+                                    <i class="bi bi-people fs-3 text-primary mb-3"></i>
+                                    <h5>Gestión de Personal</h5>
+                                    <p class="text-muted">Altas, bajas y cambios de personal</p>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="feature-box p-3">
+                                    <i class="bi bi-list-task fs-3 text-success mb-3"></i>
+                                    <h5>Tareas Asociadas</h5>
+                                    <p class="text-muted">Control de tareas derivadas de impactos</p>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="feature-box p-3">
+                                    <i class="bi bi-graph-up fs-3 text-info mb-3"></i>
+                                    <h5>Análisis y Reportes</h5>
+                                    <p class="text-muted">Métricas y tendencias de impactos</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="alert alert-info">
+                            <i class="bi bi-info-circle me-2"></i>
+                            <strong>Autenticación requerida</strong><br>
+                            Para acceder al módulo de impactos, debes iniciar sesión con tu cuenta organizacional.
+                        </div>
+                        <button class="btn btn-primary btn-lg" onclick="document.querySelector('#login-btn').click()">
+                            <i class="bi bi-box-arrow-in-right me-2"></i>
+                            Iniciar Sesión
+                        </button>
+                    </div>
+                </div>
+            </div>
+        `;
     }
 }
