@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# -*- coding: utf-8 -*-
 """
 Script para limpiar datos de prueba E2E
 Elimina organizaciones que siguen patrones de prueba

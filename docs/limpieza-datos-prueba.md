@@ -1,3 +1,25 @@
+# Gestión de Datos de Prueba E2E
+
+## Actualización: Datos Precargados
+
+A partir de ahora, los tests E2E utilizan datos precargados que se copian automáticamente antes de cada ejecución. Esto hace los tests más rápidos y consistentes.
+
+### Estructura de Datos Precargados
+
+Los datos de prueba están en `cypress/fixtures/test-data/e2e_test_organization/`:
+
+- **inventario.json**: 5 activos de diferentes tipos
+- **impactos.json**: 3 impactos (pendientes y procesados)
+- **madurez_assessments.json**: 2 evaluaciones de madurez
+
+### Flujo Automático
+
+Cuando ejecutas `npm run test:e2e`:
+
+1. **Limpia** todas las organizaciones de prueba existentes
+2. **Copia** los datos precargados a `data/e2e_test_organization`
+3. **Ejecuta** los tests con datos consistentes
+
 # Limpieza de Datos de Prueba E2E
 
 ## Descripción

@@ -1,0 +1,73 @@
+[
+  {
+    "id": "test-asset-001",
+    "nombre": "Servidor Principal",
+    "tipo": "Hardware",
+    "estado": "Activo",
+    "criticidad": "Crítica",
+    "departamento": "TI",
+    "responsable": "admin@test.com",
+    "ubicacion": "Datacenter Principal",
+    "clasificacion": "Confidencial",
+    "descripcion": "Servidor principal de producción",
+    "fecha_alta": "2025-01-01",
+    "ultima_actualizacion": "2025-07-01",
+    "notas": "Asset de prueba para E2E"
+  },
+  {
+    "id": "test-asset-002",
+    "nombre": "Sistema CRM",
+    "tipo": "Software",
+    "estado": "Activo",
+    "criticidad": "Importante",
+    "departamento": "Ventas",
+    "responsable": "ventas@test.com",
+    "ubicacion": "Cloud",
+    "clasificacion": "Interno",
+    "descripcion": "Sistema de gestión de clientes",
+    "fecha_alta": "2025-01-15",
+    "ultima_actualizacion": "2025-07-01"
+  },
+  {
+    "id": "test-asset-003",
+    "nombre": "Base de Datos Clientes",
+    "tipo": "Información",
+    "estado": "Activo",
+    "criticidad": "Crítica",
+    "departamento": "TI",
+    "responsable": "dba@test.com",
+    "ubicacion": "Servidor Principal",
+    "clasificacion": "Secreto",
+    "descripcion": "Base de datos con información de clientes",
+    "fecha_alta": "2025-01-01",
+    "ultima_actualizacion": "2025-06-15"
+  },
+  {
+    "id": "test-asset-004",
+    "nombre": "Laptop Dev-001",
+    "tipo": "Hardware",
+    "estado": "Activo",
+    "criticidad": "Normal",
+    "departamento": "Desarrollo",
+    "responsable": "dev1@test.com",
+    "ubicacion": "Oficina",
+    "clasificacion": "Interno",
+    "descripcion": "Laptop de desarrollo",
+    "fecha_alta": "2025-02-01",
+    "ultima_actualizacion": "2025-07-01"
+  },
+  {
+    "id": "test-asset-005",
+    "nombre": "Servicio Email",
+    "tipo": "Servicio",
+    "estado": "Activo",
+    "criticidad": "Importante",
+    "departamento": "TI",
+    "responsable": "admin@test.com",
+    "ubicacion": "Cloud",
+    "clasificacion": "Interno",
+    "descripcion": "Servicio de correo corporativo",
+    "fecha_alta": "2025-01-01",
+    "ultima_actualizacion": "2025-07-01"
+  }
+]

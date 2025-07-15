@@ -6,27 +6,9 @@
     "activa": true
   },
   {
-    "id": "org",
-    "nombre": "Org",
-    "fecha_creacion": "2025-07-11T22:06:10.915143",
-    "activa": true
-  },
-  {
-    "id": "tes",
-    "nombre": "Tes",
-    "fecha_creacion": "2025-07-11T22:18:31.930954",
-    "activa": true
-  },
-  {
-    "id": "test",
-    "nombre": "Test",
-    "fecha_creacion": "2025-07-12T12:26:06.112519",
-    "activa": true
-  },
-  {
-    "id": "mi_e",
-    "nombre": "Mi E",
-    "fecha_creacion": "2025-07-12T16:19:38.773588",
+    "id": "e2e_test_organization",
+    "nombre": "E2E Test Organization",
+    "fecha_creacion": "2025-07-15T07:47:51.415Z",
     "activa": true
   }
 ]

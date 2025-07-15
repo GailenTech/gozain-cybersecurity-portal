@@ -410,5 +410,27 @@
       "tareas_generar": 2
     },
     "fecha_procesamiento": "2025-07-15T09:29:19.251452"
+  },
+  {
+    "id": "bd9d6afc-79d8-44fd-9259-e0996a0c5eee",
+    "tipo": "alta_empleado",
+    "estado": "pendiente",
+    "fecha_creacion": "2025-07-15T09:47:21.318110",
+    "usuario_creador": "sistema",
+    "datos": {
+      "nombre_completo": "Jorge Uriarte",
+      "departamento": "Jorjadas",
+      "cargo": "Jorgator",
+      "fecha_inicio": "2025-07-15",
+      "modalidad": "Presencial",
+      "equipo_movil": true
+    },
+    "acciones_ejecutadas": [],
+    "tareas_generadas": [],
+    "vista_previa": {
+      "activos_crear": 2,
+      "activos_modificar": 0,
+      "tareas_generar": 2
+    }
   }
 ]

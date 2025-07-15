@@ -1,0 +1,134 @@
+[
+  {
+    "id": "impact-001",
+    "tipo": "alta_empleado",
+    "descripcion": "Alta de nuevo desarrollador senior",
+    "estado": "procesado",
+    "fecha_creacion": "2025-07-10T10:00:00",
+    "usuario_creador": "admin@test.com",
+    "datos": {
+      "nombre_completo": "Juan Pérez",
+      "departamento": "Desarrollo",
+      "cargo": "Desarrollador Senior",
+      "fecha_inicio": "2025-08-01",
+      "modalidad": "Presencial",
+      "equipo_movil": true
+    },
+    "vista_previa": {
+      "activos_crear": 2,
+      "activos_modificar": 0,
+      "tareas_generar": 5
+    },
+    "fecha_procesamiento": "2025-07-15T09:48:20.320412",
+    "acciones_ejecutadas": {
+      "activos_creados": [
+        {
+          "id": "82d73a97-785f-479e-96ff-caee7783b003",
+          "fecha_creacion": "2025-07-15T09:48:20.319302",
+          "fecha_modificacion": "2025-07-15T09:48:20.319318",
+          "tipo": "Hardware",
+          "nombre": "Laptop para Juan Pérez",
+          "estado": "Activo",
+          "clasificacion": "Interno",
+          "criticidad": "Importante",
+          "responsable": "Juan Pérez",
+          "departamento": "Desarrollo",
+          "auditoria": [
+            {
+              "accion": "creacion",
+              "fecha": "2025-07-15T09:48:20.319323",
+              "usuario": "sistema",
+              "detalles": "Activo creado"
+            }
+          ]
+        },
+        {
+          "id": "c6c797cd-4c96-4584-ba2c-4b4c472ee606",
+          "fecha_creacion": "2025-07-15T09:48:20.319902",
+          "fecha_modificacion": "2025-07-15T09:48:20.319924",
+          "tipo": "Software",
+          "nombre": "Office 365 - Juan Pérez",
+          "tipo_software": "Productividad",
+          "estado": "Activo",
+          "clasificacion": "Interno",
+          "responsable": "Juan Pérez",
+          "departamento": "Desarrollo",
+          "auditoria": [
+            {
+              "accion": "creacion",
+              "fecha": "2025-07-15T09:48:20.319928",
+              "usuario": "sistema",
+              "detalles": "Activo creado"
+            }
+          ]
+        }
+      ],
+      "activos_modificados": [],
+      "tareas_creadas": [
+        {
+          "id": "fdc16d5f-0541-43ff-b096-914b16b804ab",
+          "impacto_id": "impact-001",
+          "descripcion": "Preparar equipo para Juan Pérez",
+          "responsable": "IT",
+          "fecha_creacion": "2025-07-15T09:48:20.320345",
+          "fecha_limite": "2025-07-31T00:00:00",
+          "estado": "pendiente"
+        },
+        {
+          "id": "8665ba7a-2c00-45f1-bbdb-5abb4474d689",
+          "impacto_id": "impact-001",
+          "descripcion": "Entregar kit de bienvenida a Juan Pérez",
+          "responsable": "RRHH",
+          "fecha_creacion": "2025-07-15T09:48:20.320403",
+          "fecha_limite": "2025-08-01T00:00:00",
+          "estado": "pendiente"
+        }
+      ]
+    }
+  },
+  {
+    "id": "impact-002",
+    "tipo": "baja_empleado",
+    "descripcion": "Baja de empleado por renuncia",
+    "estado": "procesado",
+    "fecha_creacion": "2025-07-05T14:30:00",
+    "fecha_procesamiento": "2025-07-06T09:00:00",
+    "usuario_creador": "rrhh@test.com",
+    "datos": {
+      "nombre_completo": "María García",
+      "departamento": "Ventas",
+      "fecha_baja": "2025-07-15",
+      "devolver_equipos": true
+    },
+    "activos_creados": [
+      {
+        "id": "asset-imp-001",
+        "nombre": "Laptop DEVUELTA - María García",
+        "tipo": "Hardware"
+      }
+    ],
+    "acciones_ejecutadas": [
+      "Desactivar cuenta de usuario",
+      "Revocar accesos VPN",
+      "Actualizar directorio activo"
+    ]
+  },
+  {
+    "id": "impact-003",
+    "tipo": "cambio_rol",
+    "descripcion": "Promoción a líder técnico",
+    "estado": "pendiente",
+    "fecha_creacion": "2025-07-12T11:00:00",
+    "usuario_creador": "manager@test.com",
+    "datos": {
+      "empleado": "Carlos Rodríguez",
+      "rol_anterior": "Desarrollador",
+      "rol_nuevo": "Líder Técnico",
+      "fecha_cambio": "2025-07-20",
+      "permisos_adicionales": [
+        "Acceso repositorios",
+        "Aprobación PRs"
+      ]
+    }
+  }
+]
