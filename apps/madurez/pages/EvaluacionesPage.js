@@ -4,9 +4,11 @@ export default {
     
     setup() {
         const { ref, inject, onMounted, computed, reactive } = Vue;
+        const { useRouter } = VueRouter;
         const api = inject('api');
         const eventBus = inject('eventBus');
         const organization = inject('organization');
+        const router = useRouter();
         
         // Estado de la página
         const loading = ref(false);
@@ -82,18 +84,12 @@ export default {
 
         const continuarEvaluacion = (assessment) => {
             // Navegar al cuestionario
-            const router = inject('$router');
-            if (router) {
-                router.push(`/cuestionario/${assessment.id}`);
-            }
+            router.push(`/cuestionario/${assessment.id}`);
         };
 
         const verResultados = (assessment) => {
             // Navegar al dashboard del assessment
-            const router = inject('$router');
-            if (router) {
-                router.push(`/dashboard/${assessment.id}`);
-            }
+            router.push(`/dashboard/${assessment.id}`);
         };
 
         const firmarEvaluacion = async (assessment) => {

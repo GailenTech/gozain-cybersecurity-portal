@@ -115,71 +115,6 @@
     ]
   },
   {
-    "id": "6fd588fb-9bbc-48a0-b29d-9e5f773f9643",
-    "organizacion_id": "e2e_test_organization",
-    "cuestionario_id": "cuestionario_ciberplan_v1",
-    "fecha_inicio": "2025-07-15T13:19:14.112238",
-    "fecha_completado": null,
-    "fecha_firmado": null,
-    "estado": "abierto",
-    "firmado_por": null,
-    "nombre": "Evaluación en Progreso",
-    "descripcion": "Evaluación parcialmente completada",
-    "resultados": null,
-    "objetivos": {
-      "6_meses": 2.5,
-      "1_año": 3.0,
-      "2_años": 4.0
-    },
-    "respuestas_parciales": {
-      "pa_1": {
-        "respuesta": "Sí",
-        "valor": 3,
-        "comentario": "Política de contraseñas implementada"
-      },
-      "pa_2": {
-        "respuesta": "Parcialmente",
-        "valor": 2,
-        "comentario": "MFA solo en sistemas críticos"
-      },
-      "pa_3": {
-        "respuesta": "Sí",
-        "valor": 3,
-        "comentario": "Cambio cada 90 días"
-      },
-      "sd_1": {
-        "respuesta": "Avanzado",
-        "valor": 4,
-        "comentario": "Actualizaciones automáticas"
-      },
-      "sd_2": {
-        "respuesta": "Sí",
-        "valor": 3,
-        "comentario": "Antivirus corporativo"
-      },
-      "sd_3": {
-        "respuesta": "Sí",
-        "valor": 3,
-        "comentario": "WPA3 implementado"
-      }
-    },
-    "dominio_actual": 1,
-    "auditoria": [
-      {
-        "accion": "creacion",
-        "fecha": "2025-07-15T13:19:14.112254",
-        "usuario": "sistema",
-        "detalles": "Assessment creado"
-      },
-      {
-        "accion": "modificacion",
-        "fecha": "2025-07-15T13:19:23.870425",
-        "usuario": "sistema",
-        "detalles": "Assessment modificado"
-      }
-    ]
-  },
-  {
     "id": "13e4a5da-0462-4dd9-87a7-b9743497c558",
     "organizacion_id": "e2e_test_organization",
     "cuestionario_id": "cuestionario_ciberplan_v1",
@@ -406,32 +341,6 @@
     ]
   },
   {
-    "id": "5a37cfd4-7356-49ed-82d4-14a8598c44ca",
-    "organizacion_id": "e2e_test_organization",
-    "cuestionario_id": "cuestionario_ciberplan_v1",
-    "fecha_inicio": "2025-07-15T15:04:08.950406",
-    "fecha_completado": null,
-    "fecha_firmado": null,
-    "estado": "abierto",
-    "firmado_por": null,
-    "nombre": "Evaluación 15/7/2025",
-    "descripcion": "sds",
-    "resultados": null,
-    "objetivos": {
-      "6_meses": 2.5,
-      "1_año": 3,
-      "2_años": 4
-    },
-    "auditoria": [
-      {
-        "accion": "creacion",
-        "fecha": "2025-07-15T15:04:08.950441",
-        "usuario": "sistema",
-        "detalles": "Assessment creado"
-      }
-    ]
-  },
-  {
     "id": "43440a5d-c35f-44e7-81c3-45def285e6bf",
     "organizacion_id": "e2e_test_organization",
     "cuestionario_id": "cuestionario_ciberplan_v1",
@@ -639,6 +548,32 @@
         "fecha": "2025-07-15T15:07:45.031280",
         "usuario": "sistema",
         "detalles": "Assessment completado con puntuación 2.77"
+      }
+    ]
+  },
+  {
+    "id": "5938a68c-88b7-48ed-860b-9f6ae7ba04d6",
+    "organizacion_id": "e2e_test_organization",
+    "cuestionario_id": "cuestionario_ciberplan_v1",
+    "fecha_inicio": "2025-07-15T15:23:16.064012",
+    "fecha_completado": null,
+    "fecha_firmado": null,
+    "estado": "abierto",
+    "firmado_por": null,
+    "nombre": "Evaluación 15/7/2025",
+    "descripcion": "Evaluación de prueba del sistema completo",
+    "resultados": null,
+    "objetivos": {
+      "6_meses": 2.5,
+      "1_año": 3,
+      "2_años": 4
+    },
+    "auditoria": [
+      {
+        "accion": "creacion",
+        "fecha": "2025-07-15T15:23:16.064032",
+        "usuario": "sistema",
+        "detalles": "Assessment creado"
       }
     ]
   }

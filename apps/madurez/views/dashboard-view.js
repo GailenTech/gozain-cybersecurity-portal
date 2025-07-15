@@ -9,6 +9,11 @@ export default class AssessmentDashboard {
     
     async render(assessmentId) {
         try {
+            // Validar contenedor
+            if (!this.container) {
+                throw new Error('No se proporcionó un contenedor válido');
+            }
+            
             // Cargar datos del dashboard
             this.dashboardData = await this.api.get(`/madurez/dashboard/${assessmentId}`);
             
@@ -27,16 +32,23 @@ export default class AssessmentDashboard {
             
         } catch (error) {
             console.error('Error cargando dashboard:', error);
-            this.container.innerHTML = `
-                <div class="alert alert-danger">
-                    <i class="bi bi-exclamation-circle"></i> 
-                    Error: ${error.message}
-                </div>
-            `;
+            if (this.container) {
+                this.container.innerHTML = `
+                    <div class="alert alert-danger">
+                        <i class="bi bi-exclamation-circle"></i> 
+                        Error: ${error.message}
+                    </div>
+                `;
+            }
         }
     }
     
     renderDashboard() {
+        if (!this.container) {
+            console.error('No hay contenedor disponible para renderizar');
+            return;
+        }
+        
         const assessment = this.dashboardData.assessment;
         const metricas = this.dashboardData.metricas;
         
