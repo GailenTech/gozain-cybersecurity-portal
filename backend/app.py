@@ -14,6 +14,10 @@ import traceback
 from modules.inventario.inventario_service import InventarioService
 from modules.impactos.impactos_service import ImpactosService
 from modules.madurez.madurez_service import MadurezService
+from modules.auth.auth_routes import auth_bp
+from modules.auth.admin_routes import admin_bp
+from modules.auth.audit_routes import audit_bp
+from modules.auth.audit_middleware import audit_action
 
 # Intenta importar GCS storage
 try:
@@ -30,9 +34,14 @@ logger = logging.getLogger(__name__)
 app = Flask(__name__, static_folder='../static', static_url_path='/static')
 CORS(app)
 
+# Configuración de sesión para OAuth
+app.secret_key = os.environ.get('SECRET_KEY', 'dev-secret-key-change-in-production')
+
 # Configuración
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024  # 16MB max file size
-DATA_DIR = os.path.join(os.path.dirname(__file__), '..', 'data')
+app.config['DATA_DIR'] = os.path.join(os.path.dirname(__file__), '..', 'data')
+app.config['OAUTH_ENABLED'] = os.environ.get('OAUTH_ENABLED', 'false').lower() == 'true'
+DATA_DIR = app.config['DATA_DIR']
 os.makedirs(DATA_DIR, exist_ok=True)
 
 # Habilitar GCS si está disponible y configurado
@@ -848,6 +857,39 @@ def debug_gcs():
         return jsonify(debug_info)
     except Exception as e:
         return jsonify({'error': str(e), 'use_gcs': USE_GCS}), 500
+
+# Registrar blueprints de autenticación
+app.register_blueprint(auth_bp)
+app.register_blueprint(admin_bp)
+app.register_blueprint(audit_bp)
+
+# Endpoint para obtener organizaciones (para modal de login)
+@app.route('/api/organizations', methods=['GET'])
+def get_organizations():
+    try:
+        # Leer organizaciones desde archivo
+        orgs_file = os.path.join(DATA_DIR, 'organizaciones.json')
+        if not os.path.exists(orgs_file):
+            return jsonify([])
+        
+        with open(orgs_file, 'r', encoding='utf-8') as f:
+            organizations = json.load(f)
+        
+        # Convertir a lista y filtrar solo datos públicos
+        org_list = []
+        for org_id, org_data in organizations.items():
+            if org_data.get('activa', True):
+                org_list.append({
+                    'id': org_data['id'],
+                    'nombre': org_data['nombre'],
+                    'tiene_oauth': 'oauth_config' in org_data
+                })
+        
+        return jsonify(org_list)
+    
+    except Exception as e:
+        logger.error(f"Error obteniendo organizaciones: {e}")
+        return jsonify({'error': 'Error obteniendo organizaciones'}), 500
 
 # Manejo de errores
 @app.errorhandler(404)

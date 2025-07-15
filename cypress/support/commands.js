@@ -71,83 +71,71 @@ Cypress.Commands.add('navigateToTool', (toolName) => {
   cy.contains('.tool-card', toolName).click()
 })
 
+// Comando para simular autenticación OAuth para tests
+Cypress.Commands.add('mockAuth', (userData = {}) => {
+  // Datos por defecto del usuario de prueba
+  const defaultUser = {
+    id: 'usr_test_e2e',
+    email: 'test@e2e.com',
+    nombre: 'Usuario Test E2E',
+    organizacion_id: 'e2e_test_organization',
+    roles: ['usuario'],
+    permisos: {
+      inventario: ['read', 'write'],
+      impactos: ['read', 'write'],
+      madurez: ['read', 'write']
+    },
+    ultimo_acceso: new Date().toISOString()
+  }
+  
+  const user = { ...defaultUser, ...userData }
+  
+  // Generar un token JWT simulado (no es un JWT real, solo para tests)
+  const mockToken = btoa(JSON.stringify({
+    user_id: user.id,
+    email: user.email,
+    exp: Math.floor(Date.now() / 1000) + 3600
+  }))
+  
+  // Guardar en localStorage como lo haría el sistema real
+  cy.window().then((win) => {
+    win.localStorage.setItem('auth_token', mockToken)
+    win.localStorage.setItem('user_info', JSON.stringify(user))
+  })
+  
+  cy.log('Autenticación simulada para:', user.email)
+})
+
 // Comando para login con organización
 Cypress.Commands.add('loginWithOrg', (orgName = 'E2E Test Organization') => {
   cy.visit('/')
   cy.wait(2000) // Wait for page initialization
   
-  // Check if already in tool selector (organization remembered)
+  // Simular autenticación para tests
+  cy.mockAuth({ organizacion_id: orgName.toLowerCase().replace(/ /g, '_') })
+  
+  // Recargar página para que detecte la autenticación
+  cy.reload()
+  cy.wait(1000)
+  
+  // Si el modal de organización está visible, seleccionar la organización
   cy.get('body').then($body => {
-    if ($body.find('.tool-selector-container').length > 0) {
-      // Verificar que es la organización correcta
-      cy.get('#organizationName').then($name => {
-        if ($name.text().includes(orgName)) {
-          cy.log('Organization already selected, in tool selector')
-          return
-        } else {
-          // Cambiar a la organización correcta
-          cy.get('#organizationButton').click({ force: true })
-          cy.wait(1000)
-          cy.selectOrganization(orgName)
-        }
-      })
-      return
-    }
-    
-    // Check if we need to select an organization
-    cy.get('#organizationName').then($name => {
-      const currentOrg = $name.text().trim()
+    if ($body.find('#organizationModal.show').length > 0) {
+      // Buscar y seleccionar la organización
+      cy.get('#organizationList .list-group-item')
+        .contains(orgName)
+        .click()
       
-      if (currentOrg === 'Seleccionar Organización' || !currentOrg.includes(orgName)) {
-        // Need to select an organization
-        cy.get('#organizationButton').click({ force: true })
-        cy.wait(1500)
-        
-        // Check if there are any organizations
-        cy.get('body').then($body => {
-          const hasOrgs = $body.find('#organizationList .list-group-item').length > 0
-          
-          if (!hasOrgs) {
-            cy.log('No hay organizaciones, creando una nueva')
-            
-            // Click new organization button
-            cy.get('#btnNewOrganization').click({ force: true })
-            cy.wait(500)
-            
-            // Fill new organization form
-            cy.get('#newOrgName').type(orgName)
-            cy.get('#btnCreateOrganization').click()
-            cy.wait(2000)
-          } else {
-            // Buscar la organización específica
-            let found = false
-            cy.get('#organizationList .list-group-item').each($item => {
-              if ($item.text().includes(orgName)) {
-                cy.wrap($item).click({ force: true })
-                found = true
-                return false
-              }
-            }).then(() => {
-              if (!found) {
-                // Si no existe, crearla
-                cy.get('body').then($modal => {
-                  if ($modal.find('#btnNewOrganization').length > 0) {
-                    cy.get('#btnNewOrganization').click({ force: true })
-                    cy.wait(500)
-                    cy.get('#newOrgName').type(orgName)
-                    cy.get('#btnCreateOrganization').click()
-                    cy.wait(2000)
-                  }
-                })
-              }
-            })
-          }
-        })
-      }
-    })
-    
-    cy.get('.tool-selector-container', { timeout: 10000 }).should('be.visible')
+      // Esperar a que el modal se cierre
+      cy.get('#organizationModal').should('not.be.visible')
+    }
   })
+  
+  // Verificar que se seleccionó la organización
+  cy.get('#organizationName').should('contain', orgName)
+  
+  // Verificar que se muestran las herramientas
+  cy.contains('Portal de Ciberseguridad').should('be.visible')
 })
 
 // Comando para crear un activo

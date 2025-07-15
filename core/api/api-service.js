@@ -5,17 +5,30 @@ export class ApiService {
         this.headers = {
             'Content-Type': 'application/json'
         };
+        this.authService = null;
+    }
+    
+    setAuthService(authService) {
+        this.authService = authService;
     }
     
     setOrganization(orgId) {
         this.headers['X-Organization-Id'] = orgId;
     }
     
+    getAuthHeaders() {
+        if (this.authService) {
+            return this.authService.getAuthHeaders();
+        }
+        return {};
+    }
+    
     async request(method, endpoint, data = null) {
         const url = `${this.baseUrl}${endpoint}`;
+        const authHeaders = this.getAuthHeaders();
         const options = {
             method,
-            headers: { ...this.headers }
+            headers: { ...this.headers, ...authHeaders }
         };
         
         if (data && method !== 'GET') {
@@ -26,6 +39,14 @@ export class ApiService {
             const response = await fetch(url, options);
             
             if (!response.ok) {
+                // Si es error 401 y tenemos auth service, intentar manejar
+                if (response.status === 401 && this.authService) {
+                    // Disparar evento para mostrar login
+                    document.dispatchEvent(new CustomEvent('show-login-modal', {
+                        detail: { returnUrl: window.location.href }
+                    }));
+                }
+                
                 const error = await response.json().catch(() => ({ message: response.statusText }));
                 throw new Error(error.message || `Error ${response.status}`);
             }
@@ -70,11 +91,18 @@ export class ApiService {
             formData.append(key, value);
         });
         
+        const authHeaders = this.getAuthHeaders();
+        const uploadHeaders = {
+            'X-Organization-Id': this.headers['X-Organization-Id'],
+            ...authHeaders
+        };
+        
+        // No incluir Content-Type para FormData
+        delete uploadHeaders['Content-Type'];
+        
         const response = await fetch(`${this.baseUrl}${endpoint}`, {
             method: 'POST',
-            headers: {
-                'X-Organization-Id': this.headers['X-Organization-Id']
-            },
+            headers: uploadHeaders,
             body: formData
         });
         

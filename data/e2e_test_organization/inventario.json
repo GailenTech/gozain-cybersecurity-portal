@@ -69,45 +69,5 @@
     "descripcion": "Servicio de correo corporativo",
     "fecha_alta": "2025-01-01",
     "ultima_actualizacion": "2025-07-01"
-  },
-  {
-    "id": "82d73a97-785f-479e-96ff-caee7783b003",
-    "fecha_creacion": "2025-07-15T09:48:20.319302",
-    "fecha_modificacion": "2025-07-15T09:48:20.319318",
-    "tipo": "Hardware",
-    "nombre": "Laptop para Juan Pérez",
-    "estado": "Activo",
-    "clasificacion": "Interno",
-    "criticidad": "Importante",
-    "responsable": "Juan Pérez",
-    "departamento": "Desarrollo",
-    "auditoria": [
-      {
-        "accion": "creacion",
-        "fecha": "2025-07-15T09:48:20.319323",
-        "usuario": "sistema",
-        "detalles": "Activo creado"
-      }
-    ]
-  },
-  {
-    "id": "c6c797cd-4c96-4584-ba2c-4b4c472ee606",
-    "fecha_creacion": "2025-07-15T09:48:20.319902",
-    "fecha_modificacion": "2025-07-15T09:48:20.319924",
-    "tipo": "Software",
-    "nombre": "Office 365 - Juan Pérez",
-    "tipo_software": "Productividad",
-    "estado": "Activo",
-    "clasificacion": "Interno",
-    "responsable": "Juan Pérez",
-    "departamento": "Desarrollo",
-    "auditoria": [
-      {
-        "accion": "creacion",
-        "fecha": "2025-07-15T09:48:20.319928",
-        "usuario": "sistema",
-        "detalles": "Activo creado"
-      }
-    ]
   }
 ]

@@ -1,580 +1,65 @@
 [
   {
     "id": "assessment-001",
-    "organizacion_id": "e2e_test_organization",
-    "cuestionario_id": "cuestionario_ciberplan_v1",
-    "fecha_inicio": "2025-07-01T10:00:00",
-    "fecha_completado": "2025-07-01T11:30:00",
-    "fecha_firmado": "2025-07-01T12:00:00",
-    "estado": "firmado",
-    "firmado_por": "Director de TI",
-    "nombre": "Evaluación Inicial Q1 2025",
-    "descripcion": "Primera evaluación de madurez del año",
-    "resultados": {
-      "dominios": [
-        {
-          "dominio_id": "proteccion_acceso",
-          "nivel_actual": 3.0,
-          "respuestas": [
-            {
-              "pregunta_id": "pa_1",
-              "respuesta": "Sí",
-              "valor": 3,
-              "comentario": "Política implementada recientemente"
-            },
-            {
-              "pregunta_id": "pa_2",
-              "respuesta": "Sí",
-              "valor": 3,
-              "comentario": "MFA activado en sistemas críticos"
-            },
-            {
-              "pregunta_id": "pa_3",
-              "respuesta": "Sí",
-              "valor": 3,
-              "comentario": "Cambio cada 90 días"
-            }
-          ]
-        },
-        {
-          "dominio_id": "seguridad_dispositivos",
-          "nivel_actual": 3.5,
-          "respuestas": [
-            {
-              "pregunta_id": "sd_1",
-              "respuesta": "Avanzado",
-              "valor": 4,
-              "comentario": "Actualizaciones automáticas"
-            },
-            {
-              "pregunta_id": "sd_2",
-              "respuesta": "Sí",
-              "valor": 3,
-              "comentario": "Antivirus corporativo"
-            },
-            {
-              "pregunta_id": "sd_3",
-              "respuesta": "Sí",
-              "valor": 3,
-              "comentario": "WPA3 implementado"
-            }
-          ]
-        },
-        {
-          "dominio_id": "proteccion_datos",
-          "nivel_actual": 3.33,
-          "respuestas": [
-            {
-              "pregunta_id": "pd_1",
-              "respuesta": "Sí",
-              "valor": 3,
-              "comentario": "Backup diario automatizado"
-            },
-            {
-              "pregunta_id": "pd_2",
-              "respuesta": "Avanzado",
-              "valor": 4,
-              "comentario": "Cifrado en tránsito y reposo"
-            },
-            {
-              "pregunta_id": "pd_3",
-              "respuesta": "Sí",
-              "valor": 3,
-              "comentario": "Control de acceso por roles"
-            }
-          ]
-        }
-      ],
-      "puntuacion_total": 3.28,
-      "fecha_calculo": "2025-07-01T11:30:00"
-    },
-    "objetivos": {
-      "6_meses": 3.0,
-      "1_año": 3.5,
-      "2_años": 4.0
-    },
-    "auditoria": [
-      {
-        "accion": "creacion",
-        "fecha": "2025-07-01T10:00:00",
-        "usuario": "admin",
-        "detalles": "Assessment creado"
+    "template_id": "ISO27001_basico",
+    "template_name": "ISO 27001 - Evaluación Básica",
+    "fecha_creacion": "2025-07-01T10:00:00",
+    "estado": "completada",
+    "progreso": 100,
+    "puntuacion_total": 3.2,
+    "dominios": {
+      "politicas": {
+        "puntuacion": 3.5,
+        "respuestas": 10
       },
-      {
-        "accion": "completado",
-        "fecha": "2025-07-01T11:30:00",
-        "usuario": "admin",
-        "detalles": "Assessment completado con puntuación 3.28"
+      "acceso": {
+        "puntuacion": 3.0,
+        "respuestas": 8
       },
-      {
-        "accion": "firmado",
-        "fecha": "2025-07-01T12:00:00",
-        "usuario": "Director de TI",
-        "detalles": "Assessment firmado por Director de TI"
+      "operaciones": {
+        "puntuacion": 3.2,
+        "respuestas": 12
+      },
+      "incidentes": {
+        "puntuacion": 3.1,
+        "respuestas": 6
       }
-    ]
+    },
+    "respuestas": {
+      "POL001": {
+        "pregunta": "¿Existe una política de seguridad de la información documentada?",
+        "respuesta": 3,
+        "notas": "Política actualizada en 2025"
+      },
+      "POL002": {
+        "pregunta": "¿La política es revisada periódicamente?",
+        "respuesta": 4,
+        "notas": "Revisión anual establecida"
+      }
+    }
   },
   {
-    "id": "13e4a5da-0462-4dd9-87a7-b9743497c558",
-    "organizacion_id": "e2e_test_organization",
-    "cuestionario_id": "cuestionario_ciberplan_v1",
-    "fecha_inicio": "2025-07-15T13:20:54.459004",
-    "fecha_completado": "2025-07-15T13:21:04.277316",
-    "fecha_firmado": null,
-    "estado": "completado",
-    "firmado_por": null,
-    "nombre": "Evaluación Completa Test",
-    "descripcion": "",
-    "resultados": {
-      "dominios": [
-        {
-          "dominio_id": "proteccion_acceso",
-          "nivel_actual": 2.67,
-          "respuestas": [
-            {
-              "pregunta_id": "pa_1",
-              "respuesta": "Sí",
-              "valor": 3,
-              "comentario": "Política implementada"
-            },
-            {
-              "pregunta_id": "pa_2",
-              "respuesta": "Parcialmente",
-              "valor": 2,
-              "comentario": "MFA en desarrollo"
-            },
-            {
-              "pregunta_id": "pa_3",
-              "respuesta": "Sí",
-              "valor": 3,
-              "comentario": "Cambio trimestral"
-            }
-          ]
-        },
-        {
-          "dominio_id": "seguridad_dispositivos",
-          "nivel_actual": 3.33,
-          "respuestas": [
-            {
-              "pregunta_id": "sd_1",
-              "respuesta": "Avanzado",
-              "valor": 4,
-              "comentario": "Actualizaciones automáticas"
-            },
-            {
-              "pregunta_id": "sd_2",
-              "respuesta": "Sí",
-              "valor": 3,
-              "comentario": "Antivirus corporativo"
-            },
-            {
-              "pregunta_id": "sd_3",
-              "respuesta": "Sí",
-              "valor": 3,
-              "comentario": "WPA3 implementado"
-            }
-          ]
-        },
-        {
-          "dominio_id": "proteccion_datos",
-          "nivel_actual": 2.67,
-          "respuestas": [
-            {
-              "pregunta_id": "pd_1",
-              "respuesta": "Sí",
-              "valor": 3,
-              "comentario": "Backup diario"
-            },
-            {
-              "pregunta_id": "pd_2",
-              "respuesta": "Parcialmente",
-              "valor": 2,
-              "comentario": "Cifrado en desarrollo"
-            },
-            {
-              "pregunta_id": "pd_3",
-              "respuesta": "Sí",
-              "valor": 3,
-              "comentario": "Control de acceso por roles"
-            }
-          ]
-        },
-        {
-          "dominio_id": "prevencion_amenazas",
-          "nivel_actual": 0,
-          "respuestas": []
-        },
-        {
-          "dominio_id": "gestion_accesos",
-          "nivel_actual": 0,
-          "respuestas": []
-        },
-        {
-          "dominio_id": "respuesta_incidentes",
-          "nivel_actual": 0,
-          "respuestas": []
-        },
-        {
-          "dominio_id": "procesos_criticos",
-          "nivel_actual": 0,
-          "respuestas": []
-        }
-      ],
-      "puntuacion_total": 2.89,
-      "fecha_calculo": "2025-07-15T13:21:04.277311"
-    },
-    "objetivos": {
-      "6_meses": 2.5,
-      "1_año": 3.0,
-      "2_años": 4.0
-    },
-    "auditoria": [
-      {
-        "accion": "creacion",
-        "fecha": "2025-07-15T13:20:54.459022",
-        "usuario": "sistema",
-        "detalles": "Assessment creado"
+    "id": "assessment-002",
+    "template_id": "ISO27001_basico",
+    "template_name": "ISO 27001 - Evaluación Básica",
+    "fecha_creacion": "2025-07-10T14:00:00",
+    "estado": "en_progreso",
+    "progreso": 45,
+    "dominios": {
+      "politicas": {
+        "puntuacion": 3.0,
+        "respuestas": 5
       },
-      {
-        "accion": "completado",
-        "fecha": "2025-07-15T13:21:04.277317",
-        "usuario": "sistema",
-        "detalles": "Assessment completado con puntuación 2.89"
+      "acceso": {
+        "puntuacion": 0,
+        "respuestas": 0
       }
-    ]
-  },
-  {
-    "id": "8e866d84-b2ac-42ce-863f-8fcfb43dd9f8",
-    "organizacion_id": "e2e_test_organization",
-    "cuestionario_id": "cuestionario_ciberplan_v1",
-    "fecha_inicio": "2025-07-15T13:25:25.182737",
-    "fecha_completado": "2025-07-15T13:25:33.094426",
-    "fecha_firmado": "2025-07-15T13:25:45.395529",
-    "estado": "firmado",
-    "firmado_por": "Test User",
-    "nombre": "Test Assessment Creation",
-    "descripcion": "Testing the assessment creation flow",
-    "resultados": {
-      "dominios": [
-        {
-          "dominio_id": "proteccion_acceso",
-          "nivel_actual": 2.67,
-          "respuestas": [
-            {
-              "pregunta_id": "pa_1",
-              "respuesta": "Sí",
-              "valor": 3,
-              "comentario": "Política implementada"
-            },
-            {
-              "pregunta_id": "pa_2",
-              "respuesta": "Parcialmente",
-              "valor": 2,
-              "comentario": "MFA en desarrollo"
-            },
-            {
-              "pregunta_id": "pa_3",
-              "respuesta": "Sí",
-              "valor": 3,
-              "comentario": "Cambio trimestral"
-            }
-          ]
-        },
-        {
-          "dominio_id": "seguridad_dispositivos",
-          "nivel_actual": 0,
-          "respuestas": []
-        },
-        {
-          "dominio_id": "proteccion_datos",
-          "nivel_actual": 0,
-          "respuestas": []
-        },
-        {
-          "dominio_id": "prevencion_amenazas",
-          "nivel_actual": 0,
-          "respuestas": []
-        },
-        {
-          "dominio_id": "gestion_accesos",
-          "nivel_actual": 0,
-          "respuestas": []
-        },
-        {
-          "dominio_id": "respuesta_incidentes",
-          "nivel_actual": 0,
-          "respuestas": []
-        },
-        {
-          "dominio_id": "procesos_criticos",
-          "nivel_actual": 0,
-          "respuestas": []
-        }
-      ],
-      "puntuacion_total": 2.67,
-      "fecha_calculo": "2025-07-15T13:25:33.094418"
     },
-    "objetivos": {
-      "6_meses": 3.0,
-      "1_año": 3.5,
-      "2_años": 4.0
-    },
-    "auditoria": [
-      {
-        "accion": "creacion",
-        "fecha": "2025-07-15T13:25:25.182755",
-        "usuario": "sistema",
-        "detalles": "Assessment creado"
-      },
-      {
-        "accion": "completado",
-        "fecha": "2025-07-15T13:25:33.094427",
-        "usuario": "sistema",
-        "detalles": "Assessment completado con puntuación 2.67"
-      },
-      {
-        "accion": "firmado",
-        "fecha": "2025-07-15T13:25:45.395535",
-        "usuario": "Test User",
-        "detalles": "Assessment firmado por Test User"
+    "respuestas": {
+      "POL001": {
+        "pregunta": "¿Existe una política de seguridad de la información documentada?",
+        "respuesta": 3
       }
-    ]
-  },
-  {
-    "id": "43440a5d-c35f-44e7-81c3-45def285e6bf",
-    "organizacion_id": "e2e_test_organization",
-    "cuestionario_id": "cuestionario_ciberplan_v1",
-    "fecha_inicio": "2025-07-15T15:07:45.027831",
-    "fecha_completado": "2025-07-15T15:07:45.031278",
-    "fecha_firmado": null,
-    "estado": "completado",
-    "firmado_por": null,
-    "nombre": "Test Automatizado 15/7/2025, 15:07:44",
-    "descripcion": "Evaluación creada por test automatizado",
-    "resultados": {
-      "dominios": [
-        {
-          "dominio_id": "proteccion_acceso",
-          "nivel_actual": 2.67,
-          "respuestas": [
-            {
-              "pregunta_id": "pa_1",
-              "respuesta": "Sí",
-              "valor": 3,
-              "comentario": "Test automatizado"
-            },
-            {
-              "pregunta_id": "pa_2",
-              "respuesta": "Parcialmente",
-              "valor": 2,
-              "comentario": "En proceso"
-            },
-            {
-              "pregunta_id": "pa_3",
-              "respuesta": "Sí",
-              "valor": 3,
-              "comentario": "Implementado"
-            }
-          ]
-        },
-        {
-          "dominio_id": "seguridad_dispositivos",
-          "nivel_actual": 3.33,
-          "respuestas": [
-            {
-              "pregunta_id": "sd_1",
-              "respuesta": "Avanzado",
-              "valor": 4,
-              "comentario": "Excelente"
-            },
-            {
-              "pregunta_id": "sd_2",
-              "respuesta": "Sí",
-              "valor": 3,
-              "comentario": "OK"
-            },
-            {
-              "pregunta_id": "sd_3",
-              "respuesta": "Sí",
-              "valor": 3,
-              "comentario": "Seguro"
-            }
-          ]
-        },
-        {
-          "dominio_id": "proteccion_datos",
-          "nivel_actual": 2.67,
-          "respuestas": [
-            {
-              "pregunta_id": "pd_1",
-              "respuesta": "Sí",
-              "valor": 3,
-              "comentario": "Backups diarios"
-            },
-            {
-              "pregunta_id": "pd_2",
-              "respuesta": "Sí",
-              "valor": 3,
-              "comentario": "Cifrado activo"
-            },
-            {
-              "pregunta_id": "pd_3",
-              "respuesta": "Parcialmente",
-              "valor": 2,
-              "comentario": "Mejorando"
-            }
-          ]
-        },
-        {
-          "dominio_id": "prevencion_amenazas",
-          "nivel_actual": 2.33,
-          "respuestas": [
-            {
-              "pregunta_id": "pa_am_1",
-              "respuesta": "Sí",
-              "valor": 3,
-              "comentario": "Capacitación trimestral"
-            },
-            {
-              "pregunta_id": "pa_am_2",
-              "respuesta": "Sí",
-              "valor": 3,
-              "comentario": "Protocolos establecidos"
-            },
-            {
-              "pregunta_id": "pa_am_3",
-              "respuesta": "No",
-              "valor": 1,
-              "comentario": "En evaluación"
-            }
-          ]
-        },
-        {
-          "dominio_id": "gestion_accesos",
-          "nivel_actual": 2.67,
-          "respuestas": [
-            {
-              "pregunta_id": "ga_1",
-              "respuesta": "Sí",
-              "valor": 3,
-              "comentario": "Sistema IAM"
-            },
-            {
-              "pregunta_id": "ga_2",
-              "respuesta": "Sí",
-              "valor": 3,
-              "comentario": "Control estricto"
-            },
-            {
-              "pregunta_id": "ga_3",
-              "respuesta": "Parcialmente",
-              "valor": 2,
-              "comentario": "En implementación"
-            }
-          ]
-        },
-        {
-          "dominio_id": "respuesta_incidentes",
-          "nivel_actual": 3.0,
-          "respuestas": [
-            {
-              "pregunta_id": "ri_1",
-              "respuesta": "Sí",
-              "valor": 3,
-              "comentario": "Plan documentado"
-            },
-            {
-              "pregunta_id": "ri_2",
-              "respuesta": "Sí",
-              "valor": 3,
-              "comentario": "Equipo definido"
-            },
-            {
-              "pregunta_id": "ri_3",
-              "respuesta": "Sí",
-              "valor": 3,
-              "comentario": "Sistema de tickets"
-            }
-          ]
-        },
-        {
-          "dominio_id": "procesos_criticos",
-          "nivel_actual": 2.75,
-          "respuestas": [
-            {
-              "pregunta_id": "pc_1",
-              "respuesta": "Sí",
-              "valor": 3,
-              "comentario": "Inventario actualizado"
-            },
-            {
-              "pregunta_id": "pc_2",
-              "respuesta": "Sí",
-              "valor": 3,
-              "comentario": "BIA completado"
-            },
-            {
-              "pregunta_id": "pc_3",
-              "respuesta": "Parcialmente",
-              "valor": 2,
-              "comentario": "En proceso"
-            },
-            {
-              "pregunta_id": "pc_4",
-              "respuesta": "Sí",
-              "valor": 3,
-              "comentario": "Monitoreo 24/7"
-            }
-          ]
-        }
-      ],
-      "puntuacion_total": 2.77,
-      "fecha_calculo": "2025-07-15T15:07:45.031275"
-    },
-    "objetivos": {
-      "6_meses": 2.5,
-      "1_año": 3,
-      "2_años": 4
-    },
-    "auditoria": [
-      {
-        "accion": "creacion",
-        "fecha": "2025-07-15T15:07:45.027848",
-        "usuario": "sistema",
-        "detalles": "Assessment creado"
-      },
-      {
-        "accion": "completado",
-        "fecha": "2025-07-15T15:07:45.031280",
-        "usuario": "sistema",
-        "detalles": "Assessment completado con puntuación 2.77"
-      }
-    ]
-  },
-  {
-    "id": "5938a68c-88b7-48ed-860b-9f6ae7ba04d6",
-    "organizacion_id": "e2e_test_organization",
-    "cuestionario_id": "cuestionario_ciberplan_v1",
-    "fecha_inicio": "2025-07-15T15:23:16.064012",
-    "fecha_completado": null,
-    "fecha_firmado": null,
-    "estado": "abierto",
-    "firmado_por": null,
-    "nombre": "Evaluación 15/7/2025",
-    "descripcion": "Evaluación de prueba del sistema completo",
-    "resultados": null,
-    "objetivos": {
-      "6_meses": 2.5,
-      "1_año": 3,
-      "2_años": 4
-    },
-    "auditoria": [
-      {
-        "accion": "creacion",
-        "fecha": "2025-07-15T15:23:16.064032",
-        "usuario": "sistema",
-        "detalles": "Assessment creado"
-      }
-    ]
+    }
   }
 ]

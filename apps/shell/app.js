@@ -14,6 +14,11 @@ class GozainApp {
         this.storage = new StorageService();
         this.notifications = new NotificationService(this.eventBus);
         
+        // Configurar autenticación si está disponible
+        if (window.authService) {
+            this.api.setAuthService(window.authService);
+        }
+        
         // Hacer servicios disponibles globalmente
         window.gozainCore = {
             services: {
@@ -21,7 +26,8 @@ class GozainApp {
                 eventBus: this.eventBus,
                 api: this.api,
                 storage: this.storage,
-                notifications: this.notifications
+                notifications: this.notifications,
+                auth: window.authService || null
             }
         };
         
@@ -34,6 +40,16 @@ class GozainApp {
     async init() {
         // Cargar versión
         this.loadVersion();
+        
+        // Verificar si venimos del callback OAuth
+        if (this.handleOAuthCallback()) {
+            return; // El callback manejará el resto del flujo
+        }
+        
+        // Verificar autenticación
+        if (window.authService) {
+            await this.checkAuthentication();
+        }
         
         // Cargar organizaciones
         await this.loadOrganizations();
@@ -83,6 +99,75 @@ class GozainApp {
         }
     }
     
+    async checkAuthentication() {
+        if (!window.authService) return;
+        
+        const isAuthenticated = window.authService.isAuthenticated();
+        if (isAuthenticated) {
+            const user = window.authService.getUser();
+            console.log('Usuario autenticado:', user);
+            // Actualizar organización basada en el usuario
+            if (user && user.organizacion_id) {
+                window.authService.organizationId = user.organizacion_id;
+            }
+            
+            // Disparar evento para actualizar UI
+            const event = new CustomEvent('auth-status-changed', {
+                detail: { isAuthenticated: true, user: user }
+            });
+            document.dispatchEvent(event);
+        } else {
+            console.log('Usuario no autenticado');
+            
+            // Disparar evento para actualizar UI
+            const event = new CustomEvent('auth-status-changed', {
+                detail: { isAuthenticated: false, user: null }
+            });
+            document.dispatchEvent(event);
+        }
+    }
+    
+    handleOAuthCallback() {
+        // Verificar si estamos en el callback de OAuth
+        const hash = window.location.hash;
+        if (hash && hash.includes('auth_success')) {
+            // Extraer el token del fragment
+            const params = new URLSearchParams(hash.substring(hash.indexOf('?') + 1));
+            const token = params.get('token');
+            
+            if (token && window.authService) {
+                // Decodificar el JWT para obtener la información del usuario
+                try {
+                    const payload = JSON.parse(atob(token.split('.')[1]));
+                    
+                    // Guardar el token usando setTokens
+                    window.authService.setTokens(token, null);
+                    
+                    // Establecer el usuario
+                    window.authService.setUser({
+                        id: payload.user_id,
+                        email: payload.email,
+                        nombre: payload.nombre,
+                        organizacion_id: payload.org_id,
+                        roles: payload.roles || [],
+                        permisos: payload.permissions || {}
+                    });
+                    
+                    // Limpiar la URL
+                    window.history.replaceState({}, document.title, window.location.pathname);
+                    
+                    // Recargar la página para inicializar con el usuario autenticado
+                    window.location.reload();
+                    
+                    return true;
+                } catch (error) {
+                    console.error('Error procesando token:', error);
+                }
+            }
+        }
+        return false;
+    }
+    
     async loadVersion() {
         try {
             const response = await fetch('/version.json');
@@ -100,7 +185,14 @@ class GozainApp {
     
     async loadOrganizations() {
         try {
-            const orgs = await this.api.get('/organizaciones');
+            const orgsData = await this.api.get('/organizaciones');
+            
+            // Convertir objeto a array
+            const orgs = Object.keys(orgsData).map(key => ({
+                id: key,
+                ...orgsData[key]
+            }));
+            
             this.organizations = orgs;
             
             // Actualizar botón con organización seleccionada
@@ -115,6 +207,7 @@ class GozainApp {
             return orgs;
         } catch (error) {
             console.error('Error cargando organizaciones:', error);
+            this.organizations = [];
             return [];
         }
     }

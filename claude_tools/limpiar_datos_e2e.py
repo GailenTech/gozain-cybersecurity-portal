@@ -140,16 +140,27 @@ def limpiar_organizaciones(data_dir='data', dry_run=False, verbose=False):
             with open(org_file, 'r', encoding='utf-8') as f:
                 organizaciones = json.load(f)
             
-            # Filtrar organizaciones de prueba
-            organizaciones_filtradas = [
-                org for org in organizaciones 
-                if not es_organizacion_prueba(org.get('id', ''))
-            ]
-            
-            if len(organizaciones_filtradas) < len(organizaciones):
-                with open(org_file, 'w', encoding='utf-8') as f:
-                    json.dump(organizaciones_filtradas, f, indent=2, ensure_ascii=False)
-                print(f"\n📝 Actualizado organizaciones.json")
+            # Manejar tanto formato array como objeto
+            if isinstance(organizaciones, list):
+                # Si es array, filtrar directamente
+                organizaciones_filtradas = [
+                    org for org in organizaciones 
+                    if not es_organizacion_prueba(org.get('id', ''))
+                ]
+                if len(organizaciones_filtradas) < len(organizaciones):
+                    with open(org_file, 'w', encoding='utf-8') as f:
+                        json.dump(organizaciones_filtradas, f, indent=2, ensure_ascii=False)
+                    print(f"\n📝 Actualizado organizaciones.json")
+            else:
+                # Si es objeto, filtrar por claves
+                organizaciones_filtradas = {
+                    key: org for key, org in organizaciones.items()
+                    if not es_organizacion_prueba(key)
+                }
+                if len(organizaciones_filtradas) < len(organizaciones):
+                    with open(org_file, 'w', encoding='utf-8') as f:
+                        json.dump(organizaciones_filtradas, f, indent=2, ensure_ascii=False)
+                    print(f"\n📝 Actualizado organizaciones.json")
         except Exception as e:
             print(f"\n⚠️  Error actualizando organizaciones.json: {e}")
     
