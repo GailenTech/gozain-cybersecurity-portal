@@ -332,5 +332,15 @@
         }
       ]
     }
+  },
+  {
+    "id": "0474f130-fe7a-42ff-9e1e-653cbebe6855",
+    "tipo": "acceso_sistema",
+    "estado": "pendiente",
+    "fecha_creacion": "2025-07-15T12:32:07.686430",
+    "usuario_creador": "sistema",
+    "datos": {},
+    "acciones_ejecutadas": [],
+    "tareas_generadas": []
   }
 ]

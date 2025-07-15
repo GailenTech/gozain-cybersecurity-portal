@@ -17,9 +17,14 @@ export const TareasPage = {
                 estado: ''
             },
             mostrarModalPosponer: false,
+            mostrarModalPosponerMasivo: false,
             mostrarModalDetalle: false,
             tareaSeleccionada: null,
             formPosponer: {
+                fechaLimite: '',
+                comentarios: ''
+            },
+            formPosponerMasivo: {
                 fechaLimite: '',
                 comentarios: ''
             },
@@ -235,16 +240,25 @@ export const TareasPage = {
             }
         },
         
+        abrirModalPosponerMasivo() {
+            if (this.tareasSeleccionadas.size === 0) return;
+            
+            this.formPosponerMasivo.fechaLimite = '';
+            this.formPosponerMasivo.comentarios = '';
+            this.mostrarModalPosponerMasivo = true;
+        },
+        
+        cerrarModalPosponerMasivo() {
+            this.mostrarModalPosponerMasivo = false;
+            this.formPosponerMasivo.fechaLimite = '';
+            this.formPosponerMasivo.comentarios = '';
+        },
+        
         async posponerSeleccionadas() {
             if (this.tareasSeleccionadas.size === 0) return;
-
-            const nuevaFecha = prompt('Ingrese la nueva fecha límite (YYYY-MM-DD):');
-            if (!nuevaFecha) return;
-
-            // Validar formato de fecha
-            const fechaRegex = /^\d{4}-\d{2}-\d{2}$/;
-            if (!fechaRegex.test(nuevaFecha)) {
-                this.mostrarError('Formato de fecha inválido. Use YYYY-MM-DD');
+            
+            if (!this.formPosponerMasivo.fechaLimite) {
+                this.mostrarError('Fecha límite es requerida');
                 return;
             }
 
@@ -258,14 +272,15 @@ export const TareasPage = {
                 const tareaIds = Array.from(this.tareasSeleccionadas);
                 const response = await api.post('/impactos/tareas/posponer', { 
                     tareas: tareaIds, 
-                    nueva_fecha: nuevaFecha,
+                    nueva_fecha: this.formPosponerMasivo.fechaLimite,
                     usuario: 'Usuario', // TODO: Obtener usuario actual
-                    comentarios: 'Pospuestas en lote'
+                    comentarios: this.formPosponerMasivo.comentarios || 'Pospuestas en lote'
                 });
                 
                 if (response.success) {
                     this.mostrarExito(response.message);
                     this.tareasSeleccionadas.clear();
+                    this.cerrarModalPosponerMasivo();
                     await this.cargarTareas();
                 } else {
                     this.mostrarError(response.error || 'Error al posponer las tareas seleccionadas');
@@ -599,7 +614,7 @@ export const TareasPage = {
                             <button class="btn btn-success" @click="completarSeleccionadas" id="btnCompletarSeleccionadas">
                                 <i class="bi bi-check-all"></i> Completar
                             </button>
-                            <button class="btn btn-warning" @click="posponerSeleccionadas" id="btnPosponer">
+                            <button class="btn btn-warning" @click="abrirModalPosponerMasivo" id="btnPosponer">
                                 <i class="bi bi-calendar-plus"></i> Posponer
                             </button>
                         </div>
@@ -756,6 +771,41 @@ export const TareasPage = {
                             <button type="button" class="btn btn-secondary" @click="cerrarModalPosponer">Cancelar</button>
                             <button type="button" class="btn btn-warning" @click="posponerTarea">
                                 <i class="bi bi-calendar-plus"></i> Posponer
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Modal Posponer Masivo -->
+            <div v-if="mostrarModalPosponerMasivo" class="modal" style="display: block; background: rgba(0,0,0,0.5);">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Posponer {{ tareasSeleccionadas.size }} Tarea(s)</h5>
+                            <button type="button" class="btn-close" @click="cerrarModalPosponerMasivo"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="alert alert-info">
+                                <i class="bi bi-info-circle"></i>
+                                Se pospondrán {{ tareasSeleccionadas.size }} tareas seleccionadas a la nueva fecha límite.
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label class="form-label">Nueva Fecha Límite *</label>
+                                <input type="date" class="form-control" v-model="formPosponerMasivo.fechaLimite" required>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label class="form-label">Motivo (opcional)</label>
+                                <textarea class="form-control" v-model="formPosponerMasivo.comentarios" 
+                                          rows="3" placeholder="Explica por qué se posponen las tareas..."></textarea>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" @click="cerrarModalPosponerMasivo">Cancelar</button>
+                            <button type="button" class="btn btn-warning" @click="posponerSeleccionadas">
+                                <i class="bi bi-calendar-plus"></i> Posponer {{ tareasSeleccionadas.size }} Tarea(s)
                             </button>
                         </div>
                     </div>
