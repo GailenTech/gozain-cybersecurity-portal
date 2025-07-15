@@ -410,6 +410,34 @@ export const TareasPage = {
             });
         },
         
+        formatearCambioHistorial(cambio) {
+            let descripcion = cambio.accion;
+            
+            switch (cambio.accion) {
+                case 'posponer':
+                    if (cambio.fecha_anterior && cambio.fecha_nueva) {
+                        descripcion = `Posponer de ${this.formatearFecha(cambio.fecha_anterior)} a ${this.formatearFecha(cambio.fecha_nueva)}`;
+                    } else {
+                        descripcion = 'Posponer';
+                    }
+                    break;
+                case 'completar':
+                    if (cambio.estado_anterior && cambio.estado_nuevo) {
+                        descripcion = `Completar (${cambio.estado_anterior} → ${cambio.estado_nuevo})`;
+                    } else {
+                        descripcion = 'Completar';
+                    }
+                    break;
+                case 'comentario':
+                    descripcion = 'Comentario';
+                    break;
+                default:
+                    descripcion = cambio.accion;
+            }
+            
+            return cambio.comentarios ? `${descripcion}: ${cambio.comentarios}` : descripcion;
+        },
+        
         esFechaVencida(fecha) {
             return new Date(fecha) < new Date();
         },
@@ -771,7 +799,7 @@ export const TareasPage = {
                                         <div v-for="cambio in tareaSeleccionada.historial_cambios" :key="cambio.fecha" 
                                              class="small border-bottom pb-1 mb-1">
                                             <strong>{{ formatearFechaHora(cambio.fecha) }}</strong> - {{ cambio.usuario }}<br>
-                                            <span class="text-muted">{{ cambio.accion }}: {{ cambio.comentarios }}</span>
+                                            <span class="text-muted">{{ formatearCambioHistorial(cambio) }}</span>
                                         </div>
                                     </div>
                                 </div>

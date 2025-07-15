@@ -71,9 +71,9 @@
           "descripcion": "Preparar equipo para Juan Pérez",
           "responsable": "IT",
           "fecha_creacion": "2025-07-15T09:48:20.320345",
-          "fecha_limite": "2025-07-27",
+          "fecha_limite": "2025-08-03",
           "estado": "pendiente",
-          "fecha_modificacion": "2025-07-15T12:18:52.024487",
+          "fecha_modificacion": "2025-07-15T12:27:45.463224",
           "historial_cambios": [
             {
               "fecha": "2025-07-15T11:46:13.999256",
@@ -96,6 +96,32 @@
               "usuario": "TestUser",
               "accion": "comentario",
               "comentarios": "Comentario de prueba desde curl"
+            },
+            {
+              "fecha": "2025-07-15T12:26:32.998416",
+              "usuario": "Usuario",
+              "accion": "comentario",
+              "comentarios": "sdddd"
+            },
+            {
+              "fecha": "2025-07-15T12:26:44.676195",
+              "usuario": "Usuario",
+              "accion": "comentario",
+              "comentarios": "Otra cosa"
+            },
+            {
+              "fecha": "2025-07-15T12:27:24.989405",
+              "usuario": "Usuario",
+              "accion": "comentario",
+              "comentarios": "y este?"
+            },
+            {
+              "fecha": "2025-07-15T12:27:45.463259",
+              "usuario": "Usuario",
+              "accion": "posponer",
+              "fecha_anterior": "2025-07-27",
+              "fecha_nueva": "2025-08-03",
+              "comentarios": "Tarea pospuesta"
             }
           ]
         },
@@ -105,8 +131,31 @@
           "descripcion": "Entregar kit de bienvenida a Juan Pérez",
           "responsable": "RRHH",
           "fecha_creacion": "2025-07-15T09:48:20.320403",
-          "fecha_limite": "2025-08-01T00:00:00",
-          "estado": "pendiente"
+          "fecha_limite": "2025-08-10",
+          "estado": "pendiente",
+          "historial_cambios": [
+            {
+              "fecha": "2025-07-15T12:27:18.528775",
+              "usuario": "Usuario",
+              "accion": "comentario",
+              "comentarios": "Entregado pero no funciona el sistema"
+            },
+            {
+              "fecha": "2025-07-15T12:28:18.228635",
+              "usuario": "Usuario",
+              "accion": "comentario",
+              "comentarios": "sdfsdf sdf"
+            },
+            {
+              "fecha": "2025-07-15T12:29:18.176988",
+              "usuario": "TestUser",
+              "accion": "posponer",
+              "fecha_anterior": "2025-08-01T00:00:00",
+              "fecha_nueva": "2025-08-10",
+              "comentarios": "Posponer para revisar con más detalle"
+            }
+          ],
+          "fecha_modificacion": "2025-07-15T12:29:18.176982"
         }
       ]
     }
@@ -191,9 +240,15 @@
               "usuario": "TestUser2",
               "accion": "comentario",
               "comentarios": "Nuevo comentario de prueba para verificar"
+            },
+            {
+              "fecha": "2025-07-15T12:26:07.912964",
+              "usuario": "Usuario",
+              "accion": "comentario",
+              "comentarios": "asdf"
             }
           ],
-          "fecha_modificacion": "2025-07-15T12:24:11.186236"
+          "fecha_modificacion": "2025-07-15T12:26:07.913006"
         },
         {
           "id": "cdb83fa8-9868-46be-b170-d82f2d77d489",
@@ -214,8 +269,15 @@
               "estado_anterior": "pendiente",
               "estado_nuevo": "completada",
               "comentarios": ""
+            },
+            {
+              "fecha": "2025-07-15T12:27:04.228864",
+              "usuario": "Usuario",
+              "accion": "comentario",
+              "comentarios": "sdfsdfff ff "
             }
-          ]
+          ],
+          "fecha_modificacion": "2025-07-15T12:27:04.228898"
         },
         {
           "id": "680f2fd4-0811-47ef-9803-d64ece61fc9f",
