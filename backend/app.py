@@ -658,15 +658,15 @@ def get_madurez_estadisticas():
         if not org_id:
             return jsonify({'error': 'Organización no especificada'}), 400
         
-        evaluaciones = madurez_service.get_evaluaciones(org_id)
+        evaluaciones = madurez_service.get_assessments(org_id)
         
         # Calcular estadísticas
         total = len(evaluaciones)
-        completadas = len([e for e in evaluaciones if e.get('estado') == 'completada'])
-        progreso = len([e for e in evaluaciones if e.get('estado') == 'en_progreso'])
+        completadas = len([e for e in evaluaciones if e.get('estado') in ['completado', 'firmado']])
+        progreso = len([e for e in evaluaciones if e.get('estado') == 'abierto'])
         
         # Calcular puntuación promedio
-        puntuaciones = [e.get('puntuacion_total', 0) for e in evaluaciones if e.get('estado') == 'completada']
+        puntuaciones = [e.get('resultados', {}).get('puntuacion_total', 0) for e in evaluaciones if e.get('estado') in ['completado', 'firmado'] and e.get('resultados')]
         puntuacion = sum(puntuaciones) / len(puntuaciones) if puntuaciones else None
         
         estadisticas = {
@@ -787,6 +787,20 @@ def sign_madurez_assessment(assessment_id):
         return jsonify({'error': 'Assessment no encontrado'}), 404
     except Exception as e:
         logger.error(f"Error firmando assessment de madurez: {e}")
+        return jsonify({'error': str(e)}), 500
+
+@app.route('/api/madurez/assessments/<assessment_id>', methods=['DELETE'])
+@require_organization
+def delete_madurez_assessment(assessment_id):
+    try:
+        org_id = get_organization()
+        if madurez_service.delete_assessment(org_id, assessment_id):
+            return '', 204
+        return jsonify({'error': 'Assessment no encontrado'}), 404
+    except ValueError as e:
+        return jsonify({'error': str(e)}), 400
+    except Exception as e:
+        logger.error(f"Error eliminando assessment de madurez: {e}")
         return jsonify({'error': str(e)}), 500
 
 @app.route('/api/madurez/dashboard/<assessment_id>', methods=['GET'])

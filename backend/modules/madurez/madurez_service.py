@@ -654,6 +654,22 @@ class MadurezService:
             ]
         }
     
+    def delete_assessment(self, org_id, assessment_id):
+        """Eliminar un assessment"""
+        assessments = self._load_assessments(org_id)
+        
+        for i, assessment in enumerate(assessments):
+            if assessment['id'] == assessment_id:
+                # Solo permitir eliminar si no está completado
+                if assessment.get('estado') in ['completado', 'firmado']:
+                    raise ValueError("No se puede eliminar un assessment completado o firmado")
+                
+                assessments.pop(i)
+                self._save_assessments(org_id, assessments)
+                return True
+        
+        return False
+    
     def get_history(self, org_id):
         """Obtener histórico de assessments"""
         assessments = self._load_assessments(org_id)

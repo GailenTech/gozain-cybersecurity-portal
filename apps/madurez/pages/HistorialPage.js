@@ -1,8 +1,9 @@
 // Página de Historial de Evaluaciones de Madurez
-import { ref, inject, onMounted, computed } from 'https://unpkg.com/vue@3/dist/vue.esm-browser.js';
-
 export default {
+    name: 'HistorialPage',
+    
     setup() {
+        const { ref, inject, onMounted, computed } = Vue;
         const api = inject('api');
         const eventBus = inject('eventBus');
         const organization = inject('organization');
@@ -52,13 +53,20 @@ export default {
         const cargarHistorial = async () => {
             loading.value = true;
             try {
-                const [historialData, comparativaData] = await Promise.all([
-                    api.get('/madurez/assessments/historial'),
-                    api.get('/madurez/assessments/comparativa')
-                ]);
-
-                historial.value = historialData || [];
-                comparativa.value = comparativaData;
+                // Usar el endpoint de history que existe
+                const historialData = await api.get('/madurez/history');
+                
+                if (historialData && historialData.assessments) {
+                    historial.value = historialData.assessments || [];
+                } else {
+                    // Si no viene en el formato esperado, cargar assessments completados
+                    const allAssessments = await api.get('/madurez/assessments');
+                    historial.value = allAssessments.filter(a => 
+                        a.estado === 'completado' || a.estado === 'firmado'
+                    );
+                }
+                
+                comparativa.value = null; // Por ahora no tenemos endpoint de comparativa
             } catch (error) {
                 console.error('Error cargando historial:', error);
                 mostrarError('Error al cargar el historial');
@@ -69,7 +77,9 @@ export default {
         };
 
         const verDetalleEvaluacion = (evaluacion) => {
-            eventBus.emit('madurez:showModal', { type: 'resultados', assessment: evaluacion });
+            const { useRouter } = VueRouter;
+            const router = useRouter();
+            router.push(`/dashboard/${evaluacion.id}`);
         };
 
         const compararEvaluaciones = (evaluacion1, evaluacion2) => {
@@ -81,7 +91,12 @@ export default {
 
         const exportarHistorial = async () => {
             try {
-                const blob = await api.getBlob('/madurez/assessments/historial/export');
+                // Por ahora usar el export general de assessments con filtro
+                const params = new URLSearchParams({
+                    estado: 'completado,firmado'
+                });
+                
+                const blob = await api.getBlob(`/madurez/assessments/export?${params.toString()}`);
                 const url = window.URL.createObjectURL(blob);
                 const a = document.createElement('a');
                 a.href = url;

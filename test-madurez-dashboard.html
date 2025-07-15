@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Madurez Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="/static/css/dashboard.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container mt-5">
+        <h1>Test Madurez Dashboard</h1>
+        <p>Organización: e2e_test_organization</p>
+        
+        <div class="mt-4">
+            <h3>Assessments:</h3>
+            <div id="assessments" class="list-group mb-4"></div>
+            
+            <h3>Dashboard:</h3>
+            <div id="dashboard-container"></div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <script type="module">
+        // API Service
+        class ApiService {
+            constructor() {
+                this.baseUrl = '/api';
+                this.organization = 'e2e_test_organization';
+            }
+            
+            async get(endpoint) {
+                const response = await fetch(this.baseUrl + endpoint, {
+                    headers: {
+                        'X-Organization-Id': this.organization
+                    }
+                });
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                return await response.json();
+            }
+        }
+        
+        const api = new ApiService();
+        
+        // Load assessments
+        async function loadAssessments() {
+            try {
+                const assessments = await api.get('/madurez/assessments');
+                const container = document.getElementById('assessments');
+                
+                if (assessments.length === 0) {
+                    container.innerHTML = '<p class="text-muted">No hay assessments</p>';
+                    return;
+                }
+                
+                assessments.forEach(assessment => {
+                    const item = document.createElement('a');
+                    item.href = '#';
+                    item.className = 'list-group-item list-group-item-action';
+                    item.innerHTML = `
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <h6>${assessment.nombre}</h6>
+                                <small>Estado: ${assessment.estado} | ID: ${assessment.id}</small>
+                            </div>
+                            ${assessment.resultados ? 
+                                `<span class="badge bg-primary">${assessment.resultados.puntuacion_total}/4.0</span>` : 
+                                '<span class="badge bg-secondary">Sin completar</span>'
+                            }
+                        </div>
+                    `;
+                    item.onclick = (e) => {
+                        e.preventDefault();
+                        if (assessment.resultados) {
+                            loadDashboard(assessment.id);
+                        } else {
+                            alert('Este assessment no tiene resultados');
+                        }
+                    };
+                    container.appendChild(item);
+                });
+                
+                // Load first completed assessment automatically
+                const completed = assessments.find(a => a.resultados);
+                if (completed) {
+                    loadDashboard(completed.id);
+                }
+                
+            } catch (error) {
+                console.error('Error loading assessments:', error);
+                document.getElementById('assessments').innerHTML = 
+                    `<div class="alert alert-danger">Error: ${error.message}</div>`;
+            }
+        }
+        
+        // Load dashboard
+        async function loadDashboard(assessmentId) {
+            try {
+                const container = document.getElementById('dashboard-container');
+                container.innerHTML = '<div class="spinner-border"></div> Cargando...';
+                
+                // Import dashboard view
+                const { default: AssessmentDashboard } = await import('/apps/madurez/views/dashboard-view.js');
+                
+                // Create instance and render
+                const dashboard = new AssessmentDashboard(container, api);
+                await dashboard.render(assessmentId);
+                
+            } catch (error) {
+                console.error('Error loading dashboard:', error);
+                document.getElementById('dashboard-container').innerHTML = 
+                    `<div class="alert alert-danger">Error: ${error.message}</div>`;
+            }
+        }
+        
+        // Initialize
+        loadAssessments();
+    </script>
+</body>
+</html>

@@ -1,11 +1,13 @@
 // Página del Cuestionario de Madurez
-import { ref, inject, onMounted, computed, reactive } from 'https://unpkg.com/vue@3/dist/vue.esm-browser.js';
-
 export default {
+    name: 'CuestionarioPage',
+    
     setup() {
+        const { ref, inject, onMounted, computed, reactive } = Vue;
+        const { useRoute, useRouter } = VueRouter;
         const api = inject('api');
-        const route = inject('$route');
-        const router = inject('$router');
+        const route = useRoute();
+        const router = useRouter();
         
         // Estado del cuestionario
         const loading = ref(false);
@@ -47,13 +49,14 @@ export default {
             try {
                 const assessmentId = route.params.id;
                 
-                // Cargar assessment y template
-                const [assessmentData, templateData] = await Promise.all([
-                    api.get(`/madurez/assessments/${assessmentId}`),
-                    api.get(`/madurez/templates/default`) // Asumimos template por defecto
-                ]);
-
+                // Cargar assessment primero
+                const assessmentData = await api.get(`/madurez/assessments/${assessmentId}`);
                 assessment.value = assessmentData;
+                
+                // Cargar template basado en el assessment
+                const templateId = assessmentData.cuestionario_id || 'cuestionario_ciberplan_v1';
+                const templateData = await api.get(`/madurez/templates/${templateId}`);
+                
                 template.value = templateData;
 
                 // Verificar que esté abierto
@@ -62,8 +65,15 @@ export default {
                 }
 
                 // Cargar respuestas existentes si las hay
-                if (assessment.value.respuestas) {
+                if (assessment.value.respuestas_parciales) {
+                    Object.assign(respuestas, assessment.value.respuestas_parciales);
+                } else if (assessment.value.respuestas) {
                     Object.assign(respuestas, assessment.value.respuestas);
+                }
+                
+                // Restaurar dominio actual si existe
+                if (assessment.value.dominio_actual !== undefined) {
+                    dominioActual.value = assessment.value.dominio_actual;
                 }
 
             } catch (error) {
@@ -109,10 +119,15 @@ export default {
 
         const guardarProgreso = async () => {
             try {
-                await api.put(`/madurez/assessments/${assessment.value.id}/progreso`, {
-                    respuestas: respuestas,
-                    dominio_actual: dominioActual.value
-                });
+                // Usar el endpoint PUT general para actualizar el assessment
+                const updatedData = {
+                    ...assessment.value,
+                    respuestas_parciales: respuestas,
+                    dominio_actual: dominioActual.value,
+                    fecha_ultima_modificacion: new Date().toISOString()
+                };
+                
+                await api.put(`/madurez/assessments/${assessment.value.id}`, updatedData);
             } catch (error) {
                 console.error('Error guardando progreso:', error);
                 mostrarError('Error al guardar el progreso');
@@ -123,7 +138,7 @@ export default {
             try {
                 loading.value = true;
                 
-                const resultado = await api.post(`/madurez/assessments/${assessment.value.id}/completar`, {
+                const resultado = await api.post(`/madurez/assessments/${assessment.value.id}/complete`, {
                     respuestas: respuestas
                 });
 

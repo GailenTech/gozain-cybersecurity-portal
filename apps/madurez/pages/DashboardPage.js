@@ -1,7 +1,7 @@
 /**
  * Dashboard de Madurez en Ciberseguridad
  */
-export const DashboardPage = {
+export default {
     name: 'MadurezDashboardPage',
     
     data() {
@@ -57,7 +57,7 @@ export const DashboardPage = {
                 
                 const [stats, evaluaciones] = await Promise.all([
                     api.get('/madurez/estadisticas'),
-                    api.get('/madurez/evaluaciones?limit=5')
+                    api.get('/madurez/assessments?limit=5')
                 ]);
                 
                 this.estadisticas = stats || this.estadisticas;
@@ -79,29 +79,42 @@ export const DashboardPage = {
         },
         
         verEvaluacion(evaluacion) {
-            this.$router.push(`/cuestionario/${evaluacion.id}`);
+            // Si está completada o firmada, ir al dashboard
+            if (evaluacion.estado === 'completado' || evaluacion.estado === 'firmado') {
+                this.$router.push(`/dashboard/${evaluacion.id}`);
+            } else {
+                // Si está abierta, ir al cuestionario
+                this.$router.push(`/cuestionario/${evaluacion.id}`);
+            }
         },
         
         getEstadoClass(estado) {
             const clases = {
-                'completada': 'success',
-                'en_progreso': 'warning',
-                'pendiente': 'secondary'
+                'abierto': 'warning',
+                'completado': 'success',
+                'firmado': 'primary'
             };
             return clases[estado] || 'secondary';
         },
         
         getEstadoLabel(estado) {
             const labels = {
-                'completada': 'Completada',
-                'en_progreso': 'En Progreso',
-                'pendiente': 'Pendiente'
+                'abierto': 'Abierto',
+                'completado': 'Completado',
+                'firmado': 'Firmado'
             };
             return labels[estado] || estado;
         },
         
         formatearFecha(fecha) {
-            return new Date(fecha).toLocaleDateString('es-ES');
+            if (!fecha) return 'Sin fecha';
+            try {
+                const date = new Date(fecha);
+                if (isNaN(date.getTime())) return 'Fecha inválida';
+                return date.toLocaleDateString('es-ES');
+            } catch (e) {
+                return 'Error en fecha';
+            }
         },
         
         mostrarError(mensaje) {
@@ -188,18 +201,18 @@ export const DashboardPage = {
                              style="cursor: pointer;">
                             <div class="d-flex justify-content-between align-items-center">
                                 <div>
-                                    <h6 class="mb-1">{{ evaluacion.template_name }}</h6>
+                                    <h6 class="mb-1">{{ evaluacion.nombre || evaluacion.template_name || 'Sin nombre' }}</h6>
                                     <small class="text-muted">
                                         <i class="bi bi-calendar"></i>
-                                        {{ formatearFecha(evaluacion.fecha_creacion) }}
+                                        {{ formatearFecha(evaluacion.fecha_inicio || evaluacion.fecha_creacion) }}
                                     </small>
                                 </div>
                                 <div class="text-end">
                                     <span :class="'badge bg-' + getEstadoClass(evaluacion.estado)">
                                         {{ getEstadoLabel(evaluacion.estado) }}
                                     </span>
-                                    <div v-if="evaluacion.puntuacion_total" class="mt-1">
-                                        <strong>{{ evaluacion.puntuacion_total.toFixed(1) }}</strong>
+                                    <div v-if="evaluacion.resultados && evaluacion.resultados.puntuacion_total" class="mt-1">
+                                        <strong>{{ evaluacion.resultados.puntuacion_total.toFixed(1) }}</strong>
                                         <small class="text-muted">/ 4.0</small>
                                     </div>
                                 </div>

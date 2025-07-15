@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test API Madurez</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container mt-5">
+        <h1>Test API Madurez</h1>
+        <p>Organización: e2e_test_organization</p>
+        
+        <div class="row mt-4">
+            <div class="col-md-6">
+                <h3>Endpoints</h3>
+                <div class="list-group">
+                    <a href="#" class="list-group-item list-group-item-action" onclick="testEndpoint('/api/madurez/estadisticas')">
+                        GET /api/madurez/estadisticas
+                    </a>
+                    <a href="#" class="list-group-item list-group-item-action" onclick="testEndpoint('/api/madurez/assessments')">
+                        GET /api/madurez/assessments
+                    </a>
+                    <a href="#" class="list-group-item list-group-item-action" onclick="testEndpoint('/api/madurez/templates')">
+                        GET /api/madurez/templates
+                    </a>
+                    <a href="#" class="list-group-item list-group-item-action" onclick="testEndpoint('/api/madurez/templates/cuestionario_ciberplan_v1')">
+                        GET /api/madurez/templates/cuestionario_ciberplan_v1
+                    </a>
+                </div>
+                
+                <h4 class="mt-4">Test Assessment Específico</h4>
+                <div class="input-group mb-3">
+                    <input type="text" class="form-control" id="assessmentId" 
+                           placeholder="ID del assessment" 
+                           value="assessment-001">
+                    <button class="btn btn-primary" onclick="testAssessment()">Test Assessment</button>
+                </div>
+            </div>
+            
+            <div class="col-md-6">
+                <h3>Respuesta</h3>
+                <pre id="response" class="bg-light p-3" style="max-height: 600px; overflow-y: auto;">
+                    Haz clic en un endpoint para probar
+                </pre>
+            </div>
+        </div>
+        
+        <div class="mt-4">
+            <h3>Crear Nueva Evaluación</h3>
+            <button class="btn btn-success" onclick="crearEvaluacion()">Crear Evaluación de Prueba</button>
+        </div>
+    </div>
+
+    <script>
+        async function testEndpoint(endpoint) {
+            const responseEl = document.getElementById('response');
+            responseEl.textContent = 'Cargando...';
+            
+            try {
+                const response = await fetch(endpoint, {
+                    headers: {
+                        'X-Organization-Id': 'e2e_test_organization'
+                    }
+                });
+                
+                const data = await response.json();
+                responseEl.textContent = JSON.stringify(data, null, 2);
+                
+                if (!response.ok) {
+                    responseEl.style.color = 'red';
+                } else {
+                    responseEl.style.color = 'black';
+                }
+            } catch (error) {
+                responseEl.textContent = `Error: ${error.message}`;
+                responseEl.style.color = 'red';
+            }
+        }
+        
+        async function testAssessment() {
+            const id = document.getElementById('assessmentId').value;
+            if (!id) {
+                alert('Ingresa un ID de assessment');
+                return;
+            }
+            
+            // Test múltiples endpoints
+            const endpoints = [
+                `/api/madurez/assessments/${id}`,
+                `/api/madurez/dashboard/${id}`
+            ];
+            
+            const responseEl = document.getElementById('response');
+            responseEl.textContent = '';
+            
+            for (const endpoint of endpoints) {
+                responseEl.textContent += `\n=== ${endpoint} ===\n`;
+                
+                try {
+                    const response = await fetch(endpoint, {
+                        headers: {
+                            'X-Organization-Id': 'e2e_test_organization'
+                        }
+                    });
+                    
+                    const data = await response.json();
+                    responseEl.textContent += JSON.stringify(data, null, 2) + '\n';
+                } catch (error) {
+                    responseEl.textContent += `Error: ${error.message}\n`;
+                }
+            }
+        }
+        
+        async function crearEvaluacion() {
+            const responseEl = document.getElementById('response');
+            responseEl.textContent = 'Creando evaluación...';
+            
+            const data = {
+                nombre: `Test API ${new Date().toLocaleString()}`,
+                descripcion: 'Evaluación creada desde test API',
+                objetivo_6meses: 2.5,
+                objetivo_1año: 3.0,
+                objetivo_2años: 4.0
+            };
+            
+            try {
+                const response = await fetch('/api/madurez/assessments', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-Organization-Id': 'e2e_test_organization'
+                    },
+                    body: JSON.stringify(data)
+                });
+                
+                const result = await response.json();
+                responseEl.textContent = JSON.stringify(result, null, 2);
+                
+                if (response.ok) {
+                    responseEl.style.color = 'green';
+                    responseEl.textContent += '\n\n✅ Evaluación creada exitosamente!';
+                } else {
+                    responseEl.style.color = 'red';
+                }
+            } catch (error) {
+                responseEl.textContent = `Error: ${error.message}`;
+                responseEl.style.color = 'red';
+            }
+        }
+        
+        // Test inicial
+        testEndpoint('/api/madurez/estadisticas');
+    </script>
+</body>
+</html>

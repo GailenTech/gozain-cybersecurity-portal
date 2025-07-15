@@ -1,8 +1,9 @@
 // Lista de Evaluaciones de Madurez
-import { ref, inject, onMounted, computed, reactive } from 'https://unpkg.com/vue@3/dist/vue.esm-browser.js';
-
 export default {
+    name: 'EvaluacionesPage',
+    
     setup() {
+        const { ref, inject, onMounted, computed, reactive } = Vue;
         const api = inject('api');
         const eventBus = inject('eventBus');
         const organization = inject('organization');
@@ -88,7 +89,11 @@ export default {
         };
 
         const verResultados = (assessment) => {
-            eventBus.emit('madurez:showModal', { type: 'resultados', assessment });
+            // Navegar al dashboard del assessment
+            const router = inject('$router');
+            if (router) {
+                router.push(`/dashboard/${assessment.id}`);
+            }
         };
 
         const firmarEvaluacion = async (assessment) => {

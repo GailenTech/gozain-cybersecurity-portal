@@ -29,10 +29,11 @@ export default class MadurezVueRouterApp {
             console.log('Creating Vue app for Madurez...');
             
             // Cargar componentes dinámicamente
-            const { DashboardPage } = await import('./pages/DashboardPage.js');
-            const { EvaluacionesPage } = await import('./pages/EvaluacionesPage.js');
-            const { CuestionarioPage } = await import('./pages/CuestionarioPage.js');
-            const { HistorialPage } = await import('./pages/HistorialPage.js');
+            const DashboardPage = (await import('./pages/DashboardPage.js')).default;
+            const AssessmentDashboardPage = (await import('./pages/AssessmentDashboardPage.js')).default;
+            const EvaluacionesPage = (await import('./pages/EvaluacionesPage.js')).default;
+            const CuestionarioPage = (await import('./pages/CuestionarioPage.js')).default;
+            const HistorialPage = (await import('./pages/HistorialPage.js')).default;
             
             // Crear router
             const router = createRouter({
@@ -40,6 +41,7 @@ export default class MadurezVueRouterApp {
                 routes: [
                     { path: '/', redirect: '/dashboard' },
                     { path: '/dashboard', name: 'dashboard', component: DashboardPage },
+                    { path: '/dashboard/:id', name: 'assessment-dashboard', component: AssessmentDashboardPage },
                     { path: '/evaluaciones', name: 'evaluaciones', component: EvaluacionesPage },
                     { path: '/cuestionario/:id', name: 'cuestionario', component: CuestionarioPage },
                     { path: '/historial', name: 'historial', component: HistorialPage }
@@ -56,9 +58,22 @@ export default class MadurezVueRouterApp {
                 localStorage.setItem('gozain_last_route', JSON.stringify(routeData));
             });
             
+            // Cargar componente del modal
+            const ModalNuevaEvaluacion = (await import('./components/ModalNuevaEvaluacion.js')).default;
+            
             // Componente raíz
             const RootComponent = {
                 name: 'MadurezRoot',
+                
+                components: {
+                    ModalNuevaEvaluacion
+                },
+                
+                data() {
+                    return {
+                        showModalNueva: false
+                    };
+                },
                 
                 mounted() {
                     this.setupMenu();
@@ -67,6 +82,7 @@ export default class MadurezVueRouterApp {
                     const eventBus = window.gozainApp?.eventBus;
                     if (eventBus) {
                         eventBus.on('madurez:menuAction', this.handleMenuAction);
+                        eventBus.on('madurez:showModal', this.handleShowModal);
                     }
                 },
                 
@@ -74,6 +90,7 @@ export default class MadurezVueRouterApp {
                     const eventBus = window.gozainApp?.eventBus;
                     if (eventBus) {
                         eventBus.off('madurez:menuAction', this.handleMenuAction);
+                        eventBus.off('madurez:showModal', this.handleShowModal);
                     }
                 },
                 
@@ -82,12 +99,23 @@ export default class MadurezVueRouterApp {
                         console.log('Menu action:', data);
                         
                         if (data.item === 'nueva') {
-                            console.log('Crear nueva evaluación');
-                            // TODO: Implementar modal de nueva evaluación
+                            this.showModalNueva = true;
                         } else {
                             // Navegar usando el router
                             this.$router.push({ name: data.item });
                         }
+                    },
+                    
+                    handleShowModal(data) {
+                        if (data.type === 'nueva') {
+                            this.showModalNueva = true;
+                        }
+                        // Otros tipos de modales se pueden agregar aquí
+                    },
+                    
+                    handleEvaluacionCreated(evaluacion) {
+                        // Navegar al cuestionario de la nueva evaluación
+                        this.$router.push(`/cuestionario/${evaluacion.id}`);
                     },
                     
                     setupMenu() {
@@ -140,7 +168,12 @@ export default class MadurezVueRouterApp {
                 
                 render() {
                     return h('div', { class: 'madurez-module' }, [
-                        h(window.VueRouter.RouterView)
+                        h(window.VueRouter.RouterView),
+                        h(ModalNuevaEvaluacion, {
+                            show: this.showModalNueva,
+                            onClose: () => this.showModalNueva = false,
+                            onCreated: this.handleEvaluacionCreated
+                        })
                     ]);
                 }
             };
@@ -150,6 +183,11 @@ export default class MadurezVueRouterApp {
             
             // Usar router
             app.use(router);
+            
+            // Proveer servicios a todos los componentes hijos
+            app.provide('api', this.services.api);
+            app.provide('eventBus', this.services.eventBus);
+            app.provide('organization', this.organization);
             
             // Hacer servicios disponibles globalmente para las páginas
             window.gozainApp = {

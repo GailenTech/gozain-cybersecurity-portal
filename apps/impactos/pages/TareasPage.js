@@ -243,7 +243,25 @@ export const TareasPage = {
         abrirModalPosponerMasivo() {
             if (this.tareasSeleccionadas.size === 0) return;
             
-            this.formPosponerMasivo.fechaLimite = '';
+            // Calcular fecha límite más común o más próxima de las tareas seleccionadas
+            const tareasSeleccionadasArray = this.tareasFiltradas.filter(tarea => 
+                this.tareasSeleccionadas.has(tarea.id)
+            );
+            
+            let fechaDefecto = '';
+            if (tareasSeleccionadasArray.length > 0) {
+                // Usar la fecha límite más próxima (más temprana) como defecto
+                const fechasLimite = tareasSeleccionadasArray
+                    .map(tarea => tarea.fecha_limite)
+                    .filter(fecha => fecha)
+                    .sort();
+                    
+                if (fechasLimite.length > 0) {
+                    fechaDefecto = fechasLimite[0].split('T')[0];
+                }
+            }
+            
+            this.formPosponerMasivo.fechaLimite = fechaDefecto;
             this.formPosponerMasivo.comentarios = '';
             this.mostrarModalPosponerMasivo = true;
         },
