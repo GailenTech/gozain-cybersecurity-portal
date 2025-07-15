@@ -183,6 +183,13 @@ export default class InventarioVueRouterRealApp {
             app.component('ModalActivo', ModalActivo);
             app.component('ModalImportar', ModalImportar);
             
+            // Hacer servicios disponibles globalmente
+            window.gozainApp = {
+                services: this.services,
+                eventBus: this.services.eventBus,
+                organization: this.organization
+            };
+            
             // Inyectar servicios globales
             app.provide('services', this.services);
             app.config.globalProperties.$eventBus = window.gozainApp?.eventBus;

@@ -148,6 +148,13 @@ export default class ImpactosVueRouterApp {
             // Usar router
             app.use(router);
             
+            // Hacer servicios disponibles globalmente para las páginas
+            window.gozainApp = {
+                services: this.services,
+                eventBus: this.services.eventBus,
+                organization: this.organization
+            };
+            
             // Montar
             app.mount(vueContainer);
             this.vueApp = app;
