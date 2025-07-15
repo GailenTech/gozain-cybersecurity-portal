@@ -38,7 +38,7 @@ export const TareasPage = {
             ],
             fechasLimite: [
                 { value: 'hoy', label: 'Hoy' },
-                { value: 'manana', label: 'Mañana' },
+                { value: 'manana', label: 'Hasta mañana' },
                 { value: 'esta_semana', label: 'Esta semana' },
                 { value: 'este_mes', label: 'Este mes' },
                 { value: 'vencidas', label: 'Vencidas' }
@@ -106,6 +106,8 @@ export const TareasPage = {
             if (!tarea.fecha_limite || !filtroFecha) return true;
             
             const fechaTarea = new Date(tarea.fecha_limite);
+            fechaTarea.setHours(0, 0, 0, 0); // Normalizar para comparación
+            
             const hoy = new Date();
             hoy.setHours(0, 0, 0, 0); // Normalizar a inicio del día
             
@@ -119,10 +121,10 @@ export const TareasPage = {
             
             switch (filtroFecha) {
                 case 'hoy':
-                    return fechaTarea.toDateString() === hoy.toDateString();
+                    return fechaTarea.getTime() === hoy.getTime();
                     
                 case 'manana':
-                    return fechaTarea.toDateString() === manana.toDateString();
+                    return fechaTarea >= hoy && fechaTarea <= manana;
                     
                 case 'esta_semana':
                     return fechaTarea >= hoy && fechaTarea <= finSemana;
@@ -359,8 +361,18 @@ export const TareasPage = {
                 
                 if (response.success) {
                     this.mostrarExito('Comentario agregado correctamente');
-                    this.cerrarModalDetalle();
+                    
+                    // Recargar las tareas y actualizar la tarea seleccionada
                     await this.cargarTareas();
+                    
+                    // Buscar la tarea actualizada y mantenerla seleccionada
+                    const tareaActualizada = this.tareas.find(t => t.id === this.tareaSeleccionada.id);
+                    if (tareaActualizada) {
+                        this.tareaSeleccionada = tareaActualizada;
+                    }
+                    
+                    // Limpiar el formulario de comentarios
+                    this.formDetalle.comentarios = '';
                 } else {
                     this.mostrarError(response.error || 'Error al agregar comentario');
                 }

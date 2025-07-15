@@ -179,8 +179,21 @@
               "estado_anterior": "pendiente",
               "estado_nuevo": "completada",
               "comentarios": ""
+            },
+            {
+              "fecha": "2025-07-15T12:23:00.665260",
+              "usuario": "Usuario",
+              "accion": "comentario",
+              "comentarios": "Revisar con cuidado"
+            },
+            {
+              "fecha": "2025-07-15T12:24:11.186230",
+              "usuario": "TestUser2",
+              "accion": "comentario",
+              "comentarios": "Nuevo comentario de prueba para verificar"
             }
-          ]
+          ],
+          "fecha_modificacion": "2025-07-15T12:24:11.186236"
         },
         {
           "id": "cdb83fa8-9868-46be-b170-d82f2d77d489",
@@ -245,8 +258,15 @@
               "estado_anterior": "pendiente",
               "estado_nuevo": "completada",
               "comentarios": "Completadas en lote"
+            },
+            {
+              "fecha": "2025-07-15T12:23:23.961384",
+              "usuario": "Usuario",
+              "accion": "comentario",
+              "comentarios": "sdfsdf"
             }
-          ]
+          ],
+          "fecha_modificacion": "2025-07-15T12:23:23.961421"
         }
       ]
     }
