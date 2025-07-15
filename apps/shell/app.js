@@ -3,6 +3,7 @@ import { NavigationManager } from '/core/navigation/navigation.js';
 import { EventBus } from '/core/services/event-bus.js';
 import { ApiService } from '/core/api/api-service.js';
 import { StorageService } from '/core/services/storage-service.js';
+import { NotificationService } from '/core/services/notification-service.js';
 import ToolSelector from './tool-selector.js';
 
 class GozainApp {
@@ -11,6 +12,7 @@ class GozainApp {
         this.eventBus = new EventBus();
         this.api = new ApiService();
         this.storage = new StorageService();
+        this.notifications = new NotificationService(this.eventBus);
         
         // Hacer servicios disponibles globalmente
         window.gozainCore = {
@@ -18,7 +20,8 @@ class GozainApp {
                 navigation: this.navigation,
                 eventBus: this.eventBus,
                 api: this.api,
-                storage: this.storage
+                storage: this.storage,
+                notifications: this.notifications
             }
         };
         
@@ -152,6 +155,7 @@ class GozainApp {
         // Event listeners del eventBus
         this.eventBus.on('shell:setAppMenu', (data) => this.setAppMenu(data));
         this.eventBus.on('shell:updateMenuActiveState', (data) => this.updateMenuActiveState(data));
+        this.eventBus.on('shell:showToast', (data) => this.showToast(data));
         
         // Botón selector de herramientas
         const toolSelectorBtn = document.getElementById('toolSelectorButton');
@@ -203,7 +207,7 @@ class GozainApp {
                         // Seleccionar la nueva organización
                         this.selectOrganization(newOrg.id, newOrg.nombre);
                     } catch (error) {
-                        alert('Error al crear organización: ' + error.message);
+                        this.notifications.error('Error al crear organización: ' + error.message);
                     }
                 }
             });
@@ -533,6 +537,11 @@ class GozainApp {
                 link.classList.remove('active');
             }
         });
+    }
+    
+    showToast(data) {
+        const { message, type = 'info', duration = 3000 } = data;
+        this.notifications.show(message, type, duration);
     }
 }
 

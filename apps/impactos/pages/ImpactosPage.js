@@ -196,6 +196,14 @@ export const ImpactosPage = {
         handleImpactoProcessed() {
             // Recargar lista cuando se procesa un impacto
             this.cargarImpactos();
+        },
+        
+        verTareasImpacto(impactoId) {
+            // Navegar a la página de tareas con el impacto como filtro
+            this.$router.push({ 
+                name: 'tareas', 
+                query: { impactoId: impactoId } 
+            });
         }
     },
     
@@ -320,7 +328,7 @@ export const ImpactosPage = {
                             <tbody>
                                 <tr v-for="impacto in impactosFiltrados" :key="impacto.id">
                                     <td>
-                                        <code>{{ impacto.id.substring(0, 8) }}</code>
+                                        <code>{{ impacto.id }}</code>
                                     </td>
                                     <td>
                                         <span class="badge bg-secondary">
@@ -348,6 +356,13 @@ export const ImpactosPage = {
                                                 title="Ver detalles"
                                             >
                                                 <i class="bi bi-eye"></i>
+                                            </button>
+                                            <button 
+                                                class="btn btn-outline-info" 
+                                                @click="verTareasImpacto(impacto.id)"
+                                                title="Ver tareas de este impacto"
+                                            >
+                                                <i class="bi bi-list-task"></i>
                                             </button>
                                             <button 
                                                 v-if="impacto.estado === 'pendiente'"

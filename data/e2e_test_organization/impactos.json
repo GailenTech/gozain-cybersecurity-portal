@@ -71,8 +71,33 @@
           "descripcion": "Preparar equipo para Juan Pérez",
           "responsable": "IT",
           "fecha_creacion": "2025-07-15T09:48:20.320345",
-          "fecha_limite": "2025-07-31T00:00:00",
-          "estado": "pendiente"
+          "fecha_limite": "2025-07-27",
+          "estado": "pendiente",
+          "fecha_modificacion": "2025-07-15T12:18:52.024487",
+          "historial_cambios": [
+            {
+              "fecha": "2025-07-15T11:46:13.999256",
+              "usuario": "Usuario",
+              "accion": "posponer",
+              "fecha_anterior": "2025-07-31T00:00:00",
+              "fecha_nueva": "2025-07-26",
+              "comentarios": "Pospuestas en lote"
+            },
+            {
+              "fecha": "2025-07-15T11:46:48.948446",
+              "usuario": "Usuario",
+              "accion": "posponer",
+              "fecha_anterior": "2025-07-26",
+              "fecha_nueva": "2025-07-27",
+              "comentarios": "Pospuestas en lote"
+            },
+            {
+              "fecha": "2025-07-15T12:18:52.024481",
+              "usuario": "TestUser",
+              "accion": "comentario",
+              "comentarios": "Comentario de prueba desde curl"
+            }
+          ]
         },
         {
           "id": "8665ba7a-2c00-45f1-bbdb-5abb4474d689",
@@ -117,7 +142,7 @@
     "id": "impact-003",
     "tipo": "cambio_rol",
     "descripcion": "Promoción a líder técnico",
-    "estado": "pendiente",
+    "estado": "procesado",
     "fecha_creacion": "2025-07-12T11:00:00",
     "usuario_creador": "manager@test.com",
     "datos": {
@@ -128,6 +153,101 @@
       "permisos_adicionales": [
         "Acceso repositorios",
         "Aprobación PRs"
+      ]
+    },
+    "fecha_procesamiento": "2025-07-15T09:53:26.962087",
+    "acciones_ejecutadas": {
+      "activos_creados": [],
+      "activos_modificados": [],
+      "tareas_creadas": [
+        {
+          "id": "d7ea3dbc-a54b-4c75-b3d4-8e6a079df712",
+          "impacto_id": "impact-003",
+          "descripcion": "Revisar y ajustar permisos de Carlos Rodríguez",
+          "responsable": "Seguridad",
+          "fecha_creacion": "2025-07-15T09:53:26.961954",
+          "fecha_limite": "2025-07-15T09:53:26.961899",
+          "estado": "completada",
+          "fecha_completado": "2025-07-15T11:03:26.612123",
+          "completado_por": "Usuario",
+          "comentarios": "",
+          "historial_cambios": [
+            {
+              "fecha": "2025-07-15T11:03:26.612134",
+              "usuario": "Usuario",
+              "accion": "completar",
+              "estado_anterior": "pendiente",
+              "estado_nuevo": "completada",
+              "comentarios": ""
+            }
+          ]
+        },
+        {
+          "id": "cdb83fa8-9868-46be-b170-d82f2d77d489",
+          "impacto_id": "impact-003",
+          "descripcion": "Actualizar grupos y listas de distribución",
+          "responsable": "IT",
+          "fecha_creacion": "2025-07-15T09:53:26.962028",
+          "fecha_limite": "2025-07-15T09:53:26.961991",
+          "estado": "completada",
+          "fecha_completado": "2025-07-15T11:34:26.049593",
+          "completado_por": "Usuario",
+          "comentarios": "",
+          "historial_cambios": [
+            {
+              "fecha": "2025-07-15T11:34:26.049602",
+              "usuario": "Usuario",
+              "accion": "completar",
+              "estado_anterior": "pendiente",
+              "estado_nuevo": "completada",
+              "comentarios": ""
+            }
+          ]
+        },
+        {
+          "id": "680f2fd4-0811-47ef-9803-d64ece61fc9f",
+          "impacto_id": "impact-003",
+          "descripcion": "Transferir activos asignados si aplica",
+          "responsable": "IT",
+          "fecha_creacion": "2025-07-15T09:53:26.962063",
+          "fecha_limite": "2025-07-16T09:53:26.962047",
+          "estado": "completada",
+          "fecha_completado": "2025-07-15T11:35:28.853233",
+          "completado_por": "Usuario",
+          "comentarios": "Completadas en lote",
+          "historial_cambios": [
+            {
+              "fecha": "2025-07-15T11:35:28.853264",
+              "usuario": "Usuario",
+              "accion": "completar",
+              "estado_anterior": "pendiente",
+              "estado_nuevo": "completada",
+              "comentarios": "Completadas en lote"
+            }
+          ]
+        },
+        {
+          "id": "d94f1db4-dc73-444f-8b3c-254bd36d90cb",
+          "impacto_id": "impact-003",
+          "descripcion": "Actualizar organigrama y documentación",
+          "responsable": "RRHH",
+          "fecha_creacion": "2025-07-15T09:53:26.962082",
+          "fecha_limite": "2025-07-17T09:53:26.962072",
+          "estado": "completada",
+          "fecha_completado": "2025-07-15T11:35:28.855185",
+          "completado_por": "Usuario",
+          "comentarios": "Completadas en lote",
+          "historial_cambios": [
+            {
+              "fecha": "2025-07-15T11:35:28.855192",
+              "usuario": "Usuario",
+              "accion": "completar",
+              "estado_anterior": "pendiente",
+              "estado_nuevo": "completada",
+              "comentarios": "Completadas en lote"
+            }
+          ]
+        }
       ]
     }
   }

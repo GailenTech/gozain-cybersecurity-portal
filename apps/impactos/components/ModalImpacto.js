@@ -40,8 +40,20 @@ export const ModalImpacto = {
             this.mode = data.type || 'nuevo';
             this.errors = {};
             
-            if (this.mode === 'detalle' && data.impacto) {
-                this.impacto = { ...data.impacto };
+            if (this.mode === 'detalle') {
+                // Si tenemos impactoId directamente
+                if (data.impactoId) {
+                    await this.cargarDetalleImpacto(data.impactoId);
+                } 
+                // Si tenemos el objeto impacto completo
+                else if (data.impacto) {
+                    // Si solo tenemos el ID, cargar los detalles completos
+                    if (data.impacto.id && !data.impacto.vista_previa) {
+                        await this.cargarDetalleImpacto(data.impacto.id);
+                    } else {
+                        this.impacto = { ...data.impacto };
+                    }
+                }
             } else {
                 this.impacto = {
                     tipo: '',
@@ -52,10 +64,8 @@ export const ModalImpacto = {
             
             this.show = true;
             
-            // Si es nuevo, cargar tipos de plantillas disponibles
-            if (this.mode === 'nuevo') {
-                await this.cargarTiposPlantillas();
-            }
+            // Cargar tipos de plantillas disponibles siempre
+            await this.cargarTiposPlantillas();
         },
         
         close() {
@@ -67,6 +77,25 @@ export const ModalImpacto = {
             };
             this.plantilla = null;
             this.errors = {};
+        },
+        
+        async cargarDetalleImpacto(impactoId) {
+            try {
+                this.loading = true;
+                const api = window.gozainApp?.services?.api;
+                if (!api) {
+                    console.error('API no disponible');
+                    return;
+                }
+                
+                const impacto = await api.get(`/impactos/${impactoId}`);
+                this.impacto = impacto;
+            } catch (error) {
+                console.error('Error cargando detalle del impacto:', error);
+                this.mostrarError('Error al cargar el impacto');
+            } finally {
+                this.loading = false;
+            }
         },
         
         async cargarTiposPlantillas() {
@@ -210,6 +239,28 @@ export const ModalImpacto = {
         mostrarExito(mensaje) {
             console.log(mensaje);
             // TODO: Implementar notificaciones
+        },
+        
+        getTareas() {
+            // Buscar tareas en diferentes formatos
+            if (this.impacto.acciones_ejecutadas && typeof this.impacto.acciones_ejecutadas === 'object') {
+                return this.impacto.acciones_ejecutadas.tareas_creadas || [];
+            }
+            return this.impacto.tareas_generadas || [];
+        },
+        
+        formatearFecha(fecha) {
+            if (!fecha) return 'Sin fecha';
+            return new Date(fecha).toLocaleDateString('es-ES');
+        },
+        
+        getEstadoClass(estado) {
+            const clases = {
+                'pendiente': 'badge bg-warning text-dark',
+                'completada': 'badge bg-success',
+                'cancelada': 'badge bg-danger'
+            };
+            return clases[estado] || 'badge bg-secondary';
         }
     },
     
@@ -258,6 +309,11 @@ export const ModalImpacto = {
                                             :key="tipo.id" 
                                             :value="tipo.id">
                                         {{ tipo.nombre }}
+                                    </option>
+                                    <!-- Opción adicional para tipos no listados -->
+                                    <option v-if="mode === 'detalle' && impacto.tipo && !tiposPlantillas.find(t => t.id === impacto.tipo)" 
+                                            :value="impacto.tipo">
+                                        {{ impacto.tipo }}
                                     </option>
                                 </select>
                                 <div v-if="errors.tipo" class="invalid-feedback">{{ errors.tipo }}</div>
@@ -341,6 +397,36 @@ export const ModalImpacto = {
                                 </div>
                             </div>
                             
+                            <!-- Vista previa de tareas (solo para impactos pendientes) -->
+                            <div v-if="mode === 'detalle' && impacto.estado === 'pendiente' && impacto.vista_previa" 
+                                 class="alert alert-warning">
+                                <h6 class="alert-heading">Vista previa de cambios</h6>
+                                <div class="row">
+                                    <div class="col-md-4 text-center">
+                                        <h5 class="text-primary">{{ impacto.vista_previa.activos_crear || 0 }}</h5>
+                                        <small>Activos a crear</small>
+                                    </div>
+                                    <div class="col-md-4 text-center">
+                                        <h5 class="text-warning">{{ impacto.vista_previa.activos_modificar || 0 }}</h5>
+                                        <small>Activos a modificar</small>
+                                    </div>
+                                    <div class="col-md-4 text-center">
+                                        <h5 class="text-info">{{ impacto.vista_previa.tareas_generar || 0 }}</h5>
+                                        <small>Tareas a generar</small>
+                                    </div>
+                                </div>
+                                <div v-if="impacto.vista_previa.acciones_detalle && impacto.vista_previa.acciones_detalle.length > 0" 
+                                     class="mt-3">
+                                    <h6>Detalle de acciones:</h6>
+                                    <ul class="mb-0">
+                                        <li v-for="accion in impacto.vista_previa.acciones_detalle" 
+                                            :key="accion.tipo + accion.descripcion">
+                                            <strong>{{ accion.tipo }}:</strong> {{ accion.descripcion }}
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            
                             <!-- Información de estado (solo en modo detalle) -->
                             <div v-if="mode === 'detalle' && impacto.estado" class="alert alert-info">
                                 <strong>Estado:</strong> {{ impacto.estado }}
@@ -350,7 +436,7 @@ export const ModalImpacto = {
                             
                             <!-- Activos creados (solo si está procesado) -->
                             <div v-if="mode === 'detalle' && impacto.activos_creados && impacto.activos_creados.length > 0" 
-                                 class="border rounded p-3">
+                                 class="border rounded p-3 mb-3">
                                 <h6 class="mb-3">Activos creados</h6>
                                 <ul class="list-unstyled mb-0">
                                     <li v-for="activo in impacto.activos_creados" :key="activo.id">
@@ -358,6 +444,30 @@ export const ModalImpacto = {
                                         {{ activo.nombre }} ({{ activo.tipo }})
                                     </li>
                                 </ul>
+                            </div>
+                            
+                            <!-- Tareas generadas (solo si está procesado) -->
+                            <div v-if="mode === 'detalle' && getTareas().length > 0" 
+                                 class="border rounded p-3">
+                                <h6 class="mb-3">Tareas generadas</h6>
+                                <div class="list-group list-group-flush">
+                                    <div v-for="tarea in getTareas()" :key="tarea.id" 
+                                         class="list-group-item px-0">
+                                        <div class="d-flex justify-content-between align-items-start">
+                                            <div class="flex-grow-1">
+                                                <h6 class="mb-1">{{ tarea.descripcion }}</h6>
+                                                <div class="text-muted small">
+                                                    <i class="bi bi-person"></i> {{ tarea.responsable }}
+                                                    <span class="mx-2">•</span>
+                                                    <i class="bi bi-calendar"></i> Vence: {{ formatearFecha(tarea.fecha_limite) }}
+                                                </div>
+                                            </div>
+                                            <span :class="getEstadoClass(tarea.estado)">
+                                                {{ tarea.estado }}
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </form>
                     </div>

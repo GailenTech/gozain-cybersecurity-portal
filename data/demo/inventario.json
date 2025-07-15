@@ -300,5 +300,45 @@
         "detalles": "Activo creado"
       }
     ]
+  },
+  {
+    "id": "b2907ac8-dccd-41d9-a030-9d8f72c53cc7",
+    "fecha_creacion": "2025-07-15T10:13:47.051415",
+    "fecha_modificacion": "2025-07-15T10:13:47.051427",
+    "tipo": "Hardware",
+    "nombre": "Laptop para Test Employee",
+    "estado": "Activo",
+    "clasificacion": "Interno",
+    "criticidad": "Importante",
+    "responsable": "Test Employee",
+    "departamento": "IT",
+    "auditoria": [
+      {
+        "accion": "creacion",
+        "fecha": "2025-07-15T10:13:47.051439",
+        "usuario": "sistema",
+        "detalles": "Activo creado"
+      }
+    ]
+  },
+  {
+    "id": "76ef55d1-650c-4bbc-83e2-77f83fec60b3",
+    "fecha_creacion": "2025-07-15T10:13:47.053333",
+    "fecha_modificacion": "2025-07-15T10:13:47.053338",
+    "tipo": "Software",
+    "nombre": "Office 365 - Test Employee",
+    "tipo_software": "Productividad",
+    "estado": "Activo",
+    "clasificacion": "Interno",
+    "responsable": "Test Employee",
+    "departamento": "IT",
+    "auditoria": [
+      {
+        "accion": "creacion",
+        "fecha": "2025-07-15T10:13:47.053341",
+        "usuario": "sistema",
+        "detalles": "Activo creado"
+      }
+    ]
   }
 ]

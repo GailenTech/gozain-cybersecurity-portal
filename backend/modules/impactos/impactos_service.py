@@ -748,6 +748,18 @@ class ImpactosService:
     def get_plantilla(self, tipo):
         return self.plantillas.get(tipo)
     
+    def get_impacto(self, org_id, impacto_id):
+        impactos = self._load_impactos(org_id)
+        for impacto in impactos:
+            if impacto.get('id') == impacto_id:
+                # Regenerar vista previa si es necesario
+                if impacto.get('estado') == 'pendiente' and impacto.get('tipo'):
+                    plantilla = self.plantillas.get(impacto['tipo'])
+                    if plantilla:
+                        impacto['vista_previa'] = self._generar_vista_previa(plantilla, impacto.get('datos', {}))
+                return impacto
+        return None
+    
     def get_impactos(self, org_id, filtros=None):
         impactos = self._load_impactos(org_id)
         
@@ -807,14 +819,33 @@ class ImpactosService:
         vista_previa = {
             'activos_crear': 0,
             'activos_modificar': 0,
-            'tareas_generar': 0
+            'tareas_generar': 0,
+            'acciones_detalle': []
         }
         
         if 'activos_base' in plantilla:
             vista_previa['activos_crear'] = len(plantilla['activos_base'])
+            # Generar detalle de activos a crear
+            for activo_template in plantilla['activos_base']:
+                nombre = activo_template.get('nombre_template', '')
+                for key, value in datos.items():
+                    nombre = nombre.replace(f'{{{key}}}', str(value))
+                vista_previa['acciones_detalle'].append({
+                    'tipo': f"Crear {activo_template.get('tipo', 'Activo')}",
+                    'descripcion': nombre
+                })
         
         if 'tareas' in plantilla:
             vista_previa['tareas_generar'] = len(plantilla['tareas'])
+            # Generar detalle de tareas
+            for tarea_template in plantilla['tareas']:
+                descripcion = tarea_template.get('descripcion', '')
+                for key, value in datos.items():
+                    descripcion = descripcion.replace(f'{{{key}}}', str(value))
+                vista_previa['acciones_detalle'].append({
+                    'tipo': 'Tarea',
+                    'descripcion': descripcion
+                })
         
         return vista_previa
     
@@ -861,6 +892,7 @@ class ImpactosService:
                     impacto['estado'] = 'procesado'
                     impacto['fecha_procesamiento'] = datetime.now().isoformat()
                     impacto['acciones_ejecutadas'] = resultado
+                    impacto['tareas_generadas'] = resultado['tareas_creadas']
                     
                     impactos[i] = impacto
                     self._save_impactos(org_id, impactos)
@@ -935,3 +967,263 @@ class ImpactosService:
         }
         
         return tarea
+    
+    def get_tareas(self, org_id, filtros=None):
+        """Obtiene todas las tareas de los impactos procesados"""
+        impactos = self._load_impactos(org_id)
+        tareas = []
+        
+        # Extraer tareas de todos los impactos procesados
+        for impacto in impactos:
+            if impacto.get('estado') == 'procesado':
+                # Buscar tareas en diferentes formatos por compatibilidad
+                tareas_impacto = []
+                
+                # Formato nuevo: dentro de acciones_ejecutadas.tareas_creadas
+                if impacto.get('acciones_ejecutadas') and isinstance(impacto['acciones_ejecutadas'], dict):
+                    tareas_impacto = impacto['acciones_ejecutadas'].get('tareas_creadas', [])
+                
+                # Formato antiguo: directamente en tareas_generadas
+                elif impacto.get('tareas_generadas'):
+                    tareas_impacto = impacto['tareas_generadas']
+                
+                # Agregar las tareas encontradas
+                for tarea in tareas_impacto:
+                    # Agregar información del impacto a la tarea
+                    tarea_completa = tarea.copy()
+                    tarea_completa['impacto_tipo'] = impacto.get('tipo')
+                    tarea_completa['impacto_descripcion'] = impacto.get('descripcion')
+                    tareas.append(tarea_completa)
+        
+        # Aplicar filtros
+        if filtros:
+            if filtros.get('estado'):
+                tareas = [t for t in tareas if t.get('estado') == filtros['estado']]
+            if filtros.get('responsable'):
+                tareas = [t for t in tareas if filtros['responsable'].lower() in t.get('responsable', '').lower()]
+        
+        # Ordenar por fecha de vencimiento
+        tareas.sort(key=lambda x: x.get('fecha_limite', ''))
+        
+        return tareas
+
+    def completar_tarea(self, org_id, tarea_id, usuario='sistema', comentarios=''):
+        """Marca una tarea como completada"""
+        impactos = self._load_impactos(org_id)
+        tarea_encontrada = False
+        
+        for impacto in impactos:
+            if impacto.get('estado') == 'procesado':
+                # Buscar en diferentes formatos
+                tareas_impacto = []
+                
+                if impacto.get('acciones_ejecutadas') and isinstance(impacto['acciones_ejecutadas'], dict):
+                    tareas_impacto = impacto['acciones_ejecutadas'].get('tareas_creadas', [])
+                elif impacto.get('tareas_generadas'):
+                    tareas_impacto = impacto['tareas_generadas']
+                
+                # Buscar la tarea específica
+                for tarea in tareas_impacto:
+                    if tarea.get('id') == tarea_id:
+                        # Actualizar estado y agregar información de auditoría
+                        tarea['estado'] = 'completada'
+                        tarea['fecha_completado'] = datetime.now().isoformat()
+                        tarea['completado_por'] = usuario
+                        tarea['comentarios'] = comentarios
+                        
+                        # Agregar al historial de cambios
+                        if 'historial_cambios' not in tarea:
+                            tarea['historial_cambios'] = []
+                        
+                        tarea['historial_cambios'].append({
+                            'fecha': datetime.now().isoformat(),
+                            'usuario': usuario,
+                            'accion': 'completar',
+                            'estado_anterior': 'pendiente',
+                            'estado_nuevo': 'completada',
+                            'comentarios': comentarios
+                        })
+                        
+                        tarea_encontrada = True
+                        break
+            
+            if tarea_encontrada:
+                break
+        
+        if not tarea_encontrada:
+            raise ValueError(f"Tarea con ID {tarea_id} no encontrada")
+        
+        # Guardar cambios
+        self._save_impactos(org_id, impactos)
+        
+        return True
+
+    def completar_tareas_masivo(self, org_id, tarea_ids, usuario='sistema', comentarios=''):
+        """Completa múltiples tareas de forma masiva"""
+        resultados = {'completadas': 0, 'errores': []}
+        
+        for tarea_id in tarea_ids:
+            try:
+                self.completar_tarea(org_id, tarea_id, usuario, comentarios)
+                resultados['completadas'] += 1
+            except Exception as e:
+                resultados['errores'].append({
+                    'tarea_id': tarea_id,
+                    'error': str(e)
+                })
+        
+        return resultados
+
+    def posponer_tarea(self, org_id, tarea_id, nueva_fecha, usuario='sistema', comentarios=''):
+        """Pospone una tarea cambiando su fecha límite"""
+        impactos = self._load_impactos(org_id)
+        tarea_encontrada = False
+        
+        for impacto in impactos:
+            if impacto.get('estado') == 'procesado':
+                # Buscar en diferentes formatos
+                tareas_impacto = []
+                
+                if impacto.get('acciones_ejecutadas') and isinstance(impacto['acciones_ejecutadas'], dict):
+                    tareas_impacto = impacto['acciones_ejecutadas'].get('tareas_creadas', [])
+                elif impacto.get('tareas_generadas'):
+                    tareas_impacto = impacto['tareas_generadas']
+                
+                # Buscar la tarea específica
+                for tarea in tareas_impacto:
+                    if tarea.get('id') == tarea_id:
+                        fecha_anterior = tarea.get('fecha_limite')
+                        
+                        # Actualizar fecha límite
+                        tarea['fecha_limite'] = nueva_fecha
+                        tarea['fecha_modificacion'] = datetime.now().isoformat()
+                        
+                        # Agregar al historial de cambios
+                        if 'historial_cambios' not in tarea:
+                            tarea['historial_cambios'] = []
+                        
+                        tarea['historial_cambios'].append({
+                            'fecha': datetime.now().isoformat(),
+                            'usuario': usuario,
+                            'accion': 'posponer',
+                            'fecha_anterior': fecha_anterior,
+                            'fecha_nueva': nueva_fecha,
+                            'comentarios': comentarios
+                        })
+                        
+                        tarea_encontrada = True
+                        break
+            
+            if tarea_encontrada:
+                break
+        
+        if not tarea_encontrada:
+            raise ValueError(f"Tarea con ID {tarea_id} no encontrada")
+        
+        # Guardar cambios
+        self._save_impactos(org_id, impactos)
+        
+        return True
+
+    def posponer_tareas_masivo(self, org_id, tarea_ids, nueva_fecha, usuario='sistema', comentarios=''):
+        """Pospone múltiples tareas de forma masiva"""
+        resultados = {'pospuestas': 0, 'errores': []}
+        
+        for tarea_id in tarea_ids:
+            try:
+                self.posponer_tarea(org_id, tarea_id, nueva_fecha, usuario, comentarios)
+                resultados['pospuestas'] += 1
+            except Exception as e:
+                resultados['errores'].append({
+                    'tarea_id': tarea_id,
+                    'error': str(e)
+                })
+        
+        return resultados
+
+    def get_tarea_historial(self, org_id, tarea_id):
+        """Obtiene el historial de cambios de una tarea"""
+        impactos = self._load_impactos(org_id)
+        
+        for impacto in impactos:
+            if impacto.get('estado') == 'procesado':
+                # Buscar en diferentes formatos
+                tareas_impacto = []
+                
+                if impacto.get('acciones_ejecutadas') and isinstance(impacto['acciones_ejecutadas'], dict):
+                    tareas_impacto = impacto['acciones_ejecutadas'].get('tareas_creadas', [])
+                elif impacto.get('tareas_generadas'):
+                    tareas_impacto = impacto['tareas_generadas']
+                
+                # Buscar la tarea específica
+                for tarea in tareas_impacto:
+                    if tarea.get('id') == tarea_id:
+                        return tarea.get('historial_cambios', [])
+        
+        raise ValueError(f"Tarea con ID {tarea_id} no encontrada")
+
+    def get_estadisticas_tareas(self, org_id):
+        """Obtiene estadísticas de las tareas"""
+        tareas = self.get_tareas(org_id)
+        
+        estadisticas = {
+            'total': len(tareas),
+            'pendientes': 0,
+            'completadas': 0,
+            'vencidas': 0,
+            'proximas_vencer': 0
+        }
+        
+        hoy = datetime.now().date()
+        
+        for tarea in tareas:
+            estado = tarea.get('estado', 'pendiente')
+            
+            if estado == 'pendiente':
+                estadisticas['pendientes'] += 1
+                
+                # Verificar si está vencida
+                if tarea.get('fecha_limite'):
+                    try:
+                        fecha_limite = datetime.fromisoformat(tarea['fecha_limite'].replace('Z', '+00:00')).date()
+                        if fecha_limite < hoy:
+                            estadisticas['vencidas'] += 1
+                        elif (fecha_limite - hoy).days <= 3:
+                            estadisticas['proximas_vencer'] += 1
+                    except:
+                        pass
+            
+            elif estado == 'completada':
+                estadisticas['completadas'] += 1
+        
+        return estadisticas
+    
+    def agregar_comentario_tarea(self, org_id, tarea_id, comentarios, usuario='sistema'):
+        """Agrega un comentario a una tarea"""
+        impactos = self._load_impactos(org_id)
+        
+        for impacto in impactos:
+            if impacto.get('acciones_ejecutadas') and isinstance(impacto['acciones_ejecutadas'], dict):
+                tareas = impacto['acciones_ejecutadas'].get('tareas_creadas', [])
+                
+                for tarea in tareas:
+                    if tarea['id'] == tarea_id:
+                        # Agregar al historial de cambios
+                        if 'historial_cambios' not in tarea:
+                            tarea['historial_cambios'] = []
+                        
+                        tarea['historial_cambios'].append({
+                            'fecha': datetime.now().isoformat(),
+                            'usuario': usuario,
+                            'accion': 'comentario',
+                            'comentarios': comentarios
+                        })
+                        
+                        # Actualizar fecha de modificación
+                        tarea['fecha_modificacion'] = datetime.now().isoformat()
+                        
+                        # Guardar cambios
+                        self._save_impactos(org_id, impactos)
+                        return True
+        
+        raise ValueError(f"Tarea {tarea_id} no encontrada")

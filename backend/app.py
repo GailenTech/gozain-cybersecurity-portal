@@ -367,6 +367,19 @@ def create_impacto():
         logger.error(f"Error creando impacto: {e}")
         return jsonify({'error': str(e)}), 500
 
+@app.route('/api/impactos/<impacto_id>', methods=['GET'])
+@require_organization
+def get_impacto(impacto_id):
+    try:
+        org_id = get_organization()
+        impacto = impactos_service.get_impacto(org_id, impacto_id)
+        if impacto:
+            return jsonify(impacto)
+        return jsonify({'error': 'Impacto no encontrado'}), 404
+    except Exception as e:
+        logger.error(f"Error obteniendo impacto {impacto_id}: {e}")
+        return jsonify({'error': str(e)}), 500
+
 @app.route('/api/impactos/<impacto_id>/procesar', methods=['POST'])
 @require_organization
 def procesar_impacto(impacto_id):
@@ -405,13 +418,25 @@ def get_impactos_estadisticas():
             'total': len(impactos),
             'pendientes': len([i for i in impactos if i.get('estado') == 'pendiente']),
             'procesados': len([i for i in impactos if i.get('estado') == 'procesado']),
-            'porTipo': {}
+            'porTipo': {},
+            'tareas_pendientes': 0
         }
         
-        # Contar por tipo
+        # Contar por tipo y tareas pendientes
         for impacto in impactos:
             tipo = impacto.get('tipo', 'sin_tipo')
             estadisticas['porTipo'][tipo] = estadisticas['porTipo'].get(tipo, 0) + 1
+            
+            # Contar tareas pendientes (buscar en diferentes formatos)
+            tareas_impacto = []
+            if impacto.get('acciones_ejecutadas') and isinstance(impacto['acciones_ejecutadas'], dict):
+                tareas_impacto = impacto['acciones_ejecutadas'].get('tareas_creadas', [])
+            elif impacto.get('tareas_generadas'):
+                tareas_impacto = impacto['tareas_generadas']
+            
+            for tarea in tareas_impacto:
+                if tarea.get('estado') == 'pendiente':
+                    estadisticas['tareas_pendientes'] += 1
         
         return jsonify(estadisticas)
     except Exception as e:
@@ -425,12 +450,169 @@ def get_impactos_tareas():
         if not org_id:
             return jsonify({'error': 'Organización no especificada'}), 400
         
-        # Por ahora devolver lista vacía, después implementaremos tareas reales
-        tareas = []
+        filtros = {
+            'estado': request.args.get('estado'),
+            'responsable': request.args.get('responsable')
+        }
+        filtros = {k: v for k, v in filtros.items() if v}
+        
+        tareas = impactos_service.get_tareas(org_id, filtros)
         
         return jsonify(tareas)
     except Exception as e:
         logger.error(f"Error obteniendo tareas: {e}")
+        return jsonify({'error': str(e)}), 500
+
+@app.route('/api/impactos/tareas/<tarea_id>/completar', methods=['POST'])
+def completar_tarea(tarea_id):
+    try:
+        org_id = request.headers.get('X-Organization-Id')
+        if not org_id:
+            return jsonify({'error': 'Organización no especificada'}), 400
+        
+        data = request.get_json() or {}
+        usuario = data.get('usuario', 'sistema')
+        comentarios = data.get('comentarios', '')
+        
+        resultado = impactos_service.completar_tarea(org_id, tarea_id, usuario, comentarios)
+        
+        return jsonify({'success': True, 'message': 'Tarea completada correctamente'})
+    except ValueError as e:
+        return jsonify({'error': str(e)}), 404
+    except Exception as e:
+        logger.error(f"Error completando tarea {tarea_id}: {e}")
+        return jsonify({'error': str(e)}), 500
+
+@app.route('/api/impactos/tareas/completar-masivo', methods=['POST'])
+def completar_tareas_masivo():
+    try:
+        org_id = request.headers.get('X-Organization-Id')
+        if not org_id:
+            return jsonify({'error': 'Organización no especificada'}), 400
+        
+        data = request.get_json()
+        if not data or 'tareas' not in data:
+            return jsonify({'error': 'Lista de tareas requerida'}), 400
+        
+        tarea_ids = data['tareas']
+        usuario = data.get('usuario', 'sistema')
+        comentarios = data.get('comentarios', 'Completadas en lote')
+        
+        resultados = impactos_service.completar_tareas_masivo(org_id, tarea_ids, usuario, comentarios)
+        
+        return jsonify({
+            'success': True,
+            'completadas': resultados['completadas'],
+            'errores': resultados['errores'],
+            'message': f"{resultados['completadas']} tarea(s) completada(s) correctamente"
+        })
+    except Exception as e:
+        logger.error(f"Error completando tareas masivamente: {e}")
+        return jsonify({'error': str(e)}), 500
+
+@app.route('/api/impactos/tareas/<tarea_id>/posponer', methods=['POST'])
+def posponer_tarea(tarea_id):
+    try:
+        org_id = request.headers.get('X-Organization-Id')
+        if not org_id:
+            return jsonify({'error': 'Organización no especificada'}), 400
+        
+        data = request.get_json()
+        if not data or 'nueva_fecha' not in data:
+            return jsonify({'error': 'Nueva fecha requerida'}), 400
+        
+        nueva_fecha = data['nueva_fecha']
+        usuario = data.get('usuario', 'sistema')
+        comentarios = data.get('comentarios', '')
+        
+        resultado = impactos_service.posponer_tarea(org_id, tarea_id, nueva_fecha, usuario, comentarios)
+        
+        return jsonify({'success': True, 'message': 'Tarea pospuesta correctamente'})
+    except ValueError as e:
+        return jsonify({'error': str(e)}), 404
+    except Exception as e:
+        logger.error(f"Error posponiendo tarea {tarea_id}: {e}")
+        return jsonify({'error': str(e)}), 500
+
+@app.route('/api/impactos/tareas/posponer', methods=['POST'])
+def posponer_tareas_masivo():
+    try:
+        org_id = request.headers.get('X-Organization-Id')
+        if not org_id:
+            return jsonify({'error': 'Organización no especificada'}), 400
+        
+        data = request.get_json()
+        if not data or 'tareas' not in data or 'nueva_fecha' not in data:
+            return jsonify({'error': 'Lista de tareas y nueva fecha requeridas'}), 400
+        
+        tarea_ids = data['tareas']
+        nueva_fecha = data['nueva_fecha']
+        usuario = data.get('usuario', 'sistema')
+        comentarios = data.get('comentarios', 'Pospuestas en lote')
+        
+        resultados = impactos_service.posponer_tareas_masivo(org_id, tarea_ids, nueva_fecha, usuario, comentarios)
+        
+        return jsonify({
+            'success': True,
+            'pospuestas': resultados['pospuestas'],
+            'errores': resultados['errores'],
+            'message': f"{resultados['pospuestas']} tarea(s) pospuesta(s) correctamente"
+        })
+    except Exception as e:
+        logger.error(f"Error posponiendo tareas masivamente: {e}")
+        return jsonify({'error': str(e)}), 500
+
+@app.route('/api/impactos/tareas/<tarea_id>/historial', methods=['GET'])
+def get_tarea_historial(tarea_id):
+    try:
+        org_id = request.headers.get('X-Organization-Id')
+        if not org_id:
+            return jsonify({'error': 'Organización no especificada'}), 400
+        
+        historial = impactos_service.get_tarea_historial(org_id, tarea_id)
+        
+        return jsonify(historial)
+    except ValueError as e:
+        return jsonify({'error': str(e)}), 404
+    except Exception as e:
+        logger.error(f"Error obteniendo historial de tarea {tarea_id}: {e}")
+        return jsonify({'error': str(e)}), 500
+
+@app.route('/api/impactos/tareas/estadisticas', methods=['GET'])
+def get_estadisticas_tareas():
+    try:
+        org_id = request.headers.get('X-Organization-Id')
+        if not org_id:
+            return jsonify({'error': 'Organización no especificada'}), 400
+        
+        estadisticas = impactos_service.get_estadisticas_tareas(org_id)
+        
+        return jsonify(estadisticas)
+    except Exception as e:
+        logger.error(f"Error obteniendo estadísticas de tareas: {e}")
+        return jsonify({'error': str(e)}), 500
+
+@app.route('/api/impactos/tareas/<tarea_id>/comentario', methods=['POST'])
+def agregar_comentario_tarea(tarea_id):
+    try:
+        org_id = request.headers.get('X-Organization-Id')
+        if not org_id:
+            return jsonify({'error': 'Organización no especificada'}), 400
+        
+        data = request.get_json()
+        if not data or 'comentarios' not in data:
+            return jsonify({'error': 'Comentario requerido'}), 400
+        
+        comentarios = data['comentarios']
+        usuario = data.get('usuario', 'sistema')
+        
+        resultado = impactos_service.agregar_comentario_tarea(org_id, tarea_id, comentarios, usuario)
+        
+        return jsonify({'success': True, 'message': 'Comentario agregado correctamente'})
+    except ValueError as e:
+        return jsonify({'error': str(e)}), 404
+    except Exception as e:
+        logger.error(f"Error agregando comentario a tarea {tarea_id}: {e}")
         return jsonify({'error': str(e)}), 500
 
 @app.route('/api/impactos/recientes', methods=['GET'])
