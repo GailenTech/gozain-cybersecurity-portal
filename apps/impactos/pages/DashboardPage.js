@@ -111,11 +111,36 @@ export const DashboardPage = {
         
         mostrarError(mensaje) {
             console.error(mensaje);
+        },
+        
+        handleImpactoCreated() {
+            // Recargar dashboard cuando se crea un nuevo impacto
+            this.cargarDashboard();
+        },
+        
+        handleImpactoProcessed() {
+            // Recargar dashboard cuando se procesa un impacto
+            this.cargarDashboard();
         }
     },
     
     mounted() {
         this.cargarDashboard();
+        
+        // Escuchar eventos de cambios
+        const eventBus = window.gozainApp?.eventBus;
+        if (eventBus) {
+            eventBus.on('impactos:created', this.handleImpactoCreated);
+            eventBus.on('impactos:processed', this.handleImpactoProcessed);
+        }
+    },
+    
+    beforeUnmount() {
+        const eventBus = window.gozainApp?.eventBus;
+        if (eventBus) {
+            eventBus.off('impactos:created', this.handleImpactoCreated);
+            eventBus.off('impactos:processed', this.handleImpactoProcessed);
+        }
     },
     
     template: `

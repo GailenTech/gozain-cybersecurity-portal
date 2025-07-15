@@ -186,11 +186,36 @@ export const ImpactosPage = {
         
         mostrarExito(mensaje) {
             console.log(mensaje);
+        },
+        
+        handleImpactoCreated() {
+            // Recargar lista cuando se crea un nuevo impacto
+            this.cargarImpactos();
+        },
+        
+        handleImpactoProcessed() {
+            // Recargar lista cuando se procesa un impacto
+            this.cargarImpactos();
         }
     },
     
     mounted() {
         this.cargarImpactos();
+        
+        // Escuchar eventos de cambios
+        const eventBus = window.gozainApp?.eventBus;
+        if (eventBus) {
+            eventBus.on('impactos:created', this.handleImpactoCreated);
+            eventBus.on('impactos:processed', this.handleImpactoProcessed);
+        }
+    },
+    
+    beforeUnmount() {
+        const eventBus = window.gozainApp?.eventBus;
+        if (eventBus) {
+            eventBus.off('impactos:created', this.handleImpactoCreated);
+            eventBus.off('impactos:processed', this.handleImpactoProcessed);
+        }
     },
     
     template: `

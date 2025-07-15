@@ -31,6 +31,7 @@ export default class ImpactosVueRouterApp {
             const { DashboardPage } = await import('./pages/DashboardPage.js');
             const { ImpactosPage } = await import('./pages/ImpactosPage.js');
             const { TareasPage } = await import('./pages/TareasPage.js');
+            const { ModalImpacto } = await import('./components/ModalImpacto.js');
             
             // Crear router
             const router = createRouter({
@@ -137,7 +138,8 @@ export default class ImpactosVueRouterApp {
                 
                 render() {
                     return h('div', { class: 'impactos-module' }, [
-                        h(window.VueRouter.RouterView)
+                        h(window.VueRouter.RouterView),
+                        h(ModalImpacto)
                     ]);
                 }
             };
@@ -147,6 +149,9 @@ export default class ImpactosVueRouterApp {
             
             // Usar router
             app.use(router);
+            
+            // Registrar componente modal
+            app.component('ModalImpacto', ModalImpacto);
             
             // Hacer servicios disponibles globalmente para las páginas
             window.gozainApp = {
