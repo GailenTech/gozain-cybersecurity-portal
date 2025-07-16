@@ -48,9 +48,11 @@ os.makedirs(DATA_DIR, exist_ok=True)
 USE_GCS = GCS_AVAILABLE and os.environ.get('USE_GCS', 'false').lower() == 'true'
 if USE_GCS:
     gcs_storage = GCSStorageService()
+    app.gcs_storage = gcs_storage  # Hacer disponible para blueprints
     logger.info("Using GCS storage for data persistence")
 else:
     gcs_storage = None
+    app.gcs_storage = None  # Hacer disponible para blueprints
     logger.info("Using local file storage")
 
 # Servicios

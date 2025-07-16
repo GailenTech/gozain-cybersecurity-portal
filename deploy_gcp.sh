@@ -64,8 +64,22 @@ gcloud services enable artifactregistry.googleapis.com || handle_error "No se pu
 echo -e "${YELLOW}⏳ Esperando activación de APIs (30 segundos)...${NC}"
 sleep 30
 
+# Generar JWT_SECRET si no existe
+if [ -z "$JWT_SECRET" ]; then
+    echo -e "${YELLOW}🔐 Generando JWT_SECRET seguro...${NC}"
+    JWT_SECRET=$(openssl rand -base64 32)
+    echo -e "${GREEN}✅ JWT_SECRET generado${NC}"
+fi
+
+# Generar FLASK_SECRET_KEY si no existe
+if [ -z "$FLASK_SECRET_KEY" ]; then
+    echo -e "${YELLOW}🔐 Generando FLASK_SECRET_KEY seguro...${NC}"
+    FLASK_SECRET_KEY=$(openssl rand -base64 32)
+    echo -e "${GREEN}✅ FLASK_SECRET_KEY generado${NC}"
+fi
+
 # Construir y desplegar
-echo -e "${YELLOW}🏗️  Construyendo y desplegando aplicación...${NC}"
+echo -e "${YELLOW}🏗️  Construyendo y desplegando aplicación con OAuth...${NC}"
 gcloud run deploy $SERVICE_NAME \
     --source . \
     --platform managed \
@@ -76,6 +90,10 @@ gcloud run deploy $SERVICE_NAME \
     --timeout 300 \
     --max-instances 10 \
     --port 8080 \
+    --set-env-vars "FLASK_ENV=production,\
+JWT_SECRET=$JWT_SECRET,\
+FLASK_SECRET_KEY=$FLASK_SECRET_KEY,\
+OAUTH_ENABLED=true" \
     || handle_error "Fallo en el despliegue"
 
 # Obtener URL del servicio
@@ -109,4 +127,13 @@ echo -e "${YELLOW}💡 Próximos pasos:${NC}"
 echo "   1. Accede a $SERVICE_URL"
 echo "   2. Crea las organizaciones necesarias"
 echo "   3. Comienza a usar el sistema"
+echo ""
+echo -e "${BLUE}🔐 Configuración OAuth (IMPORTANTE - Guardar estas claves):${NC}"
+echo "JWT_SECRET=$JWT_SECRET"
+echo "FLASK_SECRET_KEY=$FLASK_SECRET_KEY"
+echo ""
+echo -e "${YELLOW}Para configurar OAuth completamente:${NC}"
+echo "   1. Configurar credenciales en Google Cloud Console"
+echo "   2. Actualizar data/organizaciones.json con client_id y client_secret"
+echo "   3. Añadir URIs de redirección: $SERVICE_URL/api/auth/callback"
 echo ""

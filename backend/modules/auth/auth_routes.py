@@ -8,6 +8,14 @@ from .auth_middleware import require_auth, get_current_user
 
 auth_bp = Blueprint('auth', __name__, url_prefix='/api/auth')
 
+def get_oauth_service():
+    """Obtener servicio OAuth con almacenamiento correcto"""
+    storage_service = getattr(current_app, 'gcs_storage', None)
+    return OAuthService(
+        data_dir=current_app.config.get('DATA_DIR', 'data'),
+        storage_service=storage_service
+    )
+
 @auth_bp.route('/providers', methods=['GET'])
 def get_providers():
     """Obtener proveedores OAuth disponibles para una organización"""
@@ -19,7 +27,7 @@ def get_providers():
         # Obtener URL base desde el request
         base_url = request.url_root.rstrip('/')
         
-        oauth_service = OAuthService(current_app.config.get('DATA_DIR', 'data'))
+        oauth_service = get_oauth_service()
         provider = oauth_service.get_provider(org_id, base_url)
         
         if not provider:
@@ -49,7 +57,7 @@ def login():
         # Obtener URL base desde el request
         base_url = request.url_root.rstrip('/')
         
-        oauth_service = OAuthService(current_app.config.get('DATA_DIR', 'data'))
+        oauth_service = get_oauth_service()
         auth_data = oauth_service.get_authorization_url(org_id, base_url)
         
         # Guardar state en sesión para validación
@@ -87,7 +95,7 @@ def callback():
         # Obtener URL base desde el request
         base_url = request.url_root.rstrip('/')
         
-        oauth_service = OAuthService(current_app.config.get('DATA_DIR', 'data'))
+        oauth_service = get_oauth_service()
         
         # Obtener IP y User-Agent
         ip = request.remote_addr
@@ -148,7 +156,7 @@ def refresh():
         return jsonify({'error': 'refresh_token requerido'}), 400
     
     try:
-        oauth_service = OAuthService(current_app.config.get('DATA_DIR', 'data'))
+        oauth_service = get_oauth_service()
         result = oauth_service.refresh_token(refresh_token)
         return jsonify(result)
     
@@ -165,7 +173,7 @@ def logout():
         if auth_header and auth_header.startswith('Bearer '):
             token = auth_header.split(' ')[1]
             
-            oauth_service = OAuthService(current_app.config.get('DATA_DIR', 'data'))
+            oauth_service = get_oauth_service()
             oauth_service.logout(token)
         
         return jsonify({'message': 'Sesión cerrada correctamente'})
@@ -205,7 +213,7 @@ def validate_token():
         return jsonify({'error': 'Token requerido'}), 400
     
     try:
-        oauth_service = OAuthService(current_app.config.get('DATA_DIR', 'data'))
+        oauth_service = get_oauth_service()
         is_valid = oauth_service.validate_token(token)
         
         if is_valid:

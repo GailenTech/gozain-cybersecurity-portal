@@ -13,8 +13,9 @@ from .user_service import UserService
 class OAuthService:
     """Servicio principal para gestión OAuth"""
     
-    def __init__(self, data_dir: str = "data"):
+    def __init__(self, data_dir: str = "data", storage_service=None):
         self.data_dir = data_dir
+        self.storage_service = storage_service
         self.session_service = SessionService(data_dir)
         self.user_service = UserService(data_dir)
         self.providers = {}
@@ -22,12 +23,18 @@ class OAuthService:
     
     def _load_organizations(self):
         """Cargar configuraciones de organizaciones"""
-        orgs_file = os.path.join(self.data_dir, 'organizaciones.json')
-        if os.path.exists(orgs_file):
-            with open(orgs_file, 'r', encoding='utf-8') as f:
-                self.organizations = json.load(f)
+        if self.storage_service:
+            # Usar servicio de almacenamiento (GCS en producción)
+            data = self.storage_service.leer_archivo('organizaciones.json')
+            self.organizations = data if data else {}
         else:
-            self.organizations = {}
+            # Usar almacenamiento local
+            orgs_file = os.path.join(self.data_dir, 'organizaciones.json')
+            if os.path.exists(orgs_file):
+                with open(orgs_file, 'r', encoding='utf-8') as f:
+                    self.organizations = json.load(f)
+            else:
+                self.organizations = {}
     
     def get_provider(self, org_id: str, base_url: str = None) -> Optional[BaseOAuthProvider]:
         """Obtener proveedor OAuth para una organización"""
