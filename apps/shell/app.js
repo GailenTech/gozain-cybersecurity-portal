@@ -185,14 +185,9 @@ class GozainApp {
     
     async loadOrganizations() {
         try {
-            const orgsData = await this.api.get('/organizaciones');
+            const orgs = await this.api.get('/organizations');
             
-            // Convertir objeto a array
-            const orgs = Object.keys(orgsData).map(key => ({
-                id: key,
-                ...orgsData[key]
-            }));
-            
+            // El endpoint ya devuelve un array
             this.organizations = orgs;
             
             // Actualizar botón con organización seleccionada

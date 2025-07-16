@@ -16,6 +16,12 @@ def get_oauth_service():
         storage_service=storage_service
     )
 
+def get_base_url():
+    """Obtener URL base correcta, manejando proxies HTTPS"""
+    # En Cloud Run, el SSL termina en el proxy, así que necesitamos detectar HTTPS
+    scheme = 'https' if request.headers.get('X-Forwarded-Proto') == 'https' else request.scheme
+    return f"{scheme}://{request.host}"
+
 @auth_bp.route('/providers', methods=['GET'])
 def get_providers():
     """Obtener proveedores OAuth disponibles para una organización"""
@@ -24,8 +30,8 @@ def get_providers():
         return jsonify({'error': 'org_id requerido'}), 400
     
     try:
-        # Obtener URL base desde el request
-        base_url = request.url_root.rstrip('/')
+        # Obtener URL base correcta
+        base_url = get_base_url()
         
         oauth_service = get_oauth_service()
         provider = oauth_service.get_provider(org_id, base_url)
@@ -54,8 +60,8 @@ def login():
         return jsonify({'error': 'org_id requerido'}), 400
     
     try:
-        # Obtener URL base desde el request
-        base_url = request.url_root.rstrip('/')
+        # Obtener URL base correcta
+        base_url = get_base_url()
         
         oauth_service = get_oauth_service()
         auth_data = oauth_service.get_authorization_url(org_id, base_url)
@@ -92,8 +98,8 @@ def callback():
         return jsonify({'error': 'Organización no encontrada en sesión'}), 400
     
     try:
-        # Obtener URL base desde el request
-        base_url = request.url_root.rstrip('/')
+        # Obtener URL base correcta
+        base_url = get_base_url()
         
         oauth_service = get_oauth_service()
         
