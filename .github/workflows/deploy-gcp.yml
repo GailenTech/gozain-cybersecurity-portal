@@ -99,7 +99,11 @@ jobs:
           --timeout 300 \
           --max-instances 10 \
           --port 8080 \
-          --set-env-vars="VERSION=${{ env.NEW_VERSION }}"
+          --set-env-vars="VERSION=${{ env.NEW_VERSION }},\
+FLASK_ENV=production,\
+JWT_SECRET=${{ secrets.JWT_SECRET }},\
+FLASK_SECRET_KEY=${{ secrets.FLASK_SECRET_KEY }},\
+OAUTH_ENABLED=true"
     
     - name: Get Service URL
       id: get-url

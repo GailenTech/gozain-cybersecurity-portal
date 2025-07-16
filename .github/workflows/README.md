@@ -30,11 +30,11 @@ Webhook URL for Slack notifications.
 - **Triggers**: Push to main/master or manual dispatch
 - **Actions**:
   - Updates version with GitHub run number
-  - Deploys to Google Cloud Run
+  - Deploys to Google Cloud Run with OAuth variables
   - Commits version update back to repository
   - Sends Slack notification (if configured)
 
-**Note**: E2E tests removed temporarily - will be re-added after all app migrations are complete.
+**Note**: Solo mantenemos el workflow de despliegue. Tests E2E se ejecutan localmente.
 
 ## Removed Workflows (Temporarily)
 
