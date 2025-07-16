@@ -885,13 +885,26 @@ def get_organizations():
         
         # Convertir a lista y filtrar solo datos públicos
         org_list = []
-        for org_id, org_data in organizations.items():
-            if org_data.get('activa', True):
-                org_list.append({
-                    'id': org_data['id'],
-                    'nombre': org_data['nombre'],
-                    'tiene_oauth': 'oauth_config' in org_data
-                })
+        
+        # Manejar diferentes formatos de archivo
+        if isinstance(organizations, dict):
+            # Si es un diccionario de organizaciones
+            for org_id, org_data in organizations.items():
+                if isinstance(org_data, dict) and org_data.get('activa', True):
+                    org_list.append({
+                        'id': org_data.get('id', org_id),
+                        'nombre': org_data.get('nombre', ''),
+                        'tiene_oauth': 'oauth_config' in org_data
+                    })
+        elif isinstance(organizations, list):
+            # Si ya es una lista
+            for org_data in organizations:
+                if isinstance(org_data, dict) and org_data.get('activa', True):
+                    org_list.append({
+                        'id': org_data.get('id', ''),
+                        'nombre': org_data.get('nombre', ''),
+                        'tiene_oauth': 'oauth_config' in org_data
+                    })
         
         return jsonify(org_list)
     
