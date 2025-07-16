@@ -36,7 +36,12 @@ class LoginModal {
                     </div>
                     <div class="modal-body">
                         <div class="text-center mb-4">
-                            <img src="/static/images/logo-gozain.png" alt="Gozain" class="mb-3" style="max-height: 60px;">
+                            <div class="mb-3">
+                                <h2 class="text-primary fw-bold">
+                                    <i class="bi bi-shield-check"></i> Gozain
+                                </h2>
+                                <p class="text-muted small">Portal de Ciberseguridad</p>
+                            </div>
                             <h6 class="text-muted">Selecciona tu organización para continuar</h6>
                         </div>
                         
