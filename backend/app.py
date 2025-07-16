@@ -867,13 +867,10 @@ app.register_blueprint(audit_bp)
 @app.route('/api/organizations', methods=['GET'])
 def get_organizations():
     try:
-        # Leer organizaciones desde archivo
-        orgs_file = os.path.join(DATA_DIR, 'organizaciones.json')
-        if not os.path.exists(orgs_file):
+        # Usar la función que maneja GCS
+        organizations = get_organizaciones()
+        if not organizations:
             return jsonify([])
-        
-        with open(orgs_file, 'r', encoding='utf-8') as f:
-            organizations = json.load(f)
         
         # Convertir a lista y filtrar solo datos públicos
         org_list = []

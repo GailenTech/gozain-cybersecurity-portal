@@ -1,37 +1,13 @@
 {
-  "demo": {
-    "id": "demo",
-    "nombre": "Organización Demo",
-    "fecha_creacion": "2025-01-01T00:00:00",
-    "activa": true,
-    "oauth_config": {
-      "provider": "google",
-      "client_id": "demo-client-id",
-      "client_secret": "demo-client-secret",
-      "allowed_domains": [
-        "demo.com"
-      ],
-      "require_domain_match": false,
-      "custom_claims": {
-        "department": "dept",
-        "role": "role"
-      }
-    },
-    "seguridad": {
-      "require_mfa": false,
-      "session_timeout": 3600,
-      "ip_whitelist": []
-    }
-  },
   "gailen": {
     "id": "gailen",
     "nombre": "Gailen Tecnologías",
-    "fecha_creacion": "2025-07-15T00:00:00",
+    "fecha_creacion": "2025-07-16T11:45:29.601995",
     "activa": true,
     "oauth_config": {
       "provider": "google",
-      "client_id": "gailen-oauth-client-id",
-      "client_secret": "gailen-oauth-client-secret",
+      "client_id": "CONFIGURAR_CLIENT_ID_REAL",
+      "client_secret": "CONFIGURAR_CLIENT_SECRET_REAL",
       "allowed_domains": [
         "gailen.es",
         "gailen.com",
@@ -49,21 +25,11 @@
       "ip_whitelist": []
     }
   },
-  "e2e_test_organization": {
-    "id": "e2e_test_organization",
-    "nombre": "E2E Test Organization",
-    "fecha_creacion": "2025-07-15T19:57:27.440Z",
+  "demo": {
+    "id": "demo",
+    "nombre": "Organización Demo",
+    "fecha_creacion": "2025-01-01T00:00:00",
     "activa": true,
-    "oauth_config": {
-      "provider": "google",
-      "client_id": "test-client-id",
-      "client_secret": "test-client-secret",
-      "allowed_domains": [
-        "test.com"
-      ],
-      "require_domain_match": false,
-      "custom_claims": {}
-    },
     "seguridad": {
       "require_mfa": false,
       "session_timeout": 3600,
