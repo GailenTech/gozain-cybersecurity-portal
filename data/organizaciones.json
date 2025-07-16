@@ -1,7 +1,7 @@
 {
   "demo": {
     "id": "demo",
-    "nombre": "Organización Demo",
+    "nombre": "Organizaci\u00f3n Demo",
     "fecha_creacion": "2025-01-01T00:00:00",
     "activa": true,
     "oauth_config": {
@@ -24,9 +24,9 @@
     }
   },
   "gailen": {
-    "id": "gailen",
-    "nombre": "Gailen Tecnologías",
-    "fecha_creacion": "2025-07-15T00:00:00",
+    "id": "gailen_578ddf12",
+    "nombre": "Gailen",
+    "fecha_creacion": "2025-01-09T00:00:00",
     "activa": true,
     "oauth_config": {
       "provider": "google",
