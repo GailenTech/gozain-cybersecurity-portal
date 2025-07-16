@@ -26,7 +26,21 @@ class OAuthService:
         if self.storage_service:
             # Usar servicio de almacenamiento (GCS en producción)
             data = self.storage_service.leer_archivo('organizaciones.json')
-            self.organizations = data if data else {}
+            if data:
+                # Manejar diferentes formatos de respuesta
+                if isinstance(data, list):
+                    # Si es una lista, convertir a diccionario
+                    self.organizations = {}
+                    for org in data:
+                        if isinstance(org, dict) and 'id' in org:
+                            self.organizations[org['id']] = org
+                elif isinstance(data, dict):
+                    # Si ya es un diccionario, usarlo directamente
+                    self.organizations = data
+                else:
+                    self.organizations = {}
+            else:
+                self.organizations = {}
         else:
             # Usar almacenamiento local
             orgs_file = os.path.join(self.data_dir, 'organizaciones.json')
